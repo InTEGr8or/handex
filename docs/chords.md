@@ -1,4 +1,7 @@
-Report,Chord,Strokes
+Report,Strokes
+ALT,`tmf`
+CTRL,`tpf`
+SHIFT,`tme`
 a and A,`ipf`
 b and B,`rpf, mpf`
 c and C,`ipf, mpf`
@@ -25,8 +28,8 @@ w and W,`rpf, mmf`
 x and X,`ipf, ppf`
 y and Y,`ppf, ipf`
 z and Z,`mpf, tpf`
-1 and !,`mme, mmf, mme`
-2 and @,`mmf, mme, mmf`
+1 and !,`rmf, rpf`
+2 and @,`pmf, ppf`
 3 and #,`mmf, rpf`
 4 and $,`ipf, tme, mmf`
 5 and %,`imf, tpf`
@@ -45,7 +48,7 @@ Spacebar,`tpf`
 [ and {,`rpf, tme`
 ] and },`imf, rme`
 \ and &#124;,`rpf, rme`
-Non-US # and ~,`ipf, tpf, ipf`
+Non-US # and ~,`ipf, tpf, tpf`
 ; and :,`ipf, tme`
 ' and ",`ipf, imf, mmf`
 Grave Accent and Tilde,`ipf, ime`
