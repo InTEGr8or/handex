@@ -1,156 +1,155 @@
-| Report                    | Chord | Strokes         |
-| ------------------------- | ----- | --------------- |
-| a and A                   | 4     | `ipf`           |
-| b and B                   | A7    | `rpf, mpf`      |
-| c and C                   | 47    | `ipf, mpf`      |
-| d and D                   | 7A    | `mpf, rpf`      |
-| e and E                   | 7     | `mpf`           |
-| f and F                   | 74    | `mpf, ipf`      |
-| g and G                   | 76    | `mpf, mmf`      |
-| h and H                   | A     | `rpf`           |
-| i and I                   | 4A    | `ipf, rpf`      |
-| j and J                   | 34    | `imf, ipf`      |
-| k and K                   | DA    | `ppf, rpf`      |
-| l and L                   | AD    | `rpf, ppf`      |
-| m and M                   | 67    | `mmf, mpf`      |
-| n and N                   | D     | `ppf`           |
-| o and O                   | 3     | `imf`           |
-| p and P                   | 43    | `ipf, imf`      |
-| q and Q                   | D8    | `ppf, mme`      |
-| r and R                   | 76A   | `mpf, mmf, rpf` |
-| s and S                   | C     | `pmf`           |
-| t and T                   | 9     | `rmf`           |
-| u and U                   | 6     | `mmf`           |
-| v and V                   | 61    | `mmf, tpf`      |
-| w and W                   | A6    | `rpf, mmf`      |
-| x and X                   | 4D    | `ipf, ppf`      |
-| y and Y                   | D4    | `ppf, ipf`      |
-| z and Z                   | 71    | `mpf, tpf`      |
-| 1 and !                   | 868   | `mme, mmf, mme` |
-| 2 and @                   | 686   | `mmf, mme, mmf` |
-| 3 and #                   | 6A    | `mmf, rpf`      |
-| 4 and $                   | 426   | `ipf, tme, mmf` |
-| 5 and %                   | 31    | `imf, tpf`      |
-| 6 and ^                   | 37    | `imf, mpf`      |
-| 7 and &                   | A1A   | `rpf, tpf, rpf` |
-| 8 and *                   | 421   | `ipf, tme, tpf` |
-| 9 and (                   | 412   | `ipf, tpf, tme` |
-| 0 and )                   | 347   | `imf, ipf, mpf` |
-| Return (ENTER)            | A1    | `rpf, tpf`      |
-| ESCAPE                    | ABC   | `rpf, rme, pmf` |
-| DELETE (Backspace)        | 41    | `ipf, tpf`      |
-| Tab                       | 365   | `imf, mmf, ime` |
-| Spacebar                  | 1     | `tpf`           |
-| - and (underscore)        | 38    | `imf, mme`      |
-| = and +                   | 72    | `mpf, tme`      |
-| [ and {                   | A2    | `rpf, tme`      |
-| ] and }                   | 3B    | `imf, rme`      |
-| \ and &#124;              | AB    | `rpf, rme`      |
-| Non-US # and ~            | 414   | `ipf, tpf, ipf` |
-| ; and :                   | 42    | `ipf, tme`      |
-| ' and "                   | 436   | `ipf, imf, mmf` |
-| Grave Accent and Tilde    | 45    | `ipf, ime`      |
-| Keyboard, and <           | 46    | `ipf, mmf`      |
-| . and >                   | D1    | `ppf, tpf`      |
-| / and ?                   | DA7   | `ppf, rpf, mpf` |
-| Caps Lock                 | F     | ``              |
-| F1                        | 4A7   | `ipf, rpf, mpf` |
-| F2                        | 4B    | `ipf, rme`      |
-| F3                        | A61   | `rpf, mmf, tpf` |
-| F4                        | 51    | `ime, tpf`      |
-| F5                        | 48    | `ipf, mme`      |
-| F6                        | 513   | `ime, tpf, imf` |
-| F7                        | 54    | `ime, ipf`      |
-| F8                        | 56    | `ime, mmf`      |
-| F9                        | 57    | `ime, mpf`      |
-| F10                       | 58    | `ime, mme`      |
-| F11                       | 59    | `ime, rmf`      |
-| F12                       | 5A5   | `ime, rpf, ime` |
-| PrintScreen               | 5B    | `ime, rme`      |
-| Scroll Lock               | 6F6   | `mmf, mmf`      |
-| Pause                     | 713   | `mpf, tpf, imf` |
-| Insert                    | 711   | `mpf, tpf, tpf` |
-| Home                      | 8D9   | `mme, ppf, rmf` |
-| PageUp                    | 62    | `mmf, tme`      |
-| Delete Forward            | 65    | `mmf, ime`      |
-| End                       | 676   | `mmf, mpf, mmf` |
-| PageDown                  | 474   | `ipf, mpf, ipf` |
-| RightArrow                | 69    | `mmf, rmf`      |
-| LeftArrow                 | B1    | `rme, tpf`      |
-| DownArrow                 | 6B    | `mmf, rme`      |
-| UpArrow                   | 7F    | `mpf`           |
-| Keypad Num Lock and Clear | 717   | `mpf, tpf, mpf` |
-| Keypad /                  | 727   | `mpf, tme, mpf` |
-| Keypad *                  | 73    | `mpf, imf`      |
-| Keypad -                  | 747   | `mpf, ipf, mpf` |
-| Keypad +                  | 75    | `mpf, ime`      |
-| Keypad ENTER              | 76F   | `mpf, mmf`      |
-| Keypad 1 and End          | 78D   | `mpf, mme, ppf` |
-| Keypad 2 and Down Arrow   | 79    | `mpf, rmf`      |
-| Keypad 3 and PageDn       | 7A7   | `mpf, rpf, mpf` |
-| Keypad 4 and Left Arrow   | 7B    | `mpf, rme`      |
-| Keypad 5                  | 8F    | `mme`           |
-| Keypad 6 and Right Arrow  | 81    | `mme, tpf`      |
-| Keypad 7 and Home         | 82    | `mme, tme`      |
-| Keypad 8 and Up Arrow     | 83    | `mme, imf`      |
-| Keypad 9 and PageUp       | 84    | `mme, ipf`      |
-| Keypad 0 and Insert       | 85    | `mme, ime`      |
-| Keypad . and Delete       | 86F   | `mme, mmf`      |
-| Non-US \ and &#124;       | 87F   | `mme, mpf`      |
-| Application               | 89    | `mme, rmf`      |
-| Power                     | 8A    | `mme, rpf`      |
-| Keypad =                  | 8B    | `mme, rme`      |
-| F13                       | 9F    | `rmf`           |
-| F14                       | 91    | `rmf, tpf`      |
-| F15                       | 92    | `rmf, tme`      |
-| F16                       | 383   | `imf, mme, imf` |
-| F17                       | 914   | `rmf, tpf, ipf` |
-| F18                       | 95    | `rmf, ime`      |
-| F19                       | 96    | `rmf, mmf`      |
-| F20                       | 97    | `rmf, mpf`      |
-| F21                       | 98    | `rmf, mme`      |
-| F22                       | 9A    | `rmf, rpf`      |
-| F23                       | 9B    | `rmf, rme`      |
-| F24                       | AF    | `rpf`           |
-| Execute                   | 414   | `ipf, tpf, ipf` |
-| Help                      | 6F    | `mmf`           |
-| Menu                      | A3    | `rpf, imf`      |
-| Select                    | A4    | `rpf, ipf`      |
-| Stop                      | A5    | `rpf, ime`      |
-| Again                     | 626   | `mmf, tme, mmf` |
-| Undo                      | A7A   | `rpf, mpf, rpf` |
-| Cut                       | A8    | `rpf, mme`      |
-| Copy                      | A9    | `rpf, rmf`      |
-| Paste                     | ABA   | `rpf, rme, rpf` |
-| Find                      | BF    | `rme`           |
-| Mute                      | B1B   | `rme, tpf, rme` |
-| Volume Up                 | B2    | `rme, tme`      |
-| Volume Down               | B3    | `rme, imf`      |
-| Locking Caps Lock         | B4    | `rme, ipf`      |
-| Locking Num Lock          | B5    | `rme, ime`      |
-| Locking Scroll Lock       | B6    | `rme, mmf`      |
-| Keypad Comma              | B7    | `rme, mpf`      |
-| Keypad Equal Sign         | B8    | `rme, mme`      |
-| International1            | B97   | `rme, rmf, mpf` |
-| International2            | BAB   | `rme, rpf, rme` |
-| International3            | 611   | `mmf, tpf, tpf` |
-| International4            | 6F1   | `mmf, tpf`      |
-| International5            | 6F2   | `mmf, tme`      |
-| International6            | 6F3   | `mmf, imf`      |
-| International7            | 3F4   | `imf, ipf`      |
-| International8            | 6F5   | `mmf, ime`      |
-| International9            | 6F6A  | `mmf, mmf, rpf` |
-| LANG1                     | 6F7   | `mmf, mpf`      |
-| LANG2                     | 6F8   | `mmf, mme`      |
-| LANG3                     | 6F9   | `mmf, rmf`      |
-| LANG4                     | 6FA   | `mmf, rpf`      |
-| LANG5                     | 6FB   | `mmf, rme`      |
-| LANG6                     | 618   | `mmf, tpf, mme` |
-| LeftControl               | 619   | `mmf, tpf, rmf` |
-| LeftShift                 | 4F    | `ipf`           |
-| LeftAlt                   | 61B   | `mmf, tpf, rme` |
-| Left GUI                  | 62F   | `mmf, tme`      |
-| RightControl              | 621   | `mmf, tme, tpf` |
-| RightShift                | 6F26  | `mmf, tme, mmf` |
-| RightAlt                  | 623   | `mmf, tme, imf` |
-| Right GUI                 | 62F6  | `mmf, tme, mmf` |
+Report,Chord,Strokes
+a and A,`ipf`
+b and B,`rpf, mpf`
+c and C,`ipf, mpf`
+d and D,`mpf, rpf`
+e and E,`mpf`
+f and F,`mpf, ipf`
+g and G,`mpf, mmf`
+h and H,`rpf`
+i and I,`ipf, rpf`
+j and J,`imf, ipf`
+k and K,`ppf, rpf`
+l and L,`rpf, ppf`
+m and M,`mmf, mpf`
+n and N,`ppf`
+o and O,`imf`
+p and P,`ipf, imf`
+q and Q,`ppf, mme`
+r and R,`mpf, mmf, rpf`
+s and S ,`pmf`
+t and T,`rmf`
+u and U,`mmf`
+v and V,`mmf, tpf`
+w and W,`rpf, mmf`
+x and X,`ipf, ppf`
+y and Y,`ppf, ipf`
+z and Z,`mpf, tpf`
+1 and !,`mme, mmf, mme`
+2 and @,`mmf, mme, mmf`
+3 and #,`mmf, rpf`
+4 and $,`ipf, tme, mmf`
+5 and %,`imf, tpf`
+6 and ^,`imf, mpf`
+7 and &,`rpf, tpf, rpf`
+8 and *,`ipf, tme, tpf`
+9 and (,`ipf, tpf, tme`
+0 and ),`imf, ipf, mpf`
+Return (ENTER),`rpf, tpf`
+ESCAPE,`rpf, rme, pmf`
+DELETE (Backspace),`ipf, tpf`
+Tab,`imf, mmf, ime`
+Spacebar,`tpf`
+- and (underscore),`imf, mme`
+= and +,`mpf, tme`
+[ and {,`rpf, tme`
+] and },`imf, rme`
+\ and &#124;,`rpf, rme`
+Non-US # and ~,`ipf, tpf, ipf`
+; and :,`ipf, tme`
+' and ",`ipf, imf, mmf`
+Grave Accent and Tilde,`ipf, ime`
+Keyboard, and <,`ipf, mmf`
+. and >,`ppf, tpf`
+/ and ?,`ppf, rpf, mpf`
+Caps Lock,``
+F1,`ipf, rpf, mpf`
+F2,`ipf, rme`
+F3,`rpf, mmf, tpf`
+F4,`ime, tpf`
+F5,`ipf, mme`
+F6,`ime, tpf, imf`
+F7,`ime, ipf`
+F8,`ime, mmf`
+F9,`ime, mpf`
+F10,`ime, mme`
+F11,`ime, rmf`
+F12,`ime, rpf, ime`
+PrintScreen,`ime, rme`
+Scroll Lock,`mmf, mmf`
+Pause,`mpf, tpf, imf`
+Insert,`mpf, tpf, tpf`
+Home,`mme, ppf, rmf`
+PageUp,`mmf, tme`
+Delete Forward,`mmf, ime`
+End,`mmf, mpf, mmf`
+PageDown,`ipf, mpf, ipf`
+RightArrow,`mmf, rmf`
+LeftArrow,`rme, tpf`
+DownArrow,`mmf, rme`
+UpArrow,`mpf`
+Keypad Num Lock and Clear,`mpf, tpf, mpf`
+Keypad /,`mpf, tme, mpf`
+Keypad *,`mpf, imf`
+Keypad -,`mpf, ipf, mpf`
+Keypad +,`mpf, ime`
+Keypad ENTER,`mpf, mmf`
+Keypad 1 and End,`mpf, mme, ppf`
+Keypad 2 and Down Arrow,`mpf, rmf`
+Keypad 3 and PageDn,`mpf, rpf, mpf`
+Keypad 4 and Left Arrow,`mpf, rme`
+Keypad 5,`mme`
+Keypad 6 and Right Arrow,`mme, tpf`
+Keypad 7 and Home,`mme, tme`
+Keypad 8 and Up Arrow,`mme, imf`
+Keypad 9 and PageUp,`mme, ipf`
+Keypad 0 and Insert,`mme, ime`
+Keypad . and Delete,`mme, mmf`
+Non-US \ and &#124;,`mme, mpf`
+Application,`mme, rmf`
+Power,`mme, rpf`
+Keypad =,`mme, rme`
+F13,`rmf`
+F14,`rmf, tpf`
+F15,`rmf, tme`
+F16,`imf, mme, imf`
+F17,`rmf, tpf, ipf`
+F18,`rmf, ime`
+F19,`rmf, mmf`
+F20,`rmf, mpf`
+F21,`rmf, mme`
+F22,`rmf, rpf`
+F23,`rmf, rme`
+F24,`rpf`
+Execute,`ipf, tpf, ipf`
+Help,`mmf`
+Menu,`rpf, imf`
+Select,`rpf, ipf`
+Stop,`rpf, ime`
+Again,`mmf, tme, mmf`
+Undo,`rpf, mpf, rpf`
+Cut,`rpf, mme`
+Copy,`rpf, rmf`
+Paste,`rpf, rme, rpf`
+Find,`rme`
+Mute,`rme, tpf, rme`
+Volume Up,`rme, tme`
+Volume Down,`rme, imf`
+Locking Caps Lock,`rme, ipf`
+Locking Num Lock,`rme, ime`
+Locking Scroll Lock,`rme, mmf`
+Keypad Comma,`rme, mpf`
+Keypad Equal Sign,`rme, mme`
+International1,`rme, rmf, mpf`
+International2,`rme, rpf, rme`
+International3,`mmf, tpf, tpf`
+International4,`mmf, tpf`
+International5,`mmf, tme`
+International6,`mmf, imf`
+International7,`imf, ipf`
+International8,`mmf, ime`
+International9,`mmf, mmf, rpf`
+LANG1,`mmf, mpf`
+LANG2,`mmf, mme`
+LANG3,`mmf, rmf`
+LANG4,`mmf, rpf`
+LANG5,`mmf, rme`
+LANG6,`mmf, tpf, mme`
+LeftControl,`mmf, tpf, rmf`
+LeftShift,`ipf`
+LeftAlt,`mmf, tpf, rme`
+Left GUI,`mmf, tme`
+RightControl,`mmf, tme, tpf`
+RightShift,`mmf, tme, mmf`
+RightAlt,`mmf, tme, imf`
+Right GUI,`mmf, tme, mmf`
