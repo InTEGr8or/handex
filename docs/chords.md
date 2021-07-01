@@ -41,7 +41,7 @@ z and Z,`mpf, tpf`
 Return (ENTER),`rpf, tpf`
 ESCAPE,`rpf, rme, pmf`
 DELETE (Backspace),`ipf, tpf`
-Tab,`imf, mmf, ime`
+Tab,`imf, mmf, ipf`
 Spacebar,`tpf`
 - and (underscore),`imf, mme`
 = and +,`mpf, tme`
