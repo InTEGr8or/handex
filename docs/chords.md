@@ -1,158 +1,155 @@
-Report,Strokes,Chord
-ALT,`tmf`
-CTRL,`tpf`
-SHIFT,`tme`
-a and A,`ipf`,4
-b and B,`rpf, mpf`,A7
-c and C,`ipf, mpf`,47
-d and D,`mpf, rpf`,7A
-e and E,`mpf`,7
-f and F,`mpf, ipf`,74
-g and G,`mpf, mmf`,76
-h and H,`rpf`,A
-i and I,`ipf, rpf`,4A
-j and J,`imf, ipf`,34
-k and K,`ppf, rpf`,DA
-l and L,`rpf, ppf`,AD
-m and M,`mmf, mpf`,67
-n and N,`ppf`,D
-o and O,`imf`,3
-p and P,`ipf, imf`,43
-q and Q,`ppf, mme`,D8
-r and R,`mpf, mmf, rpf`,76A
-s and S ,`pmf`,C
-t and T,`rmf`,9
-u and U,`mmf`,6
-v and V,`mmf, tpf`,61
-w and W,`rpf, mmf`,A6
-x and X,`ipf, ppf`,4D
-y and Y,`ppf, ipf`,D4
-z and Z,`mpf, tpf`,71
-1 and !,`rmf, rpf`,9A
-2 and @,`pmf, ppf`,CD
-3 and #,`mmf, rpf`,6A
-4 and $,`ipf, tme, mmf`,426
-5 and %,`imf, tpf`,31
-6 and ^,`imf, mpf`,37
-7 and &,`rpf, tpf, rpf`,A1A
-8 and *,`ipf, tme, tpf`,421
-9 and (,`ipf, tpf, tme`,412
-0 and ),`imf, ipf, mpf`,347
-Return (ENTER),`rpf, tpf`,A1
-ESCAPE,`rpf, rme, pmf`,ABC
-DELETE (Backspace),`ipf, tpf`,41
-Tab,`imf, mmf, ipf`,364
-Spacebar,`tpf`,1
-- and (underscore),`imf, mme`,38
-= and +,`mpf, tme`,72
-[ and {,`rpf, tme`,A2
-] and },`imf, rme`,3B
-\ and &#124;,`rpf, rme`,AB
-Non-US # and ~,`ipf, tpf, tpf`,411
-; and :,`ipf, tme`,42
-' and ",`ipf, imf, mmf`,436
-Grave Accent and Tilde,`ipf, ime`,45
-Keyboard, and <,`ipf, mmf`,46
-. and >,`ppf, tpf`,D1
-/ and ?,`ppf, rpf, mpf`,DA7
-Caps Lock,``,F
-F1,`ipf, rpf, mpf`,4A7
-F2,`ipf, rme`,4B
-F3,`rpf, mmf, tpf`,A61
-F4,`ime, tpf`,51
-F5,`ipf, mme`,48
-F6,`ime, tpf, imf`,513
-F7,`ime, ipf`,54
-F8,`ime, mmf`,56
-F9,`ime, mpf`,57
-F10,`ime, mme`,58
-F11,`ime, rmf`,59
-F12,`ime, rpf, ime`,5A5
-PrintScreen,`ime, rme`,5B
-Scroll Lock,`mmf, mmf`,6F6
-Pause,`mpf, tpf, imf`,713
-Insert,`mpf, tpf, tpf`,711
-Home,`mme, ppf, rmf`,8D9
-PageUp,`mmf, tme`,62
-Delete Forward,`mmf, ime`,65
-End,`mmf, mpf, mmf`,676
-PageDown,`ipf, mpf, ipf`,474
-RightArrow,`mmf, rmf`,69
-LeftArrow,`rme, tpf`,B1
-DownArrow,`mmf, rme`,6B
-UpArrow,`mpf`,7F
-Keypad Num Lock and Clear,`mpf, tpf, mpf`,717
-Keypad /,`mpf, tme, mpf`,727
-Keypad *,`mpf, imf`,73
-Keypad -,`mpf, ipf, mpf`,747
-Keypad +,`mpf, ime`,75
-Keypad ENTER,`mpf, mmf`,76F
-Keypad 1 and End,`mpf, mme, ppf`,78D
-Keypad 2 and Down Arrow,`mpf, rmf`,79
-Keypad 3 and PageDn,`mpf, rpf, mpf`,7A7
-Keypad 4 and Left Arrow,`mpf, rme`,7B
-Keypad 5,`mme`,8F
-Keypad 6 and Right Arrow,`mme, tpf`,81
-Keypad 7 and Home,`mme, tme`,82
-Keypad 8 and Up Arrow,`mme, imf`,83
-Keypad 9 and PageUp,`mme, ipf`,84
-Keypad 0 and Insert,`mme, ime`,85
-Keypad . and Delete,`mme, mmf`,86F
-Non-US \ and &#124;,`mme, mpf`,87F
-Application,`mme, rmf`,89
-Power,`mme, rpf`,8A
-Keypad =,`mme, rme`,8B
-F13,`rmf`,9F
-F14,`rmf, tpf`,91
-F15,`rmf, tme`,92
-F16,`imf, mme, imf`,383
-F17,`rmf, tpf, ipf`,914
-F18,`rmf, ime`,95
-F19,`rmf, mmf`,96
-F20,`rmf, mpf`,97
-F21,`rmf, mme`,98
-F22,`rmf, rpf`,9A
-F23,`rmf, rme`,9B
-F24,`rpf`,AF
-Execute,`ipf, tpf, ipf`,414
-Help,`mmf`,6F
-Menu,`rpf, imf`,A3
-Select,`rpf, ipf`,A4
-Stop,`rpf, ime`,A5
-Again,`mmf, tme, mmf`,626
-Undo,`rpf, mpf, rpf`,A7A
-Cut,`rpf, mme`,A8
-Copy,`rpf, rmf`,A9
-Paste,`rpf, rme, rpf`,ABA
-Find,`rme`,BF
-Mute,`rme, tpf, rme`,B1B
-Volume Up,`rme, tme`,B2
-Volume Down,`rme, imf`,B3
-Locking Caps Lock,`rme, ipf`,B4
-Locking Num Lock,`rme, ime`,B5
-Locking Scroll Lock,`rme, mmf`,B6
-Keypad Comma,`rme, mpf`,B7
-Keypad Equal Sign,`rme, mme`,B8
-International1,`rme, rmf, mpf`,B97
-International2,`rme, rpf, rme`,BAB
-International3,`mmf, tpf, tpf`,611
-International4,`mmf, tpf`,6F1
-International5,`mmf, tme`,6F2
-International6,`mmf, imf`,6F3
-International7,`imf, ipf`,3F4
-International8,`mmf, ime`,6F5
-International9,`mmf, mmf, rpf`,6F6A
-LANG1,`mmf, mpf`,6F7
-LANG2,`mmf, mme`,6F8
-LANG3,`mmf, rmf`,6F9
-LANG4,`mmf, rpf`,6FA
-LANG5,`mmf, rme`,6FB
-LANG6,`mmf, tpf, mme`,618
-LeftControl,`mmf, tpf, rmf`,619
-LeftShift,`ipf`,4F
-LeftAlt,`mmf, tpf, rme`,61B
-Left GUI,`mmf, tme`,62F
-RightControl,`mmf, tme, tpf`,621
-RightShift,`mmf, tme, mmf`,6F26
-RightAlt,`mmf, tme, imf`,623
-Right GUI,`mmf, tme, mmf`,62F6
+Report,Chord,Strokes
+a and A,4,ipf
+b and B,D6,"ppf, mmf"
+c and C,47,"ipf, mpf"
+d and D,7A,"mpf, rpf"
+e and E,7,mpf
+f and F,74,"mpf, ipf"
+g and G,76,"mpf, mmf"
+h and H,A,rpf
+i and I,4A,"ipf, rpf"
+j and J,34,"imf, ipf"
+k and K,DA,"ppf, rpf"
+l and L,AD,"rpf, ppf"
+m and M,67,"mmf, mpf"
+n and N,D,ppf
+o and O,3,imf
+p and P,43,"ipf, imf"
+q and Q,D8,"ppf, mme"
+r and R,A,rpf
+s and S,C,pmf
+t and T,9,rmf
+u and U,6,mmf
+v and V,61,"mmf, tpf"
+w and W,A6,"rpf, mmf"
+x and X,4D,"ipf, ppf"
+y and Y,D5,"ppf, ime"
+z and Z,71,"mpf, tpf"
+1 and !,346,"imf, ipf, mmf"
+2 and @,347,"imf, ipf, mpf"
+3 and #,3467,"imf, ipf, mmf, mpf"
+4 and $,3476,"imf, ipf, mpf, mmf"
+5 and %,349,"imf, ipf, rmf"
+6 and ^,34A,"imf, ipf, rpf"
+7 and &,349A,"imf, ipf, rmf, rpf"
+8 and *,34A9,"imf, ipf, rpf, rmf"
+9 and (,34C,"imf, ipf, pmf"
+0 and ),34D,"imf, ipf, ppf"
+Return (ENTER),A1,"rpf, tpf"
+ESCAPE,DC,"ppf, pmf"
+DELETE (Backspace),343,"imf, ipf, imf"
+Tab,CD,"pmf, ppf"
+Spacebar,1,tpf
+- and (underscore),38,"imf, mme"
+= and +,72,"mpf, tme"
+[ and {,A2,"rpf, tme"
+] and },3B,"imf, rme"
+\ and &#124;,AB,"rpf, rme"
+Non-US # and ~,41,"ipf, tpf"
+; and :,42,"ipf, tme"
+"' and """,434,"ipf, imf, ipf"
+Grave Accent and Tilde,45,"ipf, ime"
+"Keyboard, and <",46,"ipf, mmf"
+. and >,D1,"ppf, tpf"
+/ and ?,AC,"rpf, pmf"
+Caps Lock,F,
+F1,4A4,"ipf, rpf, ipf"
+F2,4B,"ipf, rme"
+F3,A61,"rpf, mmf, tpf"
+F4,51,"ime, tpf"
+F5,48,"ipf, mme"
+F6,513,"ime, tpf, imf"
+F7,54,"ime, ipf"
+F8,56,"ime, mmf"
+F9,57,"ime, mpf"
+F10,58,"ime, mme"
+F11,59,"ime, rmf"
+F12,5A5,"ime, rpf, ime"
+PrintScreen,5B,"ime, rme"
+Scroll Lock,6F6,"mmf, mmf"
+Pause,713,"mpf, tpf, imf"
+Insert,711,"mpf, tpf, tpf"
+Home,69,"mmf, rmf"
+PageUp,62,"mmf, tme"
+Delete Forward,65,"mmf, ime"
+End,676,"mmf, mpf, mmf"
+PageDown,474,"ipf, mpf, ipf"
+RightArrow,36,"imf, mmf"
+LeftArrow,63,"mmf, imf"
+DownArrow,6B,"mmf, rme"
+UpArrow,7F,mpf
+Keypad Num Lock and Clear,717,"mpf, tpf, mpf"
+Keypad /,727,"mpf, tme, mpf"
+Keypad *,73,"mpf, imf"
+Keypad -,747,"mpf, ipf, mpf"
+Keypad +,75,"mpf, ime"
+Keypad ENTER,76F,"mpf, mmf"
+Keypad 1 and End,78D,"mpf, mme, ppf"
+Keypad 2 and Down Arrow,79,"mpf, rmf"
+Keypad 3 and PageDn,7A769,"mpf, rpf, mpf, mmf, rmf"
+Keypad 4 and Left Arrow,7B,"mpf, rme"
+Keypad 5,8F,mme
+Keypad 6 and Right Arrow,81,"mme, tpf"
+Keypad 7 and Home,82,"mme, tme"
+Keypad 8 and Up Arrow,83,"mme, imf"
+Keypad 9 and PageUp,84,"mme, ipf"
+Keypad 0 and Insert,85,"mme, ime"
+Keypad . and Delete,86F,"mme, mmf"
+Non-US \ and &#124;,87F,"mme, mpf"
+Application,89,"mme, rmf"
+Power,8A,"mme, rpf"
+Keypad =,8B,"mme, rme"
+F13,9F,rmf
+F14,91,"rmf, tpf"
+F15,92,"rmf, tme"
+F16,383,"imf, mme, imf"
+F17,914,"rmf, tpf, ipf"
+F18,95,"rmf, ime"
+F19,96,"rmf, mmf"
+F20,97,"rmf, mpf"
+F21,98,"rmf, mme"
+F22,9A9,"rmf, rpf, rmf"
+F23,9B,"rmf, rme"
+F24,AF,rpf
+Execute,414,"ipf, tpf, ipf"
+Help,6F,mmf
+Menu,A3,"rpf, imf"
+Select,A4,"rpf, ipf"
+Stop,A5,"rpf, ime"
+Again,626,"mmf, tme, mmf"
+Undo,A7,"rpf, mpf"
+Cut,A8,"rpf, mme"
+Copy,A9,"rpf, rmf"
+Paste,ABA,"rpf, rme, rpf"
+Find,BF,rme
+Mute,B1B,"rme, tpf, rme"
+Volume Up,B2,"rme, tme"
+Volume Down,B3,"rme, imf"
+Locking Caps Lock,B4,"rme, ipf"
+Locking Num Lock,B5,"rme, ime"
+Locking Scroll Lock,B6,"rme, mmf"
+Keypad Comma,B7,"rme, mpf"
+Keypad Equal Sign,B8,"rme, mme"
+International1,B97,"rme, rmf, mpf"
+International2,BAB,"rme, rpf, rme"
+International3,611,"mmf, tpf, tpf"
+International4,6F1,"mmf, tpf"
+International5,6F2,"mmf, tme"
+International6,6F3,"mmf, imf"
+International7,3F4,"imf, ipf"
+International8,6F5,"mmf, ime"
+International9,6F6A,"mmf, mmf, rpf"
+LANG1,6F7,"mmf, mpf"
+LANG2,6F8,"mmf, mme"
+LANG3,6F9,"mmf, rmf"
+LANG4,6FA,"mmf, rpf"
+LANG5,6FB,"mmf, rme"
+LANG6,618,"mmf, tpf, mme"
+LeftControl,619,"mmf, tpf, rmf"
+LeftShift,4F,ipf
+LeftAlt,61B,"mmf, tpf, rme"
+Left GUI,62F,"mmf, tme"
+RightControl,621,"mmf, tme, tpf"
+RightShift,6F26,"mmf, tme, mmf"
+RightAlt,623,"mmf, tme, imf"
+Right GUI,62F6,"mmf, tme, mmf"
