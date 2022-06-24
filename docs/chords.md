@@ -6,7 +6,7 @@ d and D,7A,"mpf, rpf"
 e and E,7,mpf
 f and F,74,"mpf, ipf"
 g and G,76,"mpf, mmf"
-h and H,A,rpf
+h and H,9A,"rmf, rpf"
 i and I,4A,"ipf, rpf"
 j and J,34,"imf, ipf"
 k and K,DA,"ppf, rpf"
