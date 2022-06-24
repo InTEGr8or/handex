@@ -16,7 +16,7 @@ n and N,D,ppf
 o and O,3,imf
 p and P,43,"ipf, imf"
 q and Q,D8,"ppf, mme"
-r and R,A9,"rpf, rmf"
+r and R,A,rpf
 s and S,C,pmf
 t and T,9,rmf
 u and U,6,mmf
