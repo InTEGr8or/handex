@@ -49,7 +49,7 @@ Non-US # and ~,41,"ipf, tpf"
 ; and :,42,"ipf, tme"
 "' and """,434,"ipf, imf, ipf"
 Grave Accent and Tilde,45,"ipf, ime"
-"Keyboard, and <",46,"ipf, mmf"
+", and <",46,"ipf, mmf"
 . and >,D1,"ppf, tpf"
 / and ?,AC,"rpf, pmf"
 Caps Lock,F,
