@@ -77,7 +77,7 @@ PageDown,474,"ipf, mpf, ipf"
 RightArrow,36,"imf, mmf"
 LeftArrow,63,"mmf, imf"
 DownArrow,6B,"mmf, rme"
-UpArrow,7F,mpf
+UpArrow,767,"mpf, mmf, mpf"
 Keypad Num Lock and Clear,717,"mpf, tpf, mpf"
 Keypad /,727,"mpf, tme, mpf"
 Keypad *,73,"mpf, imf"
