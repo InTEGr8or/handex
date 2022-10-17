@@ -1,3 +1,4 @@
-baseURL = 'http://example.org/'
+baseURL = 'http://handex.io/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = 'Handex keydex'
+theme = 'test'
