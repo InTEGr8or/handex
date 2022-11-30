@@ -1,64 +1,66 @@
-.container {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-flow: column nowrap;
-    flex-flow: column nowrap;
-    height: 100%;
-    margin: auto;
-    width: 100%;
+:root {
+    --main-radius: 5px;
+    --main-padding: 5px;
+}
+@font-face {
+    font-family: FiraCodeBold;
+    src: url("../fonts/Fira Code Bold Nerd Font Complete Mono.ttf");
 }
 
-.content-container {
-    -webkit-box-flex: 1;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    -ms-flex: 1 0 auto;
-    flex: 1 0 auto;
-    justify-content: center;
+.container {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr;
+    grid-template-rows: 0.1fr 1.5fr 1.2fr;
+    grid-template-areas:
+        "sidebar nav nav nav"
+        "sidebar main main main"
+        "sidebar content1 content2 content3"
+        "sidebar footer footer footer";
+    grid-gap: 0.2rem;
+    font-family: Pratt, Georgia, Palatino, "Book Antiqua", "Times New Roman", serif;
+
 }
-.container, .content-container {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
+
+nav.top {
+    grid-area: nav;
 }
+
+@media (max-width: 600px){
+    .container{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
 * {
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 
 main {
     padding: 3rem;
+    display: block;
+    grid-area: main;
 }
 main, main:only-child {
-    -webkit-box-flex: 0;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
-main {
-    flex: 0 0 75%;
-    max-width: 75%;
+main h1 {
+    font-family: FiraCodeBold;
 }
-main {
-    display: block;
+article h1,h2, h3, h4 {
+    font-family: FiraCodeBold;
 }
 
-.sidebar {
-    background: #f9f9f9;
-    border-right: 1px solid #eee;
-    font-size: 90%;
-    line-height: 1.8;
+div.signup{
+    padding: 10px;
+    margin: 10px;
 }
-.sidebar {
-    -webkit-box-flex: 0;
-    -webkit-box-ordinal-group: 0;
-    -ms-flex-order: -1;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    -ms-flex: 0 0 25%;
-    flex: 0 0 25%;
-    order: -1;
-    overflow-x: hidden;
-    overflow-y: scroll;
+
+div.email input.email{
+    padding: 10px;
+    width: 300px;
+}
+
+div.email{
+    margin: 10px;
 }
