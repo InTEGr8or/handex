@@ -2,3 +2,11 @@ baseURL = 'http://handex.io/'
 languageCode = 'en-us'
 title = 'Handex keydex'
 theme = 'test'
+tags = ["modern"]
+features = [
+  "SEO Site Verification"
+  ]
+min_version = 0.19
+
+# [[module.imports]]
+#     path="github.com/jeblister/bulma"

@@ -1,3 +1,8 @@
+---
+title: Chords
+draft: false
+date: 2022-11-29
+---
 Report,Chord,Strokes
 a and A,4,ipf
 b and B,D6,"ppf, mmf"
