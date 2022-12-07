@@ -51,7 +51,7 @@ article h1,h2, h3, h4 {
     font-family: FiraCodeBold;
 }
 
-div.signup{
+form.signup{
     padding: 10px;
     margin: 10px;
 }
