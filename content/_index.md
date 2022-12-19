@@ -14,6 +14,6 @@ When inspiration strikes, Handex is there.
 
 Walking -> Typeing
 
-![](images/sketchbook-radiant-grasp.png)
+![](images/sketchbook-radiant-grasp-500w.png)
 
 {{<signup>}}
