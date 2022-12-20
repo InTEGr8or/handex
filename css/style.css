@@ -6,6 +6,10 @@
     font-family: FiraCodeBold;
     src: url("../fonts/Fira Code Bold Nerd Font Complete Mono.ttf");
 }
+body {
+    background-color: #000;
+    color: antiquewhite;
+}
 
 .container {
     display: grid;
@@ -63,4 +67,7 @@ div.email input.email{
 
 div.email{
     margin: 10px;
+}
+label.email {
+    padding: 10px;
 }
