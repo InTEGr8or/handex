@@ -1,0 +1,73 @@
+:root {
+    --main-radius: 5px;
+    --main-padding: 5px;
+}
+@font-face {
+    font-family: FiraCodeBold;
+    src: url("../fonts/Fira Code Bold Nerd Font Complete Mono.ttf");
+}
+body {
+    background-color: #000;
+    color: antiquewhite;
+}
+
+.container {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr;
+    grid-template-rows: 0.1fr 1.5fr 1.2fr;
+    grid-template-areas:
+        "sidebar nav nav nav"
+        "sidebar main main main"
+        "sidebar content1 content2 content3"
+        "sidebar footer footer footer";
+    grid-gap: 0.2rem;
+    font-family: Pratt, Georgia, Palatino, "Book Antiqua", "Times New Roman", serif;
+
+}
+
+nav.top {
+    grid-area: nav;
+}
+
+@media (max-width: 600px){
+    .container{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+main {
+    padding: 3rem;
+    display: block;
+    grid-area: main;
+}
+main, main:only-child {
+    box-sizing: border-box;
+}
+main h1 {
+    font-family: FiraCodeBold;
+}
+article h1,h2, h3, h4 {
+    font-family: FiraCodeBold;
+}
+
+form.signup{
+    padding: 10px;
+    margin: 10px;
+}
+
+div.email input.email{
+    padding: 10px;
+    width: 300px;
+}
+
+div.email{
+    margin: 10px;
+}
+label.email {
+    padding: 10px;
+}
