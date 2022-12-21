@@ -31,7 +31,7 @@ Having a computer typically means needing:
 
 "Movement puts your mind in motion"
 
-![](images/caveman-exiting-cave-pixelart.png)
+![](images/caveman-exiting-cave-pixelart-500w.png)
 
 Walking -> Typeing
 

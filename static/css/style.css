@@ -3,12 +3,19 @@
     --main-padding: 5px;
 }
 @font-face {
-    font-family: FiraCodeBold;
+    font-family: "FiraCodeBold";
     src: url("../fonts/Fira Code Bold Nerd Font Complete Mono.ttf");
 }
+
+@font-face {
+    font-family: "FiraCode";
+    src: url("../fonts/Fira Code Regular Nerd Font Complete.ttf");
+}
+
 body {
     background-color: #000;
     color: antiquewhite;
+    font-family: "FiraCode";
 }
 
 .container {
@@ -22,7 +29,6 @@ body {
         "sidebar content1 content2 content3"
         "sidebar footer footer footer";
     grid-gap: 0.2rem;
-    font-family: Pratt, Georgia, Palatino, "Book Antiqua", "Times New Roman", serif;
 
 }
 
