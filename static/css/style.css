@@ -3,19 +3,19 @@
     --main-padding: 5px;
 }
 @font-face {
-    font-family: "FiraCodeBold";
+    font-family: "Fira Code Bold";
     src: url("../fonts/Fira Code Bold Nerd Font Complete Mono.ttf");
 }
 
 @font-face {
-    font-family: "FiraCode";
+    font-family: "Fira Code Regular";
     src: url("../fonts/Fira Code Regular Nerd Font Complete.ttf");
 }
 
 body {
     background-color: #000;
     color: antiquewhite;
-    font-family: "FiraCode";
+    font-family: "Fira Code Regular";
 }
 
 .container {
@@ -55,7 +55,7 @@ main, main:only-child {
     box-sizing: border-box;
 }
 main h1 {
-    font-family: FiraCodeBold;
+    font-family: "Fira Code Bold";
 }
 article h1,h2, h3, h4 {
     font-family: FiraCodeBold;
