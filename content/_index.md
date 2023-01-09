@@ -29,6 +29,8 @@ Having a computer typically means needing:
 * a chair
 * a room
 
+That was before Handex
+
 "Movement puts your mind in motion"
 
 ![](images/caveman-exiting-cave-pixelart-500w.png)
