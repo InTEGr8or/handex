@@ -35,6 +35,6 @@ Having a computer typically means needing:
 
 Walking -> Typeing
 
-![](images/sketchbook-radiant-grasp-500w.png)
+![](images/raised-grip-500w.png)
 
 {{<signup>}}
