@@ -16,9 +16,8 @@ body {
     font-family: "Fira Code Regular";
     background-color: black;
     color: #faebd7b9;
+    width: 100%;
 }
-
-body {}
 
 main h1 {
     font-family: "Fira Code Bold";
@@ -46,5 +45,8 @@ label.email {
 @media (max-width: 600px){
     body{
         font-size: 1.8em;
+    }
+    img[src$='#center'] {
+        width: 100%;
     }
 }
