@@ -11,7 +11,7 @@ The Parapatetic Keydex
 
 Do you ever feel like you're trapped in a cave?
 
-![](images/caveman-cartoon-500w.png)
+![](images/caveman-cartoon-500w.png#center)
 
 Caveman's mind is frustrated and his body is withering.
 
@@ -33,10 +33,10 @@ That was before Handex
 
 "Movement puts your mind in motion"
 
-![](images/caveman-exiting-cave-pixelart-500w.png)
+![](images/caveman-exiting-cave-pixelart-500w.png#center)
 
 Walking -> Typeing
 
-![](images/raised-grip-500w.png)
+![](images/raised-grip-500w.png#center)
 
 {{<signup>}}
