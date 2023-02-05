@@ -21,7 +21,7 @@ The Moral: With the right tools and an open mind, anyone can break free from fee
 
 ## ChatGPT Response
 
-```
+```sh
 Sure! Here's a revised StoryBrand BrandScript for a Bluetooth-enabled one-handed typing device, with the hero as a scientist working to stop the spread of a zombie-like contagion:
 
 The Hero: A scientist who is working to stop the spread of a zombie-like contagion that is threatening the population.
@@ -43,7 +43,7 @@ The Moral: With the right tools, anyone can overcome the challenges of working u
 
 Alex: We talked a bit about what kind of professions work in the field and use a smart phone as their primary data input device. It gave me a list a professions, and then I asked it to give me a list of movies where one of these professions deal with an imminent crisis:
 
-```
+```sh
 Here are a few movies that involve people working in the fields listed above (environmental, construction/engineering, data collection, medical, and agricultural) dealing with an imminent crisis:
 
 "Contagion": This movie follows a team of scientists and medical professionals as they work to contain and understand a deadly virus that is spreading rapidly around the world.
@@ -69,7 +69,7 @@ So it could be a funny advertisement if we just pulled a high stress moment from
 6:55
 Here's the first vanilla brandscript:
 
-```
+```sh
 Sure! Here's a possible StoryBrand BrandScript for a Bluetooth-enabled one-handed typing device:
 
 The Hero: Mobile users who struggle with typing on small screens or who want to type faster and more efficiently.
@@ -91,7 +91,7 @@ It has a habit of making the guide the device or tool itself so you have to prom
 6:57
 I made a brandscript for one of turbo's products as well:
 
-```
+```sh
 Sure! Here's a possible StoryBrand BrandScript for the Chiquita product on turboheatweldingtools.com:
 
 The Hero: A flooring installer or flooring installation business owner who is looking for ways to improve their efficiency and quality of work.
