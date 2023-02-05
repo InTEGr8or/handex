@@ -25,7 +25,7 @@ min_version = 0.19
 # these items will be rendered 1. into a tooltip in the navbar and 2. into the footer - consider that there's limited space when adding more items -> see ./layouts/partials
 [[params.social]]
     title = "Twitter"
-    url = "https://twitter.com/#" # add your twitter handle
+    url = "https://twitter.com/handexio" # add your twitter handle
 [[params.social]]
     title = "LinkedIn"
     url = "https://linkedin.com/company/#" # add your linkedin profile URL
