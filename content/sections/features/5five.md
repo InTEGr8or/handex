@@ -1,7 +1,7 @@
 ---
-title: AWE.SOME Feature Five
+title: Universal REPL
 weight: 5
 icon: icon5.svg
 ---
 
-Maecenas pulvinar ultricies dolor, vitae sagittis nunc aliquam non. Cras vitae eros mi. Pellentesque ac orci mi. Ut dignissim tincidunt ex id tincidunt.
+Computer commands are always at your fingertips. Execute commands immediately after grasping the device.

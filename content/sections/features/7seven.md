@@ -1,7 +1,7 @@
 ---
-title: AWE.SOME Feature 7
+title: Distraction Free
 weight: 7
 icon: icon7.svg
 ---
 
-Maecenas pulvinar ultricies dolor, vitae sagittis nunc aliquam non. Cras vitae eros mi. Pellentesque ac orci mi. Ut dignissim tincidunt ex id tincidunt.
+Avoid distraction on the way to capturing your thoughts. Your most ephemeral thoughts go straignt from your mind to your finger-keys, without distracting steps.

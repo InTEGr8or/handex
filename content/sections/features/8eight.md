@@ -1,7 +1,7 @@
 ---
-title: AWE.SOME Feature 8
+title: Don't look down
 weight: 8
 icon: icon8.svg
 ---
 
-Maecenas pulvinar ultricies dolor, vitae sagittis nunc aliquam non. Cras vitae eros mi. Pellentesque ac orci mi. Ut dignissim tincidunt ex id tincidunt.
+No switching contexts. You don't have to take your eyes off your subject to look for that hey you rarely use because the Handex is built to activate on natural finger movements.

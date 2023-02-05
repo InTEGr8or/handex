@@ -2,4 +2,4 @@
 title: Registration
 ---
 
-Maecenas pulvinar ultricies dolor, vitae sagittis nunc aliquam non. Cras vitae eros mi.
+Sign up for the Handex monthly email to get all the latest developments.

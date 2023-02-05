@@ -1,7 +1,7 @@
 ---
-title: AWE.SOME Feature 4
+title: More than 160 Keys
 weight: 4
 icon: icon4.svg
 ---
 
-Maecenas pulvinar ultricies dolor, vitae sagittis nunc aliquam non. Cras vitae eros mi. Pellentesque ac orci mi. Ut dignissim tincidunt ex id tincidunt.
+Handex is a full-size keyboard, as far as the available keys goes. Any key on a full-size keyboard, and more, is available to your fingers without repositioning.
