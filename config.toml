@@ -17,6 +17,9 @@ min_version = 0.19
   description = "Handex - a walkable keydex" # page description -> see ./layouts/partials/head.html
   images = [] #add images here as "img/name.ext" (points to s./static/img/) to populate the default og and twitter <meta> attributes -> see ./layouts/partials/head.html
   signupUrl = "https://dgrl2rrg5mklw2ra7zkmumg5iu0pdwpn.lambda-url.us-east-1.on.aws"
+  googleSiteVerification = "google-site-verification=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" # add your google site verification code here
+  googleTagManager = "GTM-xxxxxxxxxx" # add your google tag manager code here
+  googleAnalytics = "UA-xxxxxxxxxx-x" # add your google analytics code here
 
 [author]
     name = "Handex"

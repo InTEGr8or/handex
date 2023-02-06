@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TD6P8JX');</script>
+    <!-- End Google Tag Manager -->
+
+    {{ block "head" . }}
+        {{ partial "head.html" . }}
+    {{ end }}
+</head>
+<body id="top" class="font-sans text-gray-800 bg-gray-200">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TD6P8JX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div id="site"> <!-- real SITE starts here -->
+        <main>
+            {{ block "main" . }}
+                <!-- site content from index.html -->
+            {{ end }}
+        </main>
+        {{ block "footer" . }}
+            {{ partial "footer.html" . }}
+        {{ end }}
+    </div> <!-- SITE BODY ends here -->
+    {{ partial "js.html" . }}
+</body>
+</html>
