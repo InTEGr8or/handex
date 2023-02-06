@@ -1,0 +1,34 @@
+baseURL = "https://handex.io/"
+languageCode = 'en-us'
+title = 'Handex keydex'
+# theme = 'test'
+tags = ["modern"]
+features = [
+  "SEO Site Verification"
+  ]
+min_version = 0.19
+
+[[module.imports]]
+    path="github.com/bizkite-co/hugo-landing-page"
+
+[params] 
+  logotype = "<span class=\"has-text-weight-bold\"><span class=\"has-text-danger\">Handex</span></span>"
+  logoPath = "/img/raised-grip-500w.png"
+  description = "Handex - a walkable keydex" # page description -> see ./layouts/partials/head.html
+  images = [] #add images here as "img/name.ext" (points to s./static/img/) to populate the default og and twitter <meta> attributes -> see ./layouts/partials/head.html
+  signupUrl = "https://dgrl2rrg5mklw2ra7zkmumg5iu0pdwpn.lambda-url.us-east-1.on.aws"
+  googleSiteVerification = "google-site-verification=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" # add your google site verification code here
+  googleTagManager = "GTM-xxxxxxxxxx" # add your google tag manager code here
+  googleAnalytics = "UA-xxxxxxxxxx-x" # add your google analytics code here
+
+[author]
+    name = "Handex"
+    email = "mark@handex.io"
+
+# these items will be rendered 1. into a tooltip in the navbar and 2. into the footer - consider that there's limited space when adding more items -> see ./layouts/partials
+[[params.social]]
+    title = "Twitter"
+    url = "https://twitter.com/handexio" # add your twitter handle
+[[params.social]]
+    title = "LinkedIn"
+    url = "https://linkedin.com/company/#" # add your linkedin profile URL

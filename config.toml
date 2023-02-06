@@ -1,34 +1,61 @@
-baseURL = "https://handex.io/"
-languageCode = 'en-us'
-title = 'Handex keydex'
-# theme = 'test'
-tags = ["modern"]
-features = [
-  "SEO Site Verification"
-  ]
-min_version = 0.19
+# This file is for render site varibles and plugins
+# don't remove this file.
+# The presence of this file is for compatibility with Blogdown and Forestry.
+#
+# The actual configuration files are stored in the `config/_default/` folder.
 
-[[module.imports]]
-    path="github.com/bizkite-co/hugo-landing-page"
 
-[params] 
-  logotype = "<span class=\"has-text-weight-bold\"><span class=\"has-text-danger\">Handex</span></span>"
-  logoPath = "/img/raised-grip-500w.png"
-  description = "Handex - a walkable keydex" # page description -> see ./layouts/partials/head.html
-  images = [] #add images here as "img/name.ext" (points to s./static/img/) to populate the default og and twitter <meta> attributes -> see ./layouts/partials/head.html
-  signupUrl = "https://dgrl2rrg5mklw2ra7zkmumg5iu0pdwpn.lambda-url.us-east-1.on.aws"
-  googleSiteVerification = "google-site-verification=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" # add your google site verification code here
-  googleTagManager = "GTM-xxxxxxxxxx" # add your google tag manager code here
-  googleAnalytics = "UA-xxxxxxxxxx-x" # add your google analytics code here
+######################### site variables ##############################
 
-[author]
-    name = "Handex"
-    email = "mark@handex.io"
+# page background
+[params.page_background]
+page_class= "" # ex: "bg-primary"
+page_background_color= "" # ex: "#ff00ff", "green"
+page_background_image= "images/bg.jpg" # ex: "images/bg.svg"
 
-# these items will be rendered 1. into a tooltip in the navbar and 2. into the footer - consider that there's limited space when adding more items -> see ./layouts/partials
-[[params.social]]
-    title = "Twitter"
-    url = "https://twitter.com/handexio" # add your twitter handle
-[[params.social]]
-    title = "LinkedIn"
-    url = "https://linkedin.com/company/#" # add your linkedin profile URL
+# customize your color and font from here.
+[params.variables]
+primary_color = "#FF4730"
+secondary_color = "#001111"
+body_color = "#fff"
+text_color = "#666666"
+text_color_dark = "#222222"
+text_color_light = "#959595"
+border_color = "#ACB9C4"
+black = "#000"
+white = "#fff"
+light = "#fdfdfd"
+
+# font variable
+# Give your font name from google font. add font weight using ":wght@" and separate by ";"
+# example: "Work Sans:wght@400;500;600"
+primary_font = "Poppins:wght@400;500;600;700"
+primary_font_type = "sans-serif" # [serif/sans-serif]
+secondary_font = ""
+secondary_font_type = "" # [serif/sans-serif]
+icon_font = "Font Awesome 5 Free"
+
+
+############################# Plugins ##############################
+
+# CSS Plugins
+[[params.plugins.css]]
+link = "plugins/slick/slick.css"
+[[params.plugins.css]]
+link = "plugins/aos/aos.css"
+[[params.plugins.css]]
+link = "plugins/font-awesome/fontawesome.min.css"
+[[params.plugins.css]]
+link = "plugins/font-awesome/brands.css"
+[[params.plugins.css]]
+link = "plugins/font-awesome/solid.css"
+
+# JS Plugins
+[[params.plugins.js]]
+link = "plugins/jquery/jquery.min.js"
+[[params.plugins.js]]
+link = "plugins/bootstrap/bootstrap.min.js"
+[[params.plugins.js]]
+link = "plugins/slick/slick.min.js"
+[[params.plugins.js]]
+link = "plugins/aos/aos.js"
