@@ -1,7 +1,7 @@
 ---
 ############################ Banner ##################################
 banner:
-  title : "A person can type while walking"
+  title : "You can type while walking"
   subtitle : "Writing text doesn't have to make you look down or sit. Execute commands silently."
   character_image: "images/banner/character.webp"
   lamp_image: "images/banner/lamp.webp"
