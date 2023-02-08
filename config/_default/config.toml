@@ -26,11 +26,9 @@ googleAnalytics = "" # example : UA-123-45
 disqusShortname = "themefisher-template" # get your shortname form here : https://disqus.com
 # disable language
 disableLanguages = [] # disable language from here
-[[module.imports]]
-  path = "github.com/integr8or/saasis"
-  [[module.imports.mounts]]
-    source = "assets"
-    target = "assets"
+# [[module.imports]]
+#   path = "github.com/integr8or/saasis"
+
 ############################# Imaging ##############################
 [imaging]
 quality = 100
