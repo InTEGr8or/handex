@@ -1,7 +1,7 @@
 #################### default parameters ################################
 favicon = "img/favicon.png"
-logo_text = "Boilerplate"
-logo = "images/logo.svg"
+logo_text = "Handex.io"
+logo = "images/raised-grip-500w.png"
 logo_width = "101px"
 # Meta data
 description = "This is meta description"
@@ -9,7 +9,7 @@ author = "Themefisher"
 # contact info
 address = "9567 Turner Trace Apt. BC C3G8A4"
 mobile = "+211234565523"
-email = "info@email.com"
+email = "mark@hendex.io"
 footer_info = "This is the start of dummy description text. You can change it whenever you want. ea voluptatem adipisci sapiente?"
 # form action
 contact_form_action = "#" # contact form works with https://formspree.io or formspree alternative

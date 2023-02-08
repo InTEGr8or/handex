@@ -1,8 +1,8 @@
 ---
 ############################ Banner ##################################
 banner:
-  title : "Simple way to structure all of your business"
-  subtitle : "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, seaa  diam nonumy eirmod tempor invidunt ut labore et saldfore"
+  title : "A person can type while walking"
+  subtitle : "Writing text doesn't have to make you look down or sit. Execute commands silently."
   character_image: "images/banner/character.webp"
   lamp_image: "images/banner/lamp.webp"
   cube_image: "images/banner/cube.webp"
@@ -12,26 +12,26 @@ banner:
 ############################ About Info ##################################
 about_info:
   enable: true
-  title: "About us"
-  heading: "Industry leaders use Saasis to organize A business"
-  description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, seaa  diam nonumy eirmod tempor invidunt ut labore et saldzfore "
+  title: "About Handex"
+  heading: "Handex liberates you from the key-board-shackle problem"
+  description: "People love the fine control of character-keyed input and commands, but the key-board is a shackle."
 
   image: "images/feature-image.webp"
   features_list:
-  - "Nulla consequat massa quis enim. Donec pede justo"
+  - "_index.md features_list[0]"
   - "Fringilla vel, aliquet nec, vulputate eget, arcu In"
   - "Curabitur ullamcorper ultricies nisi. Nam eget dui."
 
 ############################ About Features ##################################
 about_features:
   enable: true
-  title: "About us"
-  heading: "Only pay for what you use, period. Start your 14-day"
-  description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, seaa diam nonumy eirmod tempor invidunt ut labore et saldzfore"
+  title: "Handex and You"
+  heading: "Find out how Handex can improve your every day."
+  description: "Handex is so ergonomic that it might be the most comfortable thing you've ever held. Find out why that is good."
 
   image: "images/feature-image-2.webp"
   features_items:
-  - title: "Client Projects"
+  - title: "_index.md feature_items[0]"
     image: "images/features/01.webp"
   - title: "Digital Analytics"
     image: "images/features/02.webp"
