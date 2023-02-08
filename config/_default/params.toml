@@ -16,6 +16,7 @@ contact_form_action = "#" # contact form works with https://formspree.io or form
 newsletter_form_action = "#" # contact form works with https://formspree.io or formspree alternative
 # custom script on header
 custom_script= ""
+googleTagManager = "GTM-ML79Q2F"
 
 # page header background
 page_header= "images/page-header.webp"

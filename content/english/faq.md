@@ -13,7 +13,7 @@ faq:
 - title: "How long will it take to learn?"
   content: "We've developed fun learning tools that you can use at any moment of the day, and wherever you are, so learning Handex will be faster than learning a keyboard."
 - title: "Is Handex a full keyboard?"
-  content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque fermentum vitae ridiculus phaetra, eget leo. Massa laoreet quam viverra sagittis hac netus vitae."
+  content: "Handex uses the full BlueTooth HID keyboard usage table, so every key is included and more are on the way."
 - title: "Do you support authentication?"
   content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque fermentum vitae ridiculus phaetra, eget leo. Massa laoreet quam viverra sagittis hac netus vitae."
 ---
