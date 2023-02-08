@@ -18,9 +18,9 @@ about_info:
 
   image: "images/feature-image.webp"
   features_list:
-  - "_index.md features_list[0]"
-  - "Fringilla vel, aliquet nec, vulputate eget, arcu In"
-  - "Curabitur ullamcorper ultricies nisi. Nam eget dui."
+  - "Instantly available"
+  - "The most ergomic of all devices"
+  - "Execute commands without looking down"
 
 ############################ About Features ##################################
 about_features:
@@ -31,12 +31,12 @@ about_features:
 
   image: "images/feature-image-2.webp"
   features_items:
-  - title: "_index.md feature_items[0]"
+  - title: "Chat silently"
     image: "images/features/01.webp"
-  - title: "Digital Analytics"
+  - title: "Digital Assistant"
     image: "images/features/02.webp"
-  - title: "Creative Ideas"
+  - title: "No distractions"
     image: "images/features/03.webp"
-  - title: "Analytics Toolbox"
+  - title: "AI Friendly"
     image: "images/features/04.webp"
 ---

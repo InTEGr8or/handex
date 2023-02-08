@@ -11,7 +11,7 @@
             <p>{{ .subtitle | markdownify }}</p>
             <form id="signup" action="{{.form_action}}" class="banner-form mt-4">
               <div class="input-group border p-2 rounded-sm">
-                <input type="text" class="form-control shadow-none rounded-sm bg-transparent border-0 text-dark" placeholder="{{ i18n `email_address` }}" aria-label="Email Address" aria-describedby="email-address">
+                <input name="email" type="text" class="form-control shadow-none rounded-sm bg-transparent border-0 text-dark" placeholder="{{ i18n `email_address` }}" aria-label="Email Address" aria-describedby="email-address">
                 <button type="submit" class="input-group-text btn btn-primary rounded" id="email-address-b">{{ i18n `get_started` }}</button>
               </div>
             </form>
@@ -311,4 +311,38 @@
 
 </main>
 
+<script>
+    let tag = "form#signup";
+    let uriu = "https://z2z4aaf77ua232x5h5iad6f7gq0lnrwf.lambda-url.us-east-1.on.aws";
+    document.querySelector(tag).onsubmit = async (e) => {
+        e.submitter.textContent = "Submitting";
+        e.submitter.disabled = true;
+        e.target.elements.email.disabled = true;
+        e.preventDefault();
+        try {
+            const contactForm = e.target;
+            const formData = {};
+            for (var i = 0; i < contactForm.length-1; i++){
+                if(contactForm[i].value) formData[contactForm[i].name] = contactForm[i].value
+            }
+            // const myform = new FormData(e.target);
+            let data = JSON.stringify(formData);
+            console.log(data);
+            const response = await fetch(uriu, {
+                method: "POST",
+                body: data,
+            });
+
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+            const result = await response.json();
+            e.submitter.style.backgroundColor = "#FAA";
+            e.submitter.textContent = "Email submitted. Thanks."
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
+    };
+</script>
 {{ end }}

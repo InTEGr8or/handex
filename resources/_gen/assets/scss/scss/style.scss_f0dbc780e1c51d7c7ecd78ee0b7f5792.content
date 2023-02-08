@@ -2785,7 +2785,7 @@ textarea.form-control-lg {
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem; }
@@ -2837,7 +2837,8 @@ textarea.form-control-lg {
   background-color: transparent;
   border: 1px solid transparent;
   border-radius: 0.25rem;
-  transition: box-shadow 0.15s ease-in-out; }
+  transition: box-shadow 0.15s ease-in-out;
+  vertical-align: top; }
   @media (prefers-reduced-motion: reduce) {
     .navbar-toggler {
       transition: none; } }
