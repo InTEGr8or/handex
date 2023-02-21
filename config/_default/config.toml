@@ -7,7 +7,7 @@ paginate = "6"
 # post excerpt
 summaryLength = "10"
 # google analytics
-googleAnalytics = "" # example : UA-123-45
+googleAnalytics = "G-9QHYLHEZGR" # example : UA-123-45
 # <head>
 # <!-- Google Tag Manager -->
 # <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
