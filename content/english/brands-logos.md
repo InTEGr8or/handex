@@ -1,5 +1,5 @@
 ---
-title: "Used by teams across every industry"
+title: "For use by teams across every industry"
 layout: "partners"
 draft: false
 _build:
