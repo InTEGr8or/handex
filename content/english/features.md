@@ -37,7 +37,8 @@ features:
   image-description: \"Washer with hook +hardware\" adding to list, or other \"Remember to...\" not taking in the midst of activity.
 
 - title: "Each stroke is under your grasp"
-  description: Honeycomb, dots on the red are right under the finger. A center hexagon with six adjacent, the center hex is green, red or orange, or stroke and no fill for the outer hexes.
+  description: The device (called a keydex) conforms to your natural finger movements.
+  image-description: Honeycomb, dots on the red are right under the finger. A center hexagon with six adjacent, the center hex is green, red or orange, or stroke and no fill for the outer hexes.
   image: "images/features/06.webp"
 ---
 
