@@ -1,15 +1,15 @@
 ############# English navigation ##############
 
 # main menu
-[[main]]
-name = "About"
-url = "about/"
-weight = 2
+# [[main]]
+# name = "About"
+# url = "about/"
+# weight = 2
 
-[[main]]
-name = "How It Works"
-url = "how-it-works/"
-weight = 3
+# [[main]]
+# name = "How It Works"
+# url = "how-it-works/"
+# weight = 3
 
 [[main]]
 name = "Features"
@@ -33,17 +33,17 @@ parent = "Pages"
 name = "Pricing"
 url = "pricing/"
 
-[[main]]
-weight = 2
-parent = "Pages"
-name = "Testimonials"
-url = "testimonials/"
+# [[main]]
+# weight = 2
+# parent = "Pages"
+# name = "Testimonials"
+# url = "testimonials/"
 
-[[main]]
-weight = 3
-parent = "Pages"
-name = "Elements"
-url = "elements/"
+# [[main]]
+# weight = 3
+# parent = "Pages"
+# name = "Elements"
+# url = "elements/"
 
 [[main]]
 name = "Contact"
@@ -57,41 +57,41 @@ name = "Our Story"
 url = "about/"
 weight = 1
 
-[[about]]
-name = "Testimonials"
-url = "testimonials/"
-weight = 2
+# [[about]]
+# name = "Testimonials"
+# url = "testimonials/"
+# weight = 2
 
-[[about]]
-name = "How It Works"
-url = "how-it-works/"
-weight = 3
+# [[about]]
+# name = "How It Works"
+# url = "how-it-works/"
+# weight = 3
 
-[[about]]
-name = "Elements"
-url = "elements/"
-weight = 4
+# [[about]]
+# name = "Elements"
+# url = "elements/"
+# weight = 4
 
 
-[[service]]
-name = "Digital Analytics"
-url = "features/"
-weight = 1
+# [[service]]
+# name = "Digital Analytics"
+# url = "features/"
+# weight = 1
 
-[[service]]
-name = "Digital Marketing"
-url = "features/"
-weight = 2
+# [[service]]
+# name = "Digital Marketing"
+# url = "features/"
+# weight = 2
 
-[[service]]
-name = "Custom Project"
-url = "features/"
-weight = 3
+# [[service]]
+# name = "Custom Project"
+# url = "features/"
+# weight = 3
 
-[[service]]
-name = "Marketing Toolbox"
-url = "features/"
-weight = 4
+# [[service]]
+# name = "Marketing Toolbox"
+# url = "features/"
+# weight = 4
 
 
 [[help]]

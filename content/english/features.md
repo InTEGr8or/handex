@@ -3,6 +3,7 @@ title: "Features"
 heading: "Instant keyed text interaction anywhere"
 layout: "features"
 draft: false
+date: 2023-03-09T12:00:00
 
 features:
 - title: "One Keyboard Everywhere"
@@ -20,20 +21,24 @@ features:
   image: "images/features/03.webp"
   image-description: A pinky stretching for the Escape-key
 
-- title: "More than 160 keys"
-  description: "Handex is a full-size keyboard, as far as the available keys goes. Any key on a full-size keyboard, and more, is available to your fingers without repositioning."
+- title: More than 160 keys
+  description: Handex is a full-size keyboard, as far as the available keys goes. Any key on a full-size keyboard, and more, is available to your fingers without repositioning.
   image: "images/features/04.webp"
   image-description: A hand Keydexing special characters and Unicode characters.
 
 - title: "Universal REPL"
   description: "Computer commands are always at your fingertips. Execute commands immediately after grasping the device."
   image: "images/features/05.webp"
-  image-description: "Play Beck" and Hell Yes starts playing. "Get BTC" and a chart shows. "Lights on" and the lights turn on. Images of life commands with custom scripts.
+  image-description: \"Play Beck\" and Hell Yes starts playing. \"Get BTC\" and a chart shows. \"Lights on\" and the lights turn on. Images of life commands with custom scripts.
 
 - title: "Instant note logging"
   description: "Take notes without having to open any app. Instant logging at any time."
   image: "images/features/06.webp"
-  image-description: "Washer with hook +hardware" adding to list, or other "Remember to..." not taking in the midst of activity.
+  image-description: \"Washer with hook +hardware\" adding to list, or other \"Remember to...\" not taking in the midst of activity.
+
+- title: "Each stroke is under your grasp"
+  description: Honeycomb, dots on the red are right under the finger. A center hexagon with six adjacent, the center hex is green, red or orange, or stroke and no fill for the outer hexes.
+  image: "images/features/06.webp"
 ---
 
 Add more features and use cases here and append other feature properties.

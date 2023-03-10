@@ -18,7 +18,7 @@ work_process:
       description: "Lorem ipsum dolor, consetur lectus vehicula eget ante. Neque non tristique tincidunt quam commodo"
       image: "images/work-process/01.webp"
 
-    - subtitle: "Accross All Your Mobile App And Web Applications"
+    - subtitle: "Across All Your Mobile App And Web Applications"
       description: "Lorem ipsum dolor, consetur lectus vehicula eget ante. Neque non tristique tincidunt quam commodo"
       image: "images/work-process/02.webp"
 
@@ -26,7 +26,7 @@ work_process:
       description: "Lorem ipsum dolor, consetur lectus vehicula eget ante. Neque non tristique tincidunt quam commodo"
       image: "images/work-process/03.webp"
 
-    - subtitle: "Accross All Your Mobile App And Web Applications"
+    - subtitle: "Across All Your Mobile App And Web Applications"
       description: "Lorem ipsum dolor, consetur lectus vehicula eget ante. Neque non tristique tincidunt quam commodo"
       image: "images/work-process/02.webp"
 

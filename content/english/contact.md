@@ -1,6 +1,6 @@
 ---
 title: "Contact"
-description: "this is meta description"
+description: "Contact Us Page"
 layout: "contact"
 draft: false
 
@@ -14,19 +14,19 @@ contact_info:
     title: "Press"
     description: "Contact us for breaking news stories on Handex, mobile computing, and accessibility"
     email: "press@handex.io"
-    phone: "(855) 360-0512"
+    phone: "714.468.5854"
 
   - image: "images/features/08.webp"
     title: "Help & Support"
     description: "Help and support for Handex users."
     email: "support@handex.io"
-    phone: "(855) 360-0512"
+    phone: "714.468.5854"
 
   - image: "images/features/09.webp"
     title: "Sales"
     description: "Bulk sales information for early adopters"
     email: "sales@handex.io"
-    phone: "(855) 360-0512"
+    phone: "714.468.5854"
 
 
 ---

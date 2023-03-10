@@ -19,7 +19,7 @@ about_info:
   image: "images/feature-image.webp"
   features_list:
   - "Instantly available"
-  - "The most ergomic of all devices"
+  - "The most ergonomic of all devices"
   - "Execute commands without looking down"
 
 ############################ About Features ##################################

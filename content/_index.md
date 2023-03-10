@@ -38,5 +38,3 @@ That was before Handex
 Walking -> Typeing
 
 ![](images/raised-grip-500w.png#center)
-
-{{<signup>}}

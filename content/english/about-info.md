@@ -1,7 +1,7 @@
 ---
 title: "About us"
-heading: "Industry leaders use Saasis to organize A business"
-description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, seaa  diam nonumy eirmod tempor invidunt ut labore et saldzfore "
+heading: "We are the private company of the inventor and patent holder of Handex technology."
+description: "Handex is a novel and groundbreaking ergonomic typing product."
 draft: false
 _build:
   render: never

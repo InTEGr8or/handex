@@ -4,13 +4,13 @@ logo_text = "Handex.io"
 logo = "images/raised-grip-500w.png"
 logo_width = "101px"
 # Meta data
-description = "This is meta description"
-author = "Themefisher"
+description = "The home of the Handex keydex"
+author = "Handex"
 # contact info
-address = "9567 Turner Trace Apt. BC C3G8A4"
-mobile = "+211234565523"
+address = "407 W Imperial Hwy Ste H 103, Brea, CA 92821-4803"
+mobile = "+17144685854"
 email = "mark@handex.io"
-footer_info = "This is the start of dummy description text. You can change it whenever you want. ea voluptatem adipisci sapiente?"
+footer_info = "We are the private company of the inventor and patent holder of Handex technology."
 # form action
 contact_form_action = "#" # contact form works with https://formspree.io or formspree alternative
 newsletter_form_action = "#" # contact form works with https://formspree.io or formspree alternative
