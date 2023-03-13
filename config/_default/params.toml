@@ -1,7 +1,7 @@
 #################### default parameters ################################
 favicon = "img/favicon.png"
 logo_text = "Handex.io"
-logo = "images/raised-grip-500w.png"
+logo = "images/the-handexagon.png"
 logo_width = "101px"
 # Meta data
 description = "The home of the Handex keydex"
