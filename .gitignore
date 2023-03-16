@@ -1,3 +1,7 @@
 handex.io.code-workspace
 themes/*
-resources/*
+resources/**.blend
+*.blend1
+**/*.blend
+**/*.blend1
+assets/images/blender
