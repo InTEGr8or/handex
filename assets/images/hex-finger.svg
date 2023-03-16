@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 712 410" fill="none"  xmlns:v="https://vecta.io/nano">
+
+    <polygon 
+        id="hexagon"
+        points="
+            0,100 
+            75,0 
+            175,0 
+            280,100 
+            200,200 
+            75,200 
+            Z"
+        stroke-width="2px" stroke-linejoin="round" stroke="#000"/>
+
+</svg>
