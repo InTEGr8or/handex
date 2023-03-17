@@ -6,16 +6,16 @@ draft: false
 
 pricing:
 - name: "Standard"
-  price: "$49"
-  per: "/month"
+  price: "$499"
+  per: "/ea"
   features_list:
-    - "EtiamMaecenas tempus"
-    - "Tellus eget condimentum"
+    - "First come first served queue"
+    - ""
     - "Quam semper libero"
 
 - name: "Data Analytics"
-  price: "$99"
-  per: "/month"
+  price: "$999"
+  per: "/ea"
   features_list:
     - "EtiamMaecenas tempus"
     - "Tellus eget condimentum"
@@ -23,8 +23,8 @@ pricing:
     - "EtiamMaecenas tempus"
 
 - name: "Marketing Toolbox"
-  price: "$249"
-  per: "/month"
+  price: "$1599"
+  per: "/ea"
   features_list:
     - "EtiamMaecenas tempus"
     - "Tellus eget condimentum"
