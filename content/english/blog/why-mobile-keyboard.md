@@ -1,10 +1,10 @@
 ---
-title: "What you need to know about Photography"
+title: "Why Choose a One-Handed Mobile Keyboard?"
 images:
   - "images/undraw/undraw_pair_programming_re_or4x.svg"
 date: 2023-01-24T18:19:25+06:00
-tags: ["Photography"]
-categories: ["Photography"]
+tags: ["keyboard", "mobile","coding", "ascii", "repl"]
+categories: ["mobile"]
 draft: false
 ---
 
