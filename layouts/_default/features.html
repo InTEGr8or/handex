@@ -22,7 +22,7 @@
               <p class="mb-0">{{ .description | markdownify }}</p>
             </div>
             {{$img:= resources.Get (.image) }}
-            <img loading="lazy" id="proud-coder" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" alt="features image" style="width: 50px;" data-aos="cool">
+            <img loading="lazy" id="proud-coder" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" alt="features image" width="130" data-aos="cool">
           </div>
         </div>
         {{ end }}

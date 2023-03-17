@@ -67,7 +67,7 @@
           <div class="rounded-sm border bg-white-blur p-4 d-block d-sm-flex align-items-start">
 
             {{$img:= resources.Get (.image) }}
-            <img loading="lazy" decoding="async" class="img-fluid order-1 mb-3 mb-sm-0" src="{{$img.RelPermalink}}" alt="features image" data-aos="cool">
+            <img loading="lazy" decoding="async" class="img-fluid order-1 mb-3 mb-sm-0" src="{{$img.RelPermalink}}" alt="features image" width="130" data-aos="cool">
 
             <div class="block pe-0 pe-sm-0 order-0">
               <h3 class="h5 mb-3">{{ .title | markdownify }}</h3>

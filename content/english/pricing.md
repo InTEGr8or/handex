@@ -5,15 +5,16 @@ layout: "pricing"
 draft: false
 
 pricing:
-- name: "Standard"
+- name: "Early Adopter"
   price: "$499"
   per: "/ea"
   features_list:
-    - "First come first served queue"
-    - ""
-    - "Quam semper libero"
+    - "Add yourself to the First come first served queue"
+    - "One Handex Keydex"
+    - "Hardware support"
+    - "Support rapid deployment"
 
-- name: "Data Analytics"
+- name: "Tech Advocate"
   price: "$999"
   per: "/ea"
   features_list:
@@ -22,7 +23,7 @@ pricing:
     - "Quam semper libero"
     - "EtiamMaecenas tempus"
 
-- name: "Marketing Toolbox"
+- name: "Long-Term "
   price: "$1599"
   per: "/ea"
   features_list:
