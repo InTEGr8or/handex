@@ -16,7 +16,7 @@ about_info:
   heading: "Handex liberates you from the key-board-shackle problem"
   description: "People love the fine control of character-keyed input and commands, but the key-board is a shackle."
 
-  image: "images/feature-image.webp"
+  image: "images/undraw/undraw_multitasking_re_ffpb.svg"
   features_list:
   - "Instantly available"
   - "The most ergonomic of all devices"
@@ -29,7 +29,7 @@ about_features:
   heading: "Find out how Handex can improve your every day."
   description: "Handex is so ergonomic that it might be the most comfortable thing you've ever held. Find out why that is good."
 
-  image: "images/feature-image-2.webp"
+  image: "images/undraw/undraw_absorbed_in_re_ymd6.svg"
   features_items:
   - title: "Chat silently"
     image: "images/features/01.webp"

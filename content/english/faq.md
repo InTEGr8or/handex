@@ -5,7 +5,7 @@ draft: false
 _build:
   render: never
 
-image: "images/feature-image-3.webp"
+image: "images/undraw/undraw_inbox_cleanup_re_jcbh.svg"
 
 faq:
 - title: "How fast will I be able to type?"

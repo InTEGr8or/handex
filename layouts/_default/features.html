@@ -22,7 +22,7 @@
               <p class="mb-0">{{ .description | markdownify }}</p>
             </div>
             {{$img:= resources.Get (.image) }}
-            <img loading="lazy" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" alt="features image" data-aos="cool">
+            <img loading="lazy" id="proud-coder" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" alt="features image" style="width: 50px;" data-aos="cool">
           </div>
         </div>
         {{ end }}
@@ -52,8 +52,7 @@
         </div>
         <div class="col-lg-4 d-none d-lg-block" data-aos="fade-up">
           {{$img:= resources.Get (.image) }}
-          {{$img:= $img.Resize "500x webp"}}
-          <img loading="lazy" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" alt="features image" width="{{$img.Width}}" height="{{$img.Height}}">
+          <img loading="lazy" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" alt="features image" >
         </div>
       </div>
     </div>
@@ -94,8 +93,7 @@
       <div class="row justify-content-center align-items-center mb-4">
         <div class="col-lg-5 text-center" data-aos="fade-up">
           {{$img:= resources.Get (.image) }}
-          {{$img:= $img.Resize "520x webp"}}
-          <img loading="lazy" decoding="async" src="{{$img.RelPermalink}}" width="{{$img.Width}}" height="{{$img.Height}}" alt="features-image">
+          <img loading="lazy" decoding="async" src="{{$img.RelPermalink}}" alt="features-image">
         </div>
         <div class="col-lg-5">
           <div class="section-title">
@@ -150,8 +148,7 @@
         </div>
         <div class="col-lg-6 mt-5 mt-lg-0 text-center" data-aos="fade-up">
           {{$img:= resources.Get (.Params.image) }}
-          {{$img:= $img.Resize "540x webp"}}
-          <img loading="lazy" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" alt="faq-image" width="{{$img.Width}}" height="{{$img.Height}}">
+          <img loading="lazy" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" alt="faq-image" >
         </div>
       </div>
     </div>
