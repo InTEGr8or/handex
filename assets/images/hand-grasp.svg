@@ -42,14 +42,14 @@
             L 380,250
             C 400 300, 440 290, 430 250
             L 410,200
-            " stroke-width="8px" stroke-linecap="round" stroke-linejoin="round" stroke="#D93" fill="#FFF" />
+            " stroke-width="8px" stroke-linecap="round" stroke-linejoin="round" stroke="#D93" fill="#ffb6b6ff" />
     </defs>
     <path id="background" d="
         M 350,500
         L 350,430
         C 350 350, 400 350, 400 200
         C 400 150, 100 200, 150 500
-        " stroke-width="8px" stroke-linejoin="round" stroke="none" fill="white" />
+        " stroke-width="8px" stroke-linejoin="round" stroke="none" fill="#ffb6b6ff" />
     <path id="heel" d="
         M 350,500
         L 350,430
@@ -66,5 +66,5 @@
         C 0 300, 50 400, 40 150
         C 40 150, 100 150, 100 220
         C 100 350, 100 200, 200 350
-        " stroke-width="8px" stroke-linejoin="round" stroke="#D93" fill="#fff" />
+        " stroke-width="8px" stroke-linejoin="round" stroke="#D93" fill="#ffb6b6ff" />
 </svg>

@@ -8,7 +8,7 @@ date: 2023-03-09T12:00:00
 features:
 - title: "One Keyboard Everywhere"
   description: "Use the same keyboard, designed for your hand, everywhere. You never have to learn a new one."
-  image: "images/features/01.webp"
+  image: "images/undraw/undraw_proud_coder_re_exuy.svg"
   image-description: A person transitioning to a new device or system with their Handex.
 
 - title: "Actuated by flexion"
