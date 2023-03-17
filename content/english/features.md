@@ -28,12 +28,12 @@ features:
 
 - title: "Universal REPL"
   description: "Computer commands are always at your fingertips. Execute commands immediately after grasping the device."
-  image: "images/features/05.webp"
+  image: "images/undraw/undraw_solution_mindset_re_57bf.svg"
   image-description: \"Play Beck\" and Hell Yes starts playing. \"Get BTC\" and a chart shows. \"Lights on\" and the lights turn on. Images of life commands with custom scripts.
 
 - title: "Instant note logging"
   description: "Take notes without having to open any app. Instant logging at any time."
-  image: "images/features/06.webp"
+  image: "images/undraw/undraw_doctors_p6aq.svg"
   image-description: \"Washer with hook +hardware\" adding to list, or other \"Remember to...\" not taking in the midst of activity.
 
 - title: "Each stroke is under your grasp"
