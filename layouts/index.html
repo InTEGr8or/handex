@@ -25,8 +25,9 @@
             {{ end }}
 
             {{$lamp_image:= resources.Get (.lamp_image) }}
-            {{$lamp_image:= $lamp_image.Resize "72x webp"}}
-            <img loading="lazy" decoding="async" class="lamp img-fluid" src="{{$lamp_image.RelPermalink}}" alt="lamp_image" width="{{$lamp_image.Width}}" height="{{$lamp_image.Height}}">
+            {{ if eq $lamp_image.MediaType.SubType "svg" }}
+              <img loading="lazy" decoding="async" class="lamp img-fluid" src="{{$lamp_image.RelPermalink}}" alt="lamp_image" >
+            {{ end }}
 
             {{$cube_image:= resources.Get (.cube_image) }}
             {{$cube_image:= $cube_image.Resize "78x webp"}}

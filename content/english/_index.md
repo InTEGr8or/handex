@@ -4,7 +4,7 @@ banner:
   title : "You can type while walking"
   subtitle : "Writing text doesn't have to make you look down or sit. Execute commands silently."
   character_image: "images/undraw/undraw_jogging_mod.svg"
-  lamp_image: "images/banner/lamp.webp"
+  lamp_image: "images/hand-grasp.svg"
   cube_image: "images/banner/cube.webp"
   chess_image: "images/banner/chess.webp"
   form_action: "#"

@@ -7232,9 +7232,10 @@ a[data-bs-toggle=collapse] {
       .banner-image .chess {
         display: none; } }
   .banner-image .lamp {
-    top: 35%;
+    top: 15%;
     left: 0;
-    width: 64px;
+    width: 120px;
+    transform: rotate(45deg);
     animation-duration: 3s;
     animation-direction: reverse; }
   .banner-image .cube {
