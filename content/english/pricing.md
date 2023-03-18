@@ -9,7 +9,7 @@ pricing:
   price: "$499"
   per: "/ea"
   features_list:
-    - "Add yourself to the First come first served queue"
+    - Add yourself to the First come first served queue
     - "One Handex Keydex"
     - "Hardware support"
     - "Discount on future upgrades"
