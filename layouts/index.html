@@ -189,8 +189,11 @@
               <li>{{.}}</li>
               {{end}}
             </ul>
-
-            <a href="{{ `contact/` | relLangURL }}" class="btn btn-primary d-block">Get Started</a>
+            {{ if .link }}
+              <a href="{{ .link }}" class="btn btn-primary d-block">{{.link_text}}</a>
+            {{ else }}
+              <a href="{{ `contact/` | relLangURL }}" class="btn btn-primary d-block">Get Started</a>
+            {{ end }}
           </div>
         </div>
         {{ end }}
