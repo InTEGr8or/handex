@@ -1,5 +1,5 @@
 #################### default parameters ################################
-favicon = "img/favicon.png"
+favicon = "images/favicon32x32.png"
 logo_text = "Handex.io"
 logo = "images/the-handexagon.png"
 logo_width = "101px"
@@ -12,7 +12,7 @@ mobile = "+17144685854"
 email = "mark@handex.io"
 footer_info = "We are the private company of the inventor and patent holder of Handex technology."
 # form action
-contact_form_action = "#" # contact form works with https://formspree.io or formspree alternative
+contact_form_action = "/create-checkout-session" # contact form works with https://formspree.io or formspree alternative
 newsletter_form_action = "#" # contact form works with https://formspree.io or formspree alternative
 # custom script on header
 custom_script= ""
@@ -27,8 +27,8 @@ enable = true
 # Navigation button
 [navigation_button]
 enable = true
-label = "Try For Free"
-link = "contact/"
+label = "Preorder Now"
+link = "pricing/"
 
 # cookies
 [cookies]
