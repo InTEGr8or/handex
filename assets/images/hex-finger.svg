@@ -1,15 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 712 410" fill="none"  xmlns:v="https://vecta.io/nano">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 600 600" fill="none"  xmlns:v="https://vecta.io/nano">
+    <defs>
+        <path id="h" d="M 0 0 L 600 0" stroke-width="1px" stroke="#AAA"/>
+        <path id="v" d="M 0 0 L 0 600" stroke-width="1px" stroke="#AAA"/>
+    </defs>
+    <use href="#h" transform="translate(0,100)"/>
+    <use href="#h" transform="translate(0,200)"/>
+    <use href="#h" transform="translate(0,300)"/>
+    <use href="#h" transform="translate(0,400)"/>
+    <use href="#h" transform="translate(0,500)"/>
+    <use href="#v" transform="translate(100,0)"/>
+    <use href="#v" transform="translate(200,0)"/>
+    <use href="#v" transform="translate(300,0)"/>
+    <use href="#v" transform="translate(400,0)"/>
+    <use href="#v" transform="translate(500,0)"/>
+    <path d="
+        M 70 500 
+        C 50 300, 50 200, 100 120
+        C 100 110, 200 80, 250 50
+        C 300 20, 300 120, 420 160
 
+        C 350 200, 300 200, 340 195
+        C 180 250, 260 300, 200 300
+        C 200 400, 300 400, 300 500
+        " stroke="#D93" stroke-width="5px" stroke-linejoin="round" fill="#ffb6b6ff"/>
     <polygon 
         id="hexagon"
         points="
-            0,100 
-            75,0 
-            175,0 
-            280,100 
-            200,200 
-            75,200 
+            0,5 
+            8.66,0
+            17.32,5
+            17.32,15
+            8.66,20
+            0,15
             Z"
-        stroke-width="2px" stroke-linejoin="round" stroke="#000"/>
-
+        transform="translate(170,150) scale(10,10) rotate(0)" fill="#FFFFFF60"
+        stroke-width="0.7px" stroke-linejoin="round" stroke="#080"/>
 </svg>
