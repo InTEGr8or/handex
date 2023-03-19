@@ -13,7 +13,7 @@ features:
 
 - title: "Actuated by flexion"
   description: "The natural motions of your fingers compose the characters. It's build around your hand, so you don't have to reorient your finger placement on a board."
-  image: "images/features/02.webp"
+  image: "images/hex-finger.svg"
   image-description: A finger executing multiple characters by flexion or extension.
 
 - title: "No repositioning"

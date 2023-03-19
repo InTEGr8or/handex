@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 600 600" fill="none"  xmlns:v="https://vecta.io/nano">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-0 0 590 500" fill="none"  xmlns:v="https://vecta.io/nano">
     <defs>
         <path id="h" d="M 0 0 L 600 0" stroke-width="1px" stroke="#AAA"/>
         <path id="v" d="M 0 0 L 0 600" stroke-width="1px" stroke="#AAA"/>
@@ -13,26 +13,45 @@
     <use href="#v" transform="translate(300,0)"/>
     <use href="#v" transform="translate(400,0)"/>
     <use href="#v" transform="translate(500,0)"/>
-    <path d="
-        M 70 500 
-        C 50 300, 50 200, 100 120
-        C 100 110, 200 80, 250 50
-        C 300 20, 300 120, 420 160
-
-        C 350 200, 300 200, 340 195
-        C 180 250, 260 300, 200 300
-        C 200 400, 300 400, 300 500
-        " stroke="#D93" stroke-width="5px" stroke-linejoin="round" fill="#ffb6b6ff"/>
-    <polygon 
-        id="hexagon"
-        points="
-            0,5 
-            8.66,0
-            17.32,5
-            17.32,15
-            8.66,20
-            0,15
+    <path 
+        d="
+            M 0,5 
+            L 8.66,0
+            L 17.32,5
+            L 17.32,15
+            L 17.32,22
+            L 21,26
+            L 11,29
+            L 0,28
             Z"
-        transform="translate(170,150) scale(10,10) rotate(0)" fill="#FFFFFF60"
-        stroke-width="0.7px" stroke-linejoin="round" stroke="#080"/>
+        transform="translate(275,110) scale(11.8,11.8) rotate(2.0)" fill="black"
+        stroke-width="0.7px" stroke-linejoin="round" stroke-linecap="round" stroke="#000"/>
+    <path 
+        id="hand" 
+        d="
+        M 0,620 
+        C 11,373 11,216 30,193 
+        C 55,176 89,162 130,142 
+        C 225,61 322,13 356,3 
+        C 448,29 515,93 547,121 
+        c 21,120 -8,89 6,186 
+        c -88,38 -84,-89 -72,-159 
+        c -1,26 -109,-31 -106,-50 
+        c 11,16 -102,75 -102,75 
+        c 0,0 -25,136 -40,128 
+        c 39,38 90,110 106,141 
+        c 61,27 222,-60 243,1
+        c 0,0 20,70 -190,110
+        " stroke="#dd9933" stroke-width="5px" stroke-linejoin="round" fill="#ffb6b6ff" />
+    <path 
+        id="hexagon"
+        d="
+            M 0,15
+            L 0,5 
+            L 8.66,0
+            L 17.32,5
+            L 17.32,15
+            "
+        transform="translate(275,110) scale(11.8,11.8) rotate(2.0)" fill="#000"
+        stroke-width="2px" stroke-linecap="round" stroke-linejoin="round" stroke="#080"/>
 </svg>
