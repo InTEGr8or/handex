@@ -18,7 +18,7 @@ features:
 
 - title: "No repositioning"
   description: "Repositioning your fingers on a board is the biggest hurdle of typing-training, so don't do it. Handex is built around your finger movements, so you'll never have to reposition your fingers to find a key."
-  image: "images/features/03.webp"
+  image: "images/pinky-stretch-inkscape.svg"
   image-description: A pinky stretching for the Escape-key
 
 - title: More than 160 keys
