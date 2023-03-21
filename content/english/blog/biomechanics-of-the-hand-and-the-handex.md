@@ -38,4 +38,4 @@ Users of the Handex never have to look down at their hand to reposition a finger
 
 The Handex encorporates chorded key combinations to allow 160+ keystrokes, plus special keys.
 
-Initial training is aided by a training tutor that you can use at any time with your mobile device and earbuds or the screen. You can become productive on this new keydex with just 30 minutes a day training at a leasurely and fun pace.
+Initial training is aided by a training tutor that you can use at any time with your mobile device and earbuds or the screen. You can become productive on this new keydex with just 30 minutes a day of training at a leasurely and fun pace.
