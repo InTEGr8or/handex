@@ -3,7 +3,7 @@ title: "Using a One-Handed Keyboard in Gaming and VR"
 description: "One-handed keyboards can be indespensable in digital designed enviroments"
 images:
   - "images/undraw/undraw_developer_activity_re_39tg.svg"
-date: 2023-03-18T11:33:57+06:00
+date: 2023-03-18T11:33:57+08:00
 tags: ["gaming", "vr", "metaverse"]
 categories: ["LifeStyle"]
 draft: false
