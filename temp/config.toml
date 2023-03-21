@@ -18,7 +18,7 @@ min_version = 0.19
   images = [] #add images here as "img/name.ext" (points to s./static/img/) to populate the default og and twitter <meta> attributes -> see ./layouts/partials/head.html
   signupUrl = "https://dgrl2rrg5mklw2ra7zkmumg5iu0pdwpn.lambda-url.us-east-1.on.aws"
   googleSiteVerification = "google-site-verification=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" # add your google site verification code here
-  googleTagManager = "GTM-xxxxxxxxxx" # add your google tag manager code here
+  googleTagManager = "GTM-ML79Q2F" # add your google tag manager code here
   googleAnalytics = "UA-xxxxxxxxxx-x" # add your google analytics code here
 
 [author]

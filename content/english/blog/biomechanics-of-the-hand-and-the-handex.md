@@ -5,7 +5,7 @@ description: "How well can a novel keyboard design get"
 images:
   - "images/pinky-stretch-inkscape.svg"
 date: 2023-03-20T11:35:57+08:00
-tags: ["biomechanics", "keyboard", "indexable","phalanges"]
+tags: ["biomechanics", "keyboard", "indexable", "phalanges"]
 categories: ["LifeStyle"]
 draft: false
 ---
