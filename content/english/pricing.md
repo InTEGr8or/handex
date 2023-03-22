@@ -1,6 +1,6 @@
 ---
 title: "Plans & Pricing"
-heading: "Interested in supporting project development?"
+heading: "Interested in supporting Handex development?"
 layout: "pricing"
 draft: false
 

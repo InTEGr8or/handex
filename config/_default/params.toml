@@ -20,6 +20,10 @@ custom_script= ""
 # page header background
 page_header= "images/page-header.webp"
 
+# google analytics
+googleAnalytics = 'G-9QHYLHEZGR'
+googleTagManager = 'GTM-ML79Q2F'
+
 # Preloader
 [preloader]
 enable = true
@@ -63,6 +67,3 @@ title = "linkedin"
 icon = "fab fa-linkedin" # fontawesome icon pack : https://fontawesome.com/icons/
 link = "#"
 
-# google analytics
-googleAnalytics = 'G-9QHYLHEZGR'
-googleTagManager = 'GTM-ML79Q2F'
