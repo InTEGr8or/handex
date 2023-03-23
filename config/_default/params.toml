@@ -5,6 +5,7 @@ logo = "images/the-handexagon.png"
 logo_width = "101px"
 # Meta data
 description = "The home of the Handex keydex"
+home = "Handex"
 author = "Handex"
 # contact info
 address = "407 W Imperial Hwy Ste H 103, Brea, CA 92821-4803"
@@ -23,6 +24,12 @@ page_header= "images/page-header.webp"
 # google analytics
 googleAnalytics = 'G-9QHYLHEZGR'
 googleTagManager = 'GTM-ML79Q2F'
+
+[profile]
+enable = true
+
+[login]
+enable = true
 
 # Preloader
 [preloader]

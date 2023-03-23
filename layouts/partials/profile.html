@@ -1,0 +1,17 @@
+<!-- profile/login -->
+<div class="profile-login d-flex align-items-center">
+    {{ if site.Params.profile.enable }}
+    <div class="profile">
+    <a href="{{ site.Params.profile.link | relLangURL }}">
+        <img loading="lazy" decoding="async" src="{{ site.Params.profile.image }}" alt="{{ site.Params.profile.name }}">
+    </a>
+    </div>
+    {{ end }}
+    {{ if site.Params.login.enable }}
+    <div class="login">
+    <a href="{{ site.Params.login.link | relLangURL }}">
+        <i class="fas fa-user"></i>
+    </a>
+    </div>
+    {{ end }}
+</div>

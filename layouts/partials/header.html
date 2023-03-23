@@ -19,7 +19,7 @@
         <ul class="navbar-nav mx-auto">
 
           <li class="nav-item {{if .IsHome}}active{{end}}">
-            <a class="nav-link" href="{{ site.BaseURL | relLangURL }}">Home</a>
+            <a class="nav-link" href="{{ site.BaseURL | relLangURL }}">{{ site.Params.home }}</a>
           </li>
           
           {{ $currentPage := . }}
@@ -84,6 +84,7 @@
           </li>
         </ul>
 
+        {{ partial "profile.html" }}
         {{ if site.Params.navigation_button.enable }}
         <!-- get start btn -->
         <div class="d-block d-xl-inline-block mt-2 mt-lg-0">
