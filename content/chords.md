@@ -1,6 +1,6 @@
 ---
 title: Chords
-date:Fri Mar 24 2023 13:00:57 GMT-0700 (Pacific Daylight Time)
+date:Fri Mar 24 2023 13:03:40 GMT-0700 (Pacific Daylight Time)
 ---
 Report,Chord,Strokes
 a and A,4,ipf
