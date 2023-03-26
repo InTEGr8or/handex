@@ -1,41 +1,63 @@
 <form id="chordifyForm">
     </form><input type="text" id="phrase" />
-    <button id="chordify" default="submit" type="default">Chordify</button>
+    <button id="chordify" type="submit">Chordify</button>
 </form>
-<pre id="legend" class="bold">t = thumb
-i = index
-m = middle
-r = ring
-p = pinky
+<details>
+    <summary>Chord Syntax Legend</summary>
+    <pre id="legend" class="bold">t = thumb
+    i = index
+    m = middle
+    r = ring
+    p = pinky
 
-mf = metacarpo-flexion
-pf = proximal-flexion
-me = metacarpo-extension</pre>
-<pre id="chordified" class="bold"></pre>
-<textarea id="testChord" cols="100" rows="10">
+    mf = metacarpo-flexion
+    pf = proximal-flexion
+    me = metacarpo-extension</pre>
+</details>
+<div id="chord-area" class="row col-md-12">
+    <div class="col-md-6">
+        <h6>Chord strokes</h6>
+        <pre id="chordified" class="bold" ></pre>
+    </div>
+    <div class="col-md-6">
+        <h6 id="test-timer">Test: <span id="timer">0</span> sec</h6>
+        <textarea id="testChord" cols="50" rows="10" >
 
-</textarea>
+        </textarea>
+    </div>
+</div>
 <script type="text/javascript">
-  var chordify = function() {
+    var testChord = document.getElementById('testChord').value;
     const lambdaUrl = 'https://r2swydpx7syeiycnrnny67bxii0myurm.lambda-url.us-east-1.on.aws/?phrase=';
-    var phrase = document.getElementById('phrase').value;
     var chordified = document.getElementById('chordified');
-    chordified.innerHTML = '';
-    var chords = fetch(lambdaUrl + phrase)
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            chordified.innerHTML = data;
-            return data;
-        });
-    for (var i = 0; i < chords.length; i++) {
-      var chord = chords[i];
-      var span = document.createElement('span');
-      span.className = 'chord';
-      span.innerHTML = chord;
-      chordified.appendChild(span);
-    }
+    var timer = document.getElementById('timer');
+    var timerValue = 0;
+    var chordify = function() {
+        chordified.innerHTML = '';
+        var phrase = document.getElementById('phrase').value;
+        var chords = fetch(lambdaUrl + phrase)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                chordified.innerHTML = data;
+                return data;
+            });
+        for (var i = 0; i < chords.length; i++) {
+        var chord = chords[i];
+        var span = document.createElement('span');
+        span.className = 'chord';
+        span.innerHTML = chord;
+        chordified.appendChild(span);
+        }
+    };
+    var runTimer = function() {
+        if(testChord.length == 0) {
+            timer.innerHTML = 0;
+            return;
+        }
+
   };
   document.getElementById('chordify').addEventListener('click', chordify);
+  document.getElementById('testChord').addEventListener('click', chordify);
 </script>
