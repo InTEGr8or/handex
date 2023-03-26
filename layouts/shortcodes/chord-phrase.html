@@ -60,6 +60,7 @@
         console.log("runTimer", timerValue);
         if(testChord.value.trim().length == 0) {
             clearInterval(timerHandle);
+            timerHandle = null;
             timer.innerHTML = 0;
             return;
         }
@@ -77,6 +78,7 @@
         .addEventListener('click', function() {
             testChord.value = '';
             clearInterval(timerHandle);
+            timerHanle = null;
             timer.innerHTML = 0;
             timerValue = 0;
     });
