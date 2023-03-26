@@ -1,0 +1,41 @@
+<form id="chordifyForm">
+    </form><input type="text" id="phrase" />
+    <button id="chordify" default="submit" type="default">Chordify</button>
+</form>
+<pre id="legend" class="bold">t = thumb
+i = index
+m = middle
+r = ring
+p = pinky
+
+mf = metacarpo-flexion
+pf = proximal-flexion
+me = metacarpo-extension</pre>
+<pre id="chordified" class="bold"></pre>
+<textarea id="testChord" cols="100" rows="10">
+
+</textarea>
+<script type="text/javascript">
+  var chordify = function() {
+    const lambdaUrl = 'https://r2swydpx7syeiycnrnny67bxii0myurm.lambda-url.us-east-1.on.aws/?phrase=';
+    var phrase = document.getElementById('phrase').value;
+    var chordified = document.getElementById('chordified');
+    chordified.innerHTML = '';
+    var chords = fetch(lambdaUrl + phrase)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            chordified.innerHTML = data;
+            return data;
+        });
+    for (var i = 0; i < chords.length; i++) {
+      var chord = chords[i];
+      var span = document.createElement('span');
+      span.className = 'chord';
+      span.innerHTML = chord;
+      chordified.appendChild(span);
+    }
+  };
+  document.getElementById('chordify').addEventListener('click', chordify);
+</script>

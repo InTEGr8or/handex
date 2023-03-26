@@ -7382,3 +7382,7 @@ a[data-bs-toggle=collapse] {
     left: 30px; }
   .post-slider:hover .slick-arrow.nextArrow {
     right: 30px; }
+
+pre.bold {
+  font-weight: bold;
+  font-size: 22px; }
