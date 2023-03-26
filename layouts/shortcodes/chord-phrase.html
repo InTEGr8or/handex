@@ -22,7 +22,7 @@
     <div class="col-md-6">
         <div class="row">
         <h6 id="test-timer" class="col-md-10">Test: <span id="timer">0</span> sec</h6>
-        <button id="timerHandle" class="col-md-2">X</buttom>
+        <button id="timerCancel" class="col-md-2">X</button>
         </div>
         <textarea id="testChord" cols="50" rows="5" ></textarea>
     </div>
@@ -33,7 +33,7 @@
     var chordified = document.getElementById('chordified');
     var timer = document.getElementById('timer');
     var timerValue = 0;
-    var timerHandlet
+    var timerHandle = null;
     var chordify = function() {
         chordified.innerHTML = '';
         var phrase = document.getElementById('phrase').value;
@@ -48,7 +48,6 @@
         for (var i = 0; i < chords.length; i++) {
         var chord = chords[i];
         var span = document.createElement('span');
-        span.className = 'chord';
         span.innerHTML = chord;
         chordified.appendChild(span);
         }
@@ -65,13 +64,16 @@
             return;
         }
         console.log("testChord:", testChord.value);
-        timerHandle = setInterval(runTimer, 1000);
+        console.log("timerHandle:", timerHandle);
+        if(!timerHandle) {
+            timerHandle = setInterval(runTimer, 1000);
+        }
     };
     document.getElementById('chordify')
         .addEventListener('click', chordify);
     document.getElementById('testChord')
         .addEventListener('input', startTimer);
-    document.getElementById('timerHandle')
+    document.getElementById('timerCancel')
         .addEventListener('click', function() {
             testChord.value = '';
             clearInterval(timerHandle);
