@@ -33,6 +33,12 @@ parent = "Pages"
 name = "Pricing"
 url = "pricing/"
 
+[[main]]
+weight = 1
+parent = "Pages"
+name = "Phrases"
+url = "phrases/"
+
 # [[main]]
 # weight = 2
 # parent = "Pages"
