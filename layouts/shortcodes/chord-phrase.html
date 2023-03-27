@@ -24,11 +24,11 @@
         <h6 id="test-timer" class="col-md-10">Test: <span id="timer">0</span> sec</h6>
         <button id="timerCancel" class="col-md-2">X</button>
         </div>
-        <textarea id="testChord" style="min-width: 100%" title="test chord"></textarea>
+        <textarea id="testArea" style="min-width: 100%" title="test chord"></textarea>
     </div>
 </div>
 <script type="text/javascript">
-    var testChord = document.getElementById('testChord');
+    var testArea = document.getElementById('testArea');
     const lambdaUrl = 'https://r2swydpx7syeiycnrnny67bxii0myurm.lambda-url.us-east-1.on.aws/?phrase=';
     var chordified = document.getElementById('chordified');
     var timer = document.getElementById('timer');
@@ -40,7 +40,9 @@
         if(phrase.trim().length == 0) {
             return;
         }
-        const phraseEncoded = encodeURIComponent(phrase);
+        console.log("phrase:", phrase);
+        const phraseEncoded = encodeURIComponent(btoa(phrase));
+        console.log("phraseEncoded:", phraseEncoded);
         var chords = fetch(lambdaUrl + phraseEncoded)
             .then(function(response) {
                 return response.json();
@@ -62,25 +64,28 @@
     };
     var startTimer = function() {
         console.log("runTimer", timerValue);
-        if(testChord.value.trim().length == 0) {
+        if(testArea.value.trim().length == 0) {
             clearInterval(timerHandle);
             timerHandle = null;
             timer.innerHTML = 0;
             return;
         }
-        console.log("testChord:", testChord.value);
+        console.log("testArea:", testArea.value);
         console.log("timerHandle:", timerHandle);
         if(!timerHandle) {
             timerHandle = setInterval(runTimer, 1000);
         }
     };
+    // TODO: check testArea to see if it contains each of the characters listed in the first column of chordified.
+    // If it does, then highlight the character in the chordified.
+    
     document.getElementById('chordify')
         .addEventListener('click', chordify);
-    document.getElementById('testChord')
+    document.getElementById('testArea')
         .addEventListener('input', startTimer);
     document.getElementById('timerCancel')
         .addEventListener('click', function() {
-            testChord.value = '';
+            testArea.value = '';
             clearInterval(timerHandle);
             timerHanle = null;
             timer.innerHTML = 0;
