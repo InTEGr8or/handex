@@ -7385,4 +7385,4 @@ a[data-bs-toggle=collapse] {
 
 pre.bold {
   font-weight: bold;
-  font-size: 16px; }
+  font-size: 12px; }
