@@ -1,4 +1,4 @@
-<form id="chordifyForm">
+<form id="chordifyForm" action="javascript:chordify();">
     </form><input type="text" id="phrase" />
     <button id="chordify" type="submit">Chordify</button>
 </form>
@@ -21,8 +21,8 @@
     </div>
     <div class="col-md-6" style="max-width: 40%">
         <div class="row">
-        <h6 id="test-timer" class="col-md-10">Test: <span id="timer">0</span> sec</h6>
-        <button id="timerCancel" class="col-md-2">X</button>
+            <h6 id="test-timer" class="col-md-10">Test: <span id="timer">0</span> sec</h6>
+            <button id="timerCancel" class="col-md-2">X</button>
         </div>
         <textarea id="testArea" style="min-width: 100%" title="test chord"></textarea>
     </div>
@@ -32,8 +32,35 @@
     const lambdaUrl = 'https://r2swydpx7syeiycnrnny67bxii0myurm.lambda-url.us-east-1.on.aws/?phrase=';
     var chordified = document.getElementById('chordified');
     var timer = document.getElementById('timer');
+    var phrase = document.getElementById('phrase');
     var timerValue = 0;
     var timerHandle = null;
+
+    var Timer = function(timerState) {
+
+        this.stop = function() {
+            if (timerObj) {
+                clearInterval(timerObj);
+                timerObj = null;
+            }
+            return this;
+        }
+
+        // start timer using current settings (if it's not already running)
+        this.start = function() {
+            if (!timerObj) {
+                this.stop();
+                timerObj = setInterval(fn, t);
+            }
+            return this;
+        }
+
+        // start with new or original interval, stop current interval
+        this.reset = function(newT = t) {
+            t = newT;
+            return this.stop().start();
+        }
+    };
     var chordify = function() {
         chordified.innerHTML = '';
         var phrase = document.getElementById('phrase').value;
@@ -58,19 +85,28 @@
         chordified.appendChild(span);
         }
     };
+    var testTimer = function() {
+        if(testArea.value.trim().length == 0) {
+            clearInterval(timerHandle);
+            timerHandle = null;
+            timer.innerHTML = 0;
+            timerValue = 0;
+            return;
+        }
+        if(testArea.value.trim() == phrase.value.trim()) {
+            // stop timer
+            clearInterval(timerHandle);
+            timerHandle = null;
+            return;
+        }
+        startTimer();
+    };
     var runTimer = function() {
         timerValue++;
         timer.innerHTML = timerValue;
     };
     var startTimer = function() {
         console.log("runTimer", timerValue);
-        if(testArea.value.trim().length == 0) {
-            clearInterval(timerHandle);
-            timerHandle = null;
-            timer.innerHTML = 0;
-            return;
-        }
-        console.log("testArea:", testArea.value);
         console.log("timerHandle:", timerHandle);
         if(!timerHandle) {
             timerHandle = setInterval(runTimer, 1000);
@@ -81,13 +117,13 @@
     
     document.getElementById('chordify')
         .addEventListener('click', chordify);
-    document.getElementById('testArea')
-        .addEventListener('input', startTimer);
+    phrase.addEventListener('input', chordify);
+    testArea.addEventListener('input', testTimer);
     document.getElementById('timerCancel')
         .addEventListener('click', function() {
             testArea.value = '';
             clearInterval(timerHandle);
-            timerHanle = null;
+            timerHandle = null;
             timer.innerHTML = 0;
             timerValue = 0;
     });
