@@ -37,7 +37,11 @@
     var chordify = function() {
         chordified.innerHTML = '';
         var phrase = document.getElementById('phrase').value;
-        var chords = fetch(lambdaUrl + phrase)
+        if(phrase.trim().length == 0) {
+            return;
+        }
+        const phraseEncoded = encodeURIComponent(phrase);
+        var chords = fetch(lambdaUrl + phraseEncoded)
             .then(function(response) {
                 return response.json();
             })
