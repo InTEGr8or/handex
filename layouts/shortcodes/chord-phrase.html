@@ -36,7 +36,7 @@
 </div>
 <script type="text/javascript">
     var testArea = document.getElementById('testArea');
-    const lambdaUrl = 'https://r2swydpx7syeiycnrnny67bxii0myurm.lambda-url.us-east-1.on.aws/?phrase=';
+    const lambdaUrl = 'https://r2swydpx7syeiycnrnny67bxii0myurm.lambda-url.us-east-1.on.aws/';
     var chordified = document.getElementById('chordified');
     var timer = document.getElementById('timer');
     var phrase = document.getElementById('phrase');
@@ -76,9 +76,17 @@
             return;
         }
         console.log("phrase:", phrase);
-        const phraseEncoded = encodeURIComponent(btoa(phrase));
+        const phraseEncoded = btoa(phrase);
         console.log("phraseEncoded:", phraseEncoded);
-        var chords = fetch(lambdaUrl + phraseEncoded)
+        var chords = fetch(lambdaUrl, {
+                method: 'POST',
+                headers: {
+                    
+                },
+                body: JSON.stringify({
+                    phrase: phraseEncoded
+                })
+            })
             .then(function(response) {
                 return response.json();
             })
