@@ -7387,9 +7387,10 @@ pre.bold {
   font-weight: bold;
   font-size: 12px; }
 
-#testArea {
+textarea#testArea {
   font-size: 18px;
   font-weight: bold;
   font-family: monospace;
   max-width: 40%;
-  min-height: 200px; }
+  min-height: 200px;
+  margin-top: 100px; }
