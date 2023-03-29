@@ -37,7 +37,7 @@ z and Z,71,"mpf, tpf"
 0 and ),34D,"imf, ipf, ppf"
 Return (ENTER),41,"ipf, tpf"
 ESCAPE,DC,"ppf, pmf"
-DELETE (Backspace),343,"imf, ipf, imf"
+DELETE (Backspace),C1,"pmf, tpf"
 Tab,CD,"pmf, ppf"
 Spacebar,1,tpf
 - and (underscore),38,"imf, mme"
