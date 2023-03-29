@@ -94,12 +94,6 @@
                 chordified.innerHTML = data;
                 return data;
             });
-        for (var i = 0; i < chords.length; i++) {
-        var chord = chords[i];
-        var span = document.createElement('span');
-        span.innerHTML = chord;
-        chordified.appendChild(span);
-        }
     };
     var testTimer = function() {
         if(testArea.value.trim().length == 0) {
