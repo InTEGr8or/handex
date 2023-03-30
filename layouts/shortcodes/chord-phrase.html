@@ -80,9 +80,8 @@
         console.log("phraseEncoded:", phraseEncoded);
         var chords = fetch(lambdaUrl, {
                 method: 'POST',
-                mode: 'no-cors',
                 headers: {
-                    
+
                 },
                 body: JSON.stringify({
                     phrase: phraseEncoded
