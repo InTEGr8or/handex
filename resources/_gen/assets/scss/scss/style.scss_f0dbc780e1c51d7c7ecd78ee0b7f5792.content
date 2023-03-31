@@ -7394,3 +7394,10 @@ textarea#testArea {
   max-width: 40%;
   min-height: 200px;
   margin-top: 150px; }
+
+#chordified div.outstanding {
+  color: #660; }
+
+#chordified div.completed {
+  color: #690;
+  background-color: #555; }

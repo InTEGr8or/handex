@@ -7,5 +7,27 @@
 			"path": "../sam-contact-form"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"workbench.colorCustomizations": {
+			"tab.activeBackground": "#4a450085",
+			"tab.activeBorderTop": "#ffff00",
+			"panelTitle.inactiveForeground": "#beb20b7c",
+			"panelTitle.activeForeground": "#ffee00",
+			"terminal.tab.activeBorder": "#ff0000",
+			"terminal.tab.activeBackground": "#0000ff",
+			"terminalCursor.background": "#ff0000",
+			"tab.activeForeground": "#ff6199",
+			"editorLineNumber.foreground": "#244",
+			"editor.findMatchHighlightBackground": "#b3b00050",
+			"editor.findMatchBorder": "#ff0000b7",
+			"editor.selectionBackground": "#b3b00050",
+			"menu.selectionBackground": "#beb20b7c",
+			"menu.selectionBorder": "#ff0000",
+			"menubar.selectionBorder": "#ff6600",
+			"gitDecoration.ignoredResourceForeground": "#464600",
+			"activityBar.background": "#213205",
+			"titleBar.activeBackground": "#2E4707",
+			"titleBar.activeForeground": "#F5FDE9"
+		}
+	}
 }
