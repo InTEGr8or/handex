@@ -7392,7 +7392,7 @@ textarea#testArea {
   font-weight: bold;
   font-family: monospace;
   max-width: 100%;
-  min-height: 200px;
+  min-height: 70px;
   margin-top: 0px; }
 
 #chordified div {
@@ -7401,7 +7401,8 @@ textarea#testArea {
 
 #chordified div.outstanding {
   color: #630;
-  font-weight: bold; }
+  font-weight: bold;
+  padding: 0 4px; }
 
 #chordified div.next {
   color: #630;
