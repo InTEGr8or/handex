@@ -112,15 +112,15 @@
             timerValue = 0;
             return;
         }
+        const nextChar = chordified.getElementsByClassName('outstanding')[0];
+        if(event.data == nextChar.getAttribute("name").replace("Space", " ")){
+            nextChar.setAttribute("class", "completed");
+        }
         if(testArea.value.trim() == phrase.value.trim()) {
             // stop timer
             clearInterval(timerHandle);
             timerHandle = null;
             return;
-        }
-        const nextChar = chordified.getElementsByClassName('outstanding')[0];
-        if(event.data == nextChar.getAttribute("name").replace("Space", " ")){
-            nextChar.setAttribute("class", "completed");
         }
         startTimer();
     };
