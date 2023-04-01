@@ -110,10 +110,15 @@
                     chordified.appendChild(rowDiv);
                 });
                 setNext();
+                testArea.focus();
             });
     };
     var setNext = () => {
-        chordified.getElementsByClassName('outstanding')[0].setAttribute("class", "outstanding next");
+        const outstanding = chordified.getElementsByClassName('outstanding');
+        if(outstanding.length == 0) {
+            return;
+        };
+        outstanding[0].setAttribute("class", "outstanding next");
     }
     var testTimer = function(event) {
         if(testArea.value.trim().length == 0) {
@@ -125,7 +130,7 @@
             return;
         }
         const curChar = chordified.getElementsByClassName('outstanding')[0];
-        if(event.data == curChar.getAttribute("name").replace("Space", " ")){
+        if(curChar && event.data == curChar.getAttribute("name").replace("Space", " ")){
             curChar.setAttribute("class", "completed");
         }
         setNext();
@@ -153,8 +158,6 @@
             timerHandle = setInterval(runTimer, 1000);
         }
     };
-    // TODO: check testArea to see if it contains each of the characters listed in the first column of chordified.
-    // If it does, then highlight the character in the chordified.
     
     document.getElementById('chordify')
         .addEventListener('click', chordify);
