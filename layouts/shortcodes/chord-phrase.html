@@ -11,15 +11,17 @@
 </form>
 <details>
     <summary>Chord Syntax Legend</summary>
-    <div id="legend" class="bold">t = thumb
-    i = index
-    m = middle
-    r = ring
-    p = pinky
+    <pre id="legend" class="bold">
+        t = thumb
+        i = index
+        m = middle
+        r = ring
+        p = pinky
 
-    mf = metacarpo-flexion
-    pf = proximal-flexion
-    me = metacarpo-extension</div>
+        mf = metacarpo-flexion
+        pf = proximal-flexion
+        me = metacarpo-extension
+    </pre>
 </details>
 <div id="chord-area" class="row col-md-12">
     <div class="col-md-12" style="max-width: 100%">
@@ -27,9 +29,9 @@
         <pre id="chordified" class="bold" ></pre>
     </div>
     <div id="testAreaDiv" class="col-md-12" >
-        <div class="row col-sm-12">
-            <div id="test-timer" class="col-sm-8">Test: <span id="timer">0</span> sec</div>
-            <button id="timerCancel" class="col-sm-1">X</button>
+        <div style="width: 100%" class="row">
+            <div id="test-timer" style="width: 75%; float: left;">Test: <span id="timer">0</span> sec</div>
+            <button id="timerCancel" style="width: 20%; float: right;">X</button>
         </div>
         <div class="row">
             <textarea id="testArea" style="min-width: 80%" title="test chord"></textarea>
@@ -93,7 +95,11 @@
                 return response.json();
             })
             .then(function(chordList) {
-                const chordRows = chordList.split('<br>');
+                if(chordList.error) {
+                    console.log("chordList.error:", chordList.error);
+                    return;
+                }
+                const chordRows = chordList.ascii.split('<br>');
                 // Add each row to the chordified element as a separate div with the first character of the row as the name.
                 chordRows.forEach(function(row, index) {
                     const rowDiv = document.createElement('div');
@@ -103,8 +109,12 @@
                     rowDiv.innerHTML = row;
                     chordified.appendChild(rowDiv);
                 });
+                setNext();
             });
     };
+    var setNext = () => {
+        chordified.getElementsByClassName('outstanding')[0].setAttribute("class", "outstanding next");
+    }
     var testTimer = function(event) {
         if(testArea.value.trim().length == 0) {
             // stop timer
@@ -118,7 +128,7 @@
         if(event.data == curChar.getAttribute("name").replace("Space", " ")){
             curChar.setAttribute("class", "completed");
         }
-        chordified.getElementsByClassName('outstanding')[0].setAttribute("class", "outstanding next");
+        setNext();
         if(testArea.value.trim() == phrase.value.trim()) {
             // stop timer
             clearInterval(timerHandle);
@@ -130,6 +140,11 @@
     var runTimer = function() {
         timerValue++;
         timer.innerHTML = timerValue;
+    };
+    var resetChordifiedCompletion = function() {
+        Array.from(chordified.getElementsByTagName('div')).forEach(function(element) {
+            element.setAttribute("class", "outstanding");
+        })
     };
     var startTimer = function() {
         console.log("runTimer", timerValue);
@@ -156,8 +171,6 @@
             timerHandle = null;
             timer.innerHTML = 0;
             timerValue = 0;
-            Array.from(chordified.getElementsByClassName('completed')).forEach(function(element) {
-                element.setAttribute("class", "outstanding");
-            })
+            resetChordifiedCompletion();
     });
 </script>
