@@ -7411,7 +7411,8 @@ textarea#testArea {
   border-radius: 4px;
   padding: 0 6px 0 0;
   font-weight: bold;
-  font-size: 1.2em; }
+  font-size: 1.2em;
+  line-height: 1.4em; }
 
 #chordified div span {
   color: black;
