@@ -34,16 +34,19 @@ textarea#testArea {
 }
 
 #chordified div span {
+   color: black;
    margin: 0 4px 0 0;
-   font-size: 1.4em;
 }
 
 #chordified div.next span {
+   font-size: 1.4em;
    background-color: #FA6;
    padding: 0 8px 0 4px;
 }
 
 #chordified div.completed {
    color: #690;
-   text-decoration: line-through;
+}
+#chordified div.completed span {
+   color: black;
 }

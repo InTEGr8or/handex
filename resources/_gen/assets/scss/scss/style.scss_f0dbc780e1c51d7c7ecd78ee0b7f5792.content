@@ -7414,13 +7414,16 @@ textarea#testArea {
   font-size: 1.2em; }
 
 #chordified div span {
-  margin: 0 4px 0 0;
-  font-size: 1.4em; }
+  color: black;
+  margin: 0 4px 0 0; }
 
 #chordified div.next span {
+  font-size: 1.4em;
   background-color: #FA6;
   padding: 0 8px 0 4px; }
 
 #chordified div.completed {
-  color: #690;
-  text-decoration: line-through; }
+  color: #690; }
+
+#chordified div.completed span {
+  color: black; }
