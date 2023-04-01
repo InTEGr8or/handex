@@ -1,43 +1,49 @@
 pre.bold {
-    font-weight: bold;
-    font-size: 12px;
+   font-weight: bold;
+   font-size: 12px;
 }
+
 textarea#testArea {
-    font-size: 20px;
-    font-weight: bold;
-    font-family: monospace;
-    max-width: 100%;
-    min-height: 70px;
-    margin-top: 0px;
- }
- #chordified div {
+   font-size: 20px;
+   font-weight: bold;
+   font-family: monospace;
+   max-width: 100%;
+   min-height: 70px;
+   margin-top: 0px;
+}
+
+#chordified div {
    float: left;
    font-family: monospace;
- }
- #chordified div.outstanding {
-    color: #630;
-    font-weight: bold;
-    padding: 0 4px;
- }
- #chordified div.next {
-    color: #630;
-    border: 1px solid #3A0;
-    background-color: #9F9;
-    border-radius: 4px;
-    padding: 0 6px 0 0;
-    font-weight: bold;
-    font-size: 1.2em;
- }
- #chordified div.next span {
-    background-color: #FA6;
-    padding: 0 8px 0 4px;
-    margin: 0 4px 0 0;
-    font-size: 1.3em;
 }
-// #chordified div.next span:after{
-//    content: ":";
-// }
- #chordified div.completed {
-    color: #690;
-    text-decoration: line-through;
- }
+
+#chordified div.outstanding {
+   color: #630;
+   font-weight: bold;
+   padding: 0 4px;
+}
+
+#chordified div.next {
+   color: #630;
+   border: 1px solid #3A0;
+   background-color: #9F9;
+   border-radius: 4px;
+   padding: 0 6px 0 0;
+   font-weight: bold;
+   font-size: 1.2em;
+}
+
+#chordified div span {
+   margin: 0 4px 0 0;
+   font-size: 1.4em;
+}
+
+#chordified div.next span {
+   background-color: #FA6;
+   padding: 0 8px 0 4px;
+}
+
+#chordified div.completed {
+   color: #690;
+   text-decoration: line-through;
+}

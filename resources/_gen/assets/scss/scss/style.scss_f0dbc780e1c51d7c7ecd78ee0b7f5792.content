@@ -7413,11 +7413,13 @@ textarea#testArea {
   font-weight: bold;
   font-size: 1.2em; }
 
+#chordified div span {
+  margin: 0 4px 0 0;
+  font-size: 1.4em; }
+
 #chordified div.next span {
   background-color: #FA6;
-  padding: 0 8px 0 4px;
-  margin: 0 4px 0 0;
-  font-size: 1.3em; }
+  padding: 0 8px 0 4px; }
 
 #chordified div.completed {
   color: #690;
