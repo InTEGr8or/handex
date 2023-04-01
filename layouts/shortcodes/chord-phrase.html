@@ -99,14 +99,17 @@
                     console.log("chordList.error:", chordList.error);
                     return;
                 }
-                const chordRows = chordList.ascii.split('<br>');
+                const chordRows = chordList.json;
                 // Add each row to the chordified element as a separate div with the first character of the row as the name.
                 chordRows.forEach(function(row, index) {
                     const rowDiv = document.createElement('div');
                     rowDiv.id = index;
-                    rowDiv.setAttribute("name", row.split(":")[0]);
+                    rowDiv.setAttribute("name", row.char);
                     rowDiv.setAttribute("class", "outstanding");
-                    rowDiv.innerHTML = row;
+                    const charSpan = document.createElement('span');
+                    charSpan.innerHTML = row.char;
+                    rowDiv.appendChild(charSpan);
+                    rowDiv.appendChild(document.createTextNode(row.strokes));
                     chordified.appendChild(rowDiv);
                 });
                 setNext();
@@ -121,6 +124,11 @@
         outstanding[0].setAttribute("class", "outstanding next");
     }
     var testTimer = function(event) {
+        // TODO: handle other than inputType == "insertText"
+        if(event.inputType == "deleteContentBackward") {
+            // TODO: handle backspace
+            return;
+        }
         if(testArea.value.trim().length == 0) {
             // stop timer
             clearInterval(timerHandle);
@@ -150,6 +158,8 @@
         Array.from(chordified.getElementsByTagName('div')).forEach(function(element) {
             element.setAttribute("class", "outstanding");
         })
+        setNext();
+        testArea.focus();
     };
     var startTimer = function() {
         console.log("runTimer", timerValue);
