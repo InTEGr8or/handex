@@ -6,3 +6,4 @@ resources/**.blend
 **/*.blend1
 assets/images/blender
 resources/*
+public/

@@ -7414,6 +7414,9 @@ textarea#testArea {
   font-size: 1.2em;
   line-height: 1.4em; }
 
+#chordified div.next:after {
+  background-image: "images/hand-chord.svg"; }
+
 #chordified div span {
   color: black;
   margin: 0 4px 0 0; }

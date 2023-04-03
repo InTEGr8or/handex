@@ -1,3 +1,9 @@
+<script type = "text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
+<style>
+    :root{
+        --palm: #ffb6b6ff;
+    }
+</style>
 <h5>Click to load a pangram</h5>
 <ul id="panagrams">
    <li >The quick brown fox jumps over the lazy dog.</li>
@@ -27,6 +33,9 @@
     <div class="col-md-12" style="max-width: 100%">
         <h6>Chord strokes</h6>
         <pre id="chordified" class="bold" ></pre>
+        <svg xmlns="http://www.w3.org/2000/svg" width="250" height="200" viewBox="0 0 50 50">
+            <use id="handLegend" href="#hand" transform="scale(0.1,0.1)"/>
+        </svg>
     </div>
     <div id="testAreaDiv" class="col-md-12" >
         <div style="width: 100%" class="row">
@@ -45,6 +54,7 @@
     var timer = document.getElementById('timer');
     var phrase = document.getElementById('phrase');
     var panagrams = document.getElementById('panagrams');
+
     var timerValue = 0;
     var timerHandle = null;
 
@@ -116,12 +126,54 @@
                 testArea.focus();
             });
     };
+    var resetHand = function() {
+        document.querySelector("#thumb #me").setAttribute("fill", "#ffb6b6ff");
+        document.querySelector("#thumb #mf").setAttribute("fill", "#ffb6b6ff");
+        document.querySelector("#thumb #pf").setAttribute("fill", "#ffb6b6ff");
+        document.querySelector("#index #me").setAttribute("fill", "#ffb6b6ff");
+        document.querySelector("#index #mf").setAttribute("fill", "#ffb6b6ff");
+        document.querySelector("#index #pf").setAttribute("fill", "#ffb6b6ff");
+        document.querySelector("#middle #me").setAttribute("fill", "#ffb6b6ff");
+        document.querySelector("#middle #mf").setAttribute("fill", "#ffb6b6ff");
+        document.querySelector("#middle #pf").setAttribute("fill", "#ffb6b6ff");
+        document.querySelector("#ring #me").setAttribute("fill", "#ffb6b6ff");
+        document.querySelector("#ring #mf").setAttribute("fill", "#ffb6b6ff");
+        document.querySelector("#ring #pf").setAttribute("fill", "#ffb6b6ff");
+        document.querySelector("#pinky #me").setAttribute("fill", "#ffb6b6ff");
+        document.querySelector("#pinky #mf").setAttribute("fill", "#ffb6b6ff");
+        document.querySelector("#pinky #pf").setAttribute("fill", "#ffb6b6ff");
+    };
     var setNext = () => {
+        resetHand();
         const outstanding = chordified.getElementsByClassName('outstanding');
         if(outstanding.length == 0) {
             return;
         };
-        outstanding[0].setAttribute("class", "outstanding next");
+        var next = outstanding[0];
+        next.setAttribute("class", "outstanding next");
+        const strokes = next.innerHTML.split("</span>")[1].split(",");
+        strokes.forEach((stroke, index)=>{
+            stroke = stroke.trim();
+            const strokeAction = stroke.slice(1,3);
+            const rate = (Math.round(((index + 1) / strokes.length) * 16) - 1).toString(16);
+            switch(stroke[0]) {
+                case "t":
+                    document.querySelector(`#thumb #${strokeAction}`).setAttribute("fill", `#0F0${rate}`);
+                    break;
+                case "i":
+                    document.querySelector(`#index #${strokeAction}`).setAttribute("fill", `#0F0${rate}`);
+                    break;
+                case "m":
+                    document.querySelector(`#middle #${strokeAction}`).setAttribute("fill", `#0F0${rate}`);
+                    break;
+                case "r":
+                    document.querySelector(`#ring #${strokeAction}`).setAttribute("fill", `#0F0${rate}`);
+                    break;
+                case "p":
+                    document.querySelector(`#pinky #${strokeAction}`).setAttribute("fill", `#0F0${rate}`);
+                    break;
+            }
+        })
     }
     var testTimer = function(event) {
         // TODO: handle other than inputType == "insertText"
@@ -187,3 +239,71 @@
             resetChordifiedCompletion();
     });
 </script>
+<svg id="chord-hand" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" fill="none"  xmlns:v="https://vecta.io/nano">
+    <style>
+        #thumb {
+            fill: #ffb6b6ff;
+        }
+        #index {
+            fill: #ffb6b6ff;
+        }
+        #middle {
+            fill: #ffb6b6ff;
+        }
+        #ring {
+            fill: #ffb6b6ff;
+        }
+        #pinky {
+            fill: #ffb6b6ff;
+        }
+        <!-- #thumb #mf {
+            fill: #00FF00FF;
+        }  -->
+    </style>
+    <defs>
+        <path id="h" d="M 0 0 L 600 0" stroke-width="1px" stroke="#AAA"/>
+        <path id="v" d="M 0 0 L 0 600" stroke-width="1px" stroke="#AAA"/>
+        <path id="phalange" 
+            d="
+                M 0 0 
+                L 100 0
+                L 100 100
+                L 0 100
+                Z" 
+            stroke-width="2px" stroke="#000" />
+        <path id="tip" 
+            d="
+                M 0 0 
+                C 150 0, 150 100, 0 100
+                L 0 100
+                Z" 
+            stroke-width="2px" stroke="#000" />
+        <g id="hand">
+            <g id="thumb"> 
+                <use id="me" href="#phalange" transform="translate(0,0) scale(1,1) rotate(0)"/>
+                <use id="mf" href="#phalange" transform="translate(100,0) scale(1,1) rotate(0)"/>
+                <use id="pf" href="#tip" transform="translate(200,0) scale(1,1) rotate(0)"/>
+            </g>
+            <g id="index" transform="translate(0,100)"> 
+                <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) rotate(0)"/>
+                <use id="mf" href="#phalange" transform="translate(200,0) scale(2,1) rotate(0)"/>
+                <use id="pf" href="#tip" transform="translate(400,0) scale(1.5,1) rotate(0)"/>
+            </g>
+            <g id="middle" transform="translate(0,200)"> 
+                <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) rotate(0)"/>
+                <use id="mf" href="#phalange" transform="translate(200,0) scale(2,1) rotate(0)"/>
+                <use id="pf" href="#tip" transform="translate(400,0) scale(1.5,1) rotate(0)"/>
+            </g>
+            <g id="ring" transform="translate(0,300)"> 
+                <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) rotate(0)"/>
+                <use id="mf" href="#phalange" transform="translate(200,0) scale(2,1) rotate(0)"/>
+                <use id="pf" href="#tip" transform="translate(400,0) scale(1.5,1) rotate(0)"/>
+            </g>
+            <g id="pinky" transform="translate(0,400)"> 
+                <use id="me" href="#phalange" transform="translate(0,0) scale(1.5,1) rotate(0)"/>
+                <use id="mf" href="#phalange" transform="translate(150,0) scale(1.5,1) rotate(0)"/>
+                <use id="pf" href="#tip" transform="translate(300,0) scale(1.5,1) rotate(0)"/>
+            </g>
+        </g>
+    </defs>
+</svg>

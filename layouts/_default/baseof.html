@@ -14,7 +14,7 @@
 </head>
 
 <body {{with site.Params.page_background.page_class}}class="{{.}}"{{end}}{{with site.Params.page_background.page_background_image}}{{$bg_img:= resources.Get . }}{{$c_img:= $bg_img.Resize `1000x webp`}}style="background-image:url('{{$bg_img.RelPermalink}}')"{{end}}{{with site.Params.page_background.page_background_color}}style="background-color:{{.}}"{{end}}>
-	{{ partial "googleTagManagerBody.html" .}}}
+	{{ partial "googleTagManagerBody.html" .}}
 	{{if .IsHome }}
 	{{ partialCached "preloader.html" . }}
 	{{end}}
