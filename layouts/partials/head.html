@@ -47,7 +47,9 @@
 {{ $image_path := .Params.image | default site.Params.image -}}
 {{ $image_path_local :=  printf "static/%s" $image_path -}}
 {{ $image_ext := trim (path.Ext $image_path | lower) "." -}}
-{{ if fileExists $image_path_local -}}
+
+<!-- TODO: Fix this broken thing which crashes the whole site if there is a static/ -->
+{{ if (and (false) (fileExists $image_path_local)) -}}
   <meta property="og:image" content="{{ $image_path | absURL }}" />
   {{/* If not SVG, read image aspect ratio and define Twitter Card and Open Graph width and height  */ -}}
   {{ if ne $image_ext "svg" -}}
@@ -62,6 +64,8 @@
   {{ end -}}
   <meta property="og:image:type" content="image/{{ if eq $image_ext `svg` }}svg+xml{{ else }}{{ replaceRE `^jpg$` `jpeg` $image_ext }}{{ end }}">
 {{ end -}}
+
+
 <meta name="twitter:title" content="{{ with .Title }}{{ . }}{{ else }}{{ site.Title }}{{ end }}"/>
 <meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ if .IsPage }}{{ .Summary }}{{ else }}{{ with site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}"/>
 {{ with site.Social.twitter -}}<meta name="twitter:site" content="@{{ . }}"/>{{ end -}}
