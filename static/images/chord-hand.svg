@@ -34,7 +34,7 @@
                 L 0 10
                 Z" 
             stroke-width="0.1px" stroke="#000" />
-        <g id="hand" viewBox="0 0 50 50">
+        <g id="hand" viewBox="0 0 50 50" x="0" y="0">
             <g id="thumb"> 
                 <use id="me" href="#phalange" transform="translate(0,0) scale(1,1) "/>
                 <use id="mf" href="#phalange" transform="translate(10,0) scale(1,1) "/>
