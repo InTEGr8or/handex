@@ -11,19 +11,22 @@ textarea#testArea {
    min-height: 70px;
    margin-top: 0px;
 }
+svg g {
+   align-items: left;   
+}
 
-#chordified div {
+.chordified div {
    float: left;
    font-family: monospace;
 }
 
-#chordified div.outstanding {
+.chordified div.outstanding {
    color: #630;
    font-weight: bold;
    padding: 0 4px;
 }
 
-#chordified div.next {
+.chordified div.next {
    color: #630;
    border: 1px solid #3A0;
    background-color: #9F9;
@@ -33,24 +36,24 @@ textarea#testArea {
    font-size: 1.2em;
    line-height: 1.4em;
 }
-#chordified div.next:after {
+.chordified div.next:after {
    background-image: "images/hand-chord.svg";
 }
 
-#chordified div span {
+.chordified div span {
    color: black;
    margin: 0 4px 0 0;
 }
 
-#chordified div.next span {
+.chordified div.next span {
    font-size: 1.4em;
    background-color: #FA6;
    padding: 0 8px 0 4px;
 }
 
-#chordified div.completed {
+.chordified div.completed {
    color: #690;
 }
-#chordified div.completed span {
+.chordified div.completed span {
    color: black;
 }
