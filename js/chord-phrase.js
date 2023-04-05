@@ -75,6 +75,7 @@ var chordify = function() {
             setNext();
             testArea.focus();
         });
+        timerCancel();
 };
 var resetHand = function() {
     document.querySelector("#thumb #me").setAttribute("fill", "#ffb6b6ff");
@@ -193,6 +194,14 @@ var startTimer = function() {
         timerHandle = setInterval(runTimer, 1000);
     }
 };
+var timerCancel = function() {
+        testArea.value = '';
+        clearInterval(timerHandle);
+        timerHandle = null;
+        timer.innerHTML = 0;
+        timerValue = 0;
+        resetChordifiedCompletion();
+}
 
 document.getElementById('chordify')
     .addEventListener('click', chordify);
@@ -203,13 +212,6 @@ panagrams.addEventListener('click', function(e) {
     chordify();
 });
 document.getElementById('timerCancel')
-    .addEventListener('click', function() {
-        testArea.value = '';
-        clearInterval(timerHandle);
-        timerHandle = null;
-        timer.innerHTML = 0;
-        timerValue = 0;
-        resetChordifiedCompletion();
-});
+    .addEventListener('click', timerCancel);
 document.getElementById('listAllChords')
     .addEventListener('click', listAllChords);
