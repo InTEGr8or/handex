@@ -134,7 +134,7 @@ var listAllChords = () => {
         const handId = `hand${index}`;
         rowDiv.setAttribute("class", "row col-md-6");
         rowDiv.setAttribute("id", handId);
-        const hand = `<img src="/images/svgs/${chord.strokes.replace(", ","_")}.svg" width="100" class="hand" />`
+        const hand = `<img src="/images/svgs/${chord.strokes.replaceAll(", ","_")}.svg" width="100" class="hand" />`
         rowDiv.innerHTML = `<div class="next"><span>${lCase}</span>${chord.strokes}</div>${hand}`;
         chordDiv.appendChild(rowDiv);
     });
