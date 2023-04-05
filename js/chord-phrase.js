@@ -134,9 +134,7 @@ var listAllChords = () => {
         const handId = `hand${index}`;
         rowDiv.setAttribute("class", "row col-md-6");
         rowDiv.setAttribute("id", handId);
-        svgHtml = document.getElementById("hand").outerHTML.toString().replace(/hand/g, handId);
-        const hand = `<svg id="hand${index}" width="150" height="150" viewBox="0 0 100 100" >${svgHtml}</svg>`;
-        // const hand = `<svg id="hand${index}" viewBox="0 0 100 50"><use href="#hand" /></svg>`;
+        const hand = `<img src="/images/svgs/${chord.strokes.replace(", ","_")}.svg" width="100" class="hand" />`
         rowDiv.innerHTML = `<div class="next"><span>${lCase}</span>${chord.strokes}</div>${hand}`;
         chordDiv.appendChild(rowDiv);
     });
