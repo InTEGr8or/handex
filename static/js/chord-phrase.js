@@ -134,9 +134,18 @@ var listAllChords = () => {
         const handId = `hand${index}`;
         rowDiv.setAttribute("class", "row col-md-6");
         rowDiv.setAttribute("id", handId);
-        const hand = `<img src="/images/svgs/${chord.strokes.replaceAll(", ","_")}.svg" width="100" class="hand" />`
+        const chordStrokes = chord.strokes.replaceAll(", ","_")
+        const hand = `<img src="/images/svgs/${chordStrokes}.svg" width="100" class="hand" />`
         rowDiv.innerHTML = `<div class="next"><span>${lCase}</span>${chord.strokes}</div>${hand}`;
         chordDiv.appendChild(rowDiv);
+        if(uCase){
+            const uRowDiv = document.createElement("div");
+            uRowDiv.id = `hand${index}u`;
+            uRowDiv.setAttribute("class", "row col-md-6");
+            const uHand = `<img src="/images/svgs/tmf_${chordStrokes}.svg" width="100" class="hand" />`
+            uRowDiv.innerHTML = `<div class="next"><span>${uCase}</span>tmf, ${chord.strokes}</div>${uHand}`;
+            chordDiv.appendChild(uRowDiv);
+        }
     });
 };
 var testTimer = function(event) {
