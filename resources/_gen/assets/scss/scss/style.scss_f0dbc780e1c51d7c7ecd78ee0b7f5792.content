@@ -7400,7 +7400,8 @@ svg g {
 
 .chordified div {
   float: left;
-  font-family: monospace; }
+  font-family: monospace;
+  font-size: 0.6em; }
 
 .chordified div.outstanding {
   color: #630;
