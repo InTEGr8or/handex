@@ -78,21 +78,15 @@ var chordify = function() {
         timerCancel();
 };
 var resetHand = function() {
-    document.querySelector("#thumb #me").setAttribute("fill", "#ffb6b6ff");
-    document.querySelector("#thumb #mf").setAttribute("fill", "#ffb6b6ff");
-    document.querySelector("#thumb #pf").setAttribute("fill", "#ffb6b6ff");
-    document.querySelector("#index #me").setAttribute("fill", "#ffb6b6ff");
-    document.querySelector("#index #mf").setAttribute("fill", "#ffb6b6ff");
-    document.querySelector("#index #pf").setAttribute("fill", "#ffb6b6ff");
-    document.querySelector("#middle #me").setAttribute("fill", "#ffb6b6ff");
-    document.querySelector("#middle #mf").setAttribute("fill", "#ffb6b6ff");
-    document.querySelector("#middle #pf").setAttribute("fill", "#ffb6b6ff");
-    document.querySelector("#ring #me").setAttribute("fill", "#ffb6b6ff");
-    document.querySelector("#ring #mf").setAttribute("fill", "#ffb6b6ff");
-    document.querySelector("#ring #pf").setAttribute("fill", "#ffb6b6ff");
-    document.querySelector("#pinky #me").setAttribute("fill", "#ffb6b6ff");
-    document.querySelector("#pinky #mf").setAttribute("fill", "#ffb6b6ff");
-    document.querySelector("#pinky #pf").setAttribute("fill", "#ffb6b6ff");
+    const fingers = ["thumb", "index", "middle", "ring", "pinky"];
+    const actions = ["me", "mf", "pf"];
+    fingers.forEach((finger) => {
+        actions.forEach((action) => {
+            document.querySelector(`#${finger} #${action}`).setAttribute("fill", "#ffb6b6ff");
+            document.querySelector(`#${finger} #${action}`).setAttribute("stroke", "#000000");
+            document.querySelector(`#${finger} #${action}`).setAttribute("stroke-width", "0.1px");
+        });
+    });
 };
 var setNext = () => {
     resetHand();
@@ -107,22 +101,28 @@ var setNext = () => {
         stroke = stroke.trim();
         const strokeAction = stroke.slice(1,3);
         const rate = (Math.round(((index + 1) / strokes.length) * 16) - 1).toString(16);
+        var segment;
         switch(stroke[0]) {
             case "t":
-                document.querySelector(`#thumb #${strokeAction}`).setAttribute("fill", `#0F0${rate}`);
+                segment = document.querySelector(`#thumb #${strokeAction}`);
                 break;
             case "i":
-                document.querySelector(`#index #${strokeAction}`).setAttribute("fill", `#0F0${rate}`);
+                segment = document.querySelector(`#index #${strokeAction}`);
                 break;
             case "m":
-                document.querySelector(`#middle #${strokeAction}`).setAttribute("fill", `#0F0${rate}`);
+                segment = document.querySelector(`#middle #${strokeAction}`);
                 break;
             case "r":
-                document.querySelector(`#ring #${strokeAction}`).setAttribute("fill", `#0F0${rate}`);
+                segment = document.querySelector(`#ring #${strokeAction}`);
                 break;
             case "p":
-                document.querySelector(`#pinky #${strokeAction}`).setAttribute("fill", `#0F0${rate}`);
+                segment = document.querySelector(`#pinky #${strokeAction}`);
                 break;
+        }
+        segment.setAttribute("fill", `#0F0${rate}`);
+        if(index == 0) {
+            segment.setAttribute("stroke", `#00FF`);
+            segment.setAttribute("stroke-width", `1px`);
         }
     })
 };
@@ -133,7 +133,7 @@ var listAllChords = () => {
         const uCase = chord.report.split("and")[1];
         const rowDiv = document.createElement("div");
         const handId = `hand${index}`;
-        rowDiv.setAttribute("class", "row col-md-3");
+        rowDiv.setAttribute("class", "row col-sm-3");
         rowDiv.setAttribute("id", handId);
         const chordStrokes = chord.strokes.replaceAll(", ","_")
         const hand = `<img src="/images/svgs/${chordStrokes}.svg" width="100" class="hand" />`
@@ -142,7 +142,7 @@ var listAllChords = () => {
         if(uCase){
             const uRowDiv = document.createElement("div");
             uRowDiv.id = `hand${index}u`;
-            uRowDiv.setAttribute("class", "row col-md-3");
+            uRowDiv.setAttribute("class", "row col-sm-3");
             const uHand = `<img src="/images/svgs/tmf_${chordStrokes}.svg" width="100" class="hand" />`
             uRowDiv.innerHTML = `<div class="next"><span>${uCase}</span>tmf, ${chord.strokes}</div>${uHand}`;
             chordDiv.appendChild(uRowDiv);
@@ -215,3 +215,7 @@ document.getElementById('timerCancel')
     .addEventListener('click', timerCancel);
 document.getElementById('listAllChords')
     .addEventListener('click', listAllChords);
+
+document.addEventListener("DOMContentLoaded", () => {
+  resetHand();
+});
