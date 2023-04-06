@@ -192,6 +192,7 @@ var resetChordifiedCompletion = function() {
     Array.from(chordified.getElementsByTagName('div')).forEach(function(element) {
         element.setAttribute("class", "outstanding");
     })
+    testArea.style.border = "";
     setNext();
     testArea.focus();
 };
