@@ -133,7 +133,7 @@ var listAllChords = () => {
         const uCase = chord.report.split("and")[1];
         const rowDiv = document.createElement("div");
         const handId = `hand${index}`;
-        rowDiv.setAttribute("class", "row col-md-6");
+        rowDiv.setAttribute("class", "row col-md-3");
         rowDiv.setAttribute("id", handId);
         const chordStrokes = chord.strokes.replaceAll(", ","_")
         const hand = `<img src="/images/svgs/${chordStrokes}.svg" width="100" class="hand" />`
@@ -142,7 +142,7 @@ var listAllChords = () => {
         if(uCase){
             const uRowDiv = document.createElement("div");
             uRowDiv.id = `hand${index}u`;
-            uRowDiv.setAttribute("class", "row col-md-6");
+            uRowDiv.setAttribute("class", "row col-md-3");
             const uHand = `<img src="/images/svgs/tmf_${chordStrokes}.svg" width="100" class="hand" />`
             uRowDiv.innerHTML = `<div class="next"><span>${uCase}</span>tmf, ${chord.strokes}</div>${uHand}`;
             chordDiv.appendChild(uRowDiv);
@@ -159,7 +159,7 @@ var testTimer = function(event) {
         // stop timer
         clearInterval(timerHandle);
         timerHandle = null;
-        timer.innerHTML = 0;
+        timer.innerHTML = (0).toFixed(1);
         timerValue = 0;
         return;
     }
@@ -178,7 +178,7 @@ var testTimer = function(event) {
 };
 var runTimer = function() {
     timerValue++;
-    timer.innerHTML = timerValue;
+    timer.innerHTML = (timerValue / 10).toFixed(1);
 };
 var resetChordifiedCompletion = function() {
     Array.from(chordified.getElementsByTagName('div')).forEach(function(element) {
@@ -191,14 +191,14 @@ var startTimer = function() {
     console.log("runTimer", timerValue);
     console.log("timerHandle:", timerHandle);
     if(!timerHandle) {
-        timerHandle = setInterval(runTimer, 1000);
+        timerHandle = setInterval(runTimer, 100);
     }
 };
 var timerCancel = function() {
         testArea.value = '';
         clearInterval(timerHandle);
         timerHandle = null;
-        timer.innerHTML = 0;
+        timer.innerHTML = (0).toFixed(1);
         timerValue = 0;
         resetChordifiedCompletion();
 }
