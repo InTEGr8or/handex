@@ -59,7 +59,7 @@
     xmlns="http://www.w3.org/2000/svg" fill="none"  xmlns:v="https://vecta.io/nano">
     <style>
         #thumb {
-            fill: #ffb6b6ff;
+            fill: url("#thumbGradient");
         }
         #index {
             fill: #ffb6b6ff;
@@ -75,6 +75,10 @@
         }
     </style>
     <defs>
+        <linearGradient id="thumbGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#000" />
+            <stop offset="100%" stop-color="#FFF" />
+        </linearGradient>
         <path id="phalange" 
             d="
                 M 0 0 
@@ -91,8 +95,8 @@
                 Z" 
             stroke-width="useCurrent" stroke="useCurrent" />
         <g id="hand" viewBox="0 0 50 50" x="0" y="0">
-            <g id="thumb"> 
-                <use id="me" href="#phalange" stroke="#000" stroke-width="0.1px" transform="translate(0,0) scale(1,1) "/>
+            <g id="thumb" > 
+                <use id="me" href="#phalange" stroke="#000" stroke-width="0.1px" transform="translate(0,0) scale(1,1) " />
                 <use id="mf" href="#phalange" transform="translate(10,0) scale(1,1) "/>
                 <use id="pf" href="#tip" transform="translate(20,0) scale(1,1) "/>
             </g>
@@ -103,8 +107,8 @@
             </g>
             <g id="middle" transform="translate(0,20)"> 
                 <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) "/>
-                <use id="mf" href="#phalange" transform="translate(20,0) scale(2,1) "/>
-                <use id="pf" href="#tip" transform="translate(40,0) scale(1.5,1) "/>
+                <use id="mf" href="#phalange" transform="translate(20,0) scale(2.25,1) "/>
+                <use id="pf" href="#tip" transform="translate(42.5,0) scale(1.75,1) "/>
             </g>
             <g id="ring" transform="translate(0,30)"> 
                 <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) "/>
