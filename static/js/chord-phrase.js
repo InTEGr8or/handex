@@ -151,12 +151,13 @@ var listAllChords = () => {
 };
 var testTimer = function(event) {
     // TODO: handle other than inputType == "insertText"
-    if(event.inputType == "deleteContentBackward") {
-        // TODO: handle backspace
-        return;
-    }
+    // if(event.inputType == "deleteContentBackward") {
+    //     // TODO: handle backspace
+    //     return;
+    // }
     if(testArea.value.trim().length == 0) {
         // stop timer
+        testArea.style.border = "";
         clearInterval(timerHandle);
         timerHandle = null;
         timer.innerHTML = (0).toFixed(1);
@@ -168,6 +169,13 @@ var testTimer = function(event) {
         curChar.setAttribute("class", "completed");
     }
     setNext();
+    if(testArea.value.trim() == phrase.value.trim().substring(0, testArea.value.trim().length)) {
+        // Highlight testArea with orange if it doesn't match phrase so far.
+        testArea.style.border = "";
+    }
+    else{
+        testArea.style.border = "4px solid orange";
+    }
     if(testArea.value.trim() == phrase.value.trim()) {
         // stop timer
         clearInterval(timerHandle);
