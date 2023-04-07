@@ -211,6 +211,7 @@ var timerCancel = function() {
         timer.innerHTML = (0).toFixed(1);
         timerValue = 0;
         resetChordifiedCompletion();
+        setNext();
 }
 
 document.getElementById('chordify')
