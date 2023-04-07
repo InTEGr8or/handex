@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-04-07T16:23:05.753Z
+date: 2023-04-07T19:04:23.274Z
 ---
 Report,Chord,Strokes
 a and A,4,ipf
@@ -14,7 +14,7 @@ h and H,70,"mpf, tmf"
 i and I,31,"imf, tpf"
 j and J,34,"imf, ipf"
 k and K,DA,"ppf, rpf"
-l and L,AD,"rpf, ppf"
+l and L,A9,"rpf, rmf"
 m and M,67,"mmf, mpf"
 n and N,D,ppf
 o and O,3,imf
