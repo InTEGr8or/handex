@@ -87,7 +87,7 @@ var resetHand = function() {
             document.querySelector(`#${finger} #${action}`).setAttribute("stroke-width", "0.1px");
         });
     });
-    document.querySelector(`#thumb`).setAttribute("fill", "url(#thumbGradient)");
+    // document.querySelector(`#thumb #me`).setAttribute("fill", "url(#thumbGradient)");
 };
 var setNext = () => {
     resetHand();
