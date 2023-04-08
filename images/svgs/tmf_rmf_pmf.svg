@@ -20,13 +20,13 @@
             True {stroke: #00F; stroke-width: 2px;}
             False {stroke: #000; stroke-width: 0.1px}
         }
-    }#middle #pf {
+    }#ring #mf {
         fill: #0F0C;
         False {
             True {stroke: #00F; stroke-width: 2px;}
             False {stroke: #000; stroke-width: 0.1px}
         }
-    }#thumb #mf {
+    }#pinky #mf {
         fill: #0F0F;
         False {
             True {stroke: #00F; stroke-width: 2px;}
