@@ -1,1 +1,0 @@
-const allChords = require('./chords.json');

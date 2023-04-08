@@ -14,19 +14,13 @@
         #pinky {
             fill: #ffb6b6ff;
         }
-    #thumb #mf {
-        fill: #0F06;
+    #ring #mf {
+        fill: #0F09;
         False {
             True {stroke: #00F; stroke-width: 2px;}
             False {stroke: #000; stroke-width: 0.1px}
         }
-    }#middle #mf {
-        fill: #0F0C;
-        False {
-            True {stroke: #00F; stroke-width: 2px;}
-            False {stroke: #000; stroke-width: 0.1px}
-        }
-    }#thumb #pf {
+    }#pinky #mf {
         fill: #0F0F;
         False {
             True {stroke: #00F; stroke-width: 2px;}
