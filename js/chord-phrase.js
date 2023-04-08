@@ -87,7 +87,7 @@ var resetHand = function() {
             document.querySelector(`#${finger} #${action}`).setAttribute("stroke-width", "0.1px");
         });
     });
-    // document.querySelector(`#thumb #me`).setAttribute("fill", "url(#thumbGradient)");
+    document.querySelector(`#thumb`).setAttribute("fill", "url(#thumbGradient)");
 };
 var setNext = () => {
     resetHand();
@@ -129,7 +129,16 @@ var setNext = () => {
 };
 var listAllChords = () => {
     const chordDiv = document.getElementById("allChords");
-    allChords.forEach((chord, index) => {
+    chordDiv.innerHTML = "";
+    const searchChords = document.getElementById("searchChords").value.toLowerCase();
+    let foundChords = [];
+    if(searchChords.length == 0) {
+       foundChords = allChords;
+    } else {
+        foundChords = allChords.filter(chord =>{return chord.report.toLowerCase().indexOf(searchChords) > -1 || chord.strokes.toLowerCase().indexOf(searchChords) > -1 });
+    }
+    foundChords.forEach((chord, index) => {
+
         const lCase = chord.report.split("and")[0].trim();
         const uCase = chord.report.split("and")[1];
         const rowDiv = document.createElement("div");
@@ -149,6 +158,7 @@ var listAllChords = () => {
             chordDiv.appendChild(uRowDiv);
         }
     });
+
 };
 var testTimer = function(event) {
     // TODO: handle other than inputType == "insertText"
@@ -213,6 +223,9 @@ var timerCancel = function() {
         resetChordifiedCompletion();
         setNext();
 }
+var clearChords = function() {
+    document.getElementById('searchChords').value = '';
+}
 
 document.getElementById('chordify')
     .addEventListener('click', chordify);
@@ -230,3 +243,5 @@ document.getElementById('listAllChords')
 document.addEventListener("DOMContentLoaded", () => {
   resetHand();
 });
+document.getElementById('clearChordsButton')
+    .addEventListener('click', clearChords);
