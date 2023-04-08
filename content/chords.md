@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-04-08T18:54:01.153Z
+date: 2023-04-08T19:17:15.063Z
 ---
 Report,Chord,Strokes
 a and A,4,ipf
