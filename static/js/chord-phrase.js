@@ -42,40 +42,40 @@ var chordify = function() {
     console.log("phrase:", phrase);
     const phraseEncoded = btoa(phrase);
     console.log("phraseEncoded:", phraseEncoded);
-    var chords = fetch(lambdaUrl, {
-            method: 'POST',
-            headers: {
+    fetch(lambdaUrl, {
+        method: 'POST',
+        headers: {
 
-            },
-            body: JSON.stringify({
-                phrase: phraseEncoded
-            })
+        },
+        body: JSON.stringify({
+            phrase: phraseEncoded
         })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(chordList) {
-            if(chordList.error) {
-                console.log("chordList.error:", chordList.error);
-                return;
-            }
-            const chordRows = chordList.json;
-            // Add each row to the chordified element as a separate div with the first character of the row as the name.
-            chordRows.forEach(function(row, index) {
-                const rowDiv = document.createElement('div');
-                rowDiv.id = index;
-                rowDiv.setAttribute("name", row.char);
-                rowDiv.setAttribute("class", "outstanding");
-                const charSpan = document.createElement('span');
-                charSpan.innerHTML = row.char;
-                rowDiv.appendChild(charSpan);
-                rowDiv.appendChild(document.createTextNode(row.strokes));
-                chordified.appendChild(rowDiv);
-            });
-            setNext();
-            testArea.focus();
+    })
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(chordList) {
+        if(chordList.error) {
+            console.log("chordList.error:", chordList.error);
+            return;
+        }
+        const chordRows = chordList.json;
+        // Add each row to the chordified element as a separate div with the first character of the row as the name.
+        chordRows.forEach(function(row, index) {
+            const rowDiv = document.createElement('div');
+            rowDiv.id = index;
+            rowDiv.setAttribute("name", row.char);
+            rowDiv.setAttribute("class", "outstanding");
+            const charSpan = document.createElement('span');
+            charSpan.innerHTML = row.char;
+            rowDiv.appendChild(charSpan);
+            rowDiv.appendChild(document.createTextNode(row.strokes));
+            chordified.appendChild(rowDiv);
         });
-        timerCancel();
+        setNext();
+        testArea.focus();
+    });
+    timerCancel();
 };
 var resetHand = function() {
     const fingers = ["thumb", "index", "middle", "ring", "pinky"];
@@ -225,6 +225,7 @@ var timerCancel = function() {
 }
 var clearChords = function() {
     document.getElementById('searchChords').value = '';
+    listAllChords();
 }
 
 document.getElementById('chordify')
