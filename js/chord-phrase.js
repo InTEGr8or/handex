@@ -4,6 +4,7 @@ var chordified = document.getElementById('chordified');
 var timer = document.getElementById('timer');
 var phrase = document.getElementById('phrase');
 var panagrams = document.getElementById('panagrams');
+var allChords = [];
 
 var timerValue = 0;
 var timerHandle = null;
@@ -242,7 +243,14 @@ document.getElementById('listAllChords')
     .addEventListener('click', listAllChords);
 
 document.addEventListener("DOMContentLoaded", () => {
-  resetHand();
+    resetHand();
+    allChords = fetch('/js/chords.json')
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            allChords = data;
+        });
 });
 document.getElementById('clearChordsButton')
     .addEventListener('click', clearChords);
