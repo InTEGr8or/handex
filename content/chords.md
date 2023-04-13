@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-04-09T06:04:30.057Z
+date: 2023-04-13T05:35:02.940Z
 ---
 Report,Chord,Strokes
 a and A,4,ipf
@@ -156,4 +156,4 @@ Left GUI,62E,"mmf, tme, pme"
 RightControl,621,"mmf, tme, tpf"
 RightShift,6E26,"mmf, pme, tme, mmf"
 RightAlt,623,"mmf, tme, imf"
-Right GUI,62E6,"mmf, tme, pme, mmf"
+Right GUI,3434,"imf, ipf, imf, ipf"
