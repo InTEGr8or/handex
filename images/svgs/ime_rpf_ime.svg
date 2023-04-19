@@ -1,4 +1,4 @@
-﻿<svg id="chord-hand" viewBox="0 0 65 65" xmlns="http://www.w3.org/2000/svg" fill="none" xmlns:v="https://vecta.io/nano"><style>
+<svg id="chord-hand" viewBox="0 0 65 65" xmlns="http://www.w3.org/2000/svg" fill="none" xmlns:v="https://vecta.io/nano"><style>
         #thumb {
             fill: url("#thumbGradient");
         }

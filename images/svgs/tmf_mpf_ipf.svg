@@ -1,4 +1,4 @@
-﻿<svg id="chord-hand" viewBox="0 0 65 65" xmlns="http://www.w3.org/2000/svg" fill="none" xmlns:v="https://vecta.io/nano"><style>
+<svg id="chord-hand" viewBox="0 0 65 65" xmlns="http://www.w3.org/2000/svg" fill="none" xmlns:v="https://vecta.io/nano"><style>
         #thumb {
             fill: url("#thumbGradient");
         }
@@ -15,30 +15,18 @@
             fill: #ffb6b6ff;
         }
     #thumb #mf {
-        fill: #0F04;
+        fill: #0F06;
         False {
             True {stroke: #00F; stroke-width: 2px;}
             False {stroke: #000; stroke-width: 0.1px}
         }
-    }#middle #mf {
-        fill: #0F08;
-        False {
-            True {stroke: #00F; stroke-width: 2px;}
-            False {stroke: #000; stroke-width: 0.1px}
-        }
-    }#thumb #me {
+    }#middle #pf {
         fill: #0F0C;
         False {
             True {stroke: #00F; stroke-width: 2px;}
             False {stroke: #000; stroke-width: 0.1px}
         }
-    }#pinky #me {
-        fill: #0F0F;
-        False {
-            True {stroke: #00F; stroke-width: 2px;}
-            False {stroke: #000; stroke-width: 0.1px}
-        }
-    }#middle #mf {
+    }#index #pf {
         fill: #0F0F;
         False {
             True {stroke: #00F; stroke-width: 2px;}
