@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-04-20T22:15:12.972Z
+date: 2023-04-20T22:21:42.930Z
 ---
 Report,Chord,Strokes
 a and A,4,ipf
@@ -50,7 +50,7 @@ Spacebar,1,tpf
 ] and },8,mme
 \ and &#124;,AB,"rpf, rme"
 Non-US # and ~,4A,"ipf, rpf"
-; and :,42,"ipf, tme"
+; and :,96,"rmf, mmf"
 "' and """,434,"ipf, imf, ipf"
 Grave Accent and Tilde,45,"ipf, ime"
 ", and <",46,"ipf, mmf"
