@@ -102,29 +102,20 @@ var setNext = () => {
     strokes.forEach((stroke, index)=>{
         stroke = stroke.trim();
         const strokeAction = stroke.slice(1,3);
-        const rate = (Math.round(((index + 1) / strokes.length) * 16) - 1).toString(16);
-        var segment;
-        switch(stroke[0]) {
-            case "t":
-                segment = document.querySelector(`#thumb #${strokeAction}`);
-                break;
-            case "i":
-                segment = document.querySelector(`#index #${strokeAction}`);
-                break;
-            case "m":
-                segment = document.querySelector(`#middle #${strokeAction}`);
-                break;
-            case "r":
-                segment = document.querySelector(`#ring #${strokeAction}`);
-                break;
-            case "p":
-                segment = document.querySelector(`#pinky #${strokeAction}`);
-                break;
-        }
-        segment.setAttribute("fill", `#0F0${rate}`);
+        const rate = (Math.round(((index + 1) / Math.max(1, strokes.length -2)) * 16) - 1).toString(16);
+        const fingers = {t:"thumb",i:"index",m:"middle",r:"ring",p:"pinky"};
+        const finger = fingers[`${stroke[0]}`];
+        var segment = document.querySelector(`#${finger} #${strokeAction}`);
         if(index == 0) {
-            segment.setAttribute("stroke", `#00FF`);
-            segment.setAttribute("stroke-width", `1px`);
+            segment.setAttribute("stroke", `#0F0F`);
+            segment.setAttribute("stroke-width", `3px`);
+        }
+        else if(index == strokes.length -1 && strokes.length > 1){
+            segment.setAttribute("stroke", `#F70F`);
+            segment.setAttribute("stroke-width", `2px`);
+        }
+        else{
+            segment.setAttribute("fill", `#0F0${rate}`);
         }
     })
 };
