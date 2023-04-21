@@ -111,7 +111,7 @@ var setNext = () => {
         }
         else if(index == strokes.length -1 && strokes.length > 1){
             segment.setAttribute("stroke", `#000F`);
-            segment.setAttribute("stroke", `#0F0F`);
+            segment.setAttribute("fill", `#0F0F`);
             segment.setAttribute("stroke-width", `2px`);
         }
         else{
