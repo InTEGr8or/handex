@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-04-20T22:21:42.930Z
+date: 2023-04-21T00:38:24.841Z
 ---
 Report,Chord,Strokes
 a and A,4,ipf
@@ -31,7 +31,7 @@ y and Y,D5,"ppf, ime"
 z and Z,71,"mpf, tpf"
 1 and !,CD3,"pmf, ppf, imf"
 2 and @,CD4,"pmf, ppf, ipf"
-3 and #,CD34,"pmf, ppf, imf, ipf"
+3 and #,CD3,"pmf, ppf, imf"
 4 and $,CD43,"pmf, ppf, ipf, imf"
 5 and %,CD5,"pmf, ppf, ime"
 6 and ^,CD6,"pmf, ppf, mmf"
@@ -46,7 +46,7 @@ Tab,CD,"pmf, ppf"
 Spacebar,1,tpf
 - and (underscore),5,ime
 = and +,72,"mpf, tme"
-[ and {,78,"mpf, mme"
+[ and {,87,"mme, mpf"
 ] and },8,mme
 \ and &#124;,AB,"rpf, rme"
 Non-US # and ~,4A,"ipf, rpf"
@@ -109,7 +109,7 @@ F15,92,"rmf, tme"
 F16,383,"imf, mme, imf"
 F17,914,"rmf, tpf, ipf"
 F18,95,"rmf, ime"
-F19,96,"rmf, mmf"
+F19,969,"rmf, mmf, rmf"
 F20,97,"rmf, mpf"
 F21,98,"rmf, mme"
 F22,9A9,"rmf, rpf, rmf"
