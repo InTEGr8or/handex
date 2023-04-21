@@ -8,6 +8,7 @@ var allChords = [];
 
 var timerValue = 0;
 var timerHandle = null;
+const fingers = {t:"thumb",i:"index",m:"middle",r:"ring",p:"pinky"};
 
 var Timer = function(timerState) {
 
@@ -102,8 +103,6 @@ var setNext = () => {
     strokes.forEach((stroke, index)=>{
         stroke = stroke.trim();
         const strokeAction = stroke.slice(1,3);
-        const rate = (Math.round(((index + 1) / Math.max(1, strokes.length -2)) * 16) - 1).toString(16);
-        const fingers = {t:"thumb",i:"index",m:"middle",r:"ring",p:"pinky"};
         const finger = fingers[`${stroke[0]}`];
         var segment = document.querySelector(`#${finger} #${strokeAction}`);
         if(index == 0) {
@@ -111,10 +110,13 @@ var setNext = () => {
             segment.setAttribute("stroke-width", `3px`);
         }
         else if(index == strokes.length -1 && strokes.length > 1){
-            segment.setAttribute("stroke", `#F70F`);
+            segment.setAttribute("stroke", `#000F`);
+            segment.setAttribute("stroke", `#0F0F`);
             segment.setAttribute("stroke-width", `2px`);
         }
         else{
+            const rateDenominator = Math.max(1, strokes.length -2);
+            const rate = (Math.round((Math.max(1, index) / rateDenominator) * 16) - 1).toString(16);
             segment.setAttribute("fill", `#0F0${rate}`);
         }
     })

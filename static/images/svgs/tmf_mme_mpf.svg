@@ -20,13 +20,13 @@
             True {stroke: #00F; stroke-width: 2px;}
             False {stroke: #000; stroke-width: 0.1px}
         }
-    }#index #pf {
+    }#middle #me {
         fill: #0F0C;
         False {
             True {stroke: #00F; stroke-width: 2px;}
             False {stroke: #000; stroke-width: 0.1px}
         }
-    }#thumb #me {
+    }#middle #pf {
         fill: #0F0F;
         False {
             True {stroke: #00F; stroke-width: 2px;}

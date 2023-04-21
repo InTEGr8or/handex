@@ -14,13 +14,25 @@
         #pinky {
             fill: #ffb6b6ff;
         }
-    #index #pf {
-        fill: #0F09;
+    #thumb #mf {
+        fill: #0F05;
         False {
             True {stroke: #00F; stroke-width: 2px;}
             False {stroke: #000; stroke-width: 0.1px}
         }
-    }#thumb #me {
+    }#pinky #mf {
+        fill: #0F0A;
+        False {
+            True {stroke: #00F; stroke-width: 2px;}
+            False {stroke: #000; stroke-width: 0.1px}
+        }
+    }#pinky #pf {
+        fill: #0F0F;
+        False {
+            True {stroke: #00F; stroke-width: 2px;}
+            False {stroke: #000; stroke-width: 0.1px}
+        }
+    }#index #pf {
         fill: #0F0F;
         False {
             True {stroke: #00F; stroke-width: 2px;}

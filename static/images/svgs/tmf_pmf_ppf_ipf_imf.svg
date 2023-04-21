@@ -15,18 +15,30 @@
             fill: #ffb6b6ff;
         }
     #thumb #mf {
-        fill: #0F06;
+        fill: #0F04;
         False {
             True {stroke: #00F; stroke-width: 2px;}
             False {stroke: #000; stroke-width: 0.1px}
         }
-    }#ring #pf {
+    }#pinky #mf {
+        fill: #0F08;
+        False {
+            True {stroke: #00F; stroke-width: 2px;}
+            False {stroke: #000; stroke-width: 0.1px}
+        }
+    }#pinky #pf {
         fill: #0F0C;
         False {
             True {stroke: #00F; stroke-width: 2px;}
             False {stroke: #000; stroke-width: 0.1px}
         }
-    }#thumb #me {
+    }#index #pf {
+        fill: #0F0F;
+        False {
+            True {stroke: #00F; stroke-width: 2px;}
+            False {stroke: #000; stroke-width: 0.1px}
+        }
+    }#index #mf {
         fill: #0F0F;
         False {
             True {stroke: #00F; stroke-width: 2px;}

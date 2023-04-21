@@ -20,19 +20,19 @@
             True {stroke: #00F; stroke-width: 2px;}
             False {stroke: #000; stroke-width: 0.1px}
         }
-    }#index #mf {
+    }#pinky #mf {
         fill: #0F0A;
         False {
             True {stroke: #00F; stroke-width: 2px;}
             False {stroke: #000; stroke-width: 0.1px}
         }
-    }#index #pf {
+    }#pinky #pf {
         fill: #0F0F;
         False {
             True {stroke: #00F; stroke-width: 2px;}
             False {stroke: #000; stroke-width: 0.1px}
         }
-    }#pinky #pf {
+    }#index #me {
         fill: #0F0F;
         False {
             True {stroke: #00F; stroke-width: 2px;}
