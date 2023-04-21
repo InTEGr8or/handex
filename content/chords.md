@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-04-21T00:38:24.841Z
+date: 2023-04-21T01:17:39.054Z
 ---
 Report,Chord,Strokes
 a and A,4,ipf
@@ -45,7 +45,7 @@ DELETE (Backspace),C0,"pmf, tmf"
 Tab,CD,"pmf, ppf"
 Spacebar,1,tpf
 - and (underscore),5,ime
-= and +,72,"mpf, tme"
+= and +,47A,"ipf, mpf, rpf"
 [ and {,87,"mme, mpf"
 ] and },8,mme
 \ and &#124;,AB,"rpf, rme"
