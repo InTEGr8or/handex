@@ -84,12 +84,14 @@ var resetHand = function() {
     const actions = ["me", "mf", "pf"];
     fingers.forEach((finger) => {
         actions.forEach((action) => {
-            // document.querySelector(`#${finger} #${action}`).setAttribute("fill", "#ffb6b6ff");
+            document.querySelector(`#${finger} #${action}`).setAttribute("fill", "#ffb6b6ff");
             document.querySelector(`#${finger} #${action}`).setAttribute("stroke", "#000000");
             document.querySelector(`#${finger} #${action}`).setAttribute("stroke-width", "0.1px");
         });
     });
-    document.querySelector(`#thumb`).setAttribute("fill", "url(#thumbGradient)");
+    document.querySelectorAll(`#thumb use`).forEach((s) => {
+        s.setAttribute("fill", "url(#thumbGradient)")
+    });
 };
 var setNext = () => {
     resetHand();
