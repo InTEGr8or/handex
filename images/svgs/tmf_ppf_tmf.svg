@@ -15,24 +15,18 @@
             fill: #ffb6b6ff;
         }
     #thumb #mf {
-        fill: #0F05;
+        fill: #0F06;
         False {
             True {stroke: #00F; stroke-width: 2px;}
             False {stroke: #000; stroke-width: 0.1px}
         }
-    }#index #pf {
-        fill: #0F0A;
+    }#pinky #pf {
+        fill: #0F0C;
         False {
             True {stroke: #00F; stroke-width: 2px;}
             False {stroke: #000; stroke-width: 0.1px}
         }
-    }#middle #pf {
-        fill: #0F0F;
-        False {
-            True {stroke: #00F; stroke-width: 2px;}
-            False {stroke: #000; stroke-width: 0.1px}
-        }
-    }#ring #pf {
+    }#thumb #mf {
         fill: #0F0F;
         False {
             True {stroke: #00F; stroke-width: 2px;}
