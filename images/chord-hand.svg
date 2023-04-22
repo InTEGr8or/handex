@@ -2,6 +2,10 @@
     viewBox="0 0 65 65"
     xmlns="http://www.w3.org/2000/svg" fill="none"  xmlns:v="https://vecta.io/nano">
     <style>
+        #hand g use {
+            stroke: #000;
+            stroke-width: 0.1px;
+        }
         #thumb {
             fill: url("#thumbGradient");
         }
@@ -38,33 +42,32 @@
                 L 0 10
                 Z" 
             stroke-width="useCurrent" stroke="useCurrent" />
-        <g id="hand" viewBox="0 0 50 50" x="0" y="0">
-            <g id="thumb" > 
-                <use id="me" href="#phalange" stroke="#000" stroke-width="0.1px" transform="translate(0,0) scale(1,1) " />
-                <use id="mf" href="#phalange" transform="translate(10,0) scale(1,1) "/>
-                <use id="pf" href="#tip" transform="translate(20,0) scale(1,1) "/>
-            </g>
-            <g id="index" transform="translate(0,10)"> 
-                <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) "/>
-                <use id="mf" href="#phalange" transform="translate(20,0) scale(2,1) "/>
-                <use id="pf" href="#tip" transform="translate(40,0) scale(1.5,1) "/>
-            </g>
-            <g id="middle" transform="translate(0,20)"> 
-                <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) "/>
-                <use id="mf" href="#phalange" transform="translate(20,0) scale(2.25,1) "/>
-                <use id="pf" href="#tip" transform="translate(42.5,0) scale(1.75,1) "/>
-            </g>
-            <g id="ring" transform="translate(0,30)"> 
-                <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) "/>
-                <use id="mf" href="#phalange" transform="translate(20,0) scale(2,1) "/>
-                <use id="pf" href="#tip" transform="translate(40,0) scale(1.5,1) "/>
-            </g>
-            <g id="pinky" transform="translate(0,40)"> 
-                <use id="me" href="#phalange" transform="translate(0,0) scale(1.5,1) "/>
-                <use id="mf" href="#phalange" transform="translate(15,0) scale(1.5,1) "/>
-                <use id="pf" href="#tip" transform="translate(30,0) scale(1.5,1) "/>
-            </g>
-        </g>
     </defs>
-    <use href="#hand" transform="translate(0,0) rotate(0)"/>
+    <g id="hand" viewBox="0 0 50 50" x="0" y="0">
+        <g id="thumb" > 
+            <use id="me" href="#phalange" stroke="#000" stroke-width="0.1px" transform="translate(0,0) scale(1,1) " />
+            <use id="mf" href="#phalange" transform="translate(10,0) scale(1,1) "/>
+            <use id="pf" href="#tip" transform="translate(20,0) scale(1,1) "/>
+        </g>
+        <g id="index" transform="translate(0,10)"> 
+            <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) "/>
+            <use id="mf" href="#phalange" transform="translate(20,0) scale(2,1) "/>
+            <use id="pf" href="#tip" transform="translate(40,0) scale(1.5,1) "/>
+        </g>
+        <g id="middle" transform="translate(0,20)"> 
+            <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) "/>
+            <use id="mf" href="#phalange" transform="translate(20,0) scale(2.25,1) "/>
+            <use id="pf" href="#tip" transform="translate(42.5,0) scale(1.75,1) "/>
+        </g>
+        <g id="ring" transform="translate(0,30)"> 
+            <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) "/>
+            <use id="mf" href="#phalange" transform="translate(20,0) scale(2,1) "/>
+            <use id="pf" href="#tip" transform="translate(40,0) scale(1.5,1) "/>
+        </g>
+        <g id="pinky" transform="translate(0,40)"> 
+            <use id="me" href="#phalange" transform="translate(0,0) scale(1.5,1) "/>
+            <use id="mf" href="#phalange" transform="translate(15,0) scale(1.5,1) "/>
+            <use id="pf" href="#tip" transform="translate(30,0) scale(1.5,1) "/>
+        </g>
+    </g>
 </svg>
