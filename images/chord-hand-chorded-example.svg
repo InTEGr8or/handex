@@ -3,7 +3,7 @@
     xmlns="http://www.w3.org/2000/svg" xmlns:v="https://vecta.io/nano">
     <style>
         #hand g use {
-            stroke: #aa6e02 ;
+            stroke: #000;
             stroke-width: 0.1px;
         }
         #thumb {
@@ -42,31 +42,40 @@
                 L 0 10
                 Z" 
             stroke-width="useCurrent" stroke="useCurrent" />
-        <polygon id="start" points="1,1 6,5 1,9" fill="#0F0F" z-index="1010"/>
+        <polygon id="start" points="1,1 6,5 1,9" fill="#0F0F" z-index="1000"/>
         <rect id="start-stop" y="1" x="6" width="3" height="8" fill="#000F" z-index="1000"/>
         <rect id="stop" y="1" width="8" height="8" fill="#000F" z-index="1000"/>
         <circle id="dot" cx="3" cy="5" r="2" stroke="none"/>
     </defs> 
     <g id="hand" viewBox="0 0 50 50" x="0" y="0" >
         <g id="thumb" > 
-            <use id="me" href="#phalange" transform="translate(0,0)"></use>
-            <use id="mf" href="#phalange" transform="translate(10,0)" />
+            <use id="me" href="#phalange" stroke="#000" stroke-width="0.1px" transform="translate(0,0) scale(1,1) "></use>
+            <use id="mf" href="#phalange" transform="translate(10,0) scale(1,1) "/>
             <use id="pf" href="#tip" transform="translate(20,0) scale(1,1) skewY(-12)"/>
+            <use href="#start" x="10"/>
+            <use href="#start-stop" x="10"/>
         </g>
         <g id="index" transform="translate(0,10)"> 
-            <use id="me" href="#phalange" transform="translate(0,0) scale(2,1)"/>
+            <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) "/>
             <use id="mf" href="#phalange" transform="translate(20,0) scale(2,1) "/>
             <use id="pf" href="#tip" transform="translate(40,0) scale(1.5,1) "/>
+            <use href="#dot" x="20" y="-2.5" fill="#0F0F"/>
+            <use href="#dot" x="20" y="2.5" fill="#050F"/>
+            <use href="#dot" x="25" y="2.5" fill="#050F"/>
+            <use href="#dot" x="30" y="2.5" fill="#050F"/>
         </g>
         <g id="middle" transform="translate(0,20)"> 
             <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) "/>
             <use id="mf" href="#phalange" transform="translate(20,0) scale(2.25,1) "/>
             <use id="pf" href="#tip" transform="translate(42.5,0) scale(1.75,1) "/>
+            <use href="#dot" x="20" fill="#090F"/>
+            <use href="#dot" x="25" fill="#090F"/>
         </g>
         <g id="ring" transform="translate(0,30)"> 
             <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) "/>
             <use id="mf" href="#phalange" transform="translate(20,0) scale(2,1) "/>
             <use id="pf" href="#tip" transform="translate(40,0) scale(1.5,1) "/>
+            <use href="#stop" transform="translate(21,0)"/>
         </g>
         <g id="pinky" transform="translate(0,40)"> 
             <use id="me" href="#phalange" transform="translate(0,0) scale(1.5,1) "/>
