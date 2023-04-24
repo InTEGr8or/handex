@@ -8,3 +8,4 @@ Use this form to learn Handex chords for your favorite phrases.
 
 {{< chord-phrase >}}
 
+{{< chord-list >}}
