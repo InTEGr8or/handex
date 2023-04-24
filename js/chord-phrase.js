@@ -5,6 +5,7 @@ var timer = document.getElementById('timer');
 var phrase = document.getElementById('phrase');
 var panagrams = document.getElementById('panagrams');
 var allChords = [];
+const chordImageHolder = document.getElementById('chord-image-holder');
 
 var timerValue = 0;
 var timerHandle = null;
@@ -82,19 +83,19 @@ var chordify = function() {
 var resetHand = function() {
     const fingers = ["thumb", "index", "middle", "ring", "pinky"];
     const actions = ["me", "mf", "pf"];
-    fingers.forEach((finger) => {
-        actions.forEach((action) => {
-            document.querySelector(`#${finger} #${action}`).setAttribute("fill", "#ffb6b6ff");
-            document.querySelector(`#${finger} #${action}`).setAttribute("stroke", "#000000");
-            document.querySelector(`#${finger} #${action}`).setAttribute("stroke-width", "0.1px");
-        });
-    });
-    document.querySelectorAll(`#thumb use`).forEach((s) => {
-        s.setAttribute("fill", "url(#thumbGradient)")
-    });
+    // fingers.forEach((finger) => {
+    //     actions.forEach((action) => {
+    //         document.querySelector(`#${finger} #${action}`).setAttribute("fill", "#ffb6b6ff");
+    //         document.querySelector(`#${finger} #${action}`).setAttribute("stroke", "#000000");
+    //         document.querySelector(`#${finger} #${action}`).setAttribute("stroke-width", "0.1px");
+    //     });
+    // });
+    // document.querySelectorAll(`#thumb use`).forEach((s) => {
+    //     s.setAttribute("fill", "url(#thumbGradient)")
+    // });
 };
 var setNext = () => {
-    resetHand();
+
     const outstanding = chordified.getElementsByClassName('outstanding');
     if(outstanding.length == 0) {
         return;
@@ -102,26 +103,9 @@ var setNext = () => {
     var next = outstanding[0];
     next.setAttribute("class", "outstanding next");
     const strokes = next.innerHTML.split("</span>")[1].split(",");
-    strokes.forEach((stroke, index)=>{
-        stroke = stroke.trim();
-        const strokeAction = stroke.slice(1,3);
-        const finger = fingers[`${stroke[0]}`];
-        var segment = document.querySelector(`#${finger} #${strokeAction}`);
-        if(index == 0) {
-            segment.setAttribute("stroke", `#0F0F`);
-            segment.setAttribute("stroke-width", `3px`);
-        }
-        else if(index == strokes.length -1 && strokes.length > 1){
-            segment.setAttribute("stroke", `#000F`);
-            segment.setAttribute("fill", `#0F0F`);
-            segment.setAttribute("stroke-width", `2px`);
-        }
-        else{
-            const rateDenominator = Math.max(1, strokes.length -2);
-            const rate = (Math.round((Math.max(1, index) / rateDenominator) * 16) - 1).toString(16);
-            segment.setAttribute("fill", `#0F0${rate}`);
-        }
-    })
+    const svgId = strokes.join("_").replaceAll(" ","");
+    const svg = document.getElementById(svgId);
+    chordImageHolder.replaceChildren(svg);
 };
 var listAllChords = () => {
     const chordDiv = document.getElementById("allChords");
