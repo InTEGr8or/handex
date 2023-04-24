@@ -66,6 +66,8 @@ var chordify = function() {
         // Add each row to the chordified element as a separate div with the first character of the row as the name.
         chordRows.forEach(function(row, index) {
             const rowDiv = document.createElement('div');
+            const rowStrokesId = row.strokes.replaceAll(", ","_").replaceAll(" ","");
+            document.querySelector(`#${rowStrokesId} img`)?.setAttribute("loading", "eager");
             rowDiv.id = index;
             rowDiv.setAttribute("name", row.char);
             rowDiv.setAttribute("class", "outstanding");
@@ -104,8 +106,11 @@ var setNext = () => {
     next.setAttribute("class", "outstanding next");
     const strokes = next.innerHTML.split("</span>")[1].split(",");
     const svgId = strokes.join("_").replaceAll(" ","");
-    const svg = document.getElementById(svgId);
-    chordImageHolder.replaceChildren(svg);
+    const svgImg = document.querySelector(`#${svgId} img`).cloneNode(true);
+    // svgImg.setAttribute("loading", "eager");
+    console.log("svgId:", svgId);
+    console.log("svgImg:", svgImg);
+    chordImageHolder.replaceChildren(svgImg);
 };
 var listAllChords = () => {
     const chordDiv = document.getElementById("allChords");
@@ -160,12 +165,13 @@ var testTimer = function(event) {
         curChar.setAttribute("class", "completed");
     }
     setNext();
-    if(testArea.value.trim() == phrase.value.trim().substring(0, testArea.value.trim().length)) {
+    if(testArea.value == phrase.value.trim().substring(0, testArea.value.length)) {
         // Highlight testArea with orange if it doesn't match phrase so far.
+        //TODO: handle backspace and full string rematching
         testArea.style.border = "";
     }
     else{
-        testArea.style.border = "4px solid orange";
+        testArea.style.border = "4px solid red";
     }
     if(testArea.value.trim() == phrase.value.trim()) {
         // stop timer
@@ -188,8 +194,6 @@ var resetChordifiedCompletion = function() {
     testArea.focus();
 };
 var startTimer = function() {
-    console.log("runTimer", timerValue);
-    console.log("timerHandle:", timerHandle);
     if(!timerHandle) {
         timerHandle = setInterval(runTimer, 100);
     }
@@ -205,7 +209,7 @@ var timerCancel = function() {
 }
 var clearChords = function() {
     document.getElementById('searchChords').value = '';
-    listAllChords();
+    // listAllChords();
 }
 
 document.getElementById('chordify')
