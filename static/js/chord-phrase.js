@@ -107,6 +107,7 @@ var setNext = () => {
     const strokes = next.innerHTML.split("</span>")[1].split(",");
     const svgId = strokes.join("_").replaceAll(" ","");
     const svgImg = document.querySelector(`#${svgId} img`).cloneNode(true);
+    svgImg.width = 180;
     // svgImg.setAttribute("loading", "eager");
     console.log("svgId:", svgId);
     console.log("svgImg:", svgImg);
