@@ -146,6 +146,14 @@ var listAllChords = () => {
     });
 
 };
+var comparePhrase = () => {
+    const chordArray = Array.from(document.querySelectorAll("#chordified div"));
+    const chordString = chordArray.map((chord)=>{return chord.getAttribute("name").replace("Space", " ");}).join("");
+    const typedPhrase = document.getElementById("phrase").value.split('');
+    typedPhrase.forEach((char, index) => {
+
+    });
+};
 var testTimer = function(event) {
     // TODO: handle other than inputType == "insertText"
     // if(event.inputType == "deleteContentBackward") {
