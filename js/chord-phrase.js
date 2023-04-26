@@ -38,7 +38,9 @@ var Timer = function(timerState) {
 };
 var chordify = function() {
     chordified.innerHTML = '';
-    document.querySelectorAll("#allChords > div").forEach((div)=>{div.hidden = true;});
+    // NOTE: Not needed anymore since we load a clone into the wholePhraseChords div.
+    // document.querySelectorAll("#allChords > div").forEach((div)=>{div.hidden = true;});
+    const wholePhraseChords = document.getElementById("wholePhraseChords");
     var phrase = document.getElementById('phrase').value;
     if(phrase.trim().length == 0) {
         return;
@@ -68,12 +70,14 @@ var chordify = function() {
         chordRows.forEach(function(row, index) {
             const rowDiv = document.createElement('div');
             const rowStrokesId = row.strokes.replaceAll(", ","_").replaceAll(" ","");
-            const inChord = document.querySelector(`#${rowStrokesId}`);
+            const inChord = document.querySelector(`#${rowStrokesId}`).cloneNode(true);
+            // Load the clone in Chord order into the wholePhraseChords div.
             if(inChord) {
                 inChord.hidden = false;
                 Array.from(inChord.children)
                     .filter(x => x.nodeName == "IMG")
                     .forEach(x => {x.setAttribute("loading", "eager")});
+                wholePhraseChords.appendChild(inChord); 
             }
             document.querySelector(`#${rowStrokesId} img`)?.setAttribute("loading", "eager");
             // document.querySelector(`#${rowStrokesId}`).hidden = false;
@@ -144,10 +148,17 @@ var listAllChords = () => {
 };
 var comparePhrase = () => {
     const chordArray = Array.from(document.querySelectorAll("#chordified div"));
+    chordArray.forEach((chord)=>{chord.setAttribute("class", "outstanding");});
     const chordString = chordArray.map((chord)=>{return chord.getAttribute("name").replace("Space", " ");}).join("");
-    const typedPhrase = document.getElementById("phrase").value.split('');
-    typedPhrase.forEach((char, index) => {
-
+    const sourcePhrase = document.getElementById("phrase").value.split('');
+    const testPhrase = testArea.value.split('');
+    testPhrase.forEach((char, index) => {
+        if(index >= chordArray.length) return;
+        if(char == chordString[index]) {
+            chordArray[index].setAttribute("class", "completed");
+        } else {
+            chordArray[index].setAttribute("class", "outstanding next");
+        }
     });
 };
 var testTimer = function(event) {
@@ -165,6 +176,7 @@ var testTimer = function(event) {
         timerValue = 0;
         return;
     }
+    comparePhrase();
     const curChar = chordified.getElementsByClassName('outstanding')[0];
     if(curChar && event.data == curChar.getAttribute("name").replace("Space", " ")){
         curChar.setAttribute("class", "completed");
