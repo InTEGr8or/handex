@@ -14,7 +14,7 @@
 </ul>
 <form id="chordifyForm" action="javascript:chordify();">
     <textarea type="text" id="phrase" style="width: 100%"></textarea>
-    <button id="chordify" type="submit">Chordify</button>
+    <button id="chordify" class="btn btn-primary btn-xs" type="submit">Chordify</button>
 </form>
 <details class="row col-sm-12">
     <summary class="col-sm-6">Chord Syntax Legend</summary>
@@ -57,7 +57,7 @@
     <div id="testAreaDiv" class="col-md-12" >
         <div style="width: 100%" class="row">
             <div id="test-timer" style="width: 75%; float: left; font-family: monospace; font-size: 16px"><i class="fa fa-clock-o" aria-hidden="false"></i>Time: <b><span id="timer">0.0</span></b> seconds</div>
-            <button id="timerCancel" class="btn btn-secondary btn-sm" style="width: 20%; float: right;">Reset</button>
+            <button id="timerCancel" class="btn btn-secondary btn-xs" style="width: 20%; float: right;">Reset</button>
         </div>
         <div class="row">
             <textarea id="testArea" style="min-width: 80%" title="test chord"></textarea>
@@ -66,9 +66,9 @@
     
     <div display="block" id="chordList" class="col-sm-12" style="max-width: 100%">
         <h6>Chord List</h6>
-        <input id="searchChords" class="col-sm-6" style="max-width: 100%"/>
-        <button id="listAllChords" class="col-sm-2 btn btn-secondary btn-sm">List chords</button>
-        <button id="clearChordsButton" class="col-sm-1 btn btn-secondary btn-sm" >Reset</button>
+        <input id="searchChords" class="col-sm-4" style="max-width: 100%"/>
+        <button id="listAllChords" class="col-sm-2 btn btn-secondary btn-xs">List chords</button>
+        <button id="clearChordsButton" class="col-sm-2 btn btn-secondary btn-xs" >Reset</button>
         <div id="wholePhraseChords" class="row col-sm-12 row chordified" style="max-width: 100%">
         </div>
     </div>  
