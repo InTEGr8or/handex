@@ -67,6 +67,7 @@ var chordify = function() {
         }
         const chordRows = chordList.json;
         // Add each row to the chordified element as a separate div with the first character of the row as the name.
+        wholePhraseChords.innerHTML = '';
         chordRows.forEach(function(row, index) {
             const rowDiv = document.createElement('div');
             const rowStrokesId = row.strokes.replaceAll(", ","_").replaceAll(" ","");
