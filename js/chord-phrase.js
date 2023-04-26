@@ -38,6 +38,7 @@ var Timer = function(timerState) {
 };
 var chordify = function() {
     chordified.innerHTML = '';
+    document.querySelectorAll("#allChords > div").forEach((div)=>{div.hidden = true;});
     var phrase = document.getElementById('phrase').value;
     if(phrase.trim().length == 0) {
         return;
@@ -67,7 +68,15 @@ var chordify = function() {
         chordRows.forEach(function(row, index) {
             const rowDiv = document.createElement('div');
             const rowStrokesId = row.strokes.replaceAll(", ","_").replaceAll(" ","");
+            const inChord = document.querySelector(`#${rowStrokesId}`);
+            if(inChord) {
+                inChord.hidden = false;
+                Array.from(inChord.children)
+                    .filter(x => x.nodeName == "IMG")
+                    .forEach(x => {x.setAttribute("loading", "eager")});
+            }
             document.querySelector(`#${rowStrokesId} img`)?.setAttribute("loading", "eager");
+            // document.querySelector(`#${rowStrokesId}`).hidden = false;
             rowDiv.id = index;
             rowDiv.setAttribute("name", row.char);
             rowDiv.setAttribute("class", "outstanding");
@@ -81,20 +90,6 @@ var chordify = function() {
         testArea.focus();
     });
     timerCancel();
-};
-var resetHand = function() {
-    const fingers = ["thumb", "index", "middle", "ring", "pinky"];
-    const actions = ["me", "mf", "pf"];
-    // fingers.forEach((finger) => {
-    //     actions.forEach((action) => {
-    //         document.querySelector(`#${finger} #${action}`).setAttribute("fill", "#ffb6b6ff");
-    //         document.querySelector(`#${finger} #${action}`).setAttribute("stroke", "#000000");
-    //         document.querySelector(`#${finger} #${action}`).setAttribute("stroke-width", "0.1px");
-    //     });
-    // });
-    // document.querySelectorAll(`#thumb use`).forEach((s) => {
-    //     s.setAttribute("fill", "url(#thumbGradient)")
-    // });
 };
 var setNext = () => {
 
@@ -114,6 +109,7 @@ var setNext = () => {
     chordImageHolder.replaceChildren(svgImg);
 };
 var listAllChords = () => {
+    // TODO: I don't think this has been updated to use the static chord list, but it still seems to work.
     const chordDiv = document.getElementById("allChords");
     chordDiv.innerHTML = "";
     const searchChords = document.getElementById("searchChords").value.toLowerCase();
@@ -235,7 +231,6 @@ document.getElementById('listAllChords')
     .addEventListener('click', listAllChords);
 
 document.addEventListener("DOMContentLoaded", () => {
-    resetHand();
     allChords = fetch('/js/chords.json')
         .then(response => {
             return response.json();
