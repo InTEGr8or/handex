@@ -92,6 +92,7 @@ var chordify = function() {
             chordified.appendChild(rowDiv);
         });
         setNext();
+        setTimerSvg('start');
         testArea.focus();
     });
     timerCancel();
@@ -194,10 +195,27 @@ var testTimer = function(event) {
     if(testArea.value.trim() == phrase.value.trim()) {
         // stop timer
         clearInterval(timerHandle);
+        setTimerSvg('stop');
         timerHandle = null;
         return;
     }
     startTimer();
+}
+const setTimerSvg = (status) => {
+    const statusSvg = document.getElementById('timerSvg');
+    switch(status) {
+        case 'start':
+            statusSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
+            break;
+        case 'stop':
+            statusSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
+            break;
+        case 'pause':
+            statusSvg.innerHTML = '<use href="#pause" transform="scale(2,2)" ></use>';
+            break;
+        default:
+            statusSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
+    }
 };
 var runTimer = function() {
     timerValue++;
@@ -209,11 +227,13 @@ var resetChordifiedCompletion = function() {
     })
     testArea.style.border = "";
     setNext();
+    setTimerSvg('start');
     testArea.focus();
 };
 var startTimer = function() {
     if(!timerHandle) {
         timerHandle = setInterval(runTimer, 100);
+        setTimerSvg('pause');
     }
 };
 var timerCancel = function() {
@@ -238,8 +258,8 @@ panagrams.addEventListener('click', function(e) {
 });
 document.getElementById('timerCancel')
     .addEventListener('click', timerCancel);
-document.getElementById('listAllChords')
-    .addEventListener('click', listAllChords);
+// document.getElementById('listAllChords')
+//     .addEventListener('click', listAllChords);
 
 document.addEventListener("DOMContentLoaded", () => {
     allChords = fetch('/js/chords.json')
