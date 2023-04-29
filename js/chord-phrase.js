@@ -113,7 +113,8 @@ var setNext = () => {
     console.log("svgId:", svgId);
     console.log("svgImg:", svgImg);
     chordImageHolder.replaceChildren(svgImg);
-    document.getElementById("svgCharacter").innerHTML = next.getAttribute("name");
+    document.getElementById("svgCharacter").innerHTML = next.getAttribute("name").replace("Space", " ");
+    document.getElementById("svgCharacter").hidden = false;
 };
 var listAllChords = () => {
     // TODO: I don't think this has been updated to use the static chord list, but it still seems to work.
