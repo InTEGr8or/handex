@@ -208,9 +208,11 @@ const setTimerSvg = (status) => {
     switch(status) {
         case 'start':
             statusSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
+            testArea.disabled = false;
             break;
         case 'stop':
             statusSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
+            testArea.disabled = true;
             break;
         case 'pause':
             statusSvg.innerHTML = '<use href="#pause" transform="scale(2,2)" ></use>';
