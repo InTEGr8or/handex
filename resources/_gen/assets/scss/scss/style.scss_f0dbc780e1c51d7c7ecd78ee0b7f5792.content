@@ -7436,6 +7436,10 @@ svg g {
 .chordified div.completed span {
   color: black; }
 
+#wholePhraseChords div.col-sm-3 {
+  width: 25%;
+  flex: none; }
+
 #chord-image-holder img {
   margin: 0;
   padding: 0; }
