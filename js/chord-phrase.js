@@ -230,8 +230,6 @@ var clearChords = function() {
     // listAllChords();
 }
 
-document.getElementById('chordify')
-    .addEventListener('click', chordify);
 phrase.addEventListener('change', chordify);
 testArea.addEventListener('input', testTimer);
 panagrams.addEventListener('click', function(e) {
