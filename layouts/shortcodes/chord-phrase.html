@@ -13,39 +13,45 @@
    <li >var xyzOrds => (q){q % 2 || !^~ ? "c++"} </li>
 </ul>
 <form id="chordifyForm" action="javascript:chordify();">
-    <textarea type="text" id="phrase" style="width: 100%"></textarea>
+    <textarea type="text" id="phrase" style="width: 100%; height: 70px;"></textarea>
+
     <button id="chordify" class="btn btn-primary btn-xs" type="submit">Chordify</button>
 </form>
-<details class="row col-sm-12">
-    <summary class="col-sm-6">Chord Syntax Legend</summary>
-    <pre id="legend" class="bold col-sm-6">
-        t = thumb
-        i = index
-        m = middle
-        r = ring
-        p = pinky
+<details class="row ">
+    <summary class="row col-sm-12">Chord Syntax Legend</summary>
+    <pre id="legend" class="bold col-sm-3">
+t = thumb
+i = index
+m = middle
+r = ring
+p = pinky
 
-        mf = metacarpo-flexion
-        pf = proximal-flexion
-        me = metacarpo-extension
+mf = metacarpo-flexion
+pf = proximal-flexion
+me = metacarpo-extension
+
+Modifiers:
+tmf = Shift
+tpf = Ctrl
+tmf_tpf = Alt
     </pre>
-    <pre id="hex-chords" class="bold col-sm-4">
-        hexcode, finger, action
-        0x0, thumb, mf
-        0x1, thumb, pf
-        0x2, thumb, me
-        0x3, index, mf
-        0x4, index, pf
-        0x5, index, me
-        0x6, middle, mf
-        0x7, middle, pf
-        0x8, middle, me
-        0x9, ring, mf
-        0xA, ring, pf
-        0xB, ring, me
-        0xC, pinky, mf
-        0xD, pinky, pf
-        0xE, pinky, me
+    <pre id="hex-chords" class="bold col-sm-3">
+hexcode, finger, action
+0x0, thumb, mf
+0x1, thumb, pf
+0x2, thumb, me
+0x3, index, mf
+0x4, index, pf
+0x5, index, me
+0x6, middle, mf
+0x7, middle, pf
+0x8, middle, me
+0x9, ring, mf
+0xA, ring, pf
+0xB, ring, me
+0xC, pinky, mf
+0xD, pinky, pf
+0xE, pinky, me
     </pre>
 </details>
 <div id="chord-area" class="row col-md-12">
@@ -66,9 +72,9 @@
     
     <div display="block" id="chordList" class="col-sm-12" style="max-width: 100%">
         <h6>Chord List</h6>
-        <input id="searchChords" class="col-sm-4" style="max-width: 100%"/>
-        <button id="listAllChords" class="col-sm-2 btn btn-secondary btn-xs">List chords</button>
-        <button id="clearChordsButton" class="col-sm-2 btn btn-secondary btn-xs" >Reset</button>
+        <!-- <input id="searchChords" class="col-sm-4" style="max-width: 100%"/> -->
+        <!-- <button id="listAllChords" class="col-sm-2 btn btn-secondary btn-xs">List chords</button> -->
+        <!-- <button id="clearChordsButton" class="col-sm-2 btn btn-secondary btn-xs" >Reset</button> -->
         <div id="wholePhraseChords" class="row col-sm-12 row chordified" style="max-width: 100%">
         </div>
     </div>  
