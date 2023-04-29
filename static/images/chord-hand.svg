@@ -1,7 +1,6 @@
 <svg id="chord-hand" 
     viewBox="0 0 63 50"
-    width="63" height="50"
-    display="none"
+    width="630" height="500"
     xmlns="http://www.w3.org/2000/svg" xmlns:v="https://vecta.io/nano">
     <style>
         #hand g use {
