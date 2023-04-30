@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-04-26T16:09:09.810Z
+date: 2023-04-30T19:25:22.025Z
 ---
 Report,Chord,Strokes
 a and A,4,ipf
@@ -49,7 +49,7 @@ Spacebar,1,tpf
 [ and {,D0,"ppf, tmf"
 ] and },DC0,"ppf, pmf, tmf"
 \ and &#124;,AD,"rpf, ppf"
-Non-US # and &#124;,4A,"ipf, rpf"
+# and &#124;,4A,"ipf, rpf"
 ; and :,96,"rmf, mmf"
 "' and """,434,"ipf, imf, ipf"
  and ~,45,"ipf, ime"

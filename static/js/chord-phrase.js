@@ -68,10 +68,11 @@ var chordify = function() {
         const chordRows = chordList.json;
         // Add each row to the chordified element as a separate div with the first character of the row as the name.
         wholePhraseChords.innerHTML = '';
-        chordRows.forEach(function(row, index) {
+        chordRows.forEach(function(row, i) {
             const rowDiv = document.createElement('div');
             const rowStrokesId = row.strokes.replaceAll(", ","_").replaceAll(" ","");
             const inChord = document.querySelector(`#${rowStrokesId}`).cloneNode(true);
+            inChord.setAttribute("name", row.char);
             // Load the clone in Chord order into the wholePhraseChords div.
             if(inChord) {
                 inChord.hidden = false;
@@ -82,7 +83,7 @@ var chordify = function() {
             }
             document.querySelector(`#${rowStrokesId} img`)?.setAttribute("loading", "eager");
             // document.querySelector(`#${rowStrokesId}`).hidden = false;
-            rowDiv.id = index;
+            rowDiv.id = i;
             rowDiv.setAttribute("name", row.char);
             rowDiv.setAttribute("class", "outstanding");
             const charSpan = document.createElement('span');
@@ -98,21 +99,30 @@ var chordify = function() {
     timerCancel();
 };
 var setNext = () => {
-
-    const outstanding = chordified.getElementsByClassName('outstanding');
-    if(outstanding.length == 0) {
+    const nextIndex = comparePhrase();
+    if(nextIndex < 0) {
         return;
-    };
-    var next = outstanding[0];
-    next.setAttribute("class", "outstanding next");
-    const strokes = next.innerHTML.split("</span>")[1].split(",");
-    const svgId = strokes.join("_").replaceAll(" ","");
-    const svgImg = document.querySelector(`#${svgId} img`).cloneNode(true);
-    svgImg.width = 180;
-    // svgImg.setAttribute("loading", "eager");
-    console.log("svgId:", svgId);
-    console.log("svgImg:", svgImg);
-    chordImageHolder.replaceChildren(svgImg);
+    }
+    const next = wholePhraseChords.children[nextIndex];
+
+    const nextClasses = next.getAttribute("class").split(" ");
+    nextClasses.push("next");
+    next.setAttribute("class", nextClasses.join(" "));
+    // Remove the outstanding class from the previous chord.
+    const prevIndex = nextIndex - 1;
+    if(prevIndex >= 0) {
+        const prev = wholePhraseChords.children[prevIndex];
+        const prevClasses = prev.getAttribute("class").split(" ");
+        prevClasses.splice(prevClasses.indexOf("outstanding"), 1);
+        prev.setAttribute("class", prev.getAttribute("class").replace("next", ""));
+    }
+    Array.from(next.childNodes)
+        .filter(x => x.nodeName == "IMG")
+        .forEach(x => {
+            x.width = 180;
+            chordImageHolder.replaceChildren(x.cloneNode(true));
+            
+        });
     document.getElementById("svgCharacter").innerHTML = next.getAttribute("name").replace("Space", " ");
     document.getElementById("svgCharacter").hidden = false;
 };
@@ -127,12 +137,12 @@ var listAllChords = () => {
     } else {
         foundChords = allChords.filter(chord =>{return chord.report.toLowerCase().indexOf(searchChords) > -1 || chord.strokes.toLowerCase().indexOf(searchChords) > -1 });
     }
-    foundChords.forEach((chord, index) => {
+    foundChords.forEach((chord, i) => {
 
         const lCase = chord.report.split("and")[0].trim();
         const uCase = chord.report.split("and")[1];
         const rowDiv = document.createElement("div");
-        const handId = `hand${index}`;
+        const handId = `hand${i}`;
         rowDiv.setAttribute("class", "row col-sm-3");
         rowDiv.setAttribute("id", handId);
         const chordStrokes = chord.strokes.replaceAll(", ","_")
@@ -141,7 +151,7 @@ var listAllChords = () => {
         chordDiv.appendChild(rowDiv);
         if(uCase){
             const uRowDiv = document.createElement("div");
-            uRowDiv.id = `hand${index}u`;
+            uRowDiv.id = `hand${i}u`;
             uRowDiv.setAttribute("class", "row col-sm-3");
             const uHand = `<img src="/images/svgs/tmf_${chordStrokes}.svg" width="100" class="hand" />`
             uRowDiv.innerHTML = `<div class="next"><span>${uCase}</span>tmf, ${chord.strokes}</div>${uHand}`;
@@ -151,19 +161,18 @@ var listAllChords = () => {
 
 };
 var comparePhrase = () => {
-    const chordArray = Array.from(document.querySelectorAll("#chordified div"));
-    chordArray.forEach((chord)=>{chord.setAttribute("class", "outstanding");});
-    const chordString = chordArray.map((chord)=>{return chord.getAttribute("name").replace("Space", " ");}).join("");
     const sourcePhrase = document.getElementById("phrase").value.split('');
     const testPhrase = testArea.value.split('');
-    testPhrase.forEach((char, index) => {
-        if(index >= chordArray.length) return;
-        if(char == chordString[index]) {
-            chordArray[index].setAttribute("class", "completed");
-        } else {
-            chordArray[index].setAttribute("class", "outstanding next");
-        }
+    if(testPhrase.length == 0) return 0;
+    if(testPhrase.length == sourcePhrase.length) return sourcePhrase.length + 1;
+    var result = 0;
+    testPhrase.forEach((c, i) => {
+        if(c != sourcePhrase[i]) {
+            return i;
+        } 
+        result = i;
     });
+    return result + 1;
 };
 var testTimer = function(event) {
     // TODO: handle other than inputType == "insertText"
@@ -179,11 +188,6 @@ var testTimer = function(event) {
         timer.innerHTML = (0).toFixed(1);
         timerValue = 0;
         return;
-    }
-    comparePhrase();
-    const curChar = chordified.getElementsByClassName('outstanding')[0];
-    if(curChar && event.data == curChar.getAttribute("name").replace("Space", " ")){
-        curChar.setAttribute("class", "completed");
     }
     setNext();
     if(testArea.value == phrase.value.trim().substring(0, testArea.value.length)) {
@@ -230,7 +234,6 @@ var resetChordifiedCompletion = function() {
         element.setAttribute("class", "outstanding");
     })
     testArea.style.border = "";
-    setNext();
     setTimerSvg('start');
     testArea.focus();
 };
@@ -247,7 +250,6 @@ var timerCancel = function() {
         timer.innerHTML = (0).toFixed(1);
         timerValue = 0;
         resetChordifiedCompletion();
-        setNext();
 }
 var clearChords = function() {
     document.getElementById('searchChords').value = '';
@@ -274,5 +276,5 @@ document.addEventListener("DOMContentLoaded", () => {
             allChords = data;
         });
 });
-document.getElementById('clearChordsButton')
-    .addEventListener('click', clearChords);
+// document.getElementById('clearChordsButton')
+//     .addEventListener('click', clearChords);

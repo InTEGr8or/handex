@@ -7398,17 +7398,12 @@ textarea#testArea {
 svg g {
   align-items: left; }
 
-.chordified div {
+.chordified div div {
   float: left;
   font-family: monospace;
   font-size: 0.6em; }
 
-.chordified div.outstanding {
-  color: #630;
-  font-weight: bold;
-  padding: 0 4px; }
-
-.chordified div.next {
+.chordified div div.next {
   color: #630;
   border: 1px solid #3A0;
   background-color: #9F9;
@@ -7418,27 +7413,31 @@ svg g {
   font-size: 1.2em;
   line-height: 1.4em; }
 
-.chordified div.next:after {
+.chordified div:after {
   background-image: "images/hand-chord.svg"; }
 
-.chordified div span {
+.chordified div div span {
   color: black;
   margin: 0 4px 0 0; }
 
-.chordified div.next span {
+.chordified div div.next span {
   font-size: 1.4em;
   background-color: #FA6;
   padding: 0 8px 0 4px; }
 
-.chordified div.completed {
-  color: #690; }
-
-.chordified div.completed span {
-  color: black; }
-
 #wholePhraseChords div.col-sm-3 {
-  width: 25%;
-  flex: none; }
+  width: 12.5%;
+  flex: none;
+  padding: 0 0 10px 0;
+  margin: 0; }
+
+#wholePhraseChords img {
+  width: 100%;
+  padding: 0;
+  margin: 0 0 10px 0; }
+
+#wholePhraseChords > div.next {
+  background-color: lightblue; }
 
 #chord-image-holder img {
   margin: 0;
