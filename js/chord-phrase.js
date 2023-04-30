@@ -163,7 +163,7 @@ var comparePhrase = () => {
     const sourcePhrase = document.getElementById("phrase").value.split('');
     const testPhrase = testArea.value.split('');
     if(testPhrase.length == 0) return 0;
-    if(testPhrase.length == sourcePhrase.length) {
+    if(testPhrase == sourcePhrase) {
         setTimerSvg('stop');
         return -1;
     }
@@ -182,6 +182,7 @@ var testTimer = function(event) {
     //     // TODO: handle backspace
     //     return;
     // }
+    setNext();
     if(testArea.value.trim().length == 0) {
         // stop timer
         testArea.style.border = "";
@@ -191,7 +192,6 @@ var testTimer = function(event) {
         timerValue = 0;
         return;
     }
-    setNext();
     if(testArea.value == phrase.value.trim().substring(0, testArea.value.length)) {
         // Highlight testArea with orange if it doesn't match phrase so far.
         //TODO: handle backspace and full string rematching
