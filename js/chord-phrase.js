@@ -100,22 +100,21 @@ var chordify = function() {
 };
 var setNext = () => {
     const nextIndex = comparePhrase();
+
     if(nextIndex < 0) {
         return;
     }
+    // Remove the outstanding class from the previous chord.
+    Array
+        .from(wholePhraseChords.children)
+        .forEach((chord, i) => {
+            chord.setAttribute("class", chord.getAttribute("class").replace("next", ""));
+        }
+    );
     const next = wholePhraseChords.children[nextIndex];
-
     const nextClasses = next.getAttribute("class").split(" ");
     nextClasses.push("next");
     next.setAttribute("class", nextClasses.join(" "));
-    // Remove the outstanding class from the previous chord.
-    const prevIndex = nextIndex - 1;
-    if(prevIndex >= 0) {
-        const prev = wholePhraseChords.children[prevIndex];
-        const prevClasses = prev.getAttribute("class").split(" ");
-        prevClasses.splice(prevClasses.indexOf("outstanding"), 1);
-        prev.setAttribute("class", prev.getAttribute("class").replace("next", ""));
-    }
     Array.from(next.childNodes)
         .filter(x => x.nodeName == "IMG")
         .forEach(x => {
@@ -164,7 +163,10 @@ var comparePhrase = () => {
     const sourcePhrase = document.getElementById("phrase").value.split('');
     const testPhrase = testArea.value.split('');
     if(testPhrase.length == 0) return 0;
-    if(testPhrase.length == sourcePhrase.length) return sourcePhrase.length + 1;
+    if(testPhrase.length == sourcePhrase.length) {
+        setTimerSvg('stop');
+        return -1;
+    }
     var result = 0;
     testPhrase.forEach((c, i) => {
         if(c != sourcePhrase[i]) {
