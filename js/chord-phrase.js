@@ -126,6 +126,7 @@ var setNext = () => {
     document.getElementById("svgCharacter").hidden = false;
 };
 var listAllChords = () => {
+    const allChordsList = document.getElementById('allChordsList');
     Array.from(allChordsList.children).forEach((chord) => {
         chord.hidden = false;
     });
@@ -242,7 +243,6 @@ document.getElementById('listAllChords')
     .addEventListener('click', listAllChords);
 
 document.addEventListener("DOMContentLoaded", () => {
-    const allChordsList = document.getElementById('allChordsList');
     // const allChords = fetch('/js/chords.json')
     //     .then(response => {
     //         return response.json();
