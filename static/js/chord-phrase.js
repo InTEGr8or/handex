@@ -104,6 +104,7 @@ var setNext = () => {
     if(nextIndex < 0) {
         return;
     }
+    if (nextIndex > wholePhraseChords.children.length - 1) return;
     // Remove the outstanding class from the previous chord.
     Array
         .from(wholePhraseChords.children)
