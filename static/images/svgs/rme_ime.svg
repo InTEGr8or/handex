@@ -1,4 +1,4 @@
-﻿<svg id="chord-hand" viewBox="0 0 63 50" width="630" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:v="https://vecta.io/nano"><style>
+<svg id="chord-hand" viewBox="0 0 63 50" width="630" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:v="https://vecta.io/nano"><style>
         #hand g use {
             stroke: #aa6e02 ;
             stroke-width: 0.1px;
