@@ -4,7 +4,6 @@ var chordified = document.getElementById('chordified');
 var timer = document.getElementById('timer');
 var phrase = document.getElementById('phrase');
 var panagrams = document.getElementById('panagrams');
-var allChords = [];
 const chordImageHolder = document.getElementById('chord-image-holder');
 
 var timerValue = 0;
@@ -39,7 +38,7 @@ var Timer = function(timerState) {
 var chordify = function() {
     chordified.innerHTML = '';
     // NOTE: Not needed anymore since we load a clone into the wholePhraseChords div.
-    // document.querySelectorAll("#allChords > div").forEach((div)=>{div.hidden = true;});
+    document.querySelectorAll("#allChordsList > div").forEach((div)=>{div.hidden = true;});
     const wholePhraseChords = document.getElementById("wholePhraseChords");
     var phrase = document.getElementById('phrase').value;
     if(phrase.trim().length == 0) {
@@ -127,38 +126,10 @@ var setNext = () => {
     document.getElementById("svgCharacter").hidden = false;
 };
 var listAllChords = () => {
-    // TODO: I don't think this has been updated to use the static chord list, but it still seems to work.
-    const chordDiv = document.getElementById("allChords");
-    chordDiv.innerHTML = "";
-    const searchChords = document.getElementById("searchChords").value.toLowerCase();
-    let foundChords = [];
-    if(searchChords.length == 0) {
-       foundChords = allChords;
-    } else {
-        foundChords = allChords.filter(chord =>{return chord.report.toLowerCase().indexOf(searchChords) > -1 || chord.strokes.toLowerCase().indexOf(searchChords) > -1 });
-    }
-    foundChords.forEach((chord, i) => {
-
-        const lCase = chord.report.split("and")[0].trim();
-        const uCase = chord.report.split("and")[1];
-        const rowDiv = document.createElement("div");
-        const handId = `hand${i}`;
-        rowDiv.setAttribute("class", "row col-sm-3");
-        rowDiv.setAttribute("id", handId);
-        const chordStrokes = chord.strokes.replaceAll(", ","_")
-        const hand = `<img src="/images/svgs/${chordStrokes}.svg" width="100" class="hand" />`
-        rowDiv.innerHTML = `<div class="next"><span>${lCase}</span>${chord.strokes}</div>${hand}`;
-        chordDiv.appendChild(rowDiv);
-        if(uCase){
-            const uRowDiv = document.createElement("div");
-            uRowDiv.id = `hand${i}u`;
-            uRowDiv.setAttribute("class", "row col-sm-3");
-            const uHand = `<img src="/images/svgs/tmf_${chordStrokes}.svg" width="100" class="hand" />`
-            uRowDiv.innerHTML = `<div class="next"><span>${uCase}</span>tmf, ${chord.strokes}</div>${uHand}`;
-            chordDiv.appendChild(uRowDiv);
-        }
+    const allChordsList = document.getElementById('allChordsList');
+    Array.from(allChordsList.children).forEach((chord) => {
+        chord.hidden = false;
     });
-
 };
 var comparePhrase = () => {
     const sourcePhrase = document.getElementById("phrase").value.split('');
@@ -268,17 +239,17 @@ panagrams.addEventListener('click', function(e) {
 });
 document.getElementById('timerCancel')
     .addEventListener('click', timerCancel);
-// document.getElementById('listAllChords')
-//     .addEventListener('click', listAllChords);
+document.getElementById('listAllChords')
+    .addEventListener('click', listAllChords);
 
 document.addEventListener("DOMContentLoaded", () => {
-    allChords = fetch('/js/chords.json')
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            allChords = data;
-        });
+    // const allChords = fetch('/js/chords.json')
+    //     .then(response => {
+    //         return response.json();
+    //     })
+    //     .then(data => {
+    //         allChords = data;
+    //     });
 });
 // document.getElementById('clearChordsButton')
 //     .addEventListener('click', clearChords);
