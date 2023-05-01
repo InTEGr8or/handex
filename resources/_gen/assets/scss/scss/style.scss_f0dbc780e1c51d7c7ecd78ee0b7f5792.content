@@ -7414,11 +7414,12 @@ svg g {
 
 .chordified div div span {
   color: black;
-  margin: 0 4px 0 0; }
+  margin: 0; }
 
 .chordified div div.next span {
-  font-size: 2.4em;
-  padding: 0 8px 0 4px; }
+  font-size: 2.2em;
+  padding: 0;
+  margin: 0; }
 
 #wholePhraseChords div.col-sm-3 {
   width: 12.5%;
