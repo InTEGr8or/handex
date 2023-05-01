@@ -169,13 +169,13 @@ var comparePhrase = () => {
         return -1;
     }
     var result = 0;
-    testPhrase.forEach((c, i) => {
-        if(c != sourcePhrase[i]) {
+    for(let i = 0; i < testPhrase.length; i++)  {
+        if(testPhrase[i] !== sourcePhrase[i]) {
             return i;
-        } 
-        result = i;
-    });
-    return result + 1;
+        }
+        result++;
+    };
+    return result;
 };
 var testTimer = function(event) {
     // TODO: handle other than inputType == "insertText"
