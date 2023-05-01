@@ -11,6 +11,12 @@
    <li >Sphinx of black quartz, judge my vow.</li>
    <li >List.map(fun i -> i + 1)[1;2;3]</li>
    <li >var xyzOrds => (q){q % 2 || !^~ ? "c++"} </li>
+   <li >
+        <pre>($($type:ty),+ $(,)? ) => {
+    $( write_schema_for!("response", bitwarden_json::response::Response<$type>); )+
+};
+        </pre>
+    </li>
 </ul>
 <form id="chordifyForm" action="javascript:chordify();">
     <textarea type="text" id="phrase" style="width: 100%; height: 70px;"></textarea>
