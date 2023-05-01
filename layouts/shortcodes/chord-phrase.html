@@ -60,12 +60,29 @@ hexcode, finger, action
         <pre id="chordified" hidden class="col-md-6 bold chordified" ></pre>
         <div class="col-md-4 ">
             <pre id="svgCharacter" hidden style="float: left;margin:0; width: 70px; font-size: 72px; color: black; border: 1px solid grey;"></pre>
-            <div id="chord-image-holder" style="float: left;"></div>
+            <div id="chord-image-holder" style="float: left;">
+                <!-- <svg width="300" height="300" transform="rotate(-90) traslate(20,20) scale(1.5,1.5)">
+                    <use id="chord-image" href="#chord-phrase-hand"  ></use>
+                </svg> -->
+            </div>
         </div>
     </div>
     <div id="testAreaDiv" class="col-md-12" >
         <div style="width: 100%" class="row">
-            <div id="test-timer" style="width: 75%; float: left; font-family: monospace; font-size: 16px"><i class="fa fa-clock-o" aria-hidden="false"></i><span id="status"><svg id="timerSvg" width="20" height="20"><use href="#start" transform="scale(2,2)" ></use></svg></span><b><span id="timer">0.0</span></b> seconds</div>
+            <div id="test-timer" style="width: 60%; float: left; font-family: monospace; font-size: 16px">
+                <i class="fa fa-clock-o" aria-hidden="false"></i>
+                <span id="status">
+                    <svg id="timerSvg" width="20" height="20">
+                        <use href="#start" transform="scale(2,2)" >
+
+                        </use>
+                    </svg>
+                </span>
+                <b>
+                    <span id="timer">0.0</span>
+                </b> seconds
+            </div>
+            <button id="listAllChords" class="btn btn-secondary btn-xs" style="width: 20%; float: right;">List chords</button>
             <button id="timerCancel" class="btn btn-secondary btn-xs" style="width: 20%; float: right;">Reset</button>
         </div>
         <div class="row">
@@ -76,7 +93,6 @@ hexcode, finger, action
     <div display="block" id="chordList" class="col-sm-12" style="max-width: 100%">
         <h6>Chord List</h6>
         <!-- <input id="searchChords" class="col-sm-4" style="max-width: 100%"/> -->
-        <!-- <button id="listAllChords" class="col-sm-2 btn btn-secondary btn-xs">List chords</button> -->
         <!-- <button id="clearChordsButton" class="col-sm-2 btn btn-secondary btn-xs" >Reset</button> -->
         <div id="wholePhraseChords" class="row col-sm-12 row chordified" style="max-width: 100%">
         </div>
@@ -149,32 +165,32 @@ hexcode, finger, action
             <rect id="pause-1" x="1" y="1" width="2" height="8" fill="#000F" z-index="1000"/>
             <rect id="pause-2" x="5" y="1" width="2" height="8" fill="#000F" z-index="1000"/>
         </g>
+        <g id="chord-phrase-hand" viewBox="0 0 63 50" x="0" y="0" >
+            <g id="thumb" > 
+                <use id="me" href="#phalange" transform="translate(0,0)"></use>
+                <use id="mf" href="#phalange" transform="translate(10,0)" />
+                <use id="pf" href="#tip" transform="translate(20,0) scale(1,1) skewY(-12)"/>
+            </g>
+            <g id="index" transform="translate(0,10)"> 
+                <use id="me" href="#phalange" transform="translate(0,0) scale(2,1)"/>
+                <use id="mf" href="#phalange" transform="translate(20,0) scale(2,1) "/>
+                <use id="pf" href="#tip" transform="translate(40,0) scale(1.5,1) "/>
+            </g>
+            <g id="middle" transform="translate(0,20)"> 
+                <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) "/>
+                <use id="mf" href="#phalange" transform="translate(20,0) scale(2.25,1) "/>
+                <use id="pf" href="#tip" transform="translate(42.5,0) scale(1.75,1) "/>
+            </g>
+            <g id="ring" transform="translate(0,30)"> 
+                <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) "/>
+                <use id="mf" href="#phalange" transform="translate(20,0) scale(2,1) "/>
+                <use id="pf" href="#tip" transform="translate(40,0) scale(1.5,1) "/>
+            </g>
+            <g id="pinky" transform="translate(0,40)"> 
+                <use id="me" href="#phalange" transform="translate(0,0) scale(1.5,1) "/>
+                <use id="mf" href="#phalange" transform="translate(15,0) scale(1.5,1) "/>
+                <use id="pf" href="#tip" transform="translate(30,0) scale(1.5,1) "/>
+            </g>
+        </g>
     </defs> 
-    <g id="hand" viewBox="0 0 63 50" x="0" y="0" >
-        <g id="thumb" > 
-            <use id="me" href="#phalange" transform="translate(0,0)"></use>
-            <use id="mf" href="#phalange" transform="translate(10,0)" />
-            <use id="pf" href="#tip" transform="translate(20,0) scale(1,1) skewY(-12)"/>
-        </g>
-        <g id="index" transform="translate(0,10)"> 
-            <use id="me" href="#phalange" transform="translate(0,0) scale(2,1)"/>
-            <use id="mf" href="#phalange" transform="translate(20,0) scale(2,1) "/>
-            <use id="pf" href="#tip" transform="translate(40,0) scale(1.5,1) "/>
-        </g>
-        <g id="middle" transform="translate(0,20)"> 
-            <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) "/>
-            <use id="mf" href="#phalange" transform="translate(20,0) scale(2.25,1) "/>
-            <use id="pf" href="#tip" transform="translate(42.5,0) scale(1.75,1) "/>
-        </g>
-        <g id="ring" transform="translate(0,30)"> 
-            <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) "/>
-            <use id="mf" href="#phalange" transform="translate(20,0) scale(2,1) "/>
-            <use id="pf" href="#tip" transform="translate(40,0) scale(1.5,1) "/>
-        </g>
-        <g id="pinky" transform="translate(0,40)"> 
-            <use id="me" href="#phalange" transform="translate(0,0) scale(1.5,1) "/>
-            <use id="mf" href="#phalange" transform="translate(15,0) scale(1.5,1) "/>
-            <use id="pf" href="#tip" transform="translate(30,0) scale(1.5,1) "/>
-        </g>
-    </g>
 </svg>
