@@ -7400,12 +7400,9 @@ svg g {
 
 .chordified div div {
   float: left;
-  font-family: monospace;
-  font-size: 0.6em; }
+  font-family: monospace; }
 
 .chordified div div.next {
-  color: #630;
-  border-radius: 4px;
   padding: 0;
   font-weight: bold; }
 
@@ -7414,7 +7411,9 @@ svg g {
 
 .chordified div div span {
   color: black;
-  margin: 0; }
+  margin: 0;
+  font-size: 1.4em;
+  line-height: 0.6em; }
 
 .chordified img {
   width: 100%;
@@ -7425,7 +7424,6 @@ svg g {
   margin-top: 0; }
 
 .chordified div div.next span {
-  font-size: 2.2em;
   padding: 0;
   margin: 0; }
 
@@ -7438,7 +7436,7 @@ svg g {
 #wholePhraseChords img {
   width: 100%;
   padding: 0;
-  margin: 0 0 10px 0; }
+  margin: 0; }
 
 #wholePhraseChords > div.next {
   background-color: lightblue; }
