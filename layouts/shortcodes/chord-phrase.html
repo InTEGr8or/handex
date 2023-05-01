@@ -13,7 +13,7 @@
    <li >var xyzOrds => (q){q % 2 || !^~ ? "c++"} </li>
    <li >
         <pre>($($type:ty),+ $(,)? ) => {
-    $( write_schema_for!("response", bitwarden_json::response::Response<$type>); )+
+    $( write_schema_for!("response", app_json::response::Response<$type>); )+
 };
         </pre>
     </li>
