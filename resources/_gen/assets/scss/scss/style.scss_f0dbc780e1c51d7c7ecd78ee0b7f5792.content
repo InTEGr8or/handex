@@ -7405,8 +7405,6 @@ svg g {
 
 .chordified div div.next {
   color: #630;
-  border: 1px solid #3A0;
-  background-color: #9F9;
   border-radius: 4px;
   padding: 0;
   font-weight: bold; }
@@ -7419,8 +7417,7 @@ svg g {
   margin: 0 4px 0 0; }
 
 .chordified div div.next span {
-  font-size: 1.4em;
-  background-color: #FA6;
+  font-size: 2.4em;
   padding: 0 8px 0 4px; }
 
 #wholePhraseChords div.col-sm-3 {
