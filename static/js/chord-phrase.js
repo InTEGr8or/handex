@@ -237,6 +237,7 @@ var resetChordifiedCompletion = function() {
         element.setAttribute("class", "outstanding");
     })
     testArea.style.border = "";
+    setNext();
     setTimerSvg('start');
     testArea.focus();
 };
