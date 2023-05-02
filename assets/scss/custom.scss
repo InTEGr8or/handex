@@ -15,6 +15,13 @@ svg g {
    align-items: left;   
 }
 
+.chordified div.col-sm-2 {
+   width: 12.5%;
+   flex: none;
+   padding: 0 0 10px 0;
+   margin: 0;
+}
+
 .chordified div:after {
    background-image: "images/hand-chord.svg";
 }
@@ -38,12 +45,6 @@ svg g {
    margin-top: 0;
 }
 
-#wholePhraseChords div.col-sm-2 {
-   width: 12.5%;
-   flex: none;
-   padding: 0 0 10px 0;
-   margin: 0;
-}
 #wholePhraseChords img {
    width: 100%;
    padding: 0;

@@ -36,8 +36,8 @@ url = "pricing/"
 [[main]]
 weight = 1
 parent = "Pages"
-name = "Phrases"
-url = "phrases/"
+name = "Handexercizer"
+url = "handexercizer/"
 
 # [[main]]
 # weight = 2
