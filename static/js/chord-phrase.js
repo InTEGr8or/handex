@@ -129,7 +129,7 @@ var listAllChords = () => {
     document.getElementById('allChordsList').hidden = false;
     // highlight Vim navigation keys
     Array.from(document.querySelectorAll("#allChordsList div span"))
-        .filter(x=>"asdfgjkl;/.0$^m\"".includes(x.innerText))
+        .filter(x=>"asdfgjkl;/0$^m\"web".includes(x.innerText))
         .forEach(x=>x.style.color = "blue");
 };
 var comparePhrase = () => {
