@@ -126,10 +126,7 @@ var setNext = () => {
     document.getElementById("svgCharacter").hidden = false;
 };
 var listAllChords = () => {
-    const allChordsList = document.getElementById('allChordsList');
-    Array.from(allChordsList.children).forEach((chord) => {
-        chord.hidden = false;
-    });
+    document.getElementById('allChordsList')?.hidden = false;
 };
 var comparePhrase = () => {
     const sourcePhrase = document.getElementById("phrase").value.split('');
