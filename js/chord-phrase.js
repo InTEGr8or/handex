@@ -5,6 +5,7 @@ var timer = document.getElementById('timer');
 var phrase = document.getElementById('phrase');
 var panagrams = document.getElementById('panagrams');
 const chordImageHolder = document.getElementById('chord-image-holder');
+const wholePhraseChords = document.getElementById("wholePhraseChords");
 
 var timerValue = 0;
 var timerHandle = null;
@@ -38,8 +39,7 @@ var Timer = function(timerState) {
 var chordify = function() {
     chordified.innerHTML = '';
     // NOTE: Not needed anymore since we load a clone into the wholePhraseChords div.
-    document.querySelectorAll("#allChordsList > div").forEach((div)=>{div.hidden = true;});
-    const wholePhraseChords = document.getElementById("wholePhraseChords");
+    document.getElementById("allChordsList").hidden = true;
     var phrase = document.getElementById('phrase').value;
     if(phrase.trim().length == 0) {
         return;
@@ -220,12 +220,12 @@ var startTimer = function() {
     }
 };
 var timerCancel = function() {
-        testArea.value = '';
-        clearInterval(timerHandle);
-        timerHandle = null;
-        timer.innerHTML = (0).toFixed(1);
-        timerValue = 0;
-        resetChordifiedCompletion();
+    testArea.value = '';
+    clearInterval(timerHandle);
+    timerHandle = null;
+    timer.innerHTML = (0).toFixed(1);
+    timerValue = 0;
+    resetChordifiedCompletion();
 }
 var clearChords = function() {
     document.getElementById('searchChords').value = '';
@@ -254,3 +254,5 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 // document.getElementById('clearChordsButton')
 //     .addEventListener('click', clearChords);
+document.getElementById('resetChordify')
+    .addEventListener('click', resetChordify);
