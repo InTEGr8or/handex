@@ -15,6 +15,7 @@
         <pre>($($type:ty),+ $(,)? ) => {
     $( write_schema_for!("response", app_json::response::Response<$type>); )+
 };
+
         </pre>
     </li>
 </ul>
