@@ -126,7 +126,7 @@ var setNext = () => {
     document.getElementById("svgCharacter").hidden = false;
 };
 var listAllChords = () => {
-    document.getElementById('allChordsList')?.hidden = false;
+    document.getElementById('allChordsList').hidden = false;
     // highlight Vim navigation keys
     Array.from(document.querySelectorAll("#allChordsList div span"))
         .filter(x=>"asdfgjkl;".includes(x.innerText))
