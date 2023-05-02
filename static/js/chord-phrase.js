@@ -127,6 +127,10 @@ var setNext = () => {
 };
 var listAllChords = () => {
     document.getElementById('allChordsList')?.hidden = false;
+    // highlight Vim navigation keys
+    Array.from(document.querySelectorAll("#allChordsList div span"))
+        .filter(x=>"asdfgjkl;".includes(x.innerText))
+        .forEach(x=>x.style.color = "blue");
 };
 var comparePhrase = () => {
     const sourcePhrase = document.getElementById("phrase").value.split('');

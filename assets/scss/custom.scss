@@ -15,24 +15,19 @@ svg g {
    align-items: left;   
 }
 
-.chordified div div {
-   float: left;
-   font-family: monospace;
-}
-
-.chordified div div.next {
-   padding: 0;
-   font-weight: bold;
-}
 .chordified div:after {
    background-image: "images/hand-chord.svg";
 }
 
-.chordified div div span {
+.chordified div span {
    color: black;
    margin: 0;
    font-size: 1.4em;
-   line-height: 0.6em;
+   line-height: 1em;
+   padding: 0;
+   font-weight: bold;
+   float: left;
+   font-family: monospace;
 }
 .chordified img {
    width: 100%;
@@ -41,11 +36,6 @@ svg g {
    margin-left: 0;
    margin-right: 0;
    margin-top: 0;
-}
-
-.chordified div div.next span {
-   padding: 0;
-   margin: 0;
 }
 
 #wholePhraseChords div.col-sm-2 {
