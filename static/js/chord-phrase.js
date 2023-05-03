@@ -135,7 +135,9 @@ var listAllChords = () => {
 var comparePhrase = () => {
     const sourcePhrase = document.getElementById("phrase").value.split('');
     const testPhrase = testArea.value.split('');
-    if(testPhrase.length == 0) return 0;
+    if(testPhrase.length == 0) {
+        return 0;
+    }
     if(testPhrase == sourcePhrase) {
         setTimerSvg('stop');
         return -1;
@@ -163,6 +165,7 @@ var testTimer = function(event) {
         timerHandle = null;
         timer.innerHTML = (0).toFixed(1);
         timerValue = 0;
+        setTimerSvg('start');
         return;
     }
     if(testArea.value == phrase.value.trim().substring(0, testArea.value.length)) {
