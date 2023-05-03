@@ -1,29 +1,29 @@
 ---
 title: Chords
-date: 2023-04-30T23:14:20.228Z
+date: 2023-05-03T04:43:55.543Z
 ---
 Report,Chord,Strokes
 a and A,4,ipf
 b and B,D6,"ppf, mmf"
 c and C,47,"ipf, mpf"
-d and D,7A,"mpf, rpf"
-e and E,7,mpf
-f and F,74,"mpf, ipf"
-g and G,76,"mpf, mmf"
-h and H,C9,"pmf, rmf"
-i and I,31,"imf, tpf"
-j and J,34,"imf, ipf"
-k and K,A7,"rpf, mpf"
-l and L,A1,"rpf, tpf"
+d and D,A,rpf
+e and E,60,"mmf, tmf"
+f and F,D,ppf
+g and G,D1,"ppf, tpf"
+h and H,31,"imf, tpf"
+i and I,30,"imf, tmf"
+j and J,3,imf
+k and K,6,mmf
+l and L,9,rmf
 m and M,67,"mmf, mpf"
-n and N,D,ppf
-o and O,3,imf
+n and N,74,"mpf, ipf"
+o and O,34,"imf, ipf"
 p and P,43,"ipf, imf"
 q and Q,90,"rmf, tmf"
-r and R,A,rpf
-s and S,C,pmf
-t and T,9,rmf
-u and U,6,mmf
+r and R,7A,"mpf, rpf"
+s and S,7,mpf
+t and T,91,"rmf, tpf"
+u and U,A7,"rpf, mpf"
 v and V,61,"mmf, tpf"
 w and W,9C,"rmf, pmf"
 x and X,4D,"ipf, ppf"
@@ -50,11 +50,11 @@ Spacebar,1,tpf
 ] and },DC0,"ppf, pmf, tmf"
 \ and &#124;,AD,"rpf, ppf"
 # and &#124;,4A,"ipf, rpf"
-; and :,96,"rmf, mmf"
+; and :,C,pmf
 "' and """,434,"ipf, imf, ipf"
  and ~,45,"ipf, ime"
 ", and <",46,"ipf, mmf"
-. and >,D1,"ppf, tpf"
+. and >,D4,"ppf, ipf"
 / and ?,AC,"rpf, pmf"
 Caps Lock,E,pme
 F1,4A4,"ipf, rpf, ipf"
@@ -104,7 +104,7 @@ Application,89,"mme, rmf"
 Power,8A,"mme, rpf"
 Keypad =,8B,"mme, rme"
 F13,9E,"rmf, pme"
-F14,91,"rmf, tpf"
+F14,901,"rmf, tmf, tpf"
 F15,92,"rmf, tme"
 F16,383,"imf, mme, imf"
 F17,914,"rmf, tpf, ipf"
