@@ -152,12 +152,8 @@ var comparePhrase = () => {
     return result;
 };
 var testTimer = function(event) {
-    // TODO: handle other than inputType == "insertText"
-    // if(event.inputType == "deleteContentBackward") {
-    //     // TODO: handle backspace
-    //     return;
-    // }
     setNext();
+    // TODO: de-overlap this and comparePhrase
     if(testArea.value.trim().length == 0) {
         // stop timer
         testArea.style.border = "";
@@ -169,11 +165,10 @@ var testTimer = function(event) {
         return;
     }
     if(testArea.value == phrase.value.trim().substring(0, testArea.value.length)) {
-        // Highlight testArea with orange if it doesn't match phrase so far.
-        //TODO: handle backspace and full string rematching
         testArea.style.border = "";
     }
     else{
+        // Alert mismatched text with red border.
         testArea.style.border = "4px solid red";
     }
     if(testArea.value.trim() == phrase.value.trim()) {
