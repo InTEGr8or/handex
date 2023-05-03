@@ -204,6 +204,12 @@ var runTimer = function() {
     timerValue++;
     timer.innerHTML = (timerValue / 10).toFixed(1);
 };
+const resetChordify = () => {
+    phrase.value = '';
+    wholePhraseChords.innerHTML = '';
+    allChordsList.hidden = true;
+    testArea.value = '';
+};
 var resetChordifiedCompletion = function() {
     Array.from(chordified.getElementsByTagName('div')).forEach(function(element) {
         element.setAttribute("class", "outstanding");
