@@ -7408,7 +7408,8 @@ svg g {
   padding-top: 30px;
   padding-bottom: 0px;
   color: black;
-  border: 1px solid grey; }
+  border: 1px solid grey;
+  overflow: hidden; }
 
 .chordified div.col-sm-2 {
   width: 12.5%;
