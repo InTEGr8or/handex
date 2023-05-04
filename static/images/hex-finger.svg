@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-0 0 590 500" fill="none"  xmlns:v="https://vecta.io/nano">
+    <defs>
+        <path id="h" d="M 0 0 L 600 0" stroke-width="1px" stroke="#AAA"/>
+        <path id="v" d="M 0 0 L 0 600" stroke-width="1px" stroke="#AAA"/>
+    </defs>
+    <use href="#h" transform="translate(0,100)"/>
+    <use href="#h" transform="translate(0,200)"/>
+    <use href="#h" transform="translate(0,300)"/>
+    <use href="#h" transform="translate(0,400)"/>
+    <use href="#h" transform="translate(0,500)"/>
+    <use href="#v" transform="translate(100,0)"/>
+    <use href="#v" transform="translate(200,0)"/>
+    <use href="#v" transform="translate(300,0)"/>
+    <use href="#v" transform="translate(400,0)"/>
+    <use href="#v" transform="translate(500,0)"/>
+    <path 
+        d="
+            M 0,5 
+            L 8.66,0
+            L 17.32,5
+            L 17.32,15
+            L 17.32,22
+            L 21,26
+            L 11,29
+            L 0,28
+            Z"
+        transform="translate(275,110) scale(11.8,11.8) rotate(2.0)" fill="black"
+        stroke-width="0.7px" stroke-linejoin="round" stroke-linecap="round" stroke="#000"/>
+    <path 
+        id="hand" 
+        d="
+        M 0,620 
+        C 11,373 11,216 30,193 
+        C 55,176 89,162 130,142 
+        C 225,61 322,13 356,3 
+        C 448,29 515,93 547,121 
+        c 21,120 -8,89 6,186 
+        c -88,38 -84,-89 -72,-159 
+        c -1,26 -109,-31 -106,-50 
+        c 11,16 -102,75 -102,75 
+        c 0,0 -25,136 -40,128 
+        c 39,38 90,110 106,141 
+        c 61,27 222,-60 243,1
+        c 0,0 20,70 -190,110
+        " stroke="#dd9933" stroke-width="5px" stroke-linejoin="round" fill="#ffb6b6ff" />
+    <path 
+        id="hexagon"
+        d="
+            M 0,15
+            L 0,5 
+            L 8.66,0
+            L 17.32,5
+            L 17.32,15
+            "
+        transform="translate(275,110) scale(11.8,11.8) rotate(2.0)" fill="#000"
+        stroke-width="2px" stroke-linecap="round" stroke-linejoin="round" stroke="#080"/>
+</svg>

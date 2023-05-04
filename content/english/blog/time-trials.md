@@ -4,7 +4,7 @@ date: 2023-05-03T12:36:37-07:00
 draft: false
 description: "Typing time performance and viability"
 images:
-#   - "/images/time-trials/Screenshot_20230502_155247_Edge_header.png"
+#   - "images/time-trials/Screenshot_20230502_155247_Edge_header.webp"
 #   - "images/undraw/undraw_developer_activity_re_39tg.svg"
 ---
 

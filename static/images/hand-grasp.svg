@@ -1,0 +1,70 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 500 500" transform="rotate(45)" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#FF0; stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#FA0; stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="palmGrad" gradientTransform="rotate(90)">
+            <stop offset="0%" style="stop-color:#FD0; stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#FF0; stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#FD0; stop-opacity:1" />
+        </linearGradient> 
+        <polygon id="dip" points="0,0 100,0 200,100 100,100 Z" stroke-linejoin="round" stroke-width="10px" stroke="#AA0" fill="url(#grad1)"/>
+        <polygon id="dipThumb" 
+            points="150,200 0,100 0,0 100,0 100,100 250,200 Z" 
+            stroke-width="10px" stroke-linejoin="round" stroke="#AA0" fill="url(#grad1)"/>
+        <g id="handexagon">
+            <path d="
+                M 0 275 
+                L 0 150
+                L 100 0 
+                L 300 0 
+                L 400 100 
+                L 600 100 
+                L 700 200
+                L 600 300
+                L 400 300
+                A 400 300, 100, 0, 1, 300 400
+                L 200 400 Z" 
+                stroke="#AA0" stroke-linejoin="round" 
+                stroke-width="10px" fill="url(#palmGrad)"/>
+            <use href="#dip" x="100" y="0" />
+            <use href="#dip" x="200" y="0" />
+            <use href="#dip" x="400" y="100" />
+            <use href="#dip" x="500" y="100" />
+            <use href="#dipThumb" x="50" y="200" />
+            <path d="M50,200 L100,100 L150,150 L350,150 L450,250 L650,250 L350,250 A350,250 0,0,1, 300,300 L200,275 L200,200 Z" stroke-width="5px" stroke="#AA0" stroke-linejoin="round" fill="#FF7"/>
+        </g>
+        <path id="finger" d="
+            M 410,200
+            C 400 170, 350 170, 350 200
+            L 380,250
+            C 400 300, 440 290, 430 250
+            L 410,200
+            " stroke-width="8px" stroke-linecap="round" stroke-linejoin="round" stroke="#D93" fill="#ffb6b6ff" />
+    </defs>
+    <path id="background" d="
+        M 350,500
+        L 350,430
+        C 350 350, 400 350, 400 200
+        C 400 150, 100 200, 150 500
+        " stroke-width="8px" stroke-linejoin="round" stroke="none" fill="#ffb6b6ff" />
+    <path id="heel" d="
+        M 350,500
+        L 350,430
+        C 350 350, 400 350, 400 200
+        " stroke-width="8px" stroke-linejoin="round" stroke="#D93" fill="none" />
+    <use href="#handexagon" transform="translate(100,90) rotate(15) scale(0.55, 0.55)" />
+    <use id="pinky" href="#finger" transform="translate(50,30) scale(0.9,0.9)" />
+    <use id="ring" href="#finger" transform="translate(-50,-15)" />
+    <use id="middle" href="#finger" transform="translate(-215,-150) scale(1.2,1.2)" />
+    <use id="index" href="#finger" transform="translate(-250,-140) scale(1.15,1.15)" />
+    <path id="thumb" d="
+        M 150,500
+        L 150,430
+        C 0 300, 50 400, 40 150
+        C 40 150, 100 150, 100 220
+        C 100 350, 100 200, 200 350
+        " stroke-width="8px" stroke-linejoin="round" stroke="#D93" fill="#ffb6b6ff" />
+</svg>

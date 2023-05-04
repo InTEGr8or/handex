@@ -1,0 +1,101 @@
+<html>
+    <style>
+        .hand {  
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+            gap: 0px 0px;
+            grid-auto-flow: row;
+            grid-template-areas:
+            "tme tmf tpf . ."
+            "ime imf imf ipf ipf"
+            "mme mmf mmf mpf mpf"
+            "rme rmf rmf rpf rpf"
+            "pme pmf pmf ppf .";
+            height: 100%;
+        }
+        .hand div {
+            z-index: 0;
+            background-color: #FFB6B6BB;
+        }
+
+        .tme { grid-area: tme; }
+
+        .tmf { grid-area: tmf; }
+
+        .tpf { 
+            grid-area: tpf; 
+            border-radius: 0 30% 30% 0;
+        }
+
+        .ime { 
+            grid-area: ime; 
+        }
+
+        .imf { grid-area: imf; }
+
+        .ipf { 
+            grid-area: ipf; 
+            border-radius: 0 30% 30% 0;
+        }
+
+        .mme { grid-area: mme; }
+
+        .mmf { grid-area: mmf; }
+
+        .mpf { 
+            grid-area: mpf; 
+            border-radius: 0 30% 30% 0;
+        }
+
+        .rme { grid-area: rme; }
+
+        .rmf { grid-area: rmf; }
+
+        .rpf { 
+            grid-area: rpf; 
+            border-radius: 0 30% 30% 0;
+        }
+        div.pme { 
+            grid-area: pme; 
+            background-color: lightgreen;
+        }
+
+        .pmf { 
+            grid-area: pmf; 
+            background-color: lightblue;
+        }
+
+        .ppf { 
+            grid-area: ppf; 
+            background-color: aquamarine;
+            border-radius: 0 30% 30% 0;
+        }
+
+    </style>
+<body>
+    <div class="hand" style="min-height: 600px;">
+        <div class="tme">
+            tme
+        </div>
+        <div class="tmf">
+            tmf
+        </div>
+        <div class="tpf">
+            tpf
+        </div>
+        <div class="ime">ime</div>
+        <div class="imf">imf</div>
+        <div class="ipf">ipf</div>
+        <div class="mme">mme</div>
+        <div class="mmf">mmf</div>
+        <div class="mpf">mpf</div>
+        <div class="rme">rme</div>
+        <div class="rmf">rmf</div>
+        <div class="rpf">rpf</div>
+        <div class="pme">pme</div>
+        <div class="pmf">pmf</div>
+        <div class="ppf">ppf</div>
+    </div>
+</body>
+</html>

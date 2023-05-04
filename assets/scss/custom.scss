@@ -15,6 +15,19 @@ svg g {
    align-items: left;   
 }
 
+#svgCharacter {
+   float: left;
+   margin:0; 
+   width: 125px; 
+   font-size: 140px;
+   line-height: 0.45em;
+   height: 140px;
+   padding-top: 30px;
+   padding-bottom: 0px;
+   color: black; 
+   border: 1px solid grey;
+}
+
 .chordified div.col-sm-2 {
    width: 12.5%;
    flex: none;
