@@ -24,6 +24,13 @@
 
     <button id="chordify" class="btn btn-primary btn-xs" type="submit">Chordify</button>
     <button id="resetChordify" class="btn btn-secondary btn-xs" type="submit">Reset</button>
+    <!--TODO: add checkbox for testMode -->
+
+    <label style="float: right" class="switch">
+        <input id="testMode" type="checkbox">
+        <span class="slider round"></span>
+    </label>
+    <label style="float: right; padding: 5px;">Test Mode</label>
 </form>
 <details class="row ">
     <summary class="row col-sm-12">Chord Syntax Legend</summary>
@@ -64,7 +71,7 @@ hexcode, finger, action
 </details>
 <div id="chord-area" class="row col-md-12">
     <h6>Chord strokes</h6>
-    <div class="row col-md-12" style="max-width: 100%">
+    <div id="svgAndChar" class="row col-md-12" style="max-width: 100%">
         <pre id="chordified" hidden class="col-md-6 bold chordified" ></pre>
         <div class="col-md-4 ">
             <pre id="svgCharacter" hidden ></pre>
@@ -76,7 +83,7 @@ hexcode, finger, action
         </div>
     </div>
     <div id="testAreaDiv" class="col-md-12" >
-        <div style="width: 100%" class="row">
+        <div style="width: 100%" class="row col-md-12">
             <div id="test-timer" style="padding-left: 0; width: 60%; float: left; font-family: monospace; font-size: 16px">
                 <span id="status">
                     <svg id="timerSvg" width="20" height="20">
