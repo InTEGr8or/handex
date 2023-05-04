@@ -36,6 +36,16 @@ var Timer = function(timerState) {
         return this.stop().start();
     }
 };
+
+const takeTest = () => {
+    // chordify();
+    // Hide the chordified sub-divs.
+    Array.from(wholePhraseChords.children).forEach(x => {
+        x.hidden = true;
+    });
+    document.getElementById("svgAndChar").hidden = true;
+}
+
 var chordify = function() {
     chordified.innerHTML = '';
     // NOTE: Not needed anymore since we load a clone into the wholePhraseChords div.
@@ -260,3 +270,5 @@ document.addEventListener("DOMContentLoaded", () => {
 //     .addEventListener('click', clearChords);
 document.getElementById('resetChordify')
     .addEventListener('click', resetChordify);
+document.getElementById('takeTest')
+    .addEventListener('click', takeTest);
