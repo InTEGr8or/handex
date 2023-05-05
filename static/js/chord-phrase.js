@@ -42,16 +42,8 @@ const testModeChange = () => {
     // Hide the chordified sub-divs.
     if(document.getElementById("testMode").checked) {
         localStorage.setItem("testMode", "true");
-        Array.from(wholePhraseChords.children).forEach(x => {
-            x.hidden = true;
-        });
-        document.getElementById("svgAndChar").hidden = true;
     } else {
         localStorage.setItem("testMode", "false");
-        Array.from(wholePhraseChords.children).forEach(x => {
-            x.hidden = false;
-        });
-        document.getElementById("svgAndChar").hidden = false;
     }
 
 }
