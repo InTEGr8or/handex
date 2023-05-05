@@ -7464,6 +7464,9 @@ svg g {
 #wholePhraseChords > div.next {
   background-color: lightblue; }
 
+#wholePhraseChords > div.error {
+  border: 2px solid red; }
+
 #chord-image-holder img {
   margin: 0;
   padding: 0; }
