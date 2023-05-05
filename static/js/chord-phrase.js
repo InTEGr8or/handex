@@ -251,7 +251,7 @@ var timerCancel = function() {
     timerHandle = null;
     timer.innerHTML = (0).toFixed(1);
     timerValue = 0;
-    // resetChordifiedCompletion();
+    resetChordifiedCompletion();
 }
 var clearChords = function() {
     document.getElementById('searchChords').value = '';
