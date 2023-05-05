@@ -37,13 +37,23 @@ var Timer = function(timerState) {
     }
 };
 
-const takeTest = () => {
+const testModeChange = () => {
     // chordify();
     // Hide the chordified sub-divs.
-    Array.from(wholePhraseChords.children).forEach(x => {
-        x.hidden = true;
-    });
-    document.getElementById("svgAndChar").hidden = true;
+    if(document.getElementById("testMode").checked) {
+        localStorage.setItem("testMode", "true");
+        Array.from(wholePhraseChords.children).forEach(x => {
+            x.hidden = true;
+        });
+        document.getElementById("svgAndChar").hidden = true;
+    } else {
+        localStorage.setItem("testMode", "false");
+        Array.from(wholePhraseChords.children).forEach(x => {
+            x.hidden = false;
+        });
+        document.getElementById("svgAndChar").hidden = false;
+    }
+
 }
 
 var chordify = function() {
@@ -77,6 +87,7 @@ var chordify = function() {
         const chordRows = chordList.json;
         // Add each row to the chordified element as a separate div with the first character of the row as the name.
         wholePhraseChords.innerHTML = '';
+        const isTestMode = document.getElementById("testMode").checked;
         chordRows.forEach(function(row, i) {
             const rowDiv = document.createElement('div');
             const rowStrokesId = row.strokes.replaceAll(", ","_").replaceAll(" ","");
@@ -87,7 +98,10 @@ var chordify = function() {
                 inChord.hidden = false;
                 Array.from(inChord.children)
                     .filter(x => x.nodeName == "IMG")
-                    .forEach(x => {x.setAttribute("loading", "eager")});
+                    .forEach(x => {
+                        x.setAttribute("loading", "eager");
+                        x.hidden = isTestMode;
+                    });
                 wholePhraseChords.appendChild(inChord); 
             }
             document.querySelector(`#${rowStrokesId} img`)?.setAttribute("loading", "eager");
@@ -258,6 +272,7 @@ document.getElementById('listAllChords')
     .addEventListener('click', listAllChords);
 
 document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById('testMode').checked = localStorage.getItem('testMode') == 'true';
     // const allChords = fetch('/js/chords.json')
     //     .then(response => {
     //         return response.json();
@@ -270,5 +285,5 @@ document.addEventListener("DOMContentLoaded", () => {
 //     .addEventListener('click', clearChords);
 document.getElementById('resetChordify')
     .addEventListener('click', resetChordify);
-document.getElementById('takeTest')
-    .addEventListener('click', takeTest);
+document.getElementById('testMode')
+    .addEventListener('change', testModeChange);
