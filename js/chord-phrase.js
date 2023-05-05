@@ -141,6 +141,7 @@ var setNext = () => {
         });
     document.getElementById("svgCharacter").innerHTML = next.getAttribute("name").replace("Space", " ");
     document.getElementById("svgCharacter").hidden = false;
+    return next;
 };
 var listAllChords = () => {
     document.getElementById('allChordsList').hidden = false;
@@ -169,7 +170,8 @@ var comparePhrase = () => {
     return result;
 };
 var testTimer = function(event) {
-    setNext();
+    const next = setNext();
+    next.classList.remove("error");
     // TODO: de-overlap this and comparePhrase
     if(testArea.value.trim().length == 0) {
         // stop timer
@@ -188,6 +190,7 @@ var testTimer = function(event) {
         // Alert mismatched text with red border.
         testArea.style.border = "4px solid red";
         document.querySelector("#chord-image-holder img").hidden = false;
+        next.classList.add("error");
     }
     if(testArea.value.trim() == phrase.value.trim()) {
         // stop timer
