@@ -100,7 +100,6 @@ var chordify = function() {
             // document.querySelector(`#${rowStrokesId}`).hidden = false;
             rowDiv.id = i;
             rowDiv.setAttribute("name", row.char);
-            rowDiv.setAttribute("class", "outstanding");
             const charSpan = document.createElement('span');
             charSpan.innerHTML = row.char;
             rowDiv.appendChild(charSpan);
@@ -119,18 +118,16 @@ var setNext = () => {
     if(nextIndex < 0) {
         return;
     }
-    if (nextIndex > wholePhraseChords.children.length - 1) return;
     // Remove the outstanding class from the previous chord.
     Array
         .from(wholePhraseChords.children)
         .forEach((chord, i) => {
-            chord.setAttribute("class", chord.getAttribute("class").replace("next", ""));
+            chord.classList.remove("next");
         }
     );
+    if (nextIndex > wholePhraseChords.children.length - 1) return;
     const next = wholePhraseChords.children[nextIndex];
-    const nextClasses = next.getAttribute("class").split(" ");
-    nextClasses.push("next");
-    next.setAttribute("class", nextClasses.join(" "));
+    next.classList.add("next");
     // If we're in test mode and the last character typed doesn't match the next, expose the svg.
     Array.from(next.childNodes)
         .filter(x => x.nodeName == "IMG")
@@ -139,7 +136,7 @@ var setNext = () => {
             chordImageHolder.replaceChildren(x.cloneNode(true));
             
         });
-    document.getElementById("svgCharacter").innerHTML = next.getAttribute("name").replace("Space", " ");
+    document.getElementById("svgCharacter").innerHTML = next.getAttribute("name").replace("Space", "▁");
     document.getElementById("svgCharacter").hidden = false;
     return next;
 };
@@ -171,7 +168,10 @@ var comparePhrase = () => {
 };
 var testTimer = function(event) {
     const next = setNext();
-    next.classList.remove("error");
+    if(next){
+        next.classList.remove("error");
+
+    }
     // TODO: de-overlap this and comparePhrase
     if(testArea.value.trim().length == 0) {
         // stop timer
@@ -228,6 +228,7 @@ const resetChordify = () => {
     wholePhraseChords.innerHTML = '';
     allChordsList.hidden = true;
     testArea.value = '';
+    testArea.disabled = false;
 };
 var resetChordifiedCompletion = function() {
     Array.from(chordified.getElementsByTagName('div')).forEach(function(element) {
@@ -250,7 +251,7 @@ var timerCancel = function() {
     timerHandle = null;
     timer.innerHTML = (0).toFixed(1);
     timerValue = 0;
-    resetChordifiedCompletion();
+    // resetChordifiedCompletion();
 }
 var clearChords = function() {
     document.getElementById('searchChords').value = '';
