@@ -231,8 +231,9 @@ const resetChordify = () => {
     testArea.disabled = false;
 };
 var resetChordifiedCompletion = function() {
-    Array.from(chordified.getElementsByTagName('div')).forEach(function(element) {
-        element.setAttribute("class", "outstanding");
+    Array.from(wholePhraseChords.children).forEach(function(chord) {
+        chord.classList.remove("error");
+        // element.setAttribute("class", "outstanding");
     })
     testArea.style.border = "";
     setNext();
