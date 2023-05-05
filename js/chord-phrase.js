@@ -131,6 +131,7 @@ var setNext = () => {
     const nextClasses = next.getAttribute("class").split(" ");
     nextClasses.push("next");
     next.setAttribute("class", nextClasses.join(" "));
+    // If we're in test mode and the last character typed doesn't match the next, expose the svg.
     Array.from(next.childNodes)
         .filter(x => x.nodeName == "IMG")
         .forEach(x => {
@@ -186,6 +187,7 @@ var testTimer = function(event) {
     else{
         // Alert mismatched text with red border.
         testArea.style.border = "4px solid red";
+        document.querySelector("#chord-image-holder img").hidden = false;
     }
     if(testArea.value.trim() == phrase.value.trim()) {
         // stop timer
