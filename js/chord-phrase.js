@@ -1,15 +1,11 @@
-const TEST_AREA = document.getElementById('testArea');
+var testArea = document.getElementById('testArea');
 const lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/';
-const chordified = document.getElementById('chordified');
-const timer = document.getElementById('timer');
-const phrase = document.getElementById('phrase');
-const panagrams = document.getElementById('panagrams');
+var chordified = document.getElementById('chordified');
+var timer = document.getElementById('timer');
+var phrase = document.getElementById('phrase');
+var panagrams = document.getElementById('panagrams');
 const chordImageHolder = document.getElementById('chord-image-holder');
 const wholePhraseChords = document.getElementById("wholePhraseChords");
-const testMode = document.getElementById("testMode");
-const testModeLabel = document.getElementById("testModeLabel");
-const svgCharacter = document.getElementById("svgCharacter");
-const errorCount = document.getElementById("errorCount");
 
 var timerValue = 0;
 var timerHandle = null;
@@ -44,7 +40,7 @@ var Timer = function(timerState) {
 const testModeChange = () => {
     // chordify();
     // Hide the chordified sub-divs.
-    if(testMode.checked) {
+    if(document.getElementById("testMode").checked) {
         localStorage.setItem("testMode", "true");
     } else {
         localStorage.setItem("testMode", "false");
@@ -55,13 +51,13 @@ const testModeChange = () => {
 var chordify = function() {
     chordified.innerHTML = '';
     // NOTE: Not needed anymore since we load a clone into the wholePhraseChords div.
-    allChordsList.hidden = true;
-    var phraseVal = phrase.value;
-    if(phraseVal.trim().length == 0) {
+    document.getElementById("allChordsList").hidden = true;
+    var phrase = document.getElementById('phrase').value;
+    if(phrase.trim().length == 0) {
         return;
     }
-    console.log("phrase:", phraseVal);
-    const phraseEncoded = btoa(phraseVal);
+    console.log("phrase:", phrase);
+    const phraseEncoded = btoa(phrase);
     console.log("phraseEncoded:", phraseEncoded);
     fetch(lambdaUrl, {
         method: 'POST',
@@ -83,15 +79,14 @@ var chordify = function() {
         const chordRows = chordList.json;
         // Add each row to the chordified element as a separate div with the first character of the row as the name.
         wholePhraseChords.innerHTML = '';
-        const isTestMode = testMode.checked;
+        const isTestMode = document.getElementById("testMode").checked;
         chordRows.forEach(function(row, i) {
             const rowDiv = document.createElement('div');
-            const rowStrokesId = row.strokes.replaceAll(", ","␣").replaceAll(" ","");
-            const foundChord = document.querySelector(`#${rowStrokesId}`);
+            const rowStrokesId = row.strokes.replaceAll(", ","_").replaceAll(" ","");
+            const inChord = document.querySelector(`#${rowStrokesId}`).cloneNode(true);
+            inChord.setAttribute("name", row.char);
             // Load the clone in Chord order into the wholePhraseChords div.
-            if(foundChord) {
-                const inChord = foundChord.cloneNode(true);
-                inChord.setAttribute("name", row.char);
+            if(inChord) {
                 inChord.hidden = false;
                 Array.from(inChord.children)
                     .filter(x => x.nodeName == "IMG")
@@ -113,7 +108,7 @@ var chordify = function() {
         });
         setNext();
         setTimerSvg('start');
-        TEST_AREA.focus();
+        testArea.focus();
     });
     timerCancel();
 };
@@ -154,7 +149,7 @@ var listAllChords = () => {
 };
 var comparePhrase = () => {
     const sourcePhrase = document.getElementById("phrase").value.split('');
-    const testPhrase = TEST_AREA.value.split('');
+    const testPhrase = testArea.value.split('');
     if(testPhrase.length == 0) {
         return 0;
     }
@@ -178,9 +173,9 @@ var testTimer = function(event) {
 
     }
     // TODO: de-overlap this and comparePhrase
-    if(TEST_AREA.value.trim().length == 0) {
+    if(testArea.value.trim().length == 0) {
         // stop timer
-        TEST_AREA.style.border = "";
+        testArea.style.border = "";
         clearInterval(timerHandle);
         timerHandle = null;
         timer.innerHTML = (0).toFixed(1);
@@ -188,17 +183,16 @@ var testTimer = function(event) {
         setTimerSvg('start');
         return;
     }
-    if(TEST_AREA.value == phrase.value.trim().substring(0, TEST_AREA.value.length)) {
-        TEST_AREA.style.border = "";
+    if(testArea.value == phrase.value.trim().substring(0, testArea.value.length)) {
+        testArea.style.border = "";
     }
     else{
         // Alert mismatched text with red border.
-        TEST_AREA.style.border = "4px solid red";
+        testArea.style.border = "4px solid red";
         document.querySelector("#chord-image-holder img").hidden = false;
         next.classList.add("error");
-        errorCount.innerText = parseInt(errorCount.innerText) + 1;
     }
-    if(TEST_AREA.value.trim() == phrase.value.trim()) {
+    if(testArea.value.trim() == phrase.value.trim()) {
         // stop timer
         clearInterval(timerHandle);
         setTimerSvg('stop');
@@ -212,12 +206,11 @@ const setTimerSvg = (status) => {
     switch(status) {
         case 'start':
             statusSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
-            TEST_AREA.disabled = false;
-            errorCount.innerText = 0;
+            testArea.disabled = false;
             break;
         case 'stop':
             statusSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
-            TEST_AREA.disabled = true;
+            testArea.disabled = true;
             break;
         case 'pause':
             statusSvg.innerHTML = '<use href="#pause" transform="scale(2,2)" ></use>';
@@ -234,18 +227,18 @@ const resetChordify = () => {
     phrase.value = '';
     wholePhraseChords.innerHTML = '';
     allChordsList.hidden = true;
-    TEST_AREA.value = '';
-    TEST_AREA.disabled = false;
+    testArea.value = '';
+    testArea.disabled = false;
 };
 var resetChordifiedCompletion = function() {
     Array.from(wholePhraseChords.children).forEach(function(chord) {
         chord.classList.remove("error");
         // element.setAttribute("class", "outstanding");
     })
-    TEST_AREA.style.border = "";
+    testArea.style.border = "";
     setNext();
     setTimerSvg('start');
-    TEST_AREA.focus();
+    testArea.focus();
 };
 var startTimer = function() {
     if(!timerHandle) {
@@ -254,7 +247,7 @@ var startTimer = function() {
     }
 };
 var timerCancel = function() {
-    TEST_AREA.value = '';
+    testArea.value = '';
     clearInterval(timerHandle);
     timerHandle = null;
     timer.innerHTML = (0).toFixed(1);
@@ -267,7 +260,7 @@ var clearChords = function() {
 }
 
 phrase.addEventListener('change', chordify);
-TEST_AREA.addEventListener('input', testTimer);
+testArea.addEventListener('input', testTimer);
 panagrams.addEventListener('click', function(e) {
     phrase.value = e.target.innerHTML;
     chordify();
