@@ -90,15 +90,17 @@ hexcode, finger, action
         <div style="width: 100%" class="row col-md-12">
             <div id="test-timer" style="padding-left: 0; width: 60%; float: left; font-family: monospace; font-size: 16px">
                 <span id="status">
-                    <svg id="timerSvg" width="20" height="20">
+                    <svg id="timerSvg" width="15" height="20">
                         <use href="#start" transform="scale(2,2)" >
 
                         </use>
                     </svg>
                 </span>
-                <b>
-                    <span id="timer">0.0</span>
-                </b> seconds
+                <span id="timer">0.0</span>
+                 seconds
+                <br>
+                Errors:
+                <span id="errorCount" >0</span>
             </div>
             <button id="listAllChords" class="btn btn-secondary btn-xs" style="width: 20%; float: right;">List chords</button>
             <button id="timerCancel" class="btn btn-secondary btn-xs" style="width: 20%; float: right;">Reset</button>
