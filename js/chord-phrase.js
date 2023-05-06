@@ -9,6 +9,7 @@ const wholePhraseChords = document.getElementById("wholePhraseChords");
 const testMode = document.getElementById("testMode");
 const testModeLabel = document.getElementById("testModeLabel");
 const svgCharacter = document.getElementById("svgCharacter");
+const errorCount = document.getElementById("errorCount");
 
 var timerValue = 0;
 var timerHandle = null;
@@ -86,10 +87,11 @@ var chordify = function() {
         chordRows.forEach(function(row, i) {
             const rowDiv = document.createElement('div');
             const rowStrokesId = row.strokes.replaceAll(", ","␣").replaceAll(" ","");
-            const inChord = document.querySelector(`#${rowStrokesId}`).cloneNode(true);
-            inChord.setAttribute("name", row.char);
+            const foundChord = document.querySelector(`#${rowStrokesId}`);
             // Load the clone in Chord order into the wholePhraseChords div.
-            if(inChord) {
+            if(foundChord) {
+                const inChord = foundChord.cloneNode(true);
+                inChord.setAttribute("name", row.char);
                 inChord.hidden = false;
                 Array.from(inChord.children)
                     .filter(x => x.nodeName == "IMG")
@@ -194,6 +196,7 @@ var testTimer = function(event) {
         TEST_AREA.style.border = "4px solid red";
         document.querySelector("#chord-image-holder img").hidden = false;
         next.classList.add("error");
+        errorCount.innerText = parseInt(errorCount.innerText) + 1;
     }
     if(TEST_AREA.value.trim() == phrase.value.trim()) {
         // stop timer
@@ -210,6 +213,7 @@ const setTimerSvg = (status) => {
         case 'start':
             statusSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
             TEST_AREA.disabled = false;
+            errorCount.innerText = 0;
             break;
         case 'stop':
             statusSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
