@@ -1,11 +1,17 @@
-var testArea = document.getElementById('testArea');
+const TEST_AREA = document.getElementById('testArea');
 const lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/';
-var chordified = document.getElementById('chordified');
-var timer = document.getElementById('timer');
-var phrase = document.getElementById('phrase');
-var panagrams = document.getElementById('panagrams');
+const chordified = document.getElementById('chordified');
+const timer = document.getElementById('timer');
+const phrase = document.getElementById('phrase');
+const panagrams = document.getElementById('panagrams');
 const chordImageHolder = document.getElementById('chord-image-holder');
 const wholePhraseChords = document.getElementById("wholePhraseChords");
+const testMode = document.getElementById("testMode");
+const testModeLabel = document.getElementById("testModeLabel");
+const svgCharacter = document.getElementById("svgCharacter");
+const errorCount = document.getElementById("errorCount");
+// var allChordsList = document.getElementById("allChordsList");
+const spaceDisplayChar = "␣";
 
 var timerValue = 0;
 var timerHandle = null;
@@ -40,7 +46,7 @@ var Timer = function(timerState) {
 const testModeChange = () => {
     // chordify();
     // Hide the chordified sub-divs.
-    if(document.getElementById("testMode").checked) {
+    if(testMode.checked) {
         localStorage.setItem("testMode", "true");
     } else {
         localStorage.setItem("testMode", "false");
@@ -50,14 +56,12 @@ const testModeChange = () => {
 
 var chordify = function() {
     chordified.innerHTML = '';
-    // NOTE: Not needed anymore since we load a clone into the wholePhraseChords div.
-    document.getElementById("allChordsList").hidden = true;
-    var phrase = document.getElementById('phrase').value;
-    if(phrase.trim().length == 0) {
+    var phraseVal = phrase.value;
+    if(phraseVal.trim().length == 0) {
         return;
     }
-    console.log("phrase:", phrase);
-    const phraseEncoded = btoa(phrase);
+    console.log("phrase:", phraseVal);
+    const phraseEncoded = btoa(phraseVal);
     console.log("phraseEncoded:", phraseEncoded);
     fetch(lambdaUrl, {
         method: 'POST',
@@ -79,14 +83,15 @@ var chordify = function() {
         const chordRows = chordList.json;
         // Add each row to the chordified element as a separate div with the first character of the row as the name.
         wholePhraseChords.innerHTML = '';
-        const isTestMode = document.getElementById("testMode").checked;
+        const isTestMode = testMode.checked;
         chordRows.forEach(function(row, i) {
             const rowDiv = document.createElement('div');
             const rowStrokesId = row.strokes.replaceAll(", ","_").replaceAll(" ","");
-            const inChord = document.querySelector(`#${rowStrokesId}`).cloneNode(true);
-            inChord.setAttribute("name", row.char);
+            const foundChords = Array.from(allChordsList.children).filter(x=>{return x.id == rowStrokesId;});
             // Load the clone in Chord order into the wholePhraseChords div.
-            if(inChord) {
+            if(foundChords.length > 0) {
+                const inChord = foundChords[0].cloneNode(true);
+                inChord.setAttribute("name", row.char);
                 inChord.hidden = false;
                 Array.from(inChord.children)
                     .filter(x => x.nodeName == "IMG")
@@ -95,6 +100,9 @@ var chordify = function() {
                         x.hidden = isTestMode;
                     });
                 wholePhraseChords.appendChild(inChord); 
+            }
+            else{
+                console.log("Missing chord:", rowStrokesId);
             }
             document.querySelector(`#${rowStrokesId} img`)?.setAttribute("loading", "eager");
             // document.querySelector(`#${rowStrokesId}`).hidden = false;
@@ -108,7 +116,7 @@ var chordify = function() {
         });
         setNext();
         setTimerSvg('start');
-        testArea.focus();
+        TEST_AREA.focus();
     });
     timerCancel();
 };
@@ -149,7 +157,7 @@ var listAllChords = () => {
 };
 var comparePhrase = () => {
     const sourcePhrase = document.getElementById("phrase").value.split('');
-    const testPhrase = testArea.value.split('');
+    const testPhrase = TEST_AREA.value.split('');
     if(testPhrase.length == 0) {
         return 0;
     }
@@ -173,9 +181,9 @@ var testTimer = function(event) {
 
     }
     // TODO: de-overlap this and comparePhrase
-    if(testArea.value.trim().length == 0) {
+    if(TEST_AREA.value.trim().length == 0) {
         // stop timer
-        testArea.style.border = "";
+        TEST_AREA.style.border = "";
         clearInterval(timerHandle);
         timerHandle = null;
         timer.innerHTML = (0).toFixed(1);
@@ -183,16 +191,17 @@ var testTimer = function(event) {
         setTimerSvg('start');
         return;
     }
-    if(testArea.value == phrase.value.trim().substring(0, testArea.value.length)) {
-        testArea.style.border = "";
+    if(TEST_AREA.value == phrase.value.trim().substring(0, TEST_AREA.value.length)) {
+        TEST_AREA.style.border = "";
     }
     else{
         // Alert mismatched text with red border.
-        testArea.style.border = "4px solid red";
+        TEST_AREA.style.border = "4px solid red";
         document.querySelector("#chord-image-holder img").hidden = false;
         next.classList.add("error");
+        errorCount.innerText = parseInt(errorCount.innerText) + 1;
     }
-    if(testArea.value.trim() == phrase.value.trim()) {
+    if(TEST_AREA.value.trim() == phrase.value.trim()) {
         // stop timer
         clearInterval(timerHandle);
         setTimerSvg('stop');
@@ -206,11 +215,12 @@ const setTimerSvg = (status) => {
     switch(status) {
         case 'start':
             statusSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
-            testArea.disabled = false;
+            TEST_AREA.disabled = false;
+            errorCount.innerText = 0;
             break;
         case 'stop':
             statusSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
-            testArea.disabled = true;
+            TEST_AREA.disabled = true;
             break;
         case 'pause':
             statusSvg.innerHTML = '<use href="#pause" transform="scale(2,2)" ></use>';
@@ -227,18 +237,18 @@ const resetChordify = () => {
     phrase.value = '';
     wholePhraseChords.innerHTML = '';
     allChordsList.hidden = true;
-    testArea.value = '';
-    testArea.disabled = false;
+    TEST_AREA.value = '';
+    TEST_AREA.disabled = false;
 };
 var resetChordifiedCompletion = function() {
     Array.from(wholePhraseChords.children).forEach(function(chord) {
         chord.classList.remove("error");
         // element.setAttribute("class", "outstanding");
     })
-    testArea.style.border = "";
+    TEST_AREA.style.border = "";
     setNext();
     setTimerSvg('start');
-    testArea.focus();
+    TEST_AREA.focus();
 };
 var startTimer = function() {
     if(!timerHandle) {
@@ -247,7 +257,7 @@ var startTimer = function() {
     }
 };
 var timerCancel = function() {
-    testArea.value = '';
+    TEST_AREA.value = '';
     clearInterval(timerHandle);
     timerHandle = null;
     timer.innerHTML = (0).toFixed(1);
@@ -260,7 +270,7 @@ var clearChords = function() {
 }
 
 phrase.addEventListener('change', chordify);
-testArea.addEventListener('input', testTimer);
+TEST_AREA.addEventListener('input', testTimer);
 panagrams.addEventListener('click', function(e) {
     phrase.value = e.target.innerHTML;
     chordify();
@@ -272,6 +282,7 @@ document.getElementById('listAllChords')
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('testMode').checked = localStorage.getItem('testMode') == 'true';
+    // var allChordsList = document.getElementById("allChordsList");
     // const allChords = fetch('/js/chords.json')
     //     .then(response => {
     //         return response.json();
