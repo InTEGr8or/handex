@@ -3,7 +3,7 @@ const lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1
 const chordified = document.getElementById('chordified');
 const timer = document.getElementById('timer');
 const phrase = document.getElementById('phrase');
-const panagrams = document.getElementById('panagrams');
+const pangrams = document.getElementById('pangrams');
 const chordImageHolder = document.getElementById('chord-image-holder');
 const wholePhraseChords = document.getElementById("wholePhraseChords");
 const testMode = document.getElementById("testMode");
@@ -144,7 +144,7 @@ var setNext = () => {
             chordImageHolder.replaceChildren(x.cloneNode(true));
             
         });
-    document.getElementById("svgCharacter").innerHTML = next.getAttribute("name").replace("Space", "▁");
+    document.getElementById("svgCharacter").innerHTML = next.getAttribute("name").replace("Space", spaceDisplayChar).replace("tab","↹");
     document.getElementById("svgCharacter").hidden = false;
     return next;
 };
@@ -271,8 +271,8 @@ var clearChords = function() {
 
 phrase.addEventListener('change', chordify);
 TEST_AREA.addEventListener('input', testTimer);
-panagrams.addEventListener('click', function(e) {
-    phrase.value = e.target.innerHTML;
+pangrams.addEventListener('click', function(e) {
+    phrase.value = e.target.innerText;
     chordify();
 });
 document.getElementById('timerCancel')
