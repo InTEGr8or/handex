@@ -10,6 +10,8 @@ const testMode = document.getElementById("testMode");
 const testModeLabel = document.getElementById("testModeLabel");
 const svgCharacter = document.getElementById("svgCharacter");
 const errorCount = document.getElementById("errorCount");
+// var allChordsList = document.getElementById("allChordsList");
+const spaceDisplayChar = "␣";
 
 var timerValue = 0;
 var timerHandle = null;
@@ -54,8 +56,6 @@ const testModeChange = () => {
 
 var chordify = function() {
     chordified.innerHTML = '';
-    // NOTE: Not needed anymore since we load a clone into the wholePhraseChords div.
-    allChordsList.hidden = true;
     var phraseVal = phrase.value;
     if(phraseVal.trim().length == 0) {
         return;
@@ -86,11 +86,11 @@ var chordify = function() {
         const isTestMode = testMode.checked;
         chordRows.forEach(function(row, i) {
             const rowDiv = document.createElement('div');
-            const rowStrokesId = row.strokes.replaceAll(", ","␣").replaceAll(" ","");
-            const foundChord = document.querySelector(`#${rowStrokesId}`);
+            const rowStrokesId = row.strokes.replaceAll(", ","_").replaceAll(" ","");
+            const foundChords = Array.from(allChordsList.children).filter(x=>{return x.id == rowStrokesId;});
             // Load the clone in Chord order into the wholePhraseChords div.
-            if(foundChord) {
-                const inChord = foundChord.cloneNode(true);
+            if(foundChords.length > 0) {
+                const inChord = foundChords[0].cloneNode(true);
                 inChord.setAttribute("name", row.char);
                 inChord.hidden = false;
                 Array.from(inChord.children)
@@ -100,6 +100,9 @@ var chordify = function() {
                         x.hidden = isTestMode;
                     });
                 wholePhraseChords.appendChild(inChord); 
+            }
+            else{
+                console.log("Missing chord:", rowStrokesId);
             }
             document.querySelector(`#${rowStrokesId} img`)?.setAttribute("loading", "eager");
             // document.querySelector(`#${rowStrokesId}`).hidden = false;
@@ -279,6 +282,7 @@ document.getElementById('listAllChords')
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('testMode').checked = localStorage.getItem('testMode') == 'true';
+    // var allChordsList = document.getElementById("allChordsList");
     // const allChords = fetch('/js/chords.json')
     //     .then(response => {
     //         return response.json();
