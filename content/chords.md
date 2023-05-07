@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-05-07T18:40:03.472Z
+date: 2023-05-07T18:47:42.677Z
 ---
 Report,Chord,Strokes
 a and A,6,mmf
