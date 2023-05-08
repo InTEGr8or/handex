@@ -51,7 +51,7 @@ const testModeChange = () => {
     } else {
         localStorage.setItem("testMode", "false");
     }
-
+    chordify();
 }
 
 var chordify = function() {
