@@ -1,13 +1,13 @@
 ---
 title: Chords
-date: 2023-05-09T18:29:22.027Z
+date: 2023-05-09T19:17:15.826Z
 ---
 Report,Chord,Strokes
 a and A,1,ipf
 b and B,47,"ppf, mmf"
 c and C,12,"ipf, mpf"
 d and D,3,rpf
-e and E,75,"mmf, tmf"
+e and E,21,"mpf, ipf"
 f and F,4,ppf
 g and G,14,"ipf, ppf"
 h and H,60,"imf, tpf"
@@ -16,7 +16,7 @@ j and J,6,imf
 k and K,7,mmf
 l and L,8,rmf
 m and M,72,"mmf, mpf"
-n and N,21,"mpf, ipf"
+n and N,75,"mmf, tmf"
 o and O,61,"imf, ipf"
 p and P,16,"ipf, imf"
 q and Q,85,"rmf, tmf"
