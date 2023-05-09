@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-05-09T19:27:28.303Z
+date: 2023-05-09T19:30:01.725Z
 ---
 Report,Chord,Strokes
 a and A,1,ipf
@@ -10,7 +10,7 @@ d and D,3,rpf
 e and E,21,"mpf, ipf"
 f and F,4,ppf
 g and G,89,"rmf, pmf"
-h and H,60,"imf, tpf"
+h and H,98,"pmf, rmf"
 i and I,65,"imf, tmf"
 j and J,6,imf
 k and K,7,mmf
