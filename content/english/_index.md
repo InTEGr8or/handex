@@ -1,7 +1,7 @@
 ---
 ############################ Banner ##################################
 banner:
-  title : "You can type while walking"
+  title : "You can type without looking"
   subtitle : "Writing text doesn't have to make you look down or sit. Execute commands silently."
   character_image: "images/undraw/undraw_jogging_mod.svg"
   lamp_image: "images/hand-grasp.svg"
