@@ -11,7 +11,8 @@ const testModeLabel = document.getElementById("testModeLabel");
 const svgCharacter = document.getElementById("svgCharacter");
 const errorCount = document.getElementById("errorCount");
 // var allChordsList = document.getElementById("allChordsList");
-const spaceDisplayChar = "␣";
+const spaceDisplayChar = "&#x2581;";
+const tabDisplayChar = "&#x2B7E;";
 
 var timerValue = 0;
 var timerHandle = null;
