@@ -7417,7 +7417,7 @@ svg g {
   align-items: left; }
 
 .btn:hover, .btn:active, .btn:focus {
-  background-color: #f5f5f5;
+  background-color: lightblue;
   color: black; }
 
 #svgCharacter {
