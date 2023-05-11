@@ -7416,6 +7416,10 @@ textarea#testArea {
 svg g {
   align-items: left; }
 
+.btn:hover, .btn:active, .btn:focus {
+  background-color: #f5f5f5;
+  color: black; }
+
 #svgCharacter {
   float: left;
   margin: 0;
