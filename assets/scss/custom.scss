@@ -29,9 +29,11 @@ textarea#testArea {
    margin-left: 0;
    margin-right: 0;
 }
+
 svg g {
    align-items: left;   
 }
+
 .btn:hover, .btn:active, .btn:focus {
    background-color: lightblue;
    color: black;
@@ -96,7 +98,12 @@ svg g {
 #chord-image-holder img{
    margin: 0;
    padding: 0;
-   transform: rotate(-90);
+}
+#charTimes {
+   font-family: monospace;
+   list-style-type: none;
+   padding-left: 0;
+   margin-bottom: 0;
 }
 
 /* The switch - the box around the slider */
