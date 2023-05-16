@@ -252,6 +252,8 @@ var resetChordifiedCompletion = function() {
     setNext();
     setTimerSvg('start');
     APP.charTimer = [];
+    APP.prevCharTime = 0;
+    APP.charTimes.innerHTML = '';
     APP.testArea.focus();
 };
 var startTimer = function() {
