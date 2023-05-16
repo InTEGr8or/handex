@@ -7478,8 +7478,16 @@ svg g {
 #charTimes {
   font-family: monospace;
   list-style-type: none;
+  color: black; }
+
+#charTimes li {
+  list-style-type: none;
   padding-left: 0;
   margin-bottom: 0; }
+
+#charTimes li::before {
+  content: "";
+  display: none; }
 
 /* The switch - the box around the slider */
 .switch {
