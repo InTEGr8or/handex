@@ -1,20 +1,10 @@
-const TEST_AREA = document.getElementById('testArea');
-const lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/';
-const chordified = document.getElementById('chordified');
-const timer = document.getElementById('timer');
-const phrase = document.getElementById('phrase');
-const pangrams = document.getElementById('pangrams');
-const chordImageHolder = document.getElementById('chord-image-holder');
-const wholePhraseChords = document.getElementById("wholePhraseChords");
-const testMode = document.getElementById("testMode");
-const testModeLabel = document.getElementById("testModeLabel");
-const svgCharacter = document.getElementById("svgCharacter");
-const errorCount = document.getElementById("errorCount");
 // var allChordsList = document.getElementById("allChordsList");
+const APP = {};
+APP.lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/';
+
 const spaceDisplayChar = "&#x2581;";
 const tabDisplayChar = "&#x2B7E;";
 
-var timerValue = 0;
 var timerHandle = null;
 const fingers = {t:"thumb",i:"index",m:"middle",r:"ring",p:"pinky"};
 
@@ -47,7 +37,7 @@ var Timer = function(timerState) {
 const testModeChange = () => {
     // chordify();
     // Hide the chordified sub-divs.
-    if(testMode.checked) {
+    if(APP.testMode.checked) {
         localStorage.setItem("testMode", "true");
     } else {
         localStorage.setItem("testMode", "false");
@@ -56,15 +46,15 @@ const testModeChange = () => {
 }
 
 var chordify = function() {
-    chordified.innerHTML = '';
-    var phraseVal = phrase.value;
+    APP.chordified.innerHTML = '';
+    var phraseVal = APP.phrase.value;
     if(phraseVal.trim().length == 0) {
         return;
     }
-    console.log("phrase:", phraseVal);
+    console.log("APP.phrase:", phraseVal);
     const phraseEncoded = btoa(phraseVal);
     console.log("phraseEncoded:", phraseEncoded);
-    fetch(lambdaUrl, {
+    fetch(APP.lambdaUrl, {
         method: 'POST',
         headers: {
 
@@ -83,8 +73,8 @@ var chordify = function() {
         }
         const chordRows = chordList.json;
         // Add each row to the chordified element as a separate div with the first character of the row as the name.
-        wholePhraseChords.innerHTML = '';
-        const isTestMode = testMode.checked;
+        APP.wholePhraseChords.innerHTML = '';
+        const isTestMode = APP.testMode.checked;
         chordRows.forEach(function(row, i) {
             const rowDiv = document.createElement('div');
             const rowStrokesId = row.strokes.replaceAll(", ","_").replaceAll(" ","");
@@ -100,7 +90,7 @@ var chordify = function() {
                         x.setAttribute("loading", "eager");
                         x.hidden = isTestMode;
                     });
-                wholePhraseChords.appendChild(inChord); 
+                APP.wholePhraseChords.appendChild(inChord); 
             }
             else{
                 console.log("Missing chord:", rowStrokesId);
@@ -113,11 +103,11 @@ var chordify = function() {
             charSpan.innerHTML = row.char;
             rowDiv.appendChild(charSpan);
             rowDiv.appendChild(document.createTextNode(row.strokes));
-            chordified.appendChild(rowDiv);
+            APP.chordified.appendChild(rowDiv);
         });
         setNext();
         setTimerSvg('start');
-        TEST_AREA.focus();
+        APP.testArea.focus();
     });
     timerCancel();
 };
@@ -129,36 +119,36 @@ var setNext = () => {
     }
     // Remove the outstanding class from the previous chord.
     Array
-        .from(wholePhraseChords.children)
+        .from(APP.wholePhraseChords.children)
         .forEach((chord, i) => {
             chord.classList.remove("next");
         }
     );
-    if (nextIndex > wholePhraseChords.children.length - 1) return;
-    const next = wholePhraseChords.children[nextIndex];
+    if (nextIndex > APP.wholePhraseChords.children.length - 1) return;
+    const next = APP.wholePhraseChords.children[nextIndex];
     next.classList.add("next");
     // If we're in test mode and the last character typed doesn't match the next, expose the svg.
     Array.from(next.childNodes)
         .filter(x => x.nodeName == "IMG")
         .forEach(x => {
             x.width = 180;
-            chordImageHolder.replaceChildren(x.cloneNode(true));
+            APP.chordImageHolder.replaceChildren(x.cloneNode(true));
             
         });
-    document.getElementById("svgCharacter").innerHTML = next.getAttribute("name").replace("Space", spaceDisplayChar).replace("tab","↹");
-    document.getElementById("svgCharacter").hidden = false;
+    APP.svgCharacter.innerHTML = next.getAttribute("name").replace("Space", spaceDisplayChar).replace("tab","↹");
+    APP.svgCharacter.hidden = false;
     return next;
 };
 var listAllChords = () => {
-    document.getElementById('allChordsList').hidden = false;
+    APP.allChordsList.hidden = false;
     // highlight Vim navigation keys
     Array.from(document.querySelectorAll("#allChordsList div span"))
         .filter(x=>"asdfgjkl;/0$^m\"web".includes(x.innerText))
         .forEach(x=>x.style.color = "blue");
 };
 var comparePhrase = () => {
-    const sourcePhrase = document.getElementById("phrase").value.split('');
-    const testPhrase = TEST_AREA.value.split('');
+    const sourcePhrase = APP.phrase.value.split('');
+    const testPhrase = APP.testArea.value.split('');
     if(testPhrase.length == 0) {
         return 0;
     }
@@ -179,33 +169,45 @@ var testTimer = function(event) {
     const next = setNext();
     if(next){
         next.classList.remove("error");
-
     }
+    APP.charTimer.push({
+        char: event.data, 
+        duration: ((APP.timerValue - APP.prevCharTime) / 100).toFixed(2), 
+        time: (APP.timerValue / 100).toFixed(2)
+    });
+    APP.prevCharTime = APP.timerValue;
+
     // TODO: de-overlap this and comparePhrase
-    if(TEST_AREA.value.trim().length == 0) {
+    if(APP.testArea.value.trim().length == 0) {
         // stop timer
-        TEST_AREA.style.border = "";
+        APP.testArea.style.border = "";
         clearInterval(timerHandle);
         timerHandle = null;
-        timer.innerHTML = (0).toFixed(1);
-        timerValue = 0;
+        APP.timer.innerHTML = (0).toFixed(1);
+        APP.timerValue = 0;
         setTimerSvg('start');
         return;
     }
-    if(TEST_AREA.value == phrase.value.trim().substring(0, TEST_AREA.value.length)) {
-        TEST_AREA.style.border = "";
+    if(APP.testArea.value == APP.phrase.value.trim().substring(0, APP.testArea.value.length)) {
+        APP.testArea.style.border = "";
     }
     else{
         // Alert mismatched text with red border.
-        TEST_AREA.style.border = "4px solid red";
+        APP.testArea.style.border = "4px solid red";
         document.querySelector("#chord-image-holder img").hidden = false;
         next.classList.add("error");
-        errorCount.innerText = parseInt(errorCount.innerText) + 1;
+        APP.errorCount.innerText = parseInt(APP.errorCount.innerText) + 1;
     }
-    if(TEST_AREA.value.trim() == phrase.value.trim()) {
+    if(APP.testArea.value.trim() == APP.phrase.value.trim()) {
         // stop timer
         clearInterval(timerHandle);
         setTimerSvg('stop');
+        console.log("Char timer:", APP.charTimer);
+        let charTimeList = "";
+        APP.charTimer.forEach(x => {
+            charTimeList += `<li>${x.char}: ${x.duration}</li>`;
+        });
+        APP.charTimes.innerHTML = charTimeList;
         timerHandle = null;
         return;
     }
@@ -216,12 +218,12 @@ const setTimerSvg = (status) => {
     switch(status) {
         case 'start':
             statusSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
-            TEST_AREA.disabled = false;
-            errorCount.innerText = 0;
+            APP.testArea.disabled = false;
+            APP.errorCount.innerText = 0;
             break;
         case 'stop':
             statusSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
-            TEST_AREA.disabled = true;
+            APP.testArea.disabled = true;
             break;
         case 'pause':
             statusSvg.innerHTML = '<use href="#pause" transform="scale(2,2)" ></use>';
@@ -231,38 +233,39 @@ const setTimerSvg = (status) => {
     }
 };
 var runTimer = function() {
-    timerValue++;
-    timer.innerHTML = (timerValue / 10).toFixed(1);
+    APP.timerValue++;
+    APP.timer.innerHTML = (APP.timerValue / 100).toFixed(1);
 };
 const resetChordify = () => {
-    phrase.value = '';
-    wholePhraseChords.innerHTML = '';
-    allChordsList.hidden = true;
-    TEST_AREA.value = '';
-    TEST_AREA.disabled = false;
+    APP.phrase.value = '';
+    APP.wholePhraseChords.innerHTML = '';
+    APP.allChordsList.hidden = true;
+    APP.testArea.value = '';
+    APP.testArea.disabled = false;
 };
 var resetChordifiedCompletion = function() {
-    Array.from(wholePhraseChords.children).forEach(function(chord) {
+    Array.from(APP.wholePhraseChords.children).forEach(function(chord) {
         chord.classList.remove("error");
         // element.setAttribute("class", "outstanding");
     })
-    TEST_AREA.style.border = "";
+    APP.testArea.style.border = "";
     setNext();
     setTimerSvg('start');
-    TEST_AREA.focus();
+    APP.charTimer = [];
+    APP.testArea.focus();
 };
 var startTimer = function() {
     if(!timerHandle) {
-        timerHandle = setInterval(runTimer, 100);
+        timerHandle = setInterval(runTimer, 10);
         setTimerSvg('pause');
     }
 };
 var timerCancel = function() {
-    TEST_AREA.value = '';
+    APP.testArea.value = '';
     clearInterval(timerHandle);
     timerHandle = null;
-    timer.innerHTML = (0).toFixed(1);
-    timerValue = 0;
+    APP.timer.innerHTML = (0).toFixed(1);
+    APP.timerValue = 0;
     resetChordifiedCompletion();
 }
 var clearChords = function() {
@@ -270,31 +273,39 @@ var clearChords = function() {
     // listAllChords();
 }
 
-phrase.addEventListener('change', chordify);
-TEST_AREA.addEventListener('input', testTimer);
-pangrams.addEventListener('click', function(e) {
-    phrase.value = e.target.innerText;
-    chordify();
-});
-document.getElementById('timerCancel')
-    .addEventListener('click', timerCancel);
-document.getElementById('listAllChords')
-    .addEventListener('click', listAllChords);
-
 document.addEventListener("DOMContentLoaded", () => {
+
+    APP.testArea = document.getElementById('testArea');
+    APP.chordified = document.getElementById('chordified');
+    APP.timer = document.getElementById('timer');
+    APP.prevCharTime = 0;
+    APP.charTimer = [];
+    APP.phrase = document.getElementById('phrase');
+    APP.pangrams = document.getElementById('pangrams');
+    APP.chordImageHolder = document.getElementById('chord-image-holder');
+    APP.wholePhraseChords = document.getElementById("wholePhraseChords");
+    APP.testMode = document.getElementById("testMode");
+    // APP.testModeLabel = document.getElementById("testModeLabel");
+    APP.svgCharacter = document.getElementById("svgCharacter");
+    APP.errorCount = document.getElementById("errorCount");
+    APP.charTimes = document.getElementById("charTimes");
+
+    APP.timerValue = 0;
+
+    APP.testArea.addEventListener('input', testTimer);
+    APP.phrase.addEventListener('change', chordify);
     document.getElementById('testMode').checked = localStorage.getItem('testMode') == 'true';
-    // var allChordsList = document.getElementById("allChordsList");
-    // const allChords = fetch('/js/chords.json')
-    //     .then(response => {
-    //         return response.json();
-    //     })
-    //     .then(data => {
-    //         allChords = data;
-    //     });
+    APP.pangrams.addEventListener('click', function(e) {
+        APP.phrase.value = e.target.innerText;
+        chordify();
+    });
+    document.getElementById('timerCancel')
+        .addEventListener('click', timerCancel);
+    document.getElementById('listAllChords')
+        .addEventListener('click', listAllChords);
+    document.getElementById('resetChordify')
+        .addEventListener('click', resetChordify);
+    document.getElementById('testMode')
+        .addEventListener('change', testModeChange);
+
 });
-// document.getElementById('clearChordsButton')
-//     .addEventListener('click', clearChords);
-document.getElementById('resetChordify')
-    .addEventListener('click', resetChordify);
-document.getElementById('testMode')
-    .addEventListener('change', testModeChange);

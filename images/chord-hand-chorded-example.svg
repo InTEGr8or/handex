@@ -47,10 +47,10 @@
         <rect id="stop" y="1" width="8" height="8" fill="#000F" z-index="1000"/>
         <circle id="dot" cx="3" cy="5" r="2" stroke="none"/>
     </defs> 
-    <g id="hand" viewBox="0 0 50 50" 
+    <g id="hand" viewBox="0 0 50 60" 
         x="0" 
         y="0"
-        transform="rotate(-90) translate(-65,0)" >
+        transform="translate(0,40) rotate(-60) " >
         <g id="thumb" > 
             <use id="me" href="#phalange" stroke="#000" stroke-width="0.1px" transform="translate(0,0) scale(1,1) "></use>
             <use id="mf" href="#phalange" transform="translate(10,0) scale(1,1) "/>
