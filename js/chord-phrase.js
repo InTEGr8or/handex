@@ -202,10 +202,9 @@ var testTimer = function(event) {
         // stop timer
         clearInterval(timerHandle);
         setTimerSvg('stop');
-        console.log("Char timer:", APP.charTimer);
         let charTimeList = "";
         APP.charTimer.forEach(x => {
-            charTimeList += `<li>${x.char}: ${x.duration}</li>`;
+            charTimeList += `<li>${x.char.replace(' ', spaceDisplayChar)}: ${x.duration}</li>`;
         });
         APP.charTimes.innerHTML = charTimeList;
         timerHandle = null;
