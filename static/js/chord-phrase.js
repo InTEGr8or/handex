@@ -83,12 +83,12 @@ var chordify = function() {
             if(foundChords.length > 0) {
                 const inChord = foundChords[0].cloneNode(true);
                 inChord.setAttribute("name", row.char);
-                inChord.hidden = false;
+                inChord.hidden = isTestMode;
                 Array.from(inChord.children)
                     .filter(x => x.nodeName == "IMG")
                     .forEach(x => {
                         x.setAttribute("loading", "eager");
-                        x.hidden = isTestMode;
+                        // x.hidden = isTestMode;
                     });
                 APP.wholePhraseChords.appendChild(inChord); 
             }
@@ -131,8 +131,10 @@ var setNext = () => {
     Array.from(next.childNodes)
         .filter(x => x.nodeName == "IMG")
         .forEach(x => {
-            x.width = 180;
-            APP.chordImageHolder.replaceChildren(x.cloneNode(true));
+            x.width = 140;
+            charSvgClone = x.cloneNode(true);
+            charSvgClone.hidden = APP.testMode.checked;
+            APP.chordImageHolder.replaceChildren(charSvgClone);
             
         });
     APP.svgCharacter.innerHTML = next.getAttribute("name").replace("Space", spaceDisplayChar).replace("tab","↹");
