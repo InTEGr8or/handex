@@ -1,3 +1,5 @@
+// import { createRoot } from 'react-dom/client';
+
 let userProfile = document.getElementById('profileId');
 
 document.addEventListener('DOMContentLoaded', () => {
