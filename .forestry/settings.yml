@@ -9,28 +9,14 @@ sections:
 - type: document
   path: exampleSite/content/english/_index.md
   label: Homepage (en)
-- type: document
-  path: exampleSite/content/french/_index.md
-  label: Homepage (fr)
 - type: heading
   label: Blog
 - type: document
   path: exampleSite/content/english/blog/_index.md
   label: Blog Setting (en)
-- type: document
-  path: exampleSite/content/french/blog/_index.md
-  label: Blog Setting (fr)
 - type: directory
   path: exampleSite/content/english/blog
   label: All Blog Posts (en)
-  create: documents
-  match: "**/*"
-  exclude: _index.md
-  templates:
-  - post
-- type: directory
-  path: exampleSite/content/french/blog
-  label: All Blog Posts (fr)
   create: documents
   match: "**/*"
   exclude: _index.md
@@ -66,35 +52,6 @@ sections:
   path: exampleSite/content/english/contact.md
   label: Contact (en)
 - type: heading
-  label: Pages (fr)
-- type: document
-  path: exampleSite/content/french/about.md
-  label: About (fr)
-- type: document
-  path: exampleSite/content/french/about-info.md
-  label: About Info (fr)
-- type: document
-  path: exampleSite/content/french/brands-logos.md
-  label: Brands Logos (fr)
-- type: document
-  path: exampleSite/content/french/how-it-works.md
-  label: How it works (fr)
-- type: document
-  path: exampleSite/content/french/features.md
-  label: Features (fr)
-- type: document
-  path: exampleSite/content/french/pricing.md
-  label: Pricing (fr)
-- type: document
-  path: exampleSite/content/french/testimonials.md
-  label: Testimonials (fr)
-- type: document
-  path: exampleSite/content/french/faq.md
-  label: FAQ (fr)
-- type: document
-  path: exampleSite/content/french/contact.md
-  label: Contact (fr)
-- type: heading
   label: All Pages
 - type: directory
   path: exampleSite/content
@@ -121,9 +78,6 @@ sections:
 - type: document
   path: exampleSite/config/_default/menus.en.toml
   label: Menu (en)
-- type: document
-  path: exampleSite/config/_default/menus.fr.toml
-  label: Menu (fr)
 upload_dir: exampleSite/static/images
 public_path: "/images"
 front_matter_path: ''

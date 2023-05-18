@@ -41,11 +41,14 @@
 <link rel="manifest" href="{{`manifest.webmanifest` | relURL }}">
 <meta name="msapplication-TileColor" content="{{site.Params.variables.primary_color | default `#da532c`}}">
 <meta name="theme-color" content="{{site.Params.variables.body_color | default `#ffffff` }}">
-<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<!-- <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script> -->
 <script src="/js/user-auth.mjs" type="module"></script>
 
 
+<meta property="og:type" content="article">
+<meta property="og:title" content="{{ with .Title }}{{ . }}{{ else }}{{ site.Title }}{{ end }}"/>
+<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ if .IsPage }}{{ .Summary }}{{ else }}{{ with site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}"/>
 {{ "<!-- Open Graph image and Twitter Card metadata -->" | safeHTML }}
 {{ $image_path := .Params.image | default site.Params.image -}}
 {{ $image_path_local :=  printf "static/%s" $image_path -}}

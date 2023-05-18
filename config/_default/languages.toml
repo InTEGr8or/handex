@@ -7,14 +7,3 @@ weight = 1
 # copyright
 copyright = "Designed & Developed by Bizkite.co"
 
-
-
-################################### French language #####################################
-# [fr]
-# languageName = "Fr"
-# languageCode = "fr-fr"
-# contentDir = "content/french"
-# weight = 2
-# home = "Accueil"
-# # copyright
-# copyright = "Conçu Par [Themefisher](https://themefisher.com/) & Développé Par [Gethugothemes](https://gethugothemes.com/)"
