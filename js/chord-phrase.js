@@ -1,4 +1,3 @@
-// var allChordsList = document.getElementById("allChordsList");
 const APP = {};
 APP.lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/';
 
@@ -78,7 +77,7 @@ var chordify = function() {
         chordRows.forEach(function(row, i) {
             const rowDiv = document.createElement('div');
             const rowStrokesId = row.strokes.replaceAll(", ","_").replaceAll(" ","");
-            const foundChords = Array.from(allChordsList.children).filter(x=>{return x.id == rowStrokesId;});
+            const foundChords = Array.from(APP.allChordsList.children).filter(x=>{return x.id == rowStrokesId;});
             // Load the clone in Chord order into the wholePhraseChords div.
             if(foundChords.length > 0) {
                 const inChord = foundChords[0].cloneNode(true);
@@ -292,6 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
     APP.chordImageHolder = document.getElementById('chord-image-holder');
     APP.wholePhraseChords = document.getElementById("wholePhraseChords");
     APP.testMode = document.getElementById("testMode");
+    APP.allChordsList = document.getElementById("allChordsList");
     // APP.testModeLabel = document.getElementById("testModeLabel");
     APP.svgCharacter = document.getElementById("svgCharacter");
     APP.errorCount = document.getElementById("errorCount");
