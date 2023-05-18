@@ -212,6 +212,7 @@ var testTimer = function(event) {
             charTimeList += `<li>${x.char.replace(' ', spaceDisplayChar)}: ${x.duration}</li>`;
         });
         APP.charTimes.innerHTML = charTimeList;
+        localStorage.setItem(`charTimerSession_${(new Date).toISOString()}`, JSON.stringify(APP.charTimer));
         timerHandle = null;
         return;
     }

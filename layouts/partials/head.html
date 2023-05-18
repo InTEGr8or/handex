@@ -41,7 +41,9 @@
 <link rel="manifest" href="{{`manifest.webmanifest` | relURL }}">
 <meta name="msapplication-TileColor" content="{{site.Params.variables.primary_color | default `#da532c`}}">
 <meta name="theme-color" content="{{site.Params.variables.body_color | default `#ffffff` }}">
-<script src="/js/user-auth.js" type="text/javascript"></script>
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="/js/user-auth.mjs" type="module"></script>
 
 
 {{ "<!-- Open Graph image and Twitter Card metadata -->" | safeHTML }}
