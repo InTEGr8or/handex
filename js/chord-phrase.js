@@ -126,6 +126,7 @@ var setNext = () => {
     );
     if (nextIndex > APP.wholePhraseChords.children.length - 1) return;
     const next = APP.wholePhraseChords.children[nextIndex];
+    APP.nextChar = next.getAttribute("name").replace("Space", " ");
     next.classList.add("next");
     // If we're in test mode and the last character typed doesn't match the next, expose the svg.
     Array.from(next.childNodes)
@@ -168,15 +169,17 @@ var comparePhrase = () => {
     return result;
 };
 var testTimer = function(event) {
+    if(event.data == APP.nextChar) {
+        APP.charTimer.push({
+            char: event.data, 
+            duration: ((APP.timerValue - APP.prevCharTime) / 100).toFixed(2), 
+            time: (APP.timerValue / 100).toFixed(2)
+        });
+    }
     const next = setNext();
     if(next){
         next.classList.remove("error");
     }
-    APP.charTimer.push({
-        char: event.data, 
-        duration: ((APP.timerValue - APP.prevCharTime) / 100).toFixed(2), 
-        time: (APP.timerValue / 100).toFixed(2)
-    });
     APP.prevCharTime = APP.timerValue;
 
     // TODO: de-overlap this and comparePhrase
@@ -292,6 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
     APP.svgCharacter = document.getElementById("svgCharacter");
     APP.errorCount = document.getElementById("errorCount");
     APP.charTimes = document.getElementById("charTimes");
+    APP.nextChar = null;
 
     APP.timerValue = 0;
 
