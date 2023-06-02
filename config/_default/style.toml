@@ -29,27 +29,27 @@ secondary_font = ""
 secondary_font_type = "" # [serif/sans-serif]
 icon_font = "Font Awesome 5 Free"
 
-
+## Duplicated in config.toml
 ############################# Plugins ##############################
 
 # CSS Plugins
-[[params.plugins.css]]
-link = "plugins/slick/slick.css"
-[[params.plugins.css]]
-link = "plugins/aos/aos.css"
-[[params.plugins.css]]
-link = "plugins/font-awesome/fontawesome.min.css"
-[[params.plugins.css]]
-link = "plugins/font-awesome/brands.css"
-[[params.plugins.css]]
-link = "plugins/font-awesome/solid.css"
+# [[params.plugins.css]]
+# link = "plugins/slick/slick.css"
+# [[params.plugins.css]]
+# link = "plugins/aos/aos.css"
+# [[params.plugins.css]]
+# link = "plugins/font-awesome/fontawesome.min.css"
+# [[params.plugins.css]]
+# link = "plugins/font-awesome/brands.css"
+# [[params.plugins.css]]
+# link = "plugins/font-awesome/solid.css"
 
 # JS Plugins
-[[params.plugins.js]]
-link = "plugins/jquery/jquery.min.js"
-[[params.plugins.js]]
-link = "plugins/bootstrap/bootstrap.min.js"
-[[params.plugins.js]]
-link = "plugins/slick/slick.min.js"
-[[params.plugins.js]]
-link = "plugins/aos/aos.js"
+# [[params.plugins.js]]
+# link = "plugins/jquery/jquery.min.js"
+# [[params.plugins.js]]
+# link = "plugins/bootstrap/bootstrap.min.js"
+# [[params.plugins.js]]
+# link = "plugins/slick/slick.min.js"
+# [[params.plugins.js]]
+# link = "plugins/aos/aos.js"
