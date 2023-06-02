@@ -1,4 +1,3 @@
-// var allChordsList = document.getElementById("allChordsList");
 const APP = {};
 APP.lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/';
 
@@ -78,7 +77,7 @@ var chordify = function() {
         chordRows.forEach(function(row, i) {
             const rowDiv = document.createElement('div');
             const rowStrokesId = row.strokes.replaceAll(", ","_").replaceAll(" ","");
-            const foundChords = Array.from(allChordsList.children).filter(x=>{return x.id == rowStrokesId;});
+            const foundChords = Array.from(APP.allChordsList.children).filter(x=>{return x.id == rowStrokesId;});
             // Load the clone in Chord order into the wholePhraseChords div.
             if(foundChords.length > 0) {
                 const inChord = foundChords[0].cloneNode(true);
@@ -172,15 +171,15 @@ var testTimer = function(event) {
     if(event.data == APP.nextChar) {
         APP.charTimer.push({
             char: event.data, 
-            duration: ((APP.timerValue - APP.prevCharTime) / 100).toFixed(2), 
-            time: (APP.timerValue / 100).toFixed(2)
+            duration: ((APP.timerCentiSecond - APP.prevCharTime) / 100).toFixed(2), 
+            time: (APP.timerCentiSecond / 100).toFixed(2)
         });
     }
     const next = setNext();
     if(next){
         next.classList.remove("error");
     }
-    APP.prevCharTime = APP.timerValue;
+    APP.prevCharTime = APP.timerCentiSecond;
 
     // TODO: de-overlap this and comparePhrase
     if(APP.testArea.value.trim().length == 0) {
@@ -189,7 +188,7 @@ var testTimer = function(event) {
         clearInterval(timerHandle);
         timerHandle = null;
         APP.timer.innerHTML = (0).toFixed(1);
-        APP.timerValue = 0;
+        APP.timerCentiSecond = 0;
         setTimerSvg('start');
         return;
     }
@@ -228,6 +227,8 @@ const setTimerSvg = (status) => {
             break;
         case 'stop':
             statusSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
+            let words = APP.phrase.value.length / 5;
+            APP.wpm.innerText = (words / (APP.timerCentiSecond / 100 / 60)).toFixed(2);
             APP.testArea.disabled = true;
             break;
         case 'pause':
@@ -238,8 +239,8 @@ const setTimerSvg = (status) => {
     }
 };
 var runTimer = function() {
-    APP.timerValue++;
-    APP.timer.innerHTML = (APP.timerValue / 100).toFixed(1);
+    APP.timerCentiSecond++;
+    APP.timer.innerHTML = (APP.timerCentiSecond / 100).toFixed(1);
 };
 const resetChordify = () => {
     APP.phrase.value = '';
@@ -272,7 +273,7 @@ var timerCancel = function() {
     clearInterval(timerHandle);
     timerHandle = null;
     APP.timer.innerHTML = (0).toFixed(1);
-    APP.timerValue = 0;
+    APP.timerCentiSecond = 0;
     resetChordifiedCompletion();
 }
 var clearChords = function() {
@@ -292,13 +293,15 @@ document.addEventListener("DOMContentLoaded", () => {
     APP.chordImageHolder = document.getElementById('chord-image-holder');
     APP.wholePhraseChords = document.getElementById("wholePhraseChords");
     APP.testMode = document.getElementById("testMode");
+    APP.allChordsList = document.getElementById("allChordsList");
     // APP.testModeLabel = document.getElementById("testModeLabel");
     APP.svgCharacter = document.getElementById("svgCharacter");
     APP.errorCount = document.getElementById("errorCount");
+    APP.wpm = document.getElementById("wpm");
     APP.charTimes = document.getElementById("charTimes");
     APP.nextChar = null;
 
-    APP.timerValue = 0;
+    APP.timerCentiSecond = 0;
 
     APP.testArea.addEventListener('input', testTimer);
     APP.phrase.addEventListener('change', chordify);
