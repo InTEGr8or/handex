@@ -24,12 +24,12 @@ sections:
   - post
 - type: heading
   label: Pages (en)
-- type: document
-  path: exampleSite/content/english/about.md
-  label: About (en)
-- type: document
-  path: exampleSite/content/english/about-info.md
-  label: About Info (en)
+# - type: document
+#   path: exampleSite/content/english/about.md
+#   label: About (en)
+# - type: document
+#   path: exampleSite/content/english/about-info.md
+#   label: About Info (en)
 - type: document
   path: exampleSite/content/english/brands-logos.md
   label: Brands Logos (en)

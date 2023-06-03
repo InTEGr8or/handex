@@ -57,11 +57,11 @@ url = "contact/"
 weight = 7
 
 
-# footer menus
-[[about]]
-name = "Our Story"
-url = "about/"
-weight = 1
+# # footer menus
+# [[about]]
+# name = "Our Story"
+# url = "about/"
+# weight = 1
 
 # [[about]]
 # name = "Testimonials"
