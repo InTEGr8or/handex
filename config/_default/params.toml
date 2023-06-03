@@ -75,3 +75,7 @@ title = "linkedin"
 icon = "fab fa-linkedin" # fontawesome icon pack : https://fontawesome.com/icons/
 link = "https://www.linkedin.com/company/handex-io"
 
+[[social]]
+title = "youtube"
+icon = "fab fa-youtube" # fontawesome icon pack : https://fontawesome.com/icons/
+link = "https://www.youtube.com/@Handexkeydex"
