@@ -114,3 +114,8 @@ weight = 2
 name = "Contact"
 url = "contact/"
 weight = 4
+
+[[help]]
+name = "Privacy Policy"
+url = "privacy"
+weight = 5
