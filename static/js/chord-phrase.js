@@ -258,22 +258,23 @@ var startTimer = function() {
 };
 var timerCancel = function() {
     APP.testArea.value = '';
-    clearInterval(timerHandle);
-    timerHandle = null;
-    APP.timer.innerHTML = (0).toFixed(1);
-    APP.timerCentiSecond = 0;
-    Array.from(APP.wholePhraseChords.children).forEach(function(chord) {
-        chord.classList.remove("error");
-        // element.setAttribute("class", "outstanding");
-    })
-    APP.testArea.style.border = "";
-    setNext();
-    setTimerSvg('start');
     APP.charTimer = [];
     APP.prevCharTime = 0;
     APP.wpm.innerText = 0;
     APP.charTimes.innerHTML = '';
     APP.testArea.focus();
+    APP.timer.innerHTML = (0).toFixed(1);
+    APP.timerCentiSecond = 0;
+    APP.testArea.style.border = "";
+    // clear error class from all chords
+    Array.from(APP.wholePhraseChords.children).forEach(function(chord) {
+        chord.classList.remove("error");
+        // element.setAttribute("class", "outstanding");
+    })
+    clearInterval(timerHandle);
+    timerHandle = null;
+    setNext();
+    setTimerSvg('start');
 }
 var clearChords = function() {
     document.getElementById('searchChords').value = '';
