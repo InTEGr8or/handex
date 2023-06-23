@@ -47,7 +47,7 @@ rel = "manifest"
 # page background
 [params.page_background]
 page_class= "" # ex: "bg-primary"
-page_background_color= "#222E7330" # ex: "#ff00ff", "green"
+page_background_color= "#FFF" # ex: "#ff00ff", "green"
 page_background_image= "" # ex: "images/bg.svg"
 
 # customize your color and font from here.
