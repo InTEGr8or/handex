@@ -1,8 +1,8 @@
 ---
 title: Chords
-date: 2023-05-10T18:48:47.659Z
+date: 2023-06-24T03:37:18.919Z
 ---
-Report,Chord,Strokes
+Report,Chord,Strokes,ChordCode
 a and A,1,ipf
 b and B,47,"ppf, mmf"
 c and C,12,"ipf, mpf"
