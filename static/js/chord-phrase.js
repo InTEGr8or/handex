@@ -77,7 +77,7 @@ var chordify = function() {
         chordRows.forEach(function(row, i) {
             const rowDiv = document.createElement('div');
             const chordCode = row.chord;
-            const foundChords = Array.from(APP.allChordsList.children).filter(x=>{return x.id == chordCode;});
+            const foundChords = Array.from(APP.allChordsList.children).filter(x=>{return x.id == `chord${chordCode}`;});
             // Load the clone in Chord order into the wholePhraseChords div.
             if(foundChords.length > 0) {
                 const inChord = foundChords[0].cloneNode(true);
@@ -94,7 +94,7 @@ var chordify = function() {
             else{
                 console.log("Missing chord:", chordCode);
             }
-            document.getElementById(chordCode).querySelector(`img`)?.setAttribute("loading", "eager");
+            document.getElementById(`chord${chordCode}`)?.querySelector(`img`)?.setAttribute("loading", "eager");
             // document.querySelector(`#${chordCode}`).hidden = false;
             rowDiv.id = i;
             rowDiv.setAttribute("name", row.char);
