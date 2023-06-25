@@ -1,1 +1,920 @@
-[{"report":"a and A","value":"0x04","chord":"1","strokes":"ipf"},{"report":"b and B","value":"0x05","chord":"47","strokes":"ppf, mmf"},{"report":"c and C","value":"0x06","chord":"12","strokes":"ipf, mpf"},{"report":"d and D","value":"0x07","chord":"3","strokes":"rpf"},{"report":"e and E","value":"0x08","chord":"21","strokes":"mpf, ipf"},{"report":"f and F","value":"0x09","chord":"4","strokes":"ppf"},{"report":"g and G","value":"0x0A","chord":"89","strokes":"rmf, pmf"},{"report":"h and H","value":"0x0B","chord":"98","strokes":"pmf, rmf"},{"report":"i and I","value":"0x0C","chord":"65","strokes":"imf, tmf"},{"report":"j and J","value":"0x0D","chord":"6","strokes":"imf"},{"report":"k and K","value":"0x0E","chord":"7","strokes":"mmf"},{"report":"l and L","value":"0x0F","chord":"8","strokes":"rmf"},{"report":"m and M","value":"0x10","chord":"61","strokes":"imf, ipf"},{"report":"n and N","value":"0x11","chord":"75","strokes":"mmf, tmf"},{"report":"o and O","value":"0x12","chord":"72","strokes":"mmf, mpf"},{"report":"p and P","value":"0x13","chord":"16","strokes":"ipf, imf"},{"report":"q and Q","value":"0x14","chord":"85","strokes":"rmf, tmf"},{"report":"r and R","value":"0x15","chord":"23","strokes":"mpf, rpf"},{"report":"s and S","value":"0x16","chord":"2","strokes":"mpf"},{"report":"t and T","value":"0x17","chord":"60","strokes":"imf, tpf"},{"report":"u and U","value":"0x18","chord":"32","strokes":"rpf, mpf"},{"report":"v and V","value":"0x19","chord":"20","strokes":"mpf, tpf"},{"report":"w and W","value":"0x1A","chord":"14","strokes":"ipf, ppf"},{"report":"x and X","value":"0x1B","chord":"41","strokes":"ppf, ipf"},{"report":"y and Y","value":"0x1C","chord":"46","strokes":"ppf, imf"},{"report":"z and Z","value":"0x1D","chord":"70","strokes":"mmf, tpf"},{"report":"1 and !","value":"0x1E","chord":"946","strokes":"pmf, ppf, imf"},{"report":"2 and @","value":"0x1F","chord":"941","strokes":"pmf, ppf, ipf"},{"report":"3 and #","value":"0x20","chord":"9461","strokes":"pmf, ppf, imf, ipf"},{"report":"4 and $","value":"0x21","chord":"9416","strokes":"pmf, ppf, ipf, imf"},{"report":"5 and %","value":"0x22","chord":"94B","strokes":"pmf, ppf, ime"},{"report":"6 and ^","value":"0x23","chord":"947","strokes":"pmf, ppf, mmf"},{"report":"7 and &","value":"0x24","chord":"942","strokes":"pmf, ppf, mpf"},{"report":"8 and *","value":"0x25","chord":"9472","strokes":"pmf, ppf, mmf, mpf"},{"report":"9 and (","value":"0x26","chord":"9427","strokes":"pmf, ppf, mpf, mmf"},{"report":"0 and )","value":"0x27","chord":"9412","strokes":"pmf, ppf, ipf, mpf"},{"report":"Return (ENTER)","value":"0x28","chord":"10","strokes":"ipf, tpf"},{"report":"ESCAPE","value":"0x29","chord":"49","strokes":"ppf, pmf"},{"report":"DELETE (Backspace)","value":"0x2A","chord":"95","strokes":"pmf, tmf"},{"report":"Tab","value":"0x2B","chord":"94","strokes":"pmf, ppf"},{"report":"Spacebar","value":"0x2C","chord":"0","strokes":"tpf"},{"report":"- and (underscore)","value":"0x2D","chord":"B","strokes":"ime"},{"report":"= and +","value":"0x2E","chord":"210","strokes":"mpf, ipf, tpf"},{"report":"[ and {","value":"0x2F","chord":"45","strokes":"ppf, tmf"},{"report":"] and }","value":"0x30","chord":"495","strokes":"ppf, pmf, tmf"},{"report":"\\ and |","value":"0x31","chord":"34","strokes":"rpf, ppf"},{"report":"; and :","value":"0x33","chord":"9","strokes":"pmf"},{"report":"' and \"","value":"0x34","chord":"161","strokes":"ipf, imf, ipf"},{"report":"` and ~","value":"0x35","chord":"1B","strokes":"ipf, ime"},{"report":", and <","value":"0x36","chord":"17","strokes":"ipf, mmf"},{"report":". and >","value":"0x37","chord":"40","strokes":"ppf, tpf"},{"report":"/ and ?","value":"0x38","chord":"48","strokes":"ppf, rmf"},{"report":"Caps Lock","value":"0x39","chord":"E","strokes":"pme"},{"report":"F1","value":"0x3A","chord":"131","strokes":"ipf, rpf, ipf"},{"report":"F2","value":"0x3B","chord":"1D","strokes":"ipf, rme"},{"report":"F3","value":"0x3C","chord":"370","strokes":"rpf, mmf, tpf"},{"report":"F4","value":"0x3D","chord":"B0","strokes":"ime, tpf"},{"report":"F5","value":"0x3E","chord":"1C","strokes":"ipf, mme"},{"report":"F6","value":"0x3F","chord":"B06","strokes":"ime, tpf, imf"},{"report":"F7","value":"0x40","chord":"B1","strokes":"ime, ipf"},{"report":"F8","value":"0x41","chord":"B7","strokes":"ime, mmf"},{"report":"F9","value":"0x42","chord":"B2","strokes":"ime, mpf"},{"report":"F10","value":"0x43","chord":"BC","strokes":"ime, mme"},{"report":"F11","value":"0x44","chord":"B8","strokes":"ime, rmf"},{"report":"F12","value":"0x45","chord":"B3B","strokes":"ime, rpf, ime"},{"report":"PrintScreen","value":"0x46","chord":"BD","strokes":"ime, rme"},{"report":"Scroll Lock","value":"0x47","chord":"7E7","strokes":"mmf, pme, mmf"},{"report":"Pause","value":"0x48","chord":"206","strokes":"mpf, tpf, imf"},{"report":"Insert","value":"0x49","chord":"200","strokes":"mpf, tpf, tpf"},{"report":"Home","value":"0x4A","chord":"78","strokes":"mmf, rmf"},{"report":"PageUp","value":"0x4B","chord":"7A","strokes":"mmf, tme"},{"report":"Delete Forward","value":"0x4C","chord":"7B","strokes":"mmf, ime"},{"report":"End","value":"0x4D","chord":"727","strokes":"mmf, mpf, mmf"},{"report":"PageDown","value":"0x4E","chord":"121","strokes":"ipf, mpf, ipf"},{"report":"RightArrow","value":"0x4F","chord":"67","strokes":"imf, mmf"},{"report":"LeftArrow","value":"0x50","chord":"76","strokes":"mmf, imf"},{"report":"DownArrow","value":"0x51","chord":"7D","strokes":"mmf, rme"},{"report":"UpArrow","value":"0x52","chord":"272","strokes":"mpf, mmf, mpf"},{"report":"Keypad Num Lock and Clear","value":"0x53","chord":"202","strokes":"mpf, tpf, mpf"},{"report":"Keypad /","value":"0x54","chord":"2A2","strokes":"mpf, tme, mpf"},{"report":"Keypad *","value":"0x55","chord":"26","strokes":"mpf, imf"},{"report":"Keypad -","value":"0x56","chord":"212","strokes":"mpf, ipf, mpf"},{"report":"Keypad +","value":"0x57","chord":"2B","strokes":"mpf, ime"},{"report":"Keypad ENTER","value":"0x58","chord":"27E","strokes":"mpf, mmf, pme"},{"report":"Keypad 1 and End","value":"0x59","chord":"2C4","strokes":"mpf, mme, ppf"},{"report":"Keypad 2 and Down Arrow","value":"0x5A","chord":"28","strokes":"mpf, rmf"},{"report":"Keypad 3 and PageDn","value":"0x5B","chord":"23278","strokes":"mpf, rpf, mpf, mmf, rmf"},{"report":"Keypad 4 and Left Arrow","value":"0x5C","chord":"2D","strokes":"mpf, rme"},{"report":"Keypad 5","value":"0x5D","chord":"CE","strokes":"mme, pme"},{"report":"Keypad 6 and Right Arrow","value":"0x5E","chord":"C0","strokes":"mme, tpf"},{"report":"Keypad 7 and Home","value":"0x5F","chord":"CA","strokes":"mme, tme"},{"report":"Keypad 8 and Up Arrow","value":"0x60","chord":"C6","strokes":"mme, imf"},{"report":"Keypad 9 and PageUp","value":"0x61","chord":"C1","strokes":"mme, ipf"},{"report":"Keypad 0 and Insert","value":"0x62","chord":"CB","strokes":"mme, ime"},{"report":"Keypad . and Delete","value":"0x63","chord":"C7E","strokes":"mme, mmf, pme"},{"report":"Non-US \\ and |","value":"0x64","chord":"C2E","strokes":"mme, mpf, pme"},{"report":"Application","value":"0x65","chord":"C8","strokes":"mme, rmf"},{"report":"Power","value":"0x66","chord":"C3","strokes":"mme, rpf"},{"report":"Keypad =","value":"0x67","chord":"CD","strokes":"mme, rme"},{"report":"F13","value":"0x68","chord":"8E","strokes":"rmf, pme"},{"report":"F14","value":"0x69","chord":"850","strokes":"rmf, tmf, tpf"},{"report":"F15","value":"0x6A","chord":"8A","strokes":"rmf, tme"},{"report":"F16","value":"0x6B","chord":"6C6","strokes":"imf, mme, imf"},{"report":"F17","value":"0x6C","chord":"801","strokes":"rmf, tpf, ipf"},{"report":"F18","value":"0x6D","chord":"8B","strokes":"rmf, ime"},{"report":"F19","value":"0x6E","chord":"878","strokes":"rmf, mmf, rmf"},{"report":"F20","value":"0x6F","chord":"82","strokes":"rmf, mpf"},{"report":"F21","value":"0x70","chord":"8C","strokes":"rmf, mme"},{"report":"F22","value":"0x71","chord":"838","strokes":"rmf, rpf, rmf"},{"report":"F23","value":"0x72","chord":"8D","strokes":"rmf, rme"},{"report":"F24","value":"0x73","chord":"3E","strokes":"rpf, pme"},{"report":"Execute","value":"0x74","chord":"101","strokes":"ipf, tpf, ipf"},{"report":"Help","value":"0x75","chord":"7E","strokes":"mmf, pme"},{"report":"Menu","value":"0x76","chord":"36","strokes":"rpf, imf"},{"report":"Select","value":"0x77","chord":"31","strokes":"rpf, ipf"},{"report":"Stop","value":"0x78","chord":"3B","strokes":"rpf, ime"},{"report":"Again","value":"0x79","chord":"7A7","strokes":"mmf, tme, mmf"},{"report":"Undo","value":"0x7A","chord":"232","strokes":"mpf, rpf, mpf"},{"report":"Cut","value":"0x7B","chord":"3C","strokes":"rpf, mme"},{"report":"Copy","value":"0x7C","chord":"38","strokes":"rpf, rmf"},{"report":"Paste","value":"0x7D","chord":"3D3","strokes":"rpf, rme, rpf"},{"report":"Find","value":"0x7E","chord":"DE","strokes":"rme, pme"},{"report":"Mute","value":"0x7F","chord":"D0D","strokes":"rme, tpf, rme"},{"report":"Volume Up","value":"0x80","chord":"DA","strokes":"rme, tme"},{"report":"Volume Down","value":"0x81","chord":"D6","strokes":"rme, imf"},{"report":"Locking Caps Lock","value":"0x82","chord":"D1","strokes":"rme, ipf"},{"report":"Locking Num Lock","value":"0x83","chord":"DB","strokes":"rme, ime"},{"report":"Locking Scroll Lock","value":"0x84","chord":"D7","strokes":"rme, mmf"},{"report":"Keypad Comma","value":"0x85","chord":"D2","strokes":"rme, mpf"},{"report":"Keypad Equal Sign","value":"0x86","chord":"DC","strokes":"rme, mme"},{"report":"International1","value":"0x87","chord":"D82","strokes":"rme, rmf, mpf"},{"report":"International2","value":"0x88","chord":"D3D","strokes":"rme, rpf, rme"},{"report":"International3","value":"0x89","chord":"700","strokes":"mmf, tpf, tpf"},{"report":"International4","value":"0x8A","chord":"7E0","strokes":"mmf, pme, tpf"},{"report":"International5","value":"0x8B","chord":"7EA","strokes":"mmf, pme, tme"},{"report":"International6","value":"0x8C","chord":"7E6","strokes":"mmf, pme, imf"},{"report":"International7","value":"0x8D","chord":"6E1","strokes":"imf, pme, ipf"},{"report":"International8","value":"0x8E","chord":"7EB","strokes":"mmf, pme, ime"},{"report":"International9","value":"0x8F","chord":"7E73","strokes":"mmf, pme, mmf, rpf"},{"report":"LANG1","value":"0x90","chord":"7E2","strokes":"mmf, pme, mpf"},{"report":"LANG2","value":"0x91","chord":"7EC","strokes":"mmf, pme, mme"},{"report":"LANG3","value":"0x92","chord":"7E8","strokes":"mmf, pme, rmf"},{"report":"LANG4","value":"0x93","chord":"7E3","strokes":"mmf, pme, rpf"},{"report":"LANG5","value":"0x94","chord":"7ED","strokes":"mmf, pme, rme"},{"report":"LANG6","value":"0x95","chord":"70C","strokes":"mmf, tpf, mme"},{"report":"LeftControl","value":"0xE0","chord":"708","strokes":"mmf, tpf, rmf"},{"report":"LeftShift","value":"0xE1","chord":"1E","strokes":"ipf, pme"},{"report":"LeftAlt","value":"0xE2","chord":"70D","strokes":"mmf, tpf, rme"},{"report":"Left GUI","value":"0xE3","chord":"7AE","strokes":"mmf, tme, pme"},{"report":"RightControl","value":"0xE4","chord":"7A0","strokes":"mmf, tme, tpf"},{"report":"RightShift","value":"0xE5","chord":"7EA7","strokes":"mmf, pme, tme, mmf"},{"report":"RightAlt","value":"0xE6","chord":"7A6","strokes":"mmf, tme, imf"},{"report":"Right GUI","value":"0xE7","chord":"6161","strokes":"imf, ipf, imf, ipf"}]
+[
+    {
+        "report": "a and A",
+        "value": "0x04",
+        "chord": "1",
+        "strokes": "ipf"
+    },
+    {
+        "report": "b and B",
+        "value": "0x05",
+        "chord": "47",
+        "strokes": "ppf, mmf"
+    },
+    {
+        "report": "c and C",
+        "value": "0x06",
+        "chord": "12",
+        "strokes": "ipf, mpf"
+    },
+    {
+        "report": "d and D",
+        "value": "0x07",
+        "chord": "3",
+        "strokes": "rpf"
+    },
+    {
+        "report": "e and E",
+        "value": "0x08",
+        "chord": "21",
+        "strokes": "mpf, ipf"
+    },
+    {
+        "report": "f and F",
+        "value": "0x09",
+        "chord": "4",
+        "strokes": "ppf"
+    },
+    {
+        "report": "g and G",
+        "value": "0x0A",
+        "chord": "89",
+        "strokes": "rmf, pmf"
+    },
+    {
+        "report": "h and H",
+        "value": "0x0B",
+        "chord": "98",
+        "strokes": "pmf, rmf"
+    },
+    {
+        "report": "i and I",
+        "value": "0x0C",
+        "chord": "65",
+        "strokes": "imf, tmf"
+    },
+    {
+        "report": "j and J",
+        "value": "0x0D",
+        "chord": "6",
+        "strokes": "imf"
+    },
+    {
+        "report": "k and K",
+        "value": "0x0E",
+        "chord": "7",
+        "strokes": "mmf"
+    },
+    {
+        "report": "l and L",
+        "value": "0x0F",
+        "chord": "8",
+        "strokes": "rmf"
+    },
+    {
+        "report": "m and M",
+        "value": "0x10",
+        "chord": "61",
+        "strokes": "imf, ipf"
+    },
+    {
+        "report": "n and N",
+        "value": "0x11",
+        "chord": "75",
+        "strokes": "mmf, tmf"
+    },
+    {
+        "report": "o and O",
+        "value": "0x12",
+        "chord": "72",
+        "strokes": "mmf, mpf"
+    },
+    {
+        "report": "p and P",
+        "value": "0x13",
+        "chord": "16",
+        "strokes": "ipf, imf"
+    },
+    {
+        "report": "q and Q",
+        "value": "0x14",
+        "chord": "85",
+        "strokes": "rmf, tmf"
+    },
+    {
+        "report": "r and R",
+        "value": "0x15",
+        "chord": "23",
+        "strokes": "mpf, rpf"
+    },
+    {
+        "report": "s and S",
+        "value": "0x16",
+        "chord": "2",
+        "strokes": "mpf"
+    },
+    {
+        "report": "t and T",
+        "value": "0x17",
+        "chord": "60",
+        "strokes": "imf, tpf"
+    },
+    {
+        "report": "u and U",
+        "value": "0x18",
+        "chord": "32",
+        "strokes": "rpf, mpf"
+    },
+    {
+        "report": "v and V",
+        "value": "0x19",
+        "chord": "20",
+        "strokes": "mpf, tpf"
+    },
+    {
+        "report": "w and W",
+        "value": "0x1A",
+        "chord": "14",
+        "strokes": "ipf, ppf"
+    },
+    {
+        "report": "x and X",
+        "value": "0x1B",
+        "chord": "41",
+        "strokes": "ppf, ipf"
+    },
+    {
+        "report": "y and Y",
+        "value": "0x1C",
+        "chord": "46",
+        "strokes": "ppf, imf"
+    },
+    {
+        "report": "z and Z",
+        "value": "0x1D",
+        "chord": "70",
+        "strokes": "mmf, tpf"
+    },
+    {
+        "report": "1 and !",
+        "value": "0x1E",
+        "chord": "946",
+        "strokes": "pmf, ppf, imf"
+    },
+    {
+        "report": "2 and @",
+        "value": "0x1F",
+        "chord": "941",
+        "strokes": "pmf, ppf, ipf"
+    },
+    {
+        "report": "3 and #",
+        "value": "0x20",
+        "chord": "9461",
+        "strokes": "pmf, ppf, imf, ipf"
+    },
+    {
+        "report": "4 and $",
+        "value": "0x21",
+        "chord": "9416",
+        "strokes": "pmf, ppf, ipf, imf"
+    },
+    {
+        "report": "5 and %",
+        "value": "0x22",
+        "chord": "94B",
+        "strokes": "pmf, ppf, ime"
+    },
+    {
+        "report": "6 and ^",
+        "value": "0x23",
+        "chord": "947",
+        "strokes": "pmf, ppf, mmf"
+    },
+    {
+        "report": "7 and &",
+        "value": "0x24",
+        "chord": "942",
+        "strokes": "pmf, ppf, mpf"
+    },
+    {
+        "report": "8 and *",
+        "value": "0x25",
+        "chord": "9472",
+        "strokes": "pmf, ppf, mmf, mpf"
+    },
+    {
+        "report": "9 and (",
+        "value": "0x26",
+        "chord": "9427",
+        "strokes": "pmf, ppf, mpf, mmf"
+    },
+    {
+        "report": "0 and )",
+        "value": "0x27",
+        "chord": "9412",
+        "strokes": "pmf, ppf, ipf, mpf"
+    },
+    {
+        "report": "Return (ENTER)",
+        "value": "0x28",
+        "chord": "10",
+        "strokes": "ipf, tpf"
+    },
+    {
+        "report": "ESCAPE",
+        "value": "0x29",
+        "chord": "49",
+        "strokes": "ppf, pmf"
+    },
+    {
+        "report": "DELETE (Backspace)",
+        "value": "0x2A",
+        "chord": "95",
+        "strokes": "pmf, tmf"
+    },
+    {
+        "report": "Tab",
+        "value": "0x2B",
+        "chord": "94",
+        "strokes": "pmf, ppf"
+    },
+    {
+        "report": "Spacebar",
+        "value": "0x2C",
+        "chord": "0",
+        "strokes": "tpf"
+    },
+    {
+        "report": "- and (underscore)",
+        "value": "0x2D",
+        "chord": "B",
+        "strokes": "ime"
+    },
+    {
+        "report": "= and +",
+        "value": "0x2E",
+        "chord": "210",
+        "strokes": "mpf, ipf, tpf"
+    },
+    {
+        "report": "[ and {",
+        "value": "0x2F",
+        "chord": "45",
+        "strokes": "ppf, tmf"
+    },
+    {
+        "report": "] and }",
+        "value": "0x30",
+        "chord": "495",
+        "strokes": "ppf, pmf, tmf"
+    },
+    {
+        "report": "\\ and |",
+        "value": "0x31",
+        "chord": "34",
+        "strokes": "rpf, ppf"
+    },
+    {
+        "report": "; and :",
+        "value": "0x33",
+        "chord": "9",
+        "strokes": "pmf"
+    },
+    {
+        "report": "' and \"",
+        "value": "0x34",
+        "chord": "161",
+        "strokes": "ipf, imf, ipf"
+    },
+    {
+        "report": "` and ~",
+        "value": "0x35",
+        "chord": "1B",
+        "strokes": "ipf, ime"
+    },
+    {
+        "report": ", and <",
+        "value": "0x36",
+        "chord": "17",
+        "strokes": "ipf, mmf"
+    },
+    {
+        "report": ". and >",
+        "value": "0x37",
+        "chord": "40",
+        "strokes": "ppf, tpf"
+    },
+    {
+        "report": "/ and ?",
+        "value": "0x38",
+        "chord": "48",
+        "strokes": "ppf, rmf"
+    },
+    {
+        "report": "Caps Lock",
+        "value": "0x39",
+        "chord": "E",
+        "strokes": "pme"
+    },
+    {
+        "report": "F1",
+        "value": "0x3A",
+        "chord": "131",
+        "strokes": "ipf, rpf, ipf"
+    },
+    {
+        "report": "F2",
+        "value": "0x3B",
+        "chord": "1D",
+        "strokes": "ipf, rme"
+    },
+    {
+        "report": "F3",
+        "value": "0x3C",
+        "chord": "370",
+        "strokes": "rpf, mmf, tpf"
+    },
+    {
+        "report": "F4",
+        "value": "0x3D",
+        "chord": "B0",
+        "strokes": "ime, tpf"
+    },
+    {
+        "report": "F5",
+        "value": "0x3E",
+        "chord": "1C",
+        "strokes": "ipf, mme"
+    },
+    {
+        "report": "F6",
+        "value": "0x3F",
+        "chord": "B06",
+        "strokes": "ime, tpf, imf"
+    },
+    {
+        "report": "F7",
+        "value": "0x40",
+        "chord": "B1",
+        "strokes": "ime, ipf"
+    },
+    {
+        "report": "F8",
+        "value": "0x41",
+        "chord": "B7",
+        "strokes": "ime, mmf"
+    },
+    {
+        "report": "F9",
+        "value": "0x42",
+        "chord": "B2",
+        "strokes": "ime, mpf"
+    },
+    {
+        "report": "F10",
+        "value": "0x43",
+        "chord": "BC",
+        "strokes": "ime, mme"
+    },
+    {
+        "report": "F11",
+        "value": "0x44",
+        "chord": "B8",
+        "strokes": "ime, rmf"
+    },
+    {
+        "report": "F12",
+        "value": "0x45",
+        "chord": "B3B",
+        "strokes": "ime, rpf, ime"
+    },
+    {
+        "report": "PrintScreen",
+        "value": "0x46",
+        "chord": "BD",
+        "strokes": "ime, rme"
+    },
+    {
+        "report": "Scroll Lock",
+        "value": "0x47",
+        "chord": "7E7",
+        "strokes": "mmf, pme, mmf"
+    },
+    {
+        "report": "Pause",
+        "value": "0x48",
+        "chord": "206",
+        "strokes": "mpf, tpf, imf"
+    },
+    {
+        "report": "Insert",
+        "value": "0x49",
+        "chord": "200",
+        "strokes": "mpf, tpf, tpf"
+    },
+    {
+        "report": "Home",
+        "value": "0x4A",
+        "chord": "78",
+        "strokes": "mmf, rmf"
+    },
+    {
+        "report": "PageUp",
+        "value": "0x4B",
+        "chord": "7A",
+        "strokes": "mmf, tme"
+    },
+    {
+        "report": "Delete Forward",
+        "value": "0x4C",
+        "chord": "7B",
+        "strokes": "mmf, ime"
+    },
+    {
+        "report": "End",
+        "value": "0x4D",
+        "chord": "727",
+        "strokes": "mmf, mpf, mmf"
+    },
+    {
+        "report": "PageDown",
+        "value": "0x4E",
+        "chord": "121",
+        "strokes": "ipf, mpf, ipf"
+    },
+    {
+        "report": "RightArrow",
+        "value": "0x4F",
+        "chord": "67",
+        "strokes": "imf, mmf"
+    },
+    {
+        "report": "LeftArrow",
+        "value": "0x50",
+        "chord": "76",
+        "strokes": "mmf, imf"
+    },
+    {
+        "report": "DownArrow",
+        "value": "0x51",
+        "chord": "7D",
+        "strokes": "mmf, rme"
+    },
+    {
+        "report": "UpArrow",
+        "value": "0x52",
+        "chord": "272",
+        "strokes": "mpf, mmf, mpf"
+    },
+    {
+        "report": "Keypad Num Lock and Clear",
+        "value": "0x53",
+        "chord": "202",
+        "strokes": "mpf, tpf, mpf"
+    },
+    {
+        "report": "Keypad /",
+        "value": "0x54",
+        "chord": "2A2",
+        "strokes": "mpf, tme, mpf"
+    },
+    {
+        "report": "Keypad *",
+        "value": "0x55",
+        "chord": "26",
+        "strokes": "mpf, imf"
+    },
+    {
+        "report": "Keypad -",
+        "value": "0x56",
+        "chord": "212",
+        "strokes": "mpf, ipf, mpf"
+    },
+    {
+        "report": "Keypad +",
+        "value": "0x57",
+        "chord": "2B",
+        "strokes": "mpf, ime"
+    },
+    {
+        "report": "Keypad ENTER",
+        "value": "0x58",
+        "chord": "27E",
+        "strokes": "mpf, mmf, pme"
+    },
+    {
+        "report": "Keypad 1 and End",
+        "value": "0x59",
+        "chord": "2C4",
+        "strokes": "mpf, mme, ppf"
+    },
+    {
+        "report": "Keypad 2 and Down Arrow",
+        "value": "0x5A",
+        "chord": "28",
+        "strokes": "mpf, rmf"
+    },
+    {
+        "report": "Keypad 3 and PageDn",
+        "value": "0x5B",
+        "chord": "23278",
+        "strokes": "mpf, rpf, mpf, mmf, rmf"
+    },
+    {
+        "report": "Keypad 4 and Left Arrow",
+        "value": "0x5C",
+        "chord": "2D",
+        "strokes": "mpf, rme"
+    },
+    {
+        "report": "Keypad 5",
+        "value": "0x5D",
+        "chord": "CE",
+        "strokes": "mme, pme"
+    },
+    {
+        "report": "Keypad 6 and Right Arrow",
+        "value": "0x5E",
+        "chord": "C0",
+        "strokes": "mme, tpf"
+    },
+    {
+        "report": "Keypad 7 and Home",
+        "value": "0x5F",
+        "chord": "CA",
+        "strokes": "mme, tme"
+    },
+    {
+        "report": "Keypad 8 and Up Arrow",
+        "value": "0x60",
+        "chord": "C6",
+        "strokes": "mme, imf"
+    },
+    {
+        "report": "Keypad 9 and PageUp",
+        "value": "0x61",
+        "chord": "C1",
+        "strokes": "mme, ipf"
+    },
+    {
+        "report": "Keypad 0 and Insert",
+        "value": "0x62",
+        "chord": "CB",
+        "strokes": "mme, ime"
+    },
+    {
+        "report": "Keypad . and Delete",
+        "value": "0x63",
+        "chord": "C7E",
+        "strokes": "mme, mmf, pme"
+    },
+    {
+        "report": "Non-US \\ and |",
+        "value": "0x64",
+        "chord": "C2E",
+        "strokes": "mme, mpf, pme"
+    },
+    {
+        "report": "Application",
+        "value": "0x65",
+        "chord": "C8",
+        "strokes": "mme, rmf"
+    },
+    {
+        "report": "Power",
+        "value": "0x66",
+        "chord": "C3",
+        "strokes": "mme, rpf"
+    },
+    {
+        "report": "Keypad =",
+        "value": "0x67",
+        "chord": "CD",
+        "strokes": "mme, rme"
+    },
+    {
+        "report": "F13",
+        "value": "0x68",
+        "chord": "8E",
+        "strokes": "rmf, pme"
+    },
+    {
+        "report": "F14",
+        "value": "0x69",
+        "chord": "850",
+        "strokes": "rmf, tmf, tpf"
+    },
+    {
+        "report": "F15",
+        "value": "0x6A",
+        "chord": "8A",
+        "strokes": "rmf, tme"
+    },
+    {
+        "report": "F16",
+        "value": "0x6B",
+        "chord": "6C6",
+        "strokes": "imf, mme, imf"
+    },
+    {
+        "report": "F17",
+        "value": "0x6C",
+        "chord": "801",
+        "strokes": "rmf, tpf, ipf"
+    },
+    {
+        "report": "F18",
+        "value": "0x6D",
+        "chord": "8B",
+        "strokes": "rmf, ime"
+    },
+    {
+        "report": "F19",
+        "value": "0x6E",
+        "chord": "878",
+        "strokes": "rmf, mmf, rmf"
+    },
+    {
+        "report": "F20",
+        "value": "0x6F",
+        "chord": "82",
+        "strokes": "rmf, mpf"
+    },
+    {
+        "report": "F21",
+        "value": "0x70",
+        "chord": "8C",
+        "strokes": "rmf, mme"
+    },
+    {
+        "report": "F22",
+        "value": "0x71",
+        "chord": "838",
+        "strokes": "rmf, rpf, rmf"
+    },
+    {
+        "report": "F23",
+        "value": "0x72",
+        "chord": "8D",
+        "strokes": "rmf, rme"
+    },
+    {
+        "report": "F24",
+        "value": "0x73",
+        "chord": "3E",
+        "strokes": "rpf, pme"
+    },
+    {
+        "report": "Execute",
+        "value": "0x74",
+        "chord": "101",
+        "strokes": "ipf, tpf, ipf"
+    },
+    {
+        "report": "Help",
+        "value": "0x75",
+        "chord": "7E",
+        "strokes": "mmf, pme"
+    },
+    {
+        "report": "Menu",
+        "value": "0x76",
+        "chord": "36",
+        "strokes": "rpf, imf"
+    },
+    {
+        "report": "Select",
+        "value": "0x77",
+        "chord": "31",
+        "strokes": "rpf, ipf"
+    },
+    {
+        "report": "Stop",
+        "value": "0x78",
+        "chord": "3B",
+        "strokes": "rpf, ime"
+    },
+    {
+        "report": "Again",
+        "value": "0x79",
+        "chord": "7A7",
+        "strokes": "mmf, tme, mmf"
+    },
+    {
+        "report": "Undo",
+        "value": "0x7A",
+        "chord": "232",
+        "strokes": "mpf, rpf, mpf"
+    },
+    {
+        "report": "Cut",
+        "value": "0x7B",
+        "chord": "3C",
+        "strokes": "rpf, mme"
+    },
+    {
+        "report": "Copy",
+        "value": "0x7C",
+        "chord": "38",
+        "strokes": "rpf, rmf"
+    },
+    {
+        "report": "Paste",
+        "value": "0x7D",
+        "chord": "3D3",
+        "strokes": "rpf, rme, rpf"
+    },
+    {
+        "report": "Find",
+        "value": "0x7E",
+        "chord": "DE",
+        "strokes": "rme, pme"
+    },
+    {
+        "report": "Mute",
+        "value": "0x7F",
+        "chord": "D0D",
+        "strokes": "rme, tpf, rme"
+    },
+    {
+        "report": "Volume Up",
+        "value": "0x80",
+        "chord": "DA",
+        "strokes": "rme, tme"
+    },
+    {
+        "report": "Volume Down",
+        "value": "0x81",
+        "chord": "D6",
+        "strokes": "rme, imf"
+    },
+    {
+        "report": "Locking Caps Lock",
+        "value": "0x82",
+        "chord": "D1",
+        "strokes": "rme, ipf"
+    },
+    {
+        "report": "Locking Num Lock",
+        "value": "0x83",
+        "chord": "DB",
+        "strokes": "rme, ime"
+    },
+    {
+        "report": "Locking Scroll Lock",
+        "value": "0x84",
+        "chord": "D7",
+        "strokes": "rme, mmf"
+    },
+    {
+        "report": "Keypad Comma",
+        "value": "0x85",
+        "chord": "D2",
+        "strokes": "rme, mpf"
+    },
+    {
+        "report": "Keypad Equal Sign",
+        "value": "0x86",
+        "chord": "DC",
+        "strokes": "rme, mme"
+    },
+    {
+        "report": "International1",
+        "value": "0x87",
+        "chord": "D82",
+        "strokes": "rme, rmf, mpf"
+    },
+    {
+        "report": "International2",
+        "value": "0x88",
+        "chord": "D3D",
+        "strokes": "rme, rpf, rme"
+    },
+    {
+        "report": "International3",
+        "value": "0x89",
+        "chord": "700",
+        "strokes": "mmf, tpf, tpf"
+    },
+    {
+        "report": "International4",
+        "value": "0x8A",
+        "chord": "7E0",
+        "strokes": "mmf, pme, tpf"
+    },
+    {
+        "report": "International5",
+        "value": "0x8B",
+        "chord": "7EA",
+        "strokes": "mmf, pme, tme"
+    },
+    {
+        "report": "International6",
+        "value": "0x8C",
+        "chord": "7E6",
+        "strokes": "mmf, pme, imf"
+    },
+    {
+        "report": "International7",
+        "value": "0x8D",
+        "chord": "6E1",
+        "strokes": "imf, pme, ipf"
+    },
+    {
+        "report": "International8",
+        "value": "0x8E",
+        "chord": "7EB",
+        "strokes": "mmf, pme, ime"
+    },
+    {
+        "report": "International9",
+        "value": "0x8F",
+        "chord": "7E73",
+        "strokes": "mmf, pme, mmf, rpf"
+    },
+    {
+        "report": "LANG1",
+        "value": "0x90",
+        "chord": "7E2",
+        "strokes": "mmf, pme, mpf"
+    },
+    {
+        "report": "LANG2",
+        "value": "0x91",
+        "chord": "7EC",
+        "strokes": "mmf, pme, mme"
+    },
+    {
+        "report": "LANG3",
+        "value": "0x92",
+        "chord": "7E8",
+        "strokes": "mmf, pme, rmf"
+    },
+    {
+        "report": "LANG4",
+        "value": "0x93",
+        "chord": "7E3",
+        "strokes": "mmf, pme, rpf"
+    },
+    {
+        "report": "LANG5",
+        "value": "0x94",
+        "chord": "7ED",
+        "strokes": "mmf, pme, rme"
+    },
+    {
+        "report": "LANG6",
+        "value": "0x95",
+        "chord": "70C",
+        "strokes": "mmf, tpf, mme"
+    },
+    {
+        "report": "LeftControl",
+        "value": "0xE0",
+        "chord": "708",
+        "strokes": "mmf, tpf, rmf"
+    },
+    {
+        "report": "LeftShift",
+        "value": "0xE1",
+        "chord": "1E",
+        "strokes": "ipf, pme"
+    },
+    {
+        "report": "LeftAlt",
+        "value": "0xE2",
+        "chord": "70D",
+        "strokes": "mmf, tpf, rme"
+    },
+    {
+        "report": "Left GUI",
+        "value": "0xE3",
+        "chord": "7AE",
+        "strokes": "mmf, tme, pme"
+    },
+    {
+        "report": "RightControl",
+        "value": "0xE4",
+        "chord": "7A0",
+        "strokes": "mmf, tme, tpf"
+    },
+    {
+        "report": "RightShift",
+        "value": "0xE5",
+        "chord": "7EA7",
+        "strokes": "mmf, pme, tme, mmf"
+    },
+    {
+        "report": "RightAlt",
+        "value": "0xE6",
+        "chord": "7A6",
+        "strokes": "mmf, tme, imf"
+    },
+    {
+        "report": "Right GUI",
+        "value": "0xE7",
+        "chord": "6161",
+        "strokes": "imf, ipf, imf, ipf"
+    }
+]
