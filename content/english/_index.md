@@ -3,6 +3,7 @@
 banner:
   title : "You can type without looking"
   subtitle : "Writing text doesn't have to make you look down or sit. Execute commands silently."
+  call_to_action: Sign up for our email newsletter.
   character_image: "images/ROBO_HAND3_500w.png"
   form_action: "#"
 

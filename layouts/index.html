@@ -9,6 +9,7 @@
           <div class="pe-lg-5">
             <h1 class="banner-title text-capitalize mb-3">{{ .Title | markdownify }}</h1>
             <p>{{ .subtitle | markdownify }}</p>
+            <h4>{{ .call_to_action | markdownify }}</h4>
             <form id="signup" action="{{.form_action}}" class="banner-form mt-4">
               <div class="input-group border p-2 rounded-sm">
                 <input name="email" type="text" class="form-control shadow-none rounded-sm bg-transparent border-0 text-dark" placeholder="{{ i18n `email_address` }}" aria-label="Email Address" aria-describedby="email-address">
