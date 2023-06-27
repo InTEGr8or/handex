@@ -5,8 +5,8 @@ images:
   - "images/blogs/05.webp"
 date: 2023-03-21T16:56:47+08:00
 draft: false
-tags: ["Food", "Gold"]
-categories: ["Food"]
+tags: ["ai","art","text"]
+categories: ["ai"]
 ---
 
 ## Introduction
