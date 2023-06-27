@@ -1,8 +1,8 @@
 ---
 ############################ Banner ##################################
 banner:
-  title : "You can type without looking"
-  subtitle : "Writing text doesn't have to make you look down or sit. Execute commands silently."
+  title: "The One-handed Keyboard you can take anywhere"
+  subtitle: "Writing text doesn't have to make you look down or sit. Execute commands silently."
   call_to_action: Sign up for our email newsletter.
   character_image: "images/ROBO_HAND3_500w.png"
   form_action: "#"
@@ -16,9 +16,9 @@ about_info:
 
   image: "images/undraw/undraw_multitasking_re_ffpb.svg"
   features_list:
-  - "Instantly available"
-  - "The most ergonomic of all devices"
-  - "Execute commands without looking down"
+  - "Instantly available."
+  - "The most ergonomic of all devices."
+  - "Execute commands without looking down."
 
 ############################ About Features ##################################
 about_features:
@@ -26,7 +26,6 @@ about_features:
   title: "Handex and You"
   heading: "Find out how Handex can improve your every day."
   description: "Handex is so ergonomic that it might be the most comfortable thing you've ever held. Find out why that is good."
-
   image: "images/undraw/undraw_absorbed_in_re_ymd6.svg"
   features_items:
   - title: "Chat silently"

@@ -1,6 +1,6 @@
 ---
 title: "Features"
-heading: "Instant keyed text interaction anywhere"
+heading: "This keyboard fits in the palm of your hand (sort of like a hand keyboard)."
 layout: "features"
 draft: false
 date: 2023-03-09T12:00:00
