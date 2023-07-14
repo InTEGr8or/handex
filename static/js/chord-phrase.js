@@ -188,9 +188,19 @@ var sayText = (e) => {
     if(key.match(/^[a-z0-9]$/i)) {
         text = key;
     }
+    else if(key == "Backspace") {
+        text = "delete";
+    }
+    else if(key == "Enter") {
+        text = text;
+    }
+    else{
+        textSplit = text.trim().split(' ')
+        text = textSplit[textSplit.length - 1];
+    }
     var utterThis = new SpeechSynthesisUtterance(text);
     utterThis.pitch = 1;
-    utterThis.rate = 1;
+    utterThis.rate = 0.7;
     APP.voiceSynth.speak(utterThis);
 }
 var testTimer = function(event) {
