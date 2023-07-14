@@ -7387,6 +7387,9 @@ pre.bold {
   font-weight: bold;
   font-size: 12px; }
 
+textarea {
+  background-color: white; }
+
 textarea#testArea {
   font-size: 20px;
   font-weight: bold;

@@ -117,6 +117,7 @@ var chordify = function() {
         APP.testArea.focus();
     });
     timerCancel();
+    APP.phrase.disabled = true;
 };
 var setNext = () => {
     const nextIndex = comparePhrase();
@@ -175,8 +176,8 @@ var comparePhrase = () => {
     };
     return result;
 };
-var sayText = (e) => {
 
+var sayText = (e) => {
     var text = e.target.value;
     const key = e.key;
     if(!APP.voiceSynth) {
@@ -185,18 +186,20 @@ var sayText = (e) => {
     if(APP.voiceSynth.speaking) {
         APP.voiceSynth.cancel();
     }
-    if(key.match(/^[a-z0-9]$/i)) {
-        text = key;
-    }
-    else if(key == "Backspace") {
-        text = "delete";
-    }
-    else if(key == "Enter") {
-        text = text;
-    }
-    else{
-        textSplit = text.trim().split(' ')
-        text = textSplit[textSplit.length - 1];
+    if(key){
+        if(key.match(/^[a-z0-9]$/i)) {
+            text = key;
+        }
+        else if(key == "Backspace") {
+            text = "delete";
+        }
+        else if(key == "Enter") {
+            text = text;
+        }
+        else{
+            textSplit = text.trim().split(' ')
+            text = textSplit[textSplit.length - 1];
+        }
     }
     var utterThis = new SpeechSynthesisUtterance(text);
     utterThis.pitch = 1;
@@ -281,6 +284,7 @@ var runTimer = function() {
 };
 const resetChordify = () => {
     APP.phrase.value = '';
+    APP.phrase.disabled = false;
     APP.wholePhraseChords.innerHTML = '';
     APP.allChordsList.hidden = true;
     APP.testArea.value = '';
@@ -348,6 +352,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     APP.phrase.addEventListener('change', chordify);
+    APP.phrase.addEventListener('touchend', (e) => {
+        if(APP.voiceMode.checked){
+            sayText(e);
+        }
+    });
     document.getElementById('testMode').checked = localStorage.getItem('testMode') == 'true';
     document.getElementById('voiceMode').checked = localStorage.getItem('voiceMode') == 'true';
     APP.pangrams.addEventListener('click', function(e) {
