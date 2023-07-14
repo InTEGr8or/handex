@@ -44,6 +44,14 @@ const testModeChange = () => {
     chordify();
 }
 
+const voiceModeChange = () => {
+    if(APP.voiceMode.checked) {
+        localStorage.setItem("voiceMode", "true");
+    } else {
+        localStorage.setItem("voiceMode", "false");
+    }
+}
+
 var chordify = function() {
     APP.chordified.innerHTML = '';
     var phraseVal = APP.phrase.value;
@@ -157,7 +165,7 @@ var comparePhrase = () => {
     if(testPhrase == sourcePhrase) {
         setTimerSvg('stop');
         return -1;
-    }
+}
     var result = 0;
     for(let i = 0; i < testPhrase.length; i++)  {
         if(testPhrase[i] !== sourcePhrase[i]) {
@@ -167,6 +175,24 @@ var comparePhrase = () => {
     };
     return result;
 };
+var sayText = (e) => {
+
+    var text = e.target.value;
+    const key = e.key;
+    if(!APP.voiceSynth) {
+        APP.voiceSynth = window.speechSynthesis;
+    }
+    if(APP.voiceSynth.speaking) {
+        APP.voiceSynth.cancel();
+    }
+    if(key.match(/^[a-z0-9]$/i)) {
+        text = key;
+    }
+    var utterThis = new SpeechSynthesisUtterance(text);
+    utterThis.pitch = 1;
+    utterThis.rate = 1;
+    APP.voiceSynth.speak(utterThis);
+}
 var testTimer = function(event) {
     if(event.data == APP.nextChar) {
         APP.charTimer.push({
@@ -198,8 +224,9 @@ var testTimer = function(event) {
     else{
         // Alert mismatched text with red border.
         APP.testArea.style.border = "4px solid red";
-        document.querySelector("#chord-image-holder img").hidden = false;
-        next.classList.add("error");
+        chordImageHolderImg = APP.chordImageHolder.querySelector("#chord-image-holder img");
+        if(chordImageHolderImg) chordImageHolderImg.hidden = false;
+        next?.classList.add("error");
         APP.errorCount.innerText = parseInt(APP.errorCount.innerText) + 1;
     }
     if(APP.testArea.value.trim() == APP.phrase.value.trim()) {
@@ -293,6 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
     APP.chordImageHolder = document.getElementById('chord-image-holder');
     APP.wholePhraseChords = document.getElementById("wholePhraseChords");
     APP.testMode = document.getElementById("testMode");
+    APP.voiceMode = document.getElementById("voiceMode");
     APP.allChordsList = document.getElementById("allChordsList");
     // APP.testModeLabel = document.getElementById("testModeLabel");
     APP.svgCharacter = document.getElementById("svgCharacter");
@@ -304,8 +332,14 @@ document.addEventListener("DOMContentLoaded", () => {
     APP.timerCentiSecond = 0;
 
     APP.testArea.addEventListener('input', testTimer);
+    APP.testArea.addEventListener('keyup', function(e) {
+        if(APP.voiceMode.checked) {
+            sayText(e);
+        }
+    });
     APP.phrase.addEventListener('change', chordify);
     document.getElementById('testMode').checked = localStorage.getItem('testMode') == 'true';
+    document.getElementById('voiceMode').checked = localStorage.getItem('voiceMode') == 'true';
     APP.pangrams.addEventListener('click', function(e) {
         APP.phrase.value = e.target.innerText;
         chordify();
@@ -318,5 +352,5 @@ document.addEventListener("DOMContentLoaded", () => {
         .addEventListener('click', resetChordify);
     document.getElementById('testMode')
         .addEventListener('change', testModeChange);
-
+    document.getElementById('voiceMode')?.addEventListener('change', voiceModeChange);
 });
