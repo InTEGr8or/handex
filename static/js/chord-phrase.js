@@ -33,14 +33,19 @@ var Timer = function(timerState) {
     }
 };
 
-const modeChange = (mode = 'test') => {
+const modeChange = (modeEvent) => {
     // chordify();
     // Hide the chordified sub-divs.
-    console.log("modeChange:", mode);
-    if(APP.testMode.checked) {
-        localStorage.setItem(`${mode}Mode`, "true");
+    if(modeEvent.target.checked) {
+        localStorage.setItem(modeEvent.target.id, "true");
+        if(modeEvent.target.id == "videoMode") {
+            document.getElementById("video-section").hidden = false;
+        }
     } else {
-        localStorage.setItem(`${mode}Mode`, "false");
+        localStorage.setItem(modeEvent.target.id, "false");
+        if(modeEvent.target.id == "videoMode") {
+            document.getElementById("video-section").hidden = true;
+        }
     }
     chordify();
 }
@@ -326,9 +331,23 @@ document.addEventListener("DOMContentLoaded", () => {
     APP.pangrams = document.getElementById('pangrams');
     APP.chordImageHolder = document.getElementById('chord-image-holder');
     APP.wholePhraseChords = document.getElementById("wholePhraseChords");
+
     APP.testMode = document.getElementById("testMode");
+    APP.testMode.checked = localStorage.getItem('testMode') == 'true';
+    APP.testMode?.addEventListener('change', e => {
+        modeChange(e);
+    });
     APP.voiceMode = document.getElementById("voiceMode");
+    APP.voiceMode.checked = localStorage.getItem('voiceMode') == 'true';
+    APP.voiceMode?.addEventListener('change', e => {
+        modeChange(e);
+    });
     APP.videoMode = document.getElementById("videoMode");
+    APP.videoMode.checked = localStorage.getItem('videoMode') == 'true';
+    APP.videoMode?.addEventListener('change', e => {
+        modeChange(e);
+    });
+
     APP.allChordsList = document.getElementById("allChordsList");
     // APP.testModeLabel = document.getElementById("testModeLabel");
     APP.svgCharacter = document.getElementById("svgCharacter");
@@ -364,10 +383,4 @@ document.addEventListener("DOMContentLoaded", () => {
         .addEventListener('click', listAllChords);
     document.getElementById('resetChordify')
         .addEventListener('click', resetChordify);
-    document.getElementById('testMode')
-        ?.addEventListener('change', modeChange('test'));
-    document.getElementById('voiceMode')
-        ?.addEventListener('change', modeChange('voice'));
-    document.getElementById('videoMode')
-        ?.addEventListener('change', modeChange('video'));
 });
