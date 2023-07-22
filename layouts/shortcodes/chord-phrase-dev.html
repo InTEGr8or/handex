@@ -66,24 +66,21 @@ hexcode, finger, action
     </pre>
 </details>
 
-<div class="display-cover">
-    <video autoplay></video>
-    <canvas class="d-none"></canvas>
-
-    <div class="video-options">
-        <select title="select cam" name="select-cam" id="select-cam" class="custom-select">
-            <option value="">Select camera</option>
-        </select>
-    </div>
-
-    <img class="screenshot-image d-none" alt="">
-
-    <div class="controls">
-        <button class="btn btn-danger play" title="Play"><i data-feather="play-circle"></i></button>
-        <button class="btn btn-info pause d-none" title="Pause"><i data-feather="pause"></i></button>
-        <button class="btn btn-outline-success screenshot d-none" title="ScreenShot"><i data-feather="image"></i></button>
-    </div>
+<video id="preview" autoplay style="width: 50%"></video>
+<div id="btnFacingModeContainer">
+<h5>change by facingMode<br>(Chrome does not yet support.)</h5>
+<button id="btnUser">user(front)</button>
+<button id="btnEnvironment">environment(back)</button>
+<button id="btnLeft">left</button>
+<button id="btnRight">right</button>
+<button id="btnFront">front</button>
+<button id="btnBack">back</button>
 </div>
+<div id="btnDeviceIdContainer">
+<h5>change by deviceId</h5>
+</div>
+<pre id="res"></pre>
+<script src="/js/environment-facing-cam-demo.js"></script>
 
 <form id="chordifyForm" action="javascript:chordify();">
     <label for="phrase">Phrase</label>
@@ -244,4 +241,3 @@ hexcode, finger, action
         </g>
     </defs> 
 </svg>
-<script src="/js/web-cam.js" type="text/javascript"></script>
