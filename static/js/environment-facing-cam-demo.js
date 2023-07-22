@@ -35,6 +35,7 @@ function changeDdevice(deviceId) {
     }
   }).then(stream => preview.srcObject = stream);
 }
+changeFacingMode('environment');
 btnUser.onclick = _ => changeFacingMode('user');
 btnEnvironment.onclick = _ => changeFacingMode('environment');
 btnLeft.onclick = _ => changeFacingMode('left');
