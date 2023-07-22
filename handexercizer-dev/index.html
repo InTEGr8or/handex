@@ -46,9 +46,9 @@ hexcode, finger, action
 0xE, pinky, me
     </pre></details><label style=float:right class=switch><input id=videoMode type=checkbox>
 <span class="slider round"></span></label>
-<label style=float:right;padding:5px>Video Mode</label>
-<button id=btnUser>user(front)</button>
-<button id=btnEnvironment>environment(back)</button><div class=full-width><video id=preview autoplay style=position:relative;margin-left:-14px;margin-right:0></video><div id=btnFacingModeContainer><h5>change by facingMode<br>(Chrome does not yet support.)</h5></div><div id=btnDeviceIdContainer></div><details><summary><div>Device info</div></summary><pre id=res></pre></details><script src=/js/environment-facing-cam-demo.js></script></div><form id=chordifyForm action=javascript:chordify();><label for=phrase>Phrase</label>
+<label style=float:right;padding:5px>Video Mode</label><div id=video-section class=full-width><button id=btnUser>user(front)</button>
+<button id=btnEnvironment>environment(back)</button>
+<video id=preview autoplay style=position:relative;margin-left:-14px;margin-right:0></video><div id=btnFacingModeContainer></div><div id=btnDeviceIdContainer></div><details><summary><div>Device info</div></summary><pre id=res></pre></details><script src=/js/environment-facing-cam-demo.js></script></div><form id=chordifyForm action=javascript:chordify();><label for=phrase>Phrase</label>
 <textarea type=text id=phrase style=width:100%;height:70px></textarea>
 <button id=chordify class="btn btn-primary btn-xs" type=submit>Chordify</button>
 <button id=resetChordify class="btn btn-secondary btn-xs" type=submit>Reset</button>
