@@ -33,23 +33,16 @@ var Timer = function(timerState) {
     }
 };
 
-const testModeChange = () => {
+const modeChange = (mode = 'test') => {
     // chordify();
     // Hide the chordified sub-divs.
+    console.log("modeChange:", mode);
     if(APP.testMode.checked) {
-        localStorage.setItem("testMode", "true");
+        localStorage.setItem(`${mode}Mode`, "true");
     } else {
-        localStorage.setItem("testMode", "false");
+        localStorage.setItem(`${mode}Mode`, "false");
     }
     chordify();
-}
-
-const voiceModeChange = () => {
-    if(APP.voiceMode.checked) {
-        localStorage.setItem("voiceMode", "true");
-    } else {
-        localStorage.setItem("voiceMode", "false");
-    }
 }
 
 var chordify = function() {
@@ -335,6 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
     APP.wholePhraseChords = document.getElementById("wholePhraseChords");
     APP.testMode = document.getElementById("testMode");
     APP.voiceMode = document.getElementById("voiceMode");
+    APP.videoMode = document.getElementById("videoMode");
     APP.allChordsList = document.getElementById("allChordsList");
     // APP.testModeLabel = document.getElementById("testModeLabel");
     APP.svgCharacter = document.getElementById("svgCharacter");
@@ -359,6 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     document.getElementById('testMode').checked = localStorage.getItem('testMode') == 'true';
     document.getElementById('voiceMode').checked = localStorage.getItem('voiceMode') == 'true';
+    document.getElementById('videoMode').checked = localStorage.getItem('videoMode') == 'true';
     APP.pangrams.addEventListener('click', function(e) {
         APP.phrase.value = e.target.innerText;
         chordify();
@@ -370,6 +365,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('resetChordify')
         .addEventListener('click', resetChordify);
     document.getElementById('testMode')
-        .addEventListener('change', testModeChange);
-    document.getElementById('voiceMode')?.addEventListener('change', voiceModeChange);
+        ?.addEventListener('change', modeChange('test'));
+    document.getElementById('voiceMode')
+        ?.addEventListener('change', modeChange('voice'));
+    document.getElementById('videoMode')
+        ?.addEventListener('change', modeChange('video'));
 });
