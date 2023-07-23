@@ -67,8 +67,7 @@ hexcode, finger, action
 </details>
 
 
-<form id="chordifyForm" action="javascript:chordify();">
-    <textarea type="text" id="phrase" placeholder="Enter custom phrase" style="width: 95%; height: 100px;"></textarea>
+<form id="chordifyForm" >
 
     <button id="chordify" class="btn btn-primary btn-xs" type="submit">Chordify</button>
     <button id="resetChordify" class="btn btn-secondary btn-xs" type="submit">Reset</button>
@@ -84,6 +83,7 @@ hexcode, finger, action
         <span class="slider round"></span>
     </label>
     <label style="float: right; padding: 5px;">Voice Mode</label>
+    <textarea type="text" id="phrase" placeholder="Enter custom phrase" style="width: 95%; height: 100px;"></textarea>
 </form>
 <label style="float: right;" class="switch">
     <input id="videoMode" type="checkbox">
@@ -93,7 +93,7 @@ hexcode, finger, action
 <div id="video-section" class="full-width">
     <button id="btnUser">user(front)</button>
     <button id="btnEnvironment">environment(back)</button>
-    <video id="preview" autoplay style="position: relative; margin-left:-14px;margin-right: 0px;"></video>
+    <video id="preview" autoplay style=""></video>
     <div id="btnFacingModeContainer">
     {{/*  <button id="btnLeft">left</button>
     <button id="btnRight">right</button>  
