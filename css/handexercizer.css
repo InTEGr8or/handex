@@ -214,23 +214,26 @@ section.section div.container {
 div#video-section {
     z-index: -100;
     position: relative;
+    top: -145px;
     padding: 0 5px 0 5px;
-    margin: 0 5px 0 5px;
+    margin: 0 ;
+}
+div#video-section video#preview {
+    position: relative; 
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 .phrase-over-video {
     position: relative;
-    top: 180px;
-    left: 0px;
     width: 90%;
     height: 100%;
-    z-index: 100;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     font-size: 1.5em;
     font-family: 'Fira Code', monospace;
     padding: 0;
-    margin: 0;
+    margin: 0 0 0 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -239,15 +242,14 @@ div#video-section {
 
 .test-over-video {
     position: relative;
-    top: -150px;
-    left: 20px;
-    width: 90%;
+    top: -300px;
+    margin: 0 0 0 25px;
+    padding: 0;
+    width: 95%;
     height: 100%;
     z-index: 100;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
-    padding: 0;
-    margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
