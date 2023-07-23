@@ -135,7 +135,9 @@ var setNext = () => {
             APP.chordImageHolder.replaceChildren(charSvgClone);
 
         });
-    APP.svgCharacter.innerHTML = next.getAttribute("name").replace("Space", spaceDisplayChar).replace("tab", "↹");
+    APP.svgCharacter.innerHTML = next.getAttribute("name")
+        .replace("Space", spaceDisplayChar)
+        .replace("tab", "↹");
     APP.svgCharacter.hidden = false;
     return next;
 };
