@@ -5,11 +5,11 @@ const spaceDisplayChar = "&#x2581;";
 const tabDisplayChar = "&#x2B7E;";
 
 var timerHandle = null;
-const fingers = {t:"thumb",i:"index",m:"middle",r:"ring",p:"pinky"};
+const fingers = { t: "thumb", i: "index", m: "middle", r: "ring", p: "pinky" };
 
-var Timer = function(timerState) {
+var Timer = function (timerState) {
 
-    this.stop = function() {
+    this.stop = function () {
         if (timerObj) {
             clearInterval(timerObj);
             timerObj = null;
@@ -18,7 +18,7 @@ var Timer = function(timerState) {
     }
 
     // start timer using current settings (if it's not already running)
-    this.start = function() {
+    this.start = function () {
         if (!timerObj) {
             this.stop();
             timerObj = setInterval(fn, t);
@@ -27,33 +27,24 @@ var Timer = function(timerState) {
     }
 
     // start with new or original interval, stop current interval
-    this.reset = function(newT = t) {
+    this.reset = function (newT = t) {
         t = newT;
         return this.stop().start();
     }
 };
 
-const modeChange = (modeEvent) => {
+const saveMode = (modeEvent) => {
     // chordify();
     // Hide the chordified sub-divs.
-    if(modeEvent.target.checked) {
-        localStorage.setItem(modeEvent.target.id, "true");
-        if(modeEvent.target.id == "videoMode") {
-            document.getElementById("video-section").hidden = false;
-        }
-    } else {
-        localStorage.setItem(modeEvent.target.id, "false");
-        if(modeEvent.target.id == "videoMode") {
-            document.getElementById("video-section").hidden = true;
-        }
-    }
-    chordify();
+    result = modeEvent.target.checked
+    localStorage.setItem(modeEvent.target.id, result);
+    return result
 }
 
-var chordify = function() {
+var chordify = function () {
     APP.chordified.innerHTML = '';
     var phraseVal = APP.phrase.value;
-    if(phraseVal.trim().length == 0) {
+    if (phraseVal.trim().length == 0) {
         return;
     }
     console.log("APP.phrase:", phraseVal);
@@ -68,59 +59,59 @@ var chordify = function() {
             phrase: phraseEncoded
         })
     })
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(chordList) {
-        if(chordList.error) {
-            console.log("chordList.error:", chordList.error);
-            return;
-        }
-        const chordRows = chordList.json;
-        // Add each row to the chordified element as a separate div with the first character of the row as the name.
-        APP.wholePhraseChords.innerHTML = '';
-        const isTestMode = APP.testMode.checked;
-        chordRows.forEach(function(row, i) {
-            const rowDiv = document.createElement('div');
-            const chordCode = row.chord;
-            const foundChords = Array.from(APP.allChordsList.children).filter(x=>{return x.id == `chord${chordCode}`;});
-            // Load the clone in Chord order into the wholePhraseChords div.
-            if(foundChords.length > 0) {
-                const inChord = foundChords[0].cloneNode(true);
-                inChord.setAttribute("name", row.char);
-                inChord.hidden = isTestMode;
-                Array.from(inChord.children)
-                    .filter(x => x.nodeName == "IMG")
-                    .forEach(x => {
-                        x.setAttribute("loading", "eager");
-                        // x.hidden = isTestMode;
-                    });
-                APP.wholePhraseChords.appendChild(inChord); 
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (chordList) {
+            if (chordList.error) {
+                console.log("chordList.error:", chordList.error);
+                return;
             }
-            else{
-                console.log("Missing chord:", chordCode);
-            }
-            document.getElementById(`chord${chordCode}`)?.querySelector(`img`)?.setAttribute("loading", "eager");
-            // document.querySelector(`#${chordCode}`).hidden = false;
-            rowDiv.id = i;
-            rowDiv.setAttribute("name", row.char);
-            const charSpan = document.createElement('span');
-            charSpan.innerHTML = row.char;
-            rowDiv.appendChild(charSpan);
-            rowDiv.appendChild(document.createTextNode(row.strokes));
-            APP.chordified.appendChild(rowDiv);
+            const chordRows = chordList.json;
+            // Add each row to the chordified element as a separate div with the first character of the row as the name.
+            APP.wholePhraseChords.innerHTML = '';
+            const isTestMode = APP.testMode.checked;
+            chordRows.forEach(function (row, i) {
+                const rowDiv = document.createElement('div');
+                const chordCode = row.chord;
+                const foundChords = Array.from(APP.allChordsList.children).filter(x => { return x.id == `chord${chordCode}`; });
+                // Load the clone in Chord order into the wholePhraseChords div.
+                if (foundChords.length > 0) {
+                    const inChord = foundChords[0].cloneNode(true);
+                    inChord.setAttribute("name", row.char);
+                    inChord.hidden = isTestMode;
+                    Array.from(inChord.children)
+                        .filter(x => x.nodeName == "IMG")
+                        .forEach(x => {
+                            x.setAttribute("loading", "eager");
+                            // x.hidden = isTestMode;
+                        });
+                    APP.wholePhraseChords.appendChild(inChord);
+                }
+                else {
+                    console.log("Missing chord:", chordCode);
+                }
+                document.getElementById(`chord${chordCode}`)?.querySelector(`img`)?.setAttribute("loading", "eager");
+                // document.querySelector(`#${chordCode}`).hidden = false;
+                rowDiv.id = i;
+                rowDiv.setAttribute("name", row.char);
+                const charSpan = document.createElement('span');
+                charSpan.innerHTML = row.char;
+                rowDiv.appendChild(charSpan);
+                rowDiv.appendChild(document.createTextNode(row.strokes));
+                APP.chordified.appendChild(rowDiv);
+            });
+            setNext();
+            setTimerSvg('start');
+            APP.testArea.focus();
         });
-        setNext();
-        setTimerSvg('start');
-        APP.testArea.focus();
-    });
     timerCancel();
     APP.phrase.disabled = true;
 };
 var setNext = () => {
     const nextIndex = comparePhrase();
 
-    if(nextIndex < 0) {
+    if (nextIndex < 0) {
         return;
     }
     // Remove the outstanding class from the previous chord.
@@ -129,7 +120,7 @@ var setNext = () => {
         .forEach((chord, i) => {
             chord.classList.remove("next");
         }
-    );
+        );
     if (nextIndex > APP.wholePhraseChords.children.length - 1) return;
     const next = APP.wholePhraseChords.children[nextIndex];
     APP.nextChar = next.getAttribute("name").replace("Space", " ");
@@ -142,9 +133,9 @@ var setNext = () => {
             charSvgClone = x.cloneNode(true);
             charSvgClone.hidden = APP.testMode.checked;
             APP.chordImageHolder.replaceChildren(charSvgClone);
-            
+
         });
-    APP.svgCharacter.innerHTML = next.getAttribute("name").replace("Space", spaceDisplayChar).replace("tab","↹");
+    APP.svgCharacter.innerHTML = next.getAttribute("name").replace("Space", spaceDisplayChar).replace("tab", "↹");
     APP.svgCharacter.hidden = false;
     return next;
 };
@@ -152,22 +143,22 @@ var listAllChords = () => {
     APP.allChordsList.hidden = false;
     // highlight Vim navigation keys
     Array.from(document.querySelectorAll("#allChordsList div span"))
-        .filter(x=>"asdfgjkl;/0$^m\"web".includes(x.innerText))
-        .forEach(x=>x.style.color = "blue");
+        .filter(x => "asdfgjkl;/0$^m\"web".includes(x.innerText))
+        .forEach(x => x.style.color = "blue");
 };
 var comparePhrase = () => {
     const sourcePhrase = APP.phrase.value.split('');
     const testPhrase = APP.testArea.value.split('');
-    if(testPhrase.length == 0) {
+    if (testPhrase.length == 0) {
         return 0;
     }
-    if(testPhrase == sourcePhrase) {
+    if (testPhrase == sourcePhrase) {
         setTimerSvg('stop');
         return -1;
-}
+    }
     var result = 0;
-    for(let i = 0; i < testPhrase.length; i++)  {
-        if(testPhrase[i] !== sourcePhrase[i]) {
+    for (let i = 0; i < testPhrase.length; i++) {
+        if (testPhrase[i] !== sourcePhrase[i]) {
             return i;
         }
         result++;
@@ -178,23 +169,23 @@ var comparePhrase = () => {
 var sayText = (e) => {
     var text = e.target.value;
     const key = e.key;
-    if(!APP.voiceSynth) {
+    if (!APP.voiceSynth) {
         APP.voiceSynth = window.speechSynthesis;
     }
-    if(APP.voiceSynth.speaking) {
+    if (APP.voiceSynth.speaking) {
         APP.voiceSynth.cancel();
     }
-    if(key){
-        if(key.match(/^[a-z0-9]$/i)) {
+    if (key) {
+        if (key.match(/^[a-z0-9]$/i)) {
             text = key;
         }
-        else if(key == "Backspace") {
+        else if (key == "Backspace") {
             text = "delete";
         }
-        else if(key == "Enter") {
+        else if (key == "Enter") {
             text = text;
         }
-        else{
+        else {
             textSplit = text.trim().split(' ')
             text = textSplit[textSplit.length - 1];
         }
@@ -204,22 +195,22 @@ var sayText = (e) => {
     utterThis.rate = 0.7;
     APP.voiceSynth.speak(utterThis);
 }
-var testTimer = function(event) {
-    if(event.data == APP.nextChar) {
+var testTimer = function (event) {
+    if (event.data == APP.nextChar) {
         APP.charTimer.push({
-            char: event.data, 
-            duration: ((APP.timerCentiSecond - APP.prevCharTime) / 100).toFixed(2), 
+            char: event.data,
+            duration: ((APP.timerCentiSecond - APP.prevCharTime) / 100).toFixed(2),
             time: (APP.timerCentiSecond / 100).toFixed(2)
         });
     }
     const next = setNext();
-    if(next){
+    if (next) {
         next.classList.remove("error");
     }
     APP.prevCharTime = APP.timerCentiSecond;
 
     // TODO: de-overlap this and comparePhrase
-    if(APP.testArea.value.trim().length == 0) {
+    if (APP.testArea.value.trim().length == 0) {
         // stop timer
         APP.testArea.style.border = "";
         clearInterval(timerHandle);
@@ -229,18 +220,18 @@ var testTimer = function(event) {
         setTimerSvg('start');
         return;
     }
-    if(APP.testArea.value == APP.phrase.value.trim().substring(0, APP.testArea.value.length)) {
+    if (APP.testArea.value == APP.phrase.value.trim().substring(0, APP.testArea.value.length)) {
         APP.testArea.style.border = "";
     }
-    else{
+    else {
         // Alert mismatched text with red border.
         APP.testArea.style.border = "4px solid red";
         chordImageHolderImg = APP.chordImageHolder.querySelector("#chord-image-holder img");
-        if(chordImageHolderImg) chordImageHolderImg.hidden = false;
+        if (chordImageHolderImg) chordImageHolderImg.hidden = false;
         next?.classList.add("error");
         APP.errorCount.innerText = parseInt(APP.errorCount.innerText) + 1;
     }
-    if(APP.testArea.value.trim() == APP.phrase.value.trim()) {
+    if (APP.testArea.value.trim() == APP.phrase.value.trim()) {
         // stop timer
         clearInterval(timerHandle);
         setTimerSvg('stop');
@@ -257,7 +248,7 @@ var testTimer = function(event) {
 }
 const setTimerSvg = (status) => {
     const statusSvg = document.getElementById('timerSvg');
-    switch(status) {
+    switch (status) {
         case 'start':
             statusSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
             APP.testArea.disabled = false;
@@ -276,7 +267,7 @@ const setTimerSvg = (status) => {
             statusSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
     }
 };
-var runTimer = function() {
+var runTimer = function () {
     APP.timerCentiSecond++;
     APP.timer.innerHTML = (APP.timerCentiSecond / 100).toFixed(1);
 };
@@ -289,13 +280,13 @@ const resetChordify = () => {
     APP.testArea.disabled = false;
 };
 
-var startTimer = function() {
-    if(!timerHandle) {
+var startTimer = function () {
+    if (!timerHandle) {
         timerHandle = setInterval(runTimer, 10);
         setTimerSvg('pause');
     }
 };
-var timerCancel = function() {
+var timerCancel = function () {
     APP.testArea.value = '';
     APP.charTimer = [];
     APP.prevCharTime = 0;
@@ -306,7 +297,7 @@ var timerCancel = function() {
     APP.timerCentiSecond = 0;
     APP.testArea.style.border = "";
     // clear error class from all chords
-    Array.from(APP.wholePhraseChords.children).forEach(function(chord) {
+    Array.from(APP.wholePhraseChords.children).forEach(function (chord) {
         chord.classList.remove("error");
         // element.setAttribute("class", "outstanding");
     })
@@ -315,7 +306,7 @@ var timerCancel = function() {
     setNext();
     setTimerSvg('start');
 }
-var clearChords = function() {
+var clearChords = function () {
     document.getElementById('searchChords').value = '';
     // listAllChords();
 }
@@ -335,17 +326,26 @@ document.addEventListener("DOMContentLoaded", () => {
     APP.testMode = document.getElementById("testMode");
     APP.testMode.checked = localStorage.getItem('testMode') == 'true';
     APP.testMode?.addEventListener('change', e => {
-        modeChange(e);
+        saveMode(e);
+        chordify();
     });
     APP.voiceMode = document.getElementById("voiceMode");
     APP.voiceMode.checked = localStorage.getItem('voiceMode') == 'true';
     APP.voiceMode?.addEventListener('change', e => {
-        modeChange(e);
+        saveMode(e);
     });
     APP.videoMode = document.getElementById("videoMode");
     APP.videoMode.checked = localStorage.getItem('videoMode') == 'true';
+    document.getElementById("video-section").hidden = !APP.videoMode.checked;
     APP.videoMode?.addEventListener('change', e => {
-        modeChange(e);
+        var changeResult = saveMode(e);
+        document.getElementById("video-section").hidden = !changeResult;
+        APP.phrase.classList.toggle('phrase-over-video', changeResult);
+        APP.testArea.classList.toggle('test-over-video', changeResult);
+        if (preview.srcObject && !changeResult) {
+            preview.srcObject.getTracks().forEach(track => track.stop());
+            preview.srcObject = null;
+        }
     });
 
     APP.allChordsList = document.getElementById("allChordsList");
@@ -359,21 +359,21 @@ document.addEventListener("DOMContentLoaded", () => {
     APP.timerCentiSecond = 0;
 
     APP.testArea.addEventListener('input', testTimer);
-    APP.testArea.addEventListener('keyup', function(e) {
-        if(APP.voiceMode.checked) {
+    APP.testArea.addEventListener('keyup', function (e) {
+        if (APP.voiceMode.checked) {
             sayText(e);
         }
     });
     APP.phrase.addEventListener('change', chordify);
     APP.phrase.addEventListener('touchend', (e) => {
-        if(APP.voiceMode.checked){
+        if (APP.voiceMode.checked) {
             sayText(e);
         }
     });
     document.getElementById('testMode').checked = localStorage.getItem('testMode') == 'true';
     document.getElementById('voiceMode').checked = localStorage.getItem('voiceMode') == 'true';
     document.getElementById('videoMode').checked = localStorage.getItem('videoMode') == 'true';
-    APP.pangrams.addEventListener('click', function(e) {
+    APP.pangrams.addEventListener('click', function (e) {
         APP.phrase.value = e.target.innerText;
         chordify();
     });
