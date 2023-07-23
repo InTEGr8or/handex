@@ -345,6 +345,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (preview.srcObject && !changeResult) {
             preview.srcObject.getTracks().forEach(track => track.stop());
             preview.srcObject = null;
+        } else {
+            navigator.mediaDevices.getUserMedia({
+                video: {
+                    facingMode: 'environment'
+                }
+            }).then(stream => preview.srcObject = stream);
         }
     });
 
