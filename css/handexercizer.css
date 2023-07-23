@@ -10,6 +10,7 @@ textarea#testArea {
     max-width: 100%;
     min-height: 70px;
     margin-top: 0px;
+    background-color: #FFF8;
 }
 
 #chord-area {
@@ -240,18 +241,18 @@ div#video-section video#preview {
     flex-direction: column;
 }
 
-.test-over-video {
+.chord-section-over-video {
     position: relative;
-    top: -300px;
-    margin: 0 0 0 25px;
-    padding: 0;
+    top: -80px;
+    left: 20px;
+    padding: 0 0 0 35px;
+    margin: 0;
     width: 95%;
     height: 100%;
     z-index: 100;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
 }

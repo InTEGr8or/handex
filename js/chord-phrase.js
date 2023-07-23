@@ -310,11 +310,53 @@ var clearChords = function () {
     document.getElementById('searchChords').value = '';
     // listAllChords();
 }
+var toggleVideo = (setOn) => {
+    if (preview.srcObject && !setOn) {
+        preview.srcObject.getTracks().forEach(track => track.stop());
+        preview.srcObject = null;
+        if(document.querySelector("div.content div#chord-section") == null) {
+            document.querySelector("div.content").appendChild(APP.chordSection);
+        }
+    } else if (setOn) {
+        navigator.mediaDevices.getUserMedia({
+            video: {
+                facingMode: 'environment'
+            }
+        }).then(stream => preview.srcObject = stream);
+        APP.videoSection.appendChild(APP.chordSection);
+    }
+    document.getElementById("video-section").hidden = !setOn;
+    APP.phrase.classList.toggle('phrase-over-video', setOn);
+    APP.chordSection.classList.toggle('chord-section-over-video', setOn);
+}
 
+function changeFacingMode(facingMode) {
+  if (preview.srcObject) {
+    preview.srcObject.getTracks().forEach(track => track.stop());
+    preview.srcObject = null;
+  }
+  navigator.mediaDevices.getUserMedia({
+    video: {
+      facingMode: facingMode
+    }
+  }).then(stream => preview.srcObject = stream);
+}
+function changeDdevice(deviceId) {
+  if (preview.srcObject) {
+    preview.srcObject.getTracks().forEach(track => track.stop());
+    preview.srcObject = null;
+  }
+  navigator.mediaDevices.getUserMedia({
+    video: {
+      deviceId: deviceId
+    }
+  }).then(stream => preview.srcObject = stream);
+}
 document.addEventListener("DOMContentLoaded", () => {
-
     APP.testArea = document.getElementById('testArea');
     APP.chordified = document.getElementById('chordified');
+    APP.videoSection = document.getElementById('video-section');
+    APP.chordSection = document.getElementById('chord-section');
     APP.timer = document.getElementById('timer');
     APP.prevCharTime = 0;
     APP.charTimer = [];
@@ -335,23 +377,12 @@ document.addEventListener("DOMContentLoaded", () => {
         saveMode(e);
     });
     APP.videoMode = document.getElementById("videoMode");
-    APP.videoMode.checked = localStorage.getItem('videoMode') == 'true';
+    // NOTE: Starting video on page load is non-optimal.
+    // APP.videoMode.checked = localStorage.getItem('videoMode') == 'true';
     document.getElementById("video-section").hidden = !APP.videoMode.checked;
     APP.videoMode?.addEventListener('change', e => {
         var changeResult = saveMode(e);
-        document.getElementById("video-section").hidden = !changeResult;
-        APP.phrase.classList.toggle('phrase-over-video', changeResult);
-        APP.testArea.classList.toggle('test-over-video', changeResult);
-        if (preview.srcObject && !changeResult) {
-            preview.srcObject.getTracks().forEach(track => track.stop());
-            preview.srcObject = null;
-        } else {
-            navigator.mediaDevices.getUserMedia({
-                video: {
-                    facingMode: 'environment'
-                }
-            }).then(stream => preview.srcObject = stream);
-        }
+        toggleVideo(changeResult);
     });
 
     APP.allChordsList = document.getElementById("allChordsList");
@@ -376,9 +407,6 @@ document.addEventListener("DOMContentLoaded", () => {
             sayText(e);
         }
     });
-    document.getElementById('testMode').checked = localStorage.getItem('testMode') == 'true';
-    document.getElementById('voiceMode').checked = localStorage.getItem('voiceMode') == 'true';
-    document.getElementById('videoMode').checked = localStorage.getItem('videoMode') == 'true';
     APP.pangrams.addEventListener('click', function (e) {
         APP.phrase.value = e.target.innerText;
         chordify();
@@ -389,4 +417,38 @@ document.addEventListener("DOMContentLoaded", () => {
         .addEventListener('click', listAllChords);
     document.getElementById('resetChordify')
         .addEventListener('click', resetChordify);
+
+    navigator.mediaDevices
+        .getUserMedia(
+        { 
+            video: { facingMode: 'environment'} 
+        })
+        .then(stream => {
+        preview.srcObject = stream;
+        navigator.mediaDevices
+            .enumerateDevices()
+            .then(devices => {
+                devices
+                .filter(device => device.kind === 'videoinput')
+                .forEach(device => {
+                    let btn = document.createElement('button');
+                    btn.textContent = device.label;
+                    btn.dataset.deviceId = device.deviceId;
+                    btn.onclick = function () {
+                        changeDdevice(this.dataset.deviceId);
+                    }
+                    btnDeviceIdContainer.appendChild(btn);
+                });
+                // res.textContent = JSON.stringify(devices, null, 2);
+            });
+        });
+
+    btnUser.onclick = _ => changeFacingMode('user');
+    btnEnvironment.onclick = _ => changeFacingMode('environment');
+    // btnLeft.onclick = _ => changeFacingMode('left');
+    // btnRight.onclick = _ => changeFacingMode('right');
+    // btnFront.onclick = _ => changeFacingMode('front');
+    // btnBack.onclick = _ => changeFacingMode('back');
+    // changeFacingMode('environment');
+    toggleVideo(false);
 });
