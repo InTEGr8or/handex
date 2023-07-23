@@ -91,27 +91,21 @@ hexcode, finger, action
 </label>
 <label style="float: right; padding: 5px;">Video Mode</label>
 <div id="video-section" class="full-width">
-    <button id="btnUser">user(front)</button>
-    <button id="btnEnvironment">environment(back)</button>
+    <div id="btnDeviceIdContainer" style="height: 20px; overflow: hidden;">
+        <button id="btnUser">user(front)</button>
+        <button id="btnEnvironment">env(back)</button>
+    </div>
     <video id="preview" autoplay style=""></video>
-    <div id="btnFacingModeContainer">
-    {{/*  <button id="btnLeft">left</button>
+    {{/* <div id="btnFacingModeContainer">
+    <button id="btnLeft">left</button>
     <button id="btnRight">right</button>  
     <button id="btnFront">front</button>
-    <button id="btnBack">back</button>*/}}
-    </div>
-    <div id="btnDeviceIdContainer">
+    <button id="btnBack">back</button>
+    </div>*/}}
     {{/*  <h5>change by deviceId</h5>  */}}
-    </div>
-    <details>
-        <summary>
-            <div>Device info</div>
-        </summary>
-        <pre id="res"></pre>
-    </details>
-    <script src="/js/environment-facing-cam-demo.js"></script>
+    {{/*  <pre id="res"></pre>  */}}
 </div>
-<div id="chord-area" class="row col-md-12">
+<div id="chord-section" class="row col-md-12">
     <div id="svgAndChar" class="row col-md-12" style="max-width: 100%">
         <pre id="chordified" hidden class="col-md-6 bold chordified" ></pre>
         <div class="col-md-4 ">
