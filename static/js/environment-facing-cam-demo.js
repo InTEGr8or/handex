@@ -15,7 +15,7 @@ navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
 });
 function changeFacingMode(facingMode) {
   if (preview.srcObject) {
-    // preview.srcObject.getTracks().forEach(track => track.stop());
+    preview.srcObject.getTracks().forEach(track => track.stop());
     preview.srcObject = null;
   }
   navigator.mediaDevices.getUserMedia({
