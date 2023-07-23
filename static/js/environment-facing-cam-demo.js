@@ -1,7 +1,7 @@
 navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
   preview.srcObject = stream;
   navigator.mediaDevices.enumerateDevices().then(devices => {
-    devices.filter(device => device.kind === 'videoinput' && device.label.match(/back|rear/)).forEach(device => {
+    devices.filter(device => device.kind === 'videoinput').forEach(device => {
       let btn = document.createElement('button');
       btn.textContent = device.label;
       btn.dataset.deviceId = device.deviceId;
