@@ -311,19 +311,20 @@ var clearChords = function () {
     // listAllChords();
 }
 var toggleVideo = (setOn) => {
-    if (preview.srcObject && !setOn) {
-        preview.srcObject.getTracks().forEach(track => track.stop());
-        preview.srcObject = null;
-        if(document.querySelector("div.content div#chord-section") == null) {
-            document.querySelector("div.content").appendChild(APP.chordSection);
-        }
-    } else if (setOn) {
+    if(setOn) {
         navigator.mediaDevices.getUserMedia({
             video: {
                 facingMode: 'environment'
             }
         }).then(stream => preview.srcObject = stream);
         APP.videoSection.appendChild(APP.chordSection);
+    }
+    else {
+        if(document.querySelector("div.content div#chord-section") == null) {
+            document.querySelector("div.content").appendChild(APP.chordSection);
+        }
+        preview?.srcObject?.getTracks().forEach(track => track.stop());
+        preview.srcObject = null;
     }
     document.getElementById("video-section").hidden = !setOn;
     APP.phrase.classList.toggle('phrase-over-video', setOn);
