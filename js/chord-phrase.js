@@ -138,7 +138,9 @@ var setNext = () => {
     APP.svgCharacter.innerHTML = next.getAttribute("name")
         .replace("Space", spaceDisplayChar)
         .replace("tab", "↹");
-    APP.svgCharacter.hidden = false;
+    if(!APP.testMode.checked){
+        APP.svgCharacter.hidden = false;
+    }
     return next;
 };
 var listAllChords = () => {
@@ -215,6 +217,7 @@ var testTimer = function (event) {
     if (APP.testArea.value.trim().length == 0) {
         // stop timer
         APP.testArea.style.border = "";
+        APP.svgCharacter.hidden = true;
         clearInterval(timerHandle);
         timerHandle = null;
         APP.timer.innerHTML = (0).toFixed(1);
@@ -224,12 +227,14 @@ var testTimer = function (event) {
     }
     if (APP.testArea.value == APP.phrase.value.trim().substring(0, APP.testArea.value.length)) {
         APP.testArea.style.border = "";
+        APP.svgCharacter.hidden = true;
     }
     else {
         // Alert mismatched text with red border.
         APP.testArea.style.border = "4px solid red";
-        chordImageHolderImg = APP.chordImageHolder.querySelector("#chord-image-holder img");
+        chordImageHolderImg = APP.chordImageHolder.querySelector("img");
         if (chordImageHolderImg) chordImageHolderImg.hidden = false;
+        APP.svgCharacter.hidden = false;
         next?.classList.add("error");
         APP.errorCount.innerText = parseInt(APP.errorCount.innerText) + 1;
     }
