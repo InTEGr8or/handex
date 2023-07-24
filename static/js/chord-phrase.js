@@ -322,9 +322,7 @@ var toggleVideo = (setOn) => {
         APP.videoSection.appendChild(APP.chordSection);
     }
     else {
-        if(document.querySelector("div.content div#chord-section") == null) {
-            document.querySelector("div.content").appendChild(APP.chordSection);
-        }
+        document.querySelector("div.content").appendChild(APP.chordSection);
         preview?.srcObject?.getTracks().forEach(track => track.stop());
         preview.srcObject = null;
     }

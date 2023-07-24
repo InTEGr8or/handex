@@ -1,16 +1,18 @@
 textarea {
     background-color: white;
-
+    border-radius: 20px;
+    padding: 5px
 }
 
 textarea#testArea {
     font-size: 20px;
     font-weight: bold;
     font-family: monospace;
-    max-width: 100%;
+    max-width: 95%;
     min-height: 70px;
     margin-top: 0px;
-    z-index: 100;
+    margin-left: 15px;
+    z-index: 220;
     background-color: #FFF8;
 }
 
@@ -214,16 +216,17 @@ section.section div.container {
 }
 
 div#video-section {
-    z-index: -100;
     position: relative;
     top: -145px;
     padding: 0 5px 0 5px;
     margin: 0 ;
 }
 div#video-section video#preview {
+    z-index: -100;
     position: relative; 
     margin-left: 0px;
     margin-right: 0px;
+    border-radius: 20px;
 }
 
 .phrase-over-video {
@@ -234,7 +237,6 @@ div#video-section video#preview {
     color: white;
     font-size: 1.5em;
     font-family: 'Fira Code', monospace;
-    padding: 0;
     margin: 0 0 0 20px;
     display: flex;
     justify-content: center;
@@ -245,7 +247,7 @@ div#video-section video#preview {
 .chord-section-over-video {
     position: relative;
     top: -80px;
-    left: 20px;
+    left: 15px;
     padding: 0 0 0 35px;
     margin: 0;
     width: 95%;
@@ -257,6 +259,8 @@ div#video-section video#preview {
     align-items: center;
     flex-direction: column;
 }
+
+/* FROM video demo */
 
 .screenshot-image {
   width: 150px;
