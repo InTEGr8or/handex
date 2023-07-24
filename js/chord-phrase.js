@@ -226,8 +226,9 @@ var testTimer = function (event) {
         return;
     }
     if (APP.testArea.value == APP.phrase.value.trim().substring(0, APP.testArea.value.length)) {
-        APP.testArea.style.border = "";
+        APP.testArea.style.border = "4px solid #FFF3";
         APP.svgCharacter.hidden = true;
+
     }
     else {
         // Alert mismatched text with red border.
