@@ -7394,9 +7394,19 @@ pre.bold {
 #primer {
   margin: 10px 0;
   padding: 10px;
-  background-color: #d9eefb;
-  font-weight: 600; }
-
+  background-color: #d9eefb; }
+  @media (max-width: 1200px) {
+    #primer {
+      font-size: 1.1rem; } }
+  @media (max-width: 991px) {
+    #primer {
+      font-size: 1rem; } }
+  @media (max-width: 767px) {
+    #primer {
+      font-size: 0.9rem; } }
+  @media (max-width: 575px) {
+    #primer {
+      font-size: 0.8rem; } }
 #hero {
   background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("images/ROBO_HAND3_800w.png");
   background-position: center;
@@ -7407,12 +7417,27 @@ pre.bold {
   display: flex;
   justify-content: center;
   align-items: center; }
+  @media (max-width: 1200px) {
+    #hero h1, #hero .h1 {
+      font-size: 1rem; } }
+  @media (max-width: 991px) {
+    #hero h1, #hero .h1 {
+      font-size: 1rem; } }
+  @media (max-width: 767px) {
+    #hero h1, #hero .h1 {
+      margin-top: 1.8em;
+      font-size: 0.9rem; } }
+  @media (max-width: 575px) {
+    #hero h1, #hero .h1 {
+      margin-top: 2.3em;
+      font-size: 1.4rem; } }
   #hero h4, #hero .h4 {
     font-size: 1.2rem;
     font-weight: 600;
     color: #000; }
-  #hero div {
-    padding: 0 0px; }
+  #hero div.body-copy {
+    padding: 0 0 20px 0;
+    font-weight: 600; }
   #hero p {
     font-size: 1rem;
     font-weight: 600;

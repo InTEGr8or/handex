@@ -2,7 +2,7 @@
 
 <main class="section-bordered-even">
   {{ with .Params.banner }}
-  <section class="py-5 my-4">
+  <section class="py-4 my-4">
     <div class="container">
       <div id="primer" class="centered">{{ .primer | markdownify }}</div>
       <div id="hero">
@@ -11,7 +11,7 @@
             <div class="pe-lg-5">
               <h1 class="banner-title text-capitalize mb-3">{{ .Title | markdownify }}</h1>
               <p>{{ .subtitle | markdownify }}</p>
-              <div>{{ .hero_body_copy | markdownify }}</div>
+              <div class="body-copy">{{ .hero_body_copy | markdownify }}</div>
               <h4>{{ .call_to_action | markdownify }}</h4>
               <form id="signup" action="{{.form_action}}" class="banner-form mt-4">
                 <div class="input-group border p-2 rounded-sm">

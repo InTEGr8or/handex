@@ -6,12 +6,25 @@ pre.bold {
    align-content: center;
    text-align: center;
 }
+
 #primer {
    margin: 10px 0;
    padding: 10px;
    background-color: rgb(217, 238, 251);
-   font-weight: 600;
+   @include desktop-lg {
+      font-size: 1.1rem;
+   }
+   @include desktop {
+      font-size: 1rem;
+   }
+   @include tablet {
+      font-size: 0.9rem;
+   }
+   @include mobile {
+      font-size: 0.8rem;
+   }
 }
+
 #hero {
    background: 
       linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), 
@@ -24,13 +37,31 @@ pre.bold {
    display: flex;
    justify-content: center;
    align-items: center;
+   & h1 {
+      @include desktop-lg {
+         font-size: 1rem;
+      }
+      @include desktop {
+         font-size: 1rem;
+      }
+      @include tablet {
+         margin-top: 1.8em;
+         font-size: 0.9rem;
+      }
+      @include mobile {
+         margin-top: 2.3em;
+         font-size: 1.4rem;
+      }
+   }
    & h4{
       font-size: 1.2rem;
       font-weight: 600;
       color: #000;
    }
-   & div {
-      padding: 0 0px;
+   & div.body-copy {
+      padding: 0 0 20px 0;
+      font-weight: 600;
+
    }
    & p {
       font-size: 1rem;
