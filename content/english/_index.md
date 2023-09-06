@@ -3,7 +3,7 @@
 banner:
   title: "Type&nbsp;Anywhere with this One-handed Keyboard"
   subtitle: "Stop sitting down to type.<br/>Stop looking down to send messages."
-  hero_body_copy: 
+  hero_body_copy: "Built to the shape of your finger actions, this device will eliminate your need to reposition your fingers while typeing."
   call_to_action: Sign up for our email newsletter.
   character_image: "images/ROBO_HAND3_500w.png"
   form_action: "#"

@@ -7,10 +7,11 @@
       <div id="primer" class="centered">{{ .primer | markdownify }}</div>
       <div id="hero">
         <div class="row justify-content-around align-items-center">
-          <div class="col-xxl-5 col-lg-12 col-md-8 text-center text-lg-start mb-5 mb-lg-0">
+          <div class="col-xxl-7 col-lg-12 col-md-8 text-center text-lg-start mb-5 mb-lg-0">
             <div class="pe-lg-5">
               <h1 class="banner-title text-capitalize mb-3">{{ .Title | markdownify }}</h1>
               <p>{{ .subtitle | markdownify }}</p>
+              <div>{{ .hero_body_copy | markdownify }}</div>
               <h4>{{ .call_to_action | markdownify }}</h4>
               <form id="signup" action="{{.form_action}}" class="banner-form mt-4">
                 <div class="input-group border p-2 rounded-sm">

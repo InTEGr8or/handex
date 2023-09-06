@@ -7412,7 +7412,7 @@ pre.bold {
     font-weight: 600;
     color: #000; }
   #hero div {
-    padding: 0 30px; }
+    padding: 0 0px; }
   #hero p {
     font-size: 1rem;
     font-weight: 600;
