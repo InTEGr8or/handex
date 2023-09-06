@@ -1,7 +1,7 @@
 ---
 ############################ Banner ##################################
 banner:
-  title: "Type Anywhere with this One-handed Keyboard"
+  title: "Type&nbsp;Anywhere with this One-handed Keyboard"
   subtitle: "Write text without ever having to look down or use two hands. Execute commands _silently_."
   hero_body_copy: 
   call_to_action: Sign up for our email newsletter.
