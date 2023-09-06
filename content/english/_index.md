@@ -1,11 +1,13 @@
 ---
 ############################ Banner ##################################
 banner:
-  title: "The One-handed Keyboard you can take anywhere"
-  subtitle: "Writing text doesn't have to make you look down or sit. Execute commands silently."
+  title: "Type Anywhere with this One-handed Keyboard"
+  subtitle: "Write text without ever having to look down or use two hands. Execute commands _silently_."
+  hero_body_copy: 
   call_to_action: Sign up for our email newsletter.
   character_image: "images/ROBO_HAND3_500w.png"
   form_action: "#"
+  primer: "An ergonomic one-handed keyboard designed to fit the natural actions of your hand:"
 
 ############################ About Info ##################################
 about_info:

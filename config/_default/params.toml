@@ -5,6 +5,7 @@ logo = "images/the-handexagon-logo.png"
 logo_width = "101px"
 # Meta data
 description = "The home of the Handex keydex"
+primer = "An ergonomic one-handed keyboard designed to fit the natural actions of your hand."
 home = "Handex"
 author = "Handex"
 # contact info

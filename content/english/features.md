@@ -1,6 +1,6 @@
 ---
 title: "Features"
-heading: "This keyboard fits in the palm of your hand (sort of like a hand keyboard)."
+heading: "This keyboard fits in the palm of your hand (like a one-hand keyboard)."
 layout: "features"
 draft: false
 date: 2023-03-09T12:00:00

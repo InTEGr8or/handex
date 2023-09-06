@@ -2,3 +2,34 @@ pre.bold {
    font-weight: bold;
    font-size: 12px;
 }
+.centered {
+   align-content: center;
+   text-align: center;
+}
+#primer {
+   margin: 10px 0;
+   padding: 10px;
+   background-color: rgb(217, 238, 251);
+   font-weight: 600;
+}
+#hero {
+   background: 
+      linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), 
+      url('images/ROBO_HAND3_800w.png');
+   background-position: center;
+   background-size: cover;
+   background-repeat: no-repeat;
+   height: 50vh;
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   & div {
+      padding: 0 30px;
+   }
+   & p {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #000;
+   }
+}
