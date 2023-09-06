@@ -7402,14 +7402,18 @@ pre.bold {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  height: 50vh;
+  height: 55vh;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center; }
+  #hero h4, #hero .h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #000; }
   #hero div {
     padding: 0 30px; }
   #hero p {
-    font-size: 1.5rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: #000; }

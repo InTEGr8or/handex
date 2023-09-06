@@ -2,7 +2,7 @@
 ############################ Banner ##################################
 banner:
   title: "Type&nbsp;Anywhere with this One-handed Keyboard"
-  subtitle: "Write text without ever having to look down or use two hands. Execute commands _silently_."
+  subtitle: "Write text without ever having to look down or use two hands.<br/>Execute commands _silently_."
   hero_body_copy: 
   call_to_action: Sign up for our email newsletter.
   character_image: "images/ROBO_HAND3_500w.png"
