@@ -45,12 +45,12 @@ stateDiagram-v2
 
 The `jkl;` characters are sent by a single-click of the grasp knuckles closer to the palm. 
 
-0x6 = a = {{< img path="https://handex.io/images/svgs/6.svg" width="100" class="char-glyph">}}
-0x7 = s = {{< img path="https://handex.io/images/svgs/7.svg" width="100" class="char-glyph">}}
-0x8 = d = {{< img path="https://handex.io/images/svgs/8.svg" width="100" class="char-glyph">}}
-0x9 = f = {{< img path="https://handex.io/images/svgs/9.svg" width="100" class="char-glyph">}}
+0x6 = <kbd>j</kbd> = {{< img path="https://handex.io/images/svgs/6.svg" width="100" class="char-glyph">}}
+0x7 = <kbd>k</kbd> = {{< img path="https://handex.io/images/svgs/7.svg" width="100" class="char-glyph">}}
+0x8 = <kbd>l</kbd> = {{< img path="https://handex.io/images/svgs/8.svg" width="100" class="char-glyph">}}
+0x9 = <kbd>;</kbd> = {{< img path="https://handex.io/images/svgs/9.svg" width="100" class="char-glyph">}}
 
-So `h` can be composed from `kj`
+So <kbd>h</kbd> can be composed from <kbd>k</kbd> + <kbd>j</kbd>
 
 
 {{< img path="/images/blogs/surface-keyboard.png" width="300" class="char-glyph">}}
