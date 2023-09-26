@@ -1,5 +1,7 @@
 github.com/bizkite-co/hugo-landing-page v0.0.0-20211128180301-c8c78b17eec4 h1:jO6hEe5SSD6mfnn/osFKVHaadOTRccXUT+y4jb2D2ik=
 github.com/bizkite-co/hugo-landing-page v0.0.0-20211128180301-c8c78b17eec4/go.mod h1:7hV5nMoTo9BpVE5j5tn3LTAIajD+cJ+tSFXYFllpyYM=
+github.com/hugomods/mermaid v0.1.1 h1:12b8DbdiKOTtPmkWOMXsBz3LKkAWVqa5tGkbEboj0a4=
+github.com/hugomods/mermaid v0.1.1/go.mod h1:7sKIZLAeYsXXnKRh4KR70UQx27xnzf0mSQ2o99zTLS0=
 github.com/integr8or/saasis v0.0.0-20230206070535-cfa669ff6138 h1:QGThMCZFJm9UP553iLVCCFc4KeXHIoyeuOT9jf4768U=
 github.com/integr8or/saasis v0.0.0-20230206070535-cfa669ff6138/go.mod h1:UBby99zUmQv+uomi996V507rrvEQ19oCjF0cQ6tO03A=
 github.com/jeblister/bulma v0.0.0-20220331084658-8d25840df6ac h1:r4klW8uEx+WKtQ5KrIKC2aD/8DXrQCOEswPnr5iNYuY=
