@@ -18,18 +18,18 @@ We've already aligned the `asdf` and `jkl;` keys along the main single-click key
 
 The primary coordinates of the Handex have started with fingertip pinches, starting with the thumb and moving across to the pinky.
 
-That means that the asdf keys would be in reverse numeric order, starting with (in hexidecimal) 0x1.
+That means that the asdf keys would be in reverse numeric order, starting with (in hexidecimal) `0x1`.
 
-0x1 = <kbd>a</kbd> = {{< img path="https://handex.io/images/svgs/1.svg" width="100" class="char-glyph">}}
-0x2 = <kbd>s</kbd> = {{< img path="https://handex.io/images/svgs/2.svg" width="100" class="char-glyph">}}
-0x3 = <kbd>d</kbd> = {{< img path="https://handex.io/images/svgs/3.svg" width="100" class="char-glyph">}}
-0x4 = <kbd>f</kbd> = {{< img path="https://handex.io/images/svgs/4.svg" width="100" class="char-glyph">}}
+`0x1` = <kbd>a</kbd> = {{< img path="https://handex.io/images/svgs/1.svg" width="100" class="char-glyph">}}
+`0x2` = <kbd>s</kbd> = {{< img path="https://handex.io/images/svgs/2.svg" width="100" class="char-glyph">}}
+`0x3` = <kbd>d</kbd> = {{< img path="https://handex.io/images/svgs/3.svg" width="100" class="char-glyph">}}
+`0x4` = <kbd>f</kbd> = {{< img path="https://handex.io/images/svgs/4.svg" width="100" class="char-glyph">}}
 
 Those are single-click characters, coresponding to the home-row keys, but additional characters can be composed from key sequences, which are any set of keys pressed before all keys are released.
 
 So we can compose new characters not on the home-row by combining home-row characters:
 
-0x21 = <kbd>g</kbd> = {{< img path="https://handex.io/images/svgs/21.svg" width="100" class="char-glyph">}}
+`0x21` = <kbd>g</kbd> = {{< img path="https://handex.io/images/svgs/21.svg" width="100" class="char-glyph">}}
 
  <kbd>d</kbd> + <kbd>f</kbd> --> <kbd>g</kbd>
 
@@ -43,15 +43,24 @@ stateDiagram-v2
     }
 ```
 
+This gives us a way of using the home-row keys to _point_ to non-home-row keys.
+
+The <kbd>d</kbd> + <kbd>f</kbd> _points to_ the <kbd>g</kbd>.
+
+{{< img path="/images/blogs/d_of_f_is_g.png" width="300" >}}
+
 The `jkl;` characters are sent by a single-click of the grasp knuckles closer to the palm. 
 
-0x6 = <kbd>j</kbd> = {{< img path="https://handex.io/images/svgs/6.svg" width="100" class="char-glyph">}}
-0x7 = <kbd>k</kbd> = {{< img path="https://handex.io/images/svgs/7.svg" width="100" class="char-glyph">}}
-0x8 = <kbd>l</kbd> = {{< img path="https://handex.io/images/svgs/8.svg" width="100" class="char-glyph">}}
-0x9 = <kbd>;</kbd> = {{< img path="https://handex.io/images/svgs/9.svg" width="100" class="char-glyph">}}
+`0x6` = <kbd>j</kbd> = {{< img path="https://handex.io/images/svgs/6.svg" width="100" class="char-glyph">}}
+`0x7` = <kbd>k</kbd> = {{< img path="https://handex.io/images/svgs/7.svg" width="100" class="char-glyph">}}
+`0x8` = <kbd>l</kbd> = {{< img path="https://handex.io/images/svgs/8.svg" width="100" class="char-glyph">}}
+`0x9` = <kbd>;</kbd> = {{< img path="https://handex.io/images/svgs/9.svg" width="100" class="char-glyph">}}
 
 So <kbd>h</kbd> can be composed from <kbd>k</kbd> + <kbd>j</kbd>
 
+{{< img path="/images/blogs/k_to_jis_h.png" width="300" >}}
+
+There is an apparent mirroring between these two pointers, but observe that both pointers point to the key next to the index finger. The mirroring hapens because most keyboards are made for two hands, and your two hands are mirror images of each other. Because the Handex is made for a single hand, we use the Thumb as the origin and the Index finger as the first ordinate. So the Thumb pinch is `0x0` and the Index pinch is `0x1`.
 
 {{< img path="/images/blogs/surface-keyboard.png" width="300" class="char-glyph">}}
 ![](2023-09-25-19-17-32.png)
