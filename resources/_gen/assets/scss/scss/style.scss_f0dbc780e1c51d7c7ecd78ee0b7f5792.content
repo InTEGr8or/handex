@@ -7407,6 +7407,20 @@ pre.bold {
   @media (max-width: 575px) {
     #primer {
       font-size: 0.8rem; } }
+.char-glyph {
+  width: 100px; }
+  @media (max-width: 1200px) {
+    .char-glyph {
+      width: 100px; } }
+  @media (max-width: 991px) {
+    .char-glyph {
+      width: 100px; } }
+  @media (max-width: 767px) {
+    .char-glyph {
+      width: 75px; } }
+  @media (max-width: 575px) {
+    .char-glyph {
+      width: 40px; } }
 #hero {
   background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("images/ROBO_HAND3_800w.png");
   background-position: center;
