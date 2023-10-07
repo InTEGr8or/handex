@@ -82,7 +82,7 @@ So <kbd>h</kbd> can be composed from <kbd>k</kbd> + <kbd>j</kbd>
 
 {{< img path="/images/blogs/k_to_jis_h.png" width="300" >}}
 
-There is an apparent mirroring between these two pointers, but observe that both pointers point to the key next to the index finger. The mirroring hapens because most keyboards are made for two hands, and your two hands are mirror images of each other. Because the Handex is made for a single hand, we use the Thumb as the origin and the Index finger as the first ordinate. So the Thumb pinch is `0x0` and the Index pinch is `0x1`.
+~~There is an apparent mirroring between these two pointers, but observe that both pointers point to the key next to the index finger. The mirroring hapens because most keyboards are made for two hands, and your two hands are mirror images of each other. Because the Handex is made for a single hand, we use the Thumb as the origin and the Index finger as the first ordinate. So the Thumb pinch is `0x0` and the Index pinch is `0x1`.~~
 
 
 
