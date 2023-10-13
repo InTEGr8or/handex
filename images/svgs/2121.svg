@@ -48,20 +48,26 @@
       <use id="me" href="#phalange" transform="translate(0,0)" />
       <use id="mf" href="#phalange" transform="translate(10,0)" />
       <use id="pf" href="#tip" transform="translate(20,0) scale(1,1) skewY(-12)" />
-      <use id="dot2" href="#dot" x="4" fill="#0A0F">2</use>
-      <use id="dot1" href="#dot" x="0" fill="#0A0F">
-      </use>
     </g>
     <g id="index" transform="translate(0,10)">
       <use id="me" href="#phalange" transform="translate(0,0) scale(2,1)" />
       <use id="mf" href="#phalange" transform="translate(20,0) scale(2,1) " />
       <use id="pf" href="#tip" transform="translate(40,0) scale(1.5,1) " />
+      <use id="stop" href="#stop" x="41" />
+      <use id="dot2" href="#dot" x="44" fill="#0C0F">2</use>
+      <use id="dot1" href="#dot" x="40" fill="#0C0F">
+      </use>
     </g>
     <g id="middle" transform="translate(0,20)">
       <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) " />
       <use id="mf" href="#phalange" transform="translate(20,0) scale(2.25,1) " />
       <use id="pf" href="#tip" transform="translate(42.5,0) scale(1.75,1) " />
-      <use id="start" href="#start" x="20" />
+      <use id="dot3" href="#dot" x="50.5" fill="#090F">3</use>
+      <use id="dot2" href="#dot" x="42" fill="#090F">
+      </use>
+      <use id="dot1" href="#dot" x="46" fill="#090F">
+      </use>
+      <use id="start" href="#start" x="42.5" />
     </g>
     <g id="ring" transform="translate(0,30)">
       <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) " />
@@ -72,7 +78,6 @@
       <use id="me" href="#phalange" transform="translate(0,0) scale(1.5,1) " />
       <use id="mf" href="#phalange" transform="translate(15,0) scale(1.5,1) " />
       <use id="pf" href="#tip" transform="translate(30,0) scale(1.5,1) " />
-      <use id="stop" href="#stop" x="1" />
     </g>
   </g>
 </svg>
