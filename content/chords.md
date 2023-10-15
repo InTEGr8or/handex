@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-10-13T00:45:44.284Z
+date: 2023-10-15T18:06:46.580Z
 ---
 Report,Chord,Strokes
 a and A,1,ipf
@@ -100,7 +100,7 @@ Keypad 0 and Insert,CB,"mme, ime"
 Keypad . and Delete,C7E,"mme, mmf, pme"
 Non-US \ and &#124;,C2E,"mme, mpf, pme"
 Application,C8,"mme, rmf"
-Power,C3,"mme, rpf"
+Power,321,"rpf, mpf, ipf"
 Keypad =,CD,"mme, rme"
 F13,8E,"rmf, pme"
 F14,850,"rmf, tmf, tpf"
