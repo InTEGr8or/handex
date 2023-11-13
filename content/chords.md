@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-11-12T20:45:07.837Z
+date: 2023-11-13T20:08:00.986Z
 ---
 Report,Chord,Strokes
 a and A,1,ipf
@@ -78,7 +78,7 @@ Delete Forward,7B,"mmf, ime"
 End,727,"mmf, mpf, mmf"
 PageDown,121,"ipf, mpf, ipf"
 RightArrow,67,"imf, mmf"
-LeftArrow,76,"mmf, imf"
+LeftArrow,765,"mmf, imf, tmf"
 DownArrow,7D,"mmf, rme"
 UpArrow,272,"mpf, mmf, mpf"
 Keypad Num Lock and Clear,202,"mpf, tpf, mpf"
