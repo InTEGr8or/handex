@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-11-28T18:42:13.579Z
+date: 2023-11-28T19:40:32.653Z
 ---
 Report,Chord,Strokes
 a and A,4,ppf
@@ -77,10 +77,10 @@ PageUp,7A,"mmf, tme"
 Delete Forward,7B,"mmf, ime"
 End,727,"mmf, mpf, mmf"
 PageDown,121,"ipf, mpf, ipf"
-RightArrow,67,"imf, mmf"
-LeftArrow,765,"mmf, imf, tmf"
-DownArrow,7D,"mmf, rme"
-UpArrow,272,"mpf, mmf, mpf"
+RightArrow,72,"mmf, mpf"
+LeftArrow,75,"mmf, tmf"
+DownArrow,74,"mmf, ppf"
+UpArrow,73,"mmf, rpf"
 Keypad Num Lock and Clear,202,"mpf, tpf, mpf"
 Keypad /,2A2,"mpf, tme, mpf"
 Keypad *,26,"mpf, imf"
@@ -149,7 +149,7 @@ LANG4,7E3,"mmf, pme, rpf"
 LANG5,7ED,"mmf, pme, rme"
 LANG6,70C,"mmf, tpf, mme"
 LeftControl,708,"mmf, tpf, rmf"
-LeftShift,1E,"ipf, pme"
+LeftShift,5,tmf
 LeftAlt,70D,"mmf, tpf, rme"
 Left GUI,2121,"mpf, ipf, mpf, ipf"
 RightControl,7A0,"mmf, tme, tpf"
