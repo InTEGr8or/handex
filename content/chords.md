@@ -1,60 +1,60 @@
 ---
 title: Chords
-date: 2023-11-13T20:11:31.424Z
+date: 2023-11-28T18:42:13.579Z
 ---
 Report,Chord,Strokes
-a and A,1,ipf
-b and B,47,"ppf, mmf"
-c and C,12,"ipf, mpf"
-d and D,3,rpf
-e and E,21,"mpf, ipf"
-f and F,4,ppf
-g and G,34,"rpf, ppf"
+a and A,4,ppf
+b and B,31,"rpf, ipf"
+c and C,14,"ipf, ppf"
+d and D,2,mpf
+e and E,32,"rpf, mpf"
+f and F,1,ipf
+g and G,21,"mpf, ipf"
 h and H,76,"mmf, imf"
-i and I,65,"imf, tmf"
+i and I,78,"mmf, rmf"
 j and J,6,imf
 k and K,7,mmf
 l and L,8,rmf
-m and M,61,"imf, ipf"
-n and N,75,"mmf, tmf"
-o and O,72,"mmf, mpf"
-p and P,16,"ipf, imf"
-q and Q,85,"rmf, tmf"
-r and R,23,"mpf, rpf"
-s and S,2,mpf
-t and T,60,"imf, tpf"
-u and U,32,"rpf, mpf"
-v and V,20,"mpf, tpf"
-w and W,14,"ipf, ppf"
-x and X,41,"ppf, ipf"
-y and Y,46,"ppf, imf"
-z and Z,70,"mmf, tpf"
-1 and !,946,"pmf, ppf, imf"
-2 and @,941,"pmf, ppf, ipf"
-3 and #,9461,"pmf, ppf, imf, ipf"
-4 and $,9416,"pmf, ppf, ipf, imf"
-5 and %,94B,"pmf, ppf, ime"
-6 and ^,947,"pmf, ppf, mmf"
-7 and &,942,"pmf, ppf, mpf"
-8 and *,9472,"pmf, ppf, mmf, mpf"
-9 and (,9427,"pmf, ppf, mpf, mmf"
-0 and ),9412,"pmf, ppf, ipf, mpf"
-Return (ENTER),10,"ipf, tpf"
+m and M,69,"imf, pmf"
+n and N,68,"imf, rmf"
+o and O,87,"rmf, mmf"
+p and P,98,"pmf, rmf"
+q and Q,43,"ppf, rpf"
+r and R,12,"ipf, mpf"
+s and S,3,rpf
+t and T,16,"ipf, imf"
+u and U,61,"imf, ipf"
+v and V,13,"ipf, rpf"
+w and W,34,"rpf, ppf"
+x and X,23,"mpf, rpf"
+y and Y,71,"mmf, ipf"
+z and Z,24,"mpf, ppf"
+1 and !,10,"ipf, tpf"
+2 and @,20,"mpf, tpf"
+3 and #,30,"rpf, tpf"
+4 and $,40,"ppf, tpf"
+5 and %,50,"tmf, tpf"
+6 and ^,60,"imf, tpf"
+7 and &,70,"mmf, tpf"
+8 and *,80,"rmf, tpf"
+9 and (,90,"pmf, tpf"
+0 and ),A0,"tme, tpf"
+Return (ENTER),A,tme
 ESCAPE,49,"ppf, pmf"
-DELETE (Backspace),95,"pmf, tmf"
+DELETE (Backspace),D0,"rme, tpf"
 Tab,94,"pmf, ppf"
 Spacebar,0,tpf
-- and (underscore),B,ime
-= and +,210,"mpf, ipf, tpf"
+- and (underscore),B0,"ime, tpf"
+= and +,C0,"mme, tpf"
 [ and {,45,"ppf, tmf"
 ] and },495,"ppf, pmf, tmf"
-\ and &#124;,89,"rmf, pmf"
+\ and &#124;,15,"ipf, tmf"
 ; and :,9,pmf
-"' and """,161,"ipf, imf, ipf"
- and ~,1B,"ipf, ime"
-", and <",17,"ipf, mmf"
-. and >,40,"ppf, tpf"
-/ and ?,48,"ppf, rmf"
+"' and """,89,"rmf, pmf"
+ and ~,101,"ipf, tpf, ipf"
+", and <",79,"mmf, pmf"
+. and >,97,"pmf, mmf"
+/ and ?,96,"pmf, imf"
 Caps Lock,E,pme
 F1,131,"ipf, rpf, ipf"
 F2,1D,"ipf, rme"
