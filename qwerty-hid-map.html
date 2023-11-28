@@ -44,6 +44,80 @@
             <div id="keyChord"></div>
         </div>
     </template>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+        id="hexagon-action-profile"
+        viewBox="-0 0 2000 500" 
+        fill="none"  
+        xmlns:v="https://vecta.io/nano">
+
+        <defs>
+            <path id="h" d="M 0 0 L 600 0" stroke-width="1px" stroke="#AAA"/>
+            <path id="v" d="M 0 0 L 0 600" stroke-width="1px" stroke="#AAA"/>
+        </defs>
+        <use href="#h" transform="translate(0,100)"/>
+        <use href="#h" transform="translate(0,200)"/>
+        <use href="#h" transform="translate(0,300)"/>
+        <use href="#h" transform="translate(0,400)"/>
+        <use href="#h" transform="translate(0,500)"/>
+        <use href="#v" transform="translate(100,0)"/>
+        <use href="#v" transform="translate(200,0)"/>
+        <use href="#v" transform="translate(300,0)"/>
+        <use href="#v" transform="translate(400,0)"/>
+        <use href="#v" transform="translate(500,0)"/>
+        <path 
+            id="hexagon-fill"
+            d="
+                M 0,5 
+                L 8.66,0
+                L 17.32,5
+                L 17.32,15
+                L 17.32,22
+                L 21,26
+                L 11,29
+                L 0,28
+                Z"
+            transform="translate(275,110) scale(11.8,11.8) rotate(2.0)" 
+            fill="black"
+            stroke-width="0.7px" 
+            stroke-linejoin="round" 
+            stroke-linecap="round" 
+            stroke="#000"/>
+        <path 
+            id="hand" 
+            d="
+            M 0,620 
+            C 11,373 11,216 30,193 
+            C 55,176 89,162 130,142 
+            C 225,61 322,13 356,3 
+            C 448,29 515,93 547,121 
+            c 21,120 -8,89 6,186 
+            c -88,38 -84,-89 -72,-159 
+            c -1,26 -109,-31 -106,-50 
+            c 11,16 -102,75 -102,75 
+            c 0,0 -25,136 -40,128 
+            c 39,38 90,110 106,141 
+            c 61,27 222,-60 243,1
+            c 0,0 20,70 -190,110
+            " stroke="#dd9933" 
+            stroke-width="5px" 
+            stroke-linejoin="round" 
+            fill="#ffb6b6ff" />
+        <path 
+            id="hexagon"
+            d="
+                M 0,15
+                L 0,5 
+                L 8.66,0
+                L 17.32,5
+                L 17.32,15
+                "
+            transform="translate(275,110) scale(11.8,11.8) rotate(2.0)" 
+            fill="#000"
+            stroke-width="2px" 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            stroke="#080"/>
+    </svg>
     <svg id="actionSVG" viewBox="0 0 100 29" xmlns="http://www.w3.org/2000/svg">
         <defs>
             <marker id="arrowhead" 
@@ -259,15 +333,17 @@
             qKey.children["keyText"].textContent = key.key;
             qKey.children["keyText"].setAttribute("x", x + 1);
             if(key.chord || key.chord === 0x0){
-                qKey.children["keyChord"].textContent = `0x${key.chord.toString(16).toUpperCase()}`;
+                let chordHex = `0x${key.chord.toString(16).toUpperCase()}`;
+                qKey.children["keyChord"].textContent = chordHex;
                 qKey.children["keyChord"].setAttribute("x", x + 0.5);
                 qKey.children["keyChord"].setAttribute("y", y + rowHeight - 0.5);
+                // TODO: Add chord-svg image url.
             } else {
                 qKey.children["keyChord"].remove();
             }
             appendTo.appendChild(qKey);
         }
-        let rowsOfKeys = [
+        const rowsOfKeys = [
             [
                 { key: "Esc", xScale: 1 },
                 { key: "F1", xScale: 0.9 },
@@ -287,20 +363,20 @@
                 { key: "Pause", xScale: 1 },
             ],
             [
-                { key:"`", xScale: 1 , caps: "~"},
-                { key: "1", xScale: 1, caps: "!"},
-                { key: "2", xScale: 1, caps: "@"},
-                { key: "3", xScale: 1, caps: "#"},
-                { key: "4", xScale: 1, caps: "$"},
-                { key: "5", xScale: 1, caps: "%"},
-                { key: "6", xScale: 1, caps: "^"},
-                { key: "7", xScale: 1, caps: "&"},
-                { key: "8", xScale: 1, caps: "*"},
-                { key: "9", xScale: 1, caps: "("},
-                { key: "0", xScale: 1, caps: ")"},
-                { key: "-", xScale: 1, caps: "_"},
-                { key: "=", xScale: 1, caps: "+"},
-                { key: "Backspace", xScale: 2 },
+                { key:"`", xScale: 1 , caps: "~", chord: 0x101},
+                { key: "1", xScale: 1, caps: "!", chord: 0x10},
+                { key: "2", xScale: 1, caps: "@", chord: 0x20},
+                { key: "3", xScale: 1, caps: "#", chord: 0x30},
+                { key: "4", xScale: 1, caps: "$", chord: 0x40},
+                { key: "5", xScale: 1, caps: "%", chord: 0x50},
+                { key: "6", xScale: 1, caps: "^", chord: 0x60},
+                { key: "7", xScale: 1, caps: "&", chord: 0x70},
+                { key: "8", xScale: 1, caps: "*", chord: 0x80},
+                { key: "9", xScale: 1, caps: "(", chord: 0x90},
+                { key: "0", xScale: 1, caps: ")", chord: 0xA0},
+                { key: "-", xScale: 1, caps: "_", chord: 0xB0},
+                { key: "=", xScale: 1, caps: "+", chord: 0xC0},
+                { key: "Backspace", xScale: 2, chord: 0xD0},
             ],
             [
                 { key: "Tab", xScale: 1.3 },
@@ -333,31 +409,24 @@
                 { key: "'", xScale: 1, caps: '"', chord: 0x89},
                 { key: "Enter", xScale: 2.7 },
             ],[
-                { key: "Shift", xScale: 2 },
-                { key: "Z", xScale: 1 },
-                { key: "X", xScale: 1 },
-                { key: "C", xScale: 1 },
-                { key: "V", xScale: 1 },
+                { key: "Shift", xScale: 2, chord: 0x5 },
+                { key: "Z", xScale: 1, chord: 0x24 },
+                { key: "X", xScale: 1, chord: 0x23 },
+                { key: "C", xScale: 1, chord: 0x14 },
+                { key: "V", xScale: 1, chord: 0x13 },
                 { key: "B", xScale: 1 , chord: 0x62},
-                { key: "N", xScale: 1 },
-                { key: "M", xScale: 1 },
-                { key: ",", xScale: 1 },
-                { key: ".", xScale: 1 },
-                { key: "/", xScale: 1 },
-                { key: "Shift", xScale: 3.2 },
+                { key: "N", xScale: 1, chord: 0x68 },
+                { key: "M", xScale: 1, chord: 0x69 },
+                { key: ",", xScale: 1, chord: 0x79 },
+                { key: ".", xScale: 1, chord: 0x97 },
+                { key: "/", xScale: 1, chord: 0x96 },
+                { key: "Shift", xScale: 3.2, chord: 0x5 },
             ],[
                 { key: "Ctrl", xScale: 1.3, chord: 0x5 },
                 { key: "Win", xScale: 1 },
                 { key: "Alt", xScale: 1, chord: 0xA },
                 { key: "Space", xScale: 5, chord: 0x0},
-                { key: "Alt", xScale: 1 },
-                { key: "Win", xScale: 1 },
                 { key: "Menu", xScale: 1 },
-                { key: "Ctrl", xScale: 1 },
-                { key: "Alt", xScale: 1 },
-                { key: "Win", xScale: 1 },
-                { key: "Menu", xScale: 1 },
-                { key: "Ctrl", xScale: 1 },
                 { key: "<", xScale: 1, chord: 0x75 },
                 { key: "v", xScale: 1, chord: 0x74 },
                 { key: "^", xScale: 1, chord: 0x73 },
