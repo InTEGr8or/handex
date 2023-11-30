@@ -35,11 +35,11 @@ z and Z,24,"mpf, ppf"
 8 and *,80,"rmf, tpf"
 9 and (,90,"pmf, tpf"
 0 and ),A0,"tme, tpf"
-Return (ENTER),A,tme
+Return (ENTER),0,tpf
 ESCAPE,49,"ppf, pmf"
 DELETE (Backspace),D0,"rme, tpf"
 Tab,94,"pmf, ppf"
-Spacebar,0,tpf
+Spacebar,5,tmf
 - and (underscore),B0,"ime, tpf"
 = and +,C0,"mme, tpf"
 [ and {,45,"ppf, tmf"
@@ -144,8 +144,8 @@ LANG3,7E8,"mmf, pme, rmf"
 LANG4,7E3,"mmf, pme, rpf"
 LANG5,7ED,"mmf, pme, rme"
 LANG6,70C,"mmf, tpf, mme"
-LeftControl,708,"mmf, tpf, rmf"
-LeftShift,5,tmf
+LeftControl,09999,"tpf, pmf, pmf, pmf, pmf"
+LeftShift,59999,"tmf, pmf, pmf, pmf, pmf"
 LeftAlt,70D,"mmf, tpf, rme"
 Left GUI,2121,"mpf, ipf, mpf, ipf"
 RightControl,7A0,"mmf, tme, tpf"
