@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-11-30T02:21:58.144Z
+date: 2023-11-30T02:24:57.817Z
 ---
 Report,Chord,Strokes
 a and A,4,ppf
@@ -150,7 +150,7 @@ LANG5,7ED,"mmf, pme, rme"
 LANG6,70C,"mmf, tpf, mme"
 LeftControl,09999,"tpf, pmf, pmf, pmf, pmf"
 LeftShift,59999,"tmf, pmf, pmf, pmf, pmf"
-LeftAlt,70D,"mmf, tpf, rme"
+LeftAlt,A,tme
 Left GUI,2121,"mpf, ipf, mpf, ipf"
 RightControl,7A0,"mmf, tme, tpf"
 RightShift,7EA7,"mmf, pme, tme, mmf"
