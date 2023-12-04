@@ -53,7 +53,6 @@
       <use id="me" href="#phalange" transform="translate(0,0) scale(2,1)" />
       <use id="mf" href="#phalange" transform="translate(20,0) scale(2,1) " />
       <use id="pf" href="#tip" transform="translate(40,0) scale(1.5,1) " />
-      <use id="start" href="#start" x="20" />
     </g>
     <g id="middle" transform="translate(0,20)">
       <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) " />
@@ -64,12 +63,13 @@
       <use id="me" href="#phalange" transform="translate(0,0) scale(2,1) " />
       <use id="mf" href="#phalange" transform="translate(20,0) scale(2,1) " />
       <use id="pf" href="#tip" transform="translate(40,0) scale(1.5,1) " />
+      <use id="stop" href="#stop" x="41" />
+      <use id="start" href="#start" x="20" />
     </g>
     <g id="pinky" transform="translate(0,40)">
       <use id="me" href="#phalange" transform="translate(0,0) scale(1.5,1) " />
       <use id="mf" href="#phalange" transform="translate(15,0) scale(1.5,1) " />
       <use id="pf" href="#tip" transform="translate(30,0) scale(1.5,1) " />
-      <use id="stop" href="#stop" x="16" />
     </g>
   </g>
 </svg>

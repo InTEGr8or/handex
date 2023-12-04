@@ -109,7 +109,8 @@ var chordify = function () {
     APP.phrase.disabled = true;
 };
 var setNext = () => {
-    const nextIndex = comparePhrase();
+    const nextIndex = getFirstNonMatchingChar();
+    console.log("nextIndex:", nextIndex);
 
     if (nextIndex < 0) {
         return;
@@ -150,7 +151,7 @@ var listAllChords = () => {
         .filter(x => "asdfgjkl;/0$^m\"web".includes(x.innerText))
         .forEach(x => x.style.color = "blue");
 };
-var comparePhrase = () => {
+var getFirstNonMatchingChar = () => {
     const sourcePhrase = APP.phrase.value.split('');
     const testPhrase = APP.testArea.value.split('');
     if (testPhrase.length == 0) {
