@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-11-30T03:07:01.450Z
+date: 2023-12-04T04:36:25.604Z
 ---
 Report,Chord,Strokes
 a and A,4,ppf
@@ -15,8 +15,8 @@ i and I,78,"mmf, rmf"
 j and J,6,imf
 k and K,7,mmf
 l and L,8,rmf
-m and M,69,"imf, pmf"
-n and N,68,"imf, rmf"
+m and M,72,"mmf, mpf"
+n and N,27,"mpf, mmf"
 o and O,87,"rmf, mmf"
 p and P,98,"pmf, rmf"
 q and Q,43,"ppf, rpf"
@@ -41,7 +41,7 @@ z and Z,24,"mpf, ppf"
 0 and ),A0,"tme, tpf"
 Return (ENTER),0,tpf
 ESCAPE,49,"ppf, pmf"
-DELETE (Backspace),B5,"ime, tmf"
+DELETE (Backspace),B1,"ime, ipf"
 Tab,94,"pmf, ppf"
 Spacebar,5,tmf
 - and (underscore),B0,"ime, tpf"
@@ -52,8 +52,8 @@ Spacebar,5,tmf
 ; and :,9,pmf
 "' and """,89,"rmf, pmf"
  and ~,101,"ipf, tpf, ipf"
-", and <",79,"mmf, pmf"
-. and >,97,"pmf, mmf"
+", and <",38,"rpf, rmf"
+. and >,83,"rmf, rpf"
 / and ?,96,"pmf, imf"
 Caps Lock,E,pme
 F1,131,"ipf, rpf, ipf"
@@ -62,7 +62,7 @@ F3,370,"rpf, mmf, tpf"
 F4,B0B,"ime, tpf, ime"
 F5,1C,"ipf, mme"
 F6,B06,"ime, tpf, imf"
-F7,B1,"ime, ipf"
+F7,B1B,"ime, ipf, ime"
 F8,B7,"ime, mmf"
 F9,B2,"ime, mpf"
 F10,BC,"ime, mme"
@@ -77,7 +77,7 @@ PageUp,7A,"mmf, tme"
 Delete Forward,7B,"mmf, ime"
 End,727,"mmf, mpf, mmf"
 PageDown,121,"ipf, mpf, ipf"
-RightArrow,72,"mmf, mpf"
+RightArrow,57,"tmf, mmf"
 LeftArrow,75,"mmf, tmf"
 DownArrow,74,"mmf, ppf"
 UpArrow,73,"mmf, rpf"
@@ -122,7 +122,7 @@ Stop,3B,"rpf, ime"
 Again,7A7,"mmf, tme, mmf"
 Undo,232,"mpf, rpf, mpf"
 Cut,3C,"rpf, mme"
-Copy,38,"rpf, rmf"
+Copy,383,"rpf, rmf, rpf"
 Paste,3D3,"rpf, rme, rpf"
 Find,DE,"rme, pme"
 Mute,D0D,"rme, tpf, rme"
