@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-12-04T04:36:25.604Z
+date: 2023-12-05T03:55:55.066Z
 ---
 Report,Chord,Strokes
 a and A,4,ppf
@@ -41,7 +41,7 @@ z and Z,24,"mpf, ppf"
 0 and ),A0,"tme, tpf"
 Return (ENTER),0,tpf
 ESCAPE,49,"ppf, pmf"
-DELETE (Backspace),B1,"ime, ipf"
+DELETE (Backspace),B,ime
 Tab,94,"pmf, ppf"
 Spacebar,5,tmf
 - and (underscore),B0,"ime, tpf"
