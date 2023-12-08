@@ -379,3 +379,11 @@ video {
     height: 30px;
     margin: 0 5px 0 0px;
 }
+.chord-navigation label {
+    font-size: 0.8em;
+    font-family: 'Fira Code', monospace;
+    margin: 0 0 0 0px;
+    padding: 0;
+    color: gray;
+    font-weight: 900;
+}
