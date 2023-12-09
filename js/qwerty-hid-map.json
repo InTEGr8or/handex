@@ -9,10 +9,10 @@
         { "key": "F6", "xScale": 0.9, "chord": "0xB06" },
         { "key": "F7", "xScale": 0.9, "chord": "0xB1" },
         { "key": "F8", "xScale": 0.9, "chord": "0xB7" },
-        { "key": "F9", "xScale": 0.9, "chord": "0xB2" },
-        { "key": "F10", "xScale": 0.9, "chord": "0xBC" },
-        { "key": "F11", "xScale": 0.9, "chord": "0xB8" },
-        { "key": "F12", "xScale": 0.9, "chord": "0xB3B" },
+        { "key": "F9", "xScale": 0.9, "caps": "Home", "chord": "0xB1" },
+        { "key": "F10", "xScale": 0.9, "caps": "End", "chord": "0xC2" },
+        { "key": "F11", "xScale": 0.9, "caps": "PgUp", "chord": "0xB8" },
+        { "key": "F12", "xScale": 0.9, "caps": "PgDn", "chord": "0xB3B" },
         { "key": "PrtSc", "xScale": 1, "chord": "0xBD" },
         { "key": "Scroll", "xScale": 1, "chord": "0x7E7" },
         { "key": "Pause", "xScale": 1, "chord": "0x206" }
@@ -23,7 +23,7 @@
         { "key": "2", "xScale": 1, "caps": "@", "chord": "0x20" },
         { "key": "3", "xScale": 1, "caps": "#", "chord": "0x30" },
         { "key": "4", "xScale": 1, "caps": "$", "chord": "0x40" },
-        { "key": "5", "xScale": 1, "caps": "%", "chord": "0x50" },
+        { "key": "5", "xScale": 1, "caps": "%", "chord": "0x050" },
         { "key": "6", "xScale": 1, "caps": "^", "chord": "0x60" },
         { "key": "7", "xScale": 1, "caps": "&", "chord": "0x70" },
         { "key": "8", "xScale": 1, "caps": "*", "chord": "0x80" },
@@ -81,9 +81,9 @@
         { "key": "Alt", "xScale": 1, "chord": "0xA" },
         { "key": "Space", "xScale": 7, "chord": "0x5" },
         { "key": "Menu", "xScale": 1 },
-        { "key": "Left", "xScale": 1, "chord": "0x75" },
+        { "key": "Left", "xScale": 1, "chord": "0x1B" },
         { "key": "Down", "xScale": 1, "chord": "0x74" },
         { "key": "Up", "xScale": 1, "chord": "0x73" },
-        { "key": "Right", "xScale": 1, "chord": "0x57" }
+        { "key": "Right", "xScale": 1, "chord": "0x2C" }
     ]
 ]
