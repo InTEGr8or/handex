@@ -7,7 +7,7 @@
         { "key": "F4", "xScale": 0.9, "chord": "0xB0B" },
         { "key": "F5", "xScale": 0.9, "chord": "0x1C" },
         { "key": "F6", "xScale": 0.9, "chord": "0xB06" },
-        { "key": "F7", "xScale": 0.9, "chord": "0xB1" },
+        { "key": "F7", "xScale": 0.9, "chord": "0xB12" },
         { "key": "F8", "xScale": 0.9, "chord": "0xB7" },
         { "key": "F9", "xScale": 0.9, "caps": "Home", "chord": "0xB1" },
         { "key": "F10", "xScale": 0.9, "caps": "End", "chord": "0xC2" },
