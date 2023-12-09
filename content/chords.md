@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-12-09T20:05:18.599Z
+date: 2023-12-09T20:08:32.687Z
 ---
 Report,Chord,Strokes
 a and A,4,ppf
@@ -62,7 +62,7 @@ F3,370,"rpf, mmf, tpf"
 F4,B0B,"ime, tpf, ime"
 F5,1C,"ipf, mme"
 F6,B06,"ime, tpf, imf"
-F7,B1,"ime, ipf"
+F7,B12,"ime, ipf, mpf"
 F8,B7,"ime, mmf"
 F9,B2,"ime, mpf"
 F10,BC,"ime, mme"
