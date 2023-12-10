@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2023-12-09T20:09:23.406Z
+date: 2023-12-10T01:45:55.995Z
 ---
 Report,Chord,Strokes
 a and A,4,ppf
@@ -10,7 +10,7 @@ d and D,2,mpf
 e and E,32,"rpf, mpf"
 f and F,1,ipf
 g and G,21,"mpf, ipf"
-h and H,76,"mmf, imf"
+h and H,18,"ipf, rmf"
 i and I,78,"mmf, rmf"
 j and J,6,imf
 k and K,7,mmf
@@ -27,7 +27,7 @@ u and U,61,"imf, ipf"
 v and V,13,"ipf, rpf"
 w and W,34,"rpf, ppf"
 x and X,23,"mpf, rpf"
-y and Y,71,"mmf, ipf"
+y and Y,26,"mpf, imf"
 z and Z,49,"ppf, pmf"
 1 and !,10,"ipf, tpf"
 2 and @,20,"mpf, tpf"
@@ -83,7 +83,7 @@ DownArrow,74,"mmf, ppf"
 UpArrow,73,"mmf, rpf"
 Keypad Num Lock and Clear,202,"mpf, tpf, mpf"
 Keypad /,2A2,"mpf, tme, mpf"
-Keypad *,26,"mpf, imf"
+Keypad *,71,"mmf, ipf"
 Keypad -,212,"mpf, ipf, mpf"
 Keypad +,2B,"mpf, ime"
 Keypad ENTER,27E,"mpf, mmf, pme"
