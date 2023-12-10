@@ -1,11 +1,11 @@
 ---
 title: Chords
-date: 2023-12-10T01:45:55.995Z
+date: 2023-12-10T03:38:12.180Z
 ---
 Report,Chord,Strokes
 a and A,4,ppf
 b and B,31,"rpf, ipf"
-c and C,14,"ipf, ppf"
+c and C,17,"ipf, mmf"
 d and D,2,mpf
 e and E,32,"rpf, mpf"
 f and F,1,ipf

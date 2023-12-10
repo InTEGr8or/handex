@@ -66,7 +66,7 @@
         { "key": "Shift", "xScale": 2, "chord": "0x5" },
         { "key": "Z", "xScale": 1, "chord": "0x49" },
         { "key": "X", "xScale": 1, "chord": "0x23" },
-        { "key": "C", "xScale": 1, "chord": "0x14" },
+        { "key": "C", "xScale": 1, "chord": "0x17" },
         { "key": "V", "xScale": 1, "chord": "0x13" },
         { "key": "B", "xScale": 1, "chord": "0x31" },
         { "key": "N", "xScale": 1, "chord": "0x27" },
