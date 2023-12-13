@@ -387,3 +387,11 @@ video {
     color: gray;
     font-weight: 900;
 }
+
+.chord-error rect {
+    fill: lightsalmon;
+}
+
+.chord-highlight rect {
+    fill: lightgreen;
+}
