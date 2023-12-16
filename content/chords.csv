@@ -1,12 +1,12 @@
 Report,Chord,Strokes
 a and A,4,ppf
 b and B,31,"rpf, ipf"
-c and C,17,"ipf, mmf"
+c and C,37,"rpf, mmf"
 d and D,2,mpf
-e and E,23,"mpf, rpf"
+e and E,32,"rpf, mpf"
 f and F,1,ipf
 g and G,21,"mpf, ipf"
-h and H,18,"ipf, rmf"
+h and H,76,"mmf, imf"
 i and I,72,"mmf, mpf"
 j and J,6,imf
 k and K,7,mmf
@@ -16,15 +16,15 @@ n and N,16,"ipf, imf"
 o and O,83,"rmf, rpf"
 p and P,94,"pmf, ppf"
 q and Q,43,"ppf, rpf"
-r and R,32,"rpf, mpf"
+r and R,23,"mpf, rpf"
 s and S,3,rpf
 t and T,12,"ipf, mpf"
 u and U,61,"imf, ipf"
 v and V,13,"ipf, rpf"
 w and W,34,"rpf, ppf"
-x and X,28,"mpf, rmf"
+x and X,39,"rpf, pmf"
 y and Y,26,"mpf, imf"
-z and Z,39,"rpf, pmf"
+z and Z,48,"ppf, rmf"
 1 and !,10,"ipf, tpf"
 2 and @,20,"mpf, tpf"
 3 and #,30,"rpf, tpf"
