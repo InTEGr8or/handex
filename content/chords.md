@@ -1,10 +1,10 @@
 ---
 title: Chords
-date: 2023-12-16T04:23:44.372Z
+date: 2023-12-16T04:38:17.573Z
 ---
 Report,Chord,Strokes
 a and A,4,ppf
-b and B,31,"rpf, ipf"
+b and B,17,"ipf, mmf"
 c and C,37,"rpf, mmf"
 d and D,2,mpf
 e and E,32,"rpf, mpf"
@@ -24,7 +24,7 @@ r and R,23,"mpf, rpf"
 s and S,3,rpf
 t and T,12,"ipf, mpf"
 u and U,61,"imf, ipf"
-v and V,13,"ipf, rpf"
+v and V,28,"mpf, rmf"
 w and W,34,"rpf, ppf"
 x and X,39,"rpf, pmf"
 y and Y,26,"mpf, imf"
@@ -66,17 +66,17 @@ F7,B12,"ime, ipf, mpf"
 F8,B7,"ime, mmf"
 F9,B2,"ime, mpf"
 F10,BC,"ime, mme"
-F11,B8,"ime, rmf"
+F11,B8B,"ime, rmf, ime"
 F12,B3B,"ime, rpf, ime"
 PrintScreen,BD,"ime, rme"
 Scroll Lock,7E7,"mmf, pme, mmf"
 Pause,206,"mpf, tpf, imf"
 Insert,200,"mpf, tpf, tpf"
 Home,B1,"ime, ipf"
-PageUp,7A,"mmf, tme"
+PageUp,B8,"ime, rmf"
 Delete Forward,7B,"mmf, ime"
 End,C2,"mme, mpf"
-PageDown,121,"ipf, mpf, ipf"
+PageDown,8B,"rmf, ime"
 RightArrow,2C,"mpf, mme"
 LeftArrow,1B,"ipf, ime"
 DownArrow,74,"mmf, ppf"
@@ -107,7 +107,7 @@ F14,850,"rmf, tmf, tpf"
 F15,8A,"rmf, tme"
 F16,6C6,"imf, mme, imf"
 F17,801,"rmf, tpf, ipf"
-F18,8B,"rmf, ime"
+F18,8B8,"rmf, ime, rmf"
 F19,878,"rmf, mmf, rmf"
 F20,82,"rmf, mpf"
 F21,8C,"rmf, mme"
