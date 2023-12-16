@@ -78,7 +78,7 @@ function setKeySvg(key, x, y, width, appendTo=svg){
     if(key.chord || key.chord === 0x0){
         let chordHex = key.chord.replace("0x", "");
         let chordImage = document.createElementNS(svgNS, "image");
-        chordImage.setAttribute("href", `https://handex.io/images/svgs/${chordHex}.svg`);
+        chordImage.setAttribute("href", `/images/svgs/${chordHex}.svg`);
         chordImage.setAttribute("x", x + 0.5);
         chordImage.setAttribute("y", y + 2);
         chordImage.setAttribute("width", colWidth - 1);
