@@ -39,12 +39,6 @@ parent = "Pages"
 name = "Handexercizer"
 url = "handexercizer/"
 
-[[main]]
-weight = 1
-parent = "Pages"
-name = "Querty Map"
-url = "qwerty-hid-map.html"
-
 # [[main]]
 # weight = 2
 # parent = "Pages"

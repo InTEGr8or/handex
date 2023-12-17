@@ -12,7 +12,7 @@
         { "function": "F9", "xScale": 0.9, "key": "Home", "chord": "0xB1" },
         { "function": "F10", "xScale": 0.9, "key": "End", "chord": "0xC2" },
         { "function": "F11", "xScale": 0.9, "key": "PgUp", "chord": "0xB8" },
-        { "function": "F12", "xScale": 0.9, "key": "PgDn", "chord": "0xB3B" },
+        { "function": "F12", "xScale": 0.9, "key": "PgDn", "chord": "0x8B" },
         { "key": "PrtSc", "xScale": 1, "chord": "0xBD" },
         { "key": "Scroll", "xScale": 1, "chord": "0x7E7" },
         { "key": "Pause", "xScale": 1, "chord": "0x206" }
