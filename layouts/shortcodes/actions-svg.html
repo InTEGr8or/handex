@@ -1,4 +1,37 @@
-
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/fira-mono');
+    </style>
+    <style>
+        #hand g use {
+            stroke: #aa6e02 ;
+            stroke-width: 0.1px;
+        }
+        #thumb {
+            fill: url("#thumbGradient");
+        }
+        #index {
+            fill: #ffb6b6ff;
+        }
+        #middle {
+            fill: #ffb6b6ff;
+        }
+        #ring {
+            fill: #ffb6b6ff;
+        }
+        #pinky {
+            fill: url("#thumbGradient");
+        }
+        .skin {
+            fill: #ffb6b6ff;
+        }
+        .mono {
+            font-family: 'Fira Mono', monospace;
+            color: #00F;
+            fill: #00F;
+            font-weight: 500;
+        }
+    </style>
+    <link rel="stylesheet" href="/css/handexercizer.css" >
     <svg xmlns="http://www.w3.org/2000/svg" 
         id="hexagon-action-profile"
         viewBox="-0 0 2000 500" 
@@ -6,6 +39,19 @@
         xmlns:v="https://vecta.io/nano">
 
         <defs>
+            <linearGradient id="thumbGradient" x1="1" x2="1" y1="0" y2="1" >
+                <stop offset="0%" stop-color="#ffb6b6ff" />
+                <stop offset="100%" stop-color="#BD7676" />
+            </linearGradient>
+            <linearGradient id="fingerGradient" x1="1" x2="1" y1="0" y2="1" >
+                <stop offset="0%" stop-color="#BD7676" />
+                <stop offset="50%" stop-color="#ffb6b6ff" />
+                <stop offset="100%" stop-color="#BD7676" />
+            </linearGradient>
+            <radialGradient id="roundTipGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                <stop offset="0%" stop-color="#ffb6b6ff" />
+                <stop offset="100%" stop-color="#BD7676" />
+            </radialGradient>
             <path id="h" d="M 0 0 L 600 0" stroke-width="1px" stroke="#AAA"/>
             <path id="v" d="M 0 0 L 0 600" stroke-width="1px" stroke="#AAA"/>
             <marker

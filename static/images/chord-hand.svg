@@ -20,7 +20,7 @@
             fill: #ffb6b6ff;
         }
         #pinky {
-            fill: #ffb6b6ff;
+            fill: url("#thumbGradient");
         }
     </style>
     <defs>
