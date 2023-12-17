@@ -57,6 +57,7 @@ function setKeyDiv(key, x, y, width, appendTo=document.body){
 }
 
 function setKeySvg(key, x, y, width, appendTo=svg){
+    // Create the QWERTY keyboard from the json file.
     var qKey = document.getElementById("Qkey").cloneNode(true);
     qKey.setAttribute("id", key.chord);
     qKey.classList.add("chordKey");
@@ -150,12 +151,13 @@ function renderArrows(qKey){
             }
             continue;
         }
-        renderArrowBetweenKeys(sourceKey, targetKey);
+        renderArrowBetweenKeys(sourceKey, targetKey, i);
     };
 }
 
-function renderArrowBetweenKeys(sourceKey, targetKey){
+function renderArrowBetweenKeys(sourceKey, targetKey, index){
     //Create an SVG path element of the chain of keys.
+    let arrowShift = index * 2;
     let arrow = document.createElementNS(svgNS, "line");
     if(sourceKey?.children == undefined){
         console.log("Source key is not used");
@@ -169,17 +171,23 @@ function renderArrowBetweenKeys(sourceKey, targetKey){
     let targetRect = targetKey.children["keyRect"];
     arrow.setAttribute(
         "x1", 
-        parseFloat(sourceRect.getAttribute("x")) + parseFloat(sourceRect.getAttribute("width")) / 2);
+        parseFloat(sourceRect.getAttribute("x")) 
+        + parseFloat(sourceRect.getAttribute("width")) / 2);
     arrow.setAttribute(
         "y1", 
-        parseFloat(sourceRect.getAttribute("y")) + parseFloat(sourceRect.getAttribute("height")) / 2);
+        arrowShift 
+        + parseFloat(sourceRect.getAttribute("y")) 
+        + parseFloat(sourceRect.getAttribute("height")) / 2);
     arrow.setAttribute(
         "x2", 
-        parseFloat(targetRect.getAttribute("x")) + parseFloat(targetRect.getAttribute("width")) / 2);
+        parseFloat(targetRect.getAttribute("x")) 
+        + parseFloat(targetRect.getAttribute("width")) / 2);
     arrow.setAttribute(
         "y2", 
-        parseFloat(targetRect.getAttribute("y")) + parseFloat(targetRect.getAttribute("height")) / 2);
-    arrow.setAttribute("stroke", "black");
+        arrowShift 
+        + parseFloat(targetRect.getAttribute("y")) 
+        + parseFloat(targetRect.getAttribute("height")) / 2);
+    arrow.setAttribute("stroke", index === 0 ? "green": "black");
     arrow.setAttribute("stroke-width", "0.2");
     arrow.setAttribute("marker-end", "url(#arrowhead)");
     arrow.setAttribute("marker-start", "url(#arrowtail)");
