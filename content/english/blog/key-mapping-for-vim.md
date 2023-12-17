@@ -42,7 +42,7 @@ Notice that the _hardware_ finger action ordinals are _not based on keyboards_. 
 
 Having established the _hardware_ finger actions, they can now be mapped to the keys of the standard keyboard. 
 
-That means that the asdf keys would be in reverse numeric order, starting with (in hexadecimal) `0x1`.
+That means that the `asdf` keys would be in numeric order, starting with (in hexadecimal) `0x1`.
 
 `0x1`=<kbd>a</kbd>={{< img path="https://handex.io/images/svgs/1.svg" class="char-glyph">}}
 `0x2`=<kbd>s</kbd>={{< img path="https://handex.io/images/svgs/2.svg" class="char-glyph">}}
@@ -60,7 +60,7 @@ So we can compose new characters not on the home-row by combining home-row chara
 Or:
 
 ```mermaid
-stateDiagram-v2
+stateDiagram
     state g {
         direction LR
         d --> f
@@ -94,3 +94,9 @@ The mirroring that I thought I identified above was actually just that I had a r
 This made me realize that I needed a much better way to analyze the QWERTY key mapping. One step in that direction is the interactive hover-over keyboard below.
 
 {{< qwerty-svg >}}
+
+By using this QWERTY graphical analysis tool, I've remapped the number keys and most of the other keys. Nearby keys have similar mappings, now, and I think it's much easier to reason about the key strokes. I've been using it for a couple of days, and I can see a distinct improvement, even while learning the modified key layout.
+
+This is part of the continuous improvement that I have expected since completing the first fully functioning unit a few months ago.
+
+I will be putting together a roadmap of upcoming improvements on the project website on GitHub, where this site is hosted.
