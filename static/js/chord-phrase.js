@@ -443,7 +443,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     APP.pangrams.addEventListener('click', function (e) {
-        APP.phrase.value = e.target.innerText;
+        if(e.target.innerText === "Long Form"){
+            APP.phrase.value = "Gorilla enables LLMs to use tools by invoking APIs. Given a natural language query, Gorilla comes up with the semantically- and syntactically- correct API to invoke. With Gorilla, we are the first to demonstrate how to use LLMs to invoke 1,600+ (and growing) API calls accurately while reducing hallucination. We also release APIBench, the largest collection of APIs, curated and easy to be trained on! Join us, as we try to expand the largest API store and teach LLMs how to write them! Hop on our Discord, or open a PR, or email us if you would like to have your API incorporated as well.";
+        }else{
+            APP.phrase.value = e.target.innerText;
+        }
         chordify();
     });
     document.getElementById('timerCancel')
