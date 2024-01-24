@@ -110,7 +110,6 @@ var chordify = function () {
 };
 var setNext = () => {
     const nextIndex = getFirstNonMatchingChar();
-    console.log("nextIndex:", nextIndex);
 
     if (nextIndex < 0) {
         return;
@@ -142,6 +141,7 @@ var setNext = () => {
     if(!APP.testMode.checked){
         APP.svgCharacter.hidden = false;
     }
+    setWpm();
     return next;
 };
 var listAllChords = () => {
@@ -255,8 +255,12 @@ var testTimer = function (event) {
     }
     startTimer();
 }
+function setWpm() {
+    APP.wpm.innerText = (words / (APP.timerCentiSecond / 100 / 60)).toFixed(2);
+}
 const setTimerSvg = (status) => {
     const statusSvg = document.getElementById('timerSvg');
+    setWpm();
     switch (status) {
         case 'start':
             statusSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
@@ -266,7 +270,6 @@ const setTimerSvg = (status) => {
         case 'stop':
             statusSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
             let words = APP.phrase.value.length / 5;
-            APP.wpm.innerText = (words / (APP.timerCentiSecond / 100 / 60)).toFixed(2);
             APP.testArea.disabled = true;
             break;
         case 'pause':
