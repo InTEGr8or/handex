@@ -1,261 +1,264 @@
 div.content textarea {
-    background-color: #FFF8;
-    border-radius: 20px;
-    padding: 5px;
-    font-size: 1.3em;
-    font-family: monospace;
+  background-color: #FFF8;
+  border-radius: 20px;
+  padding: 5px;
+  font-size: 1.3em;
+  font-family: monospace;
 }
 
 textarea#testArea {
-    font-weight: bold;
-    border: 4px solid #0003;
-    max-width: 95%;
-    min-height: 70px;
-    margin-top: 0px;
-    margin-left: 15px;
-    z-index: 220;
+  font-weight: bold;
+  border: 4px solid #0003;
+  max-width: 95%;
+  min-height: 70px;
+  margin-top: 0px;
+  margin-left: 15px;
+  z-index: 220;
 }
 
 #chord-area {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: 0;
-    margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 #chordList {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: 0;
-    margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 #testAreaDiv {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: 0;
-    margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 svg g {
-    align-items: left;
+  align-items: left;
 }
 
 .btn:hover,
 .btn:active,
 .btn:focus {
-    background-color: lightblue;
-    color: black;
+  background-color: lightblue;
+  color: black;
 }
 
 #svgCharacter {
-    float: left;
-    margin: 0;
-    width: 80px;
-    font-size: 110px;
-    line-height: 0.6em;
-    height: 110px;
-    padding-top: 20px;
-    padding-bottom: 0px;
-    color: black;
-    border: 1px solid grey;
-    overflow: hidden;
+  float: left;
+  margin: 0;
+  width: 80px;
+  font-size: 110px;
+  line-height: 0.6em;
+  height: 110px;
+  padding-top: 20px;
+  padding-bottom: 0px;
+  color: black;
+  border: 1px solid grey;
+  overflow: hidden;
 }
 
 .chordified div.col-sm-2 {
-    width: 12.5%;
-    flex: none;
-    padding: 0 0 10px 0;
-    margin: 0;
+  width: 12.5%;
+  flex: none;
+  padding: 0 0 10px 0;
+  margin: 0;
 }
 
 .chordified div:after {
-    background-image: "images/hand-chord.svg";
+  background-image: "images/hand-chord.svg";
 }
 
 .chordified div span {
-    color: black;
-    margin: 0;
-    font-size: 1.4em;
-    line-height: 1em;
-    padding: 0;
-    font-weight: bold;
-    float: left;
-    font-family: monospace;
+  color: black;
+  margin: 0;
+  font-size: 1.4em;
+  line-height: 1em;
+  padding: 0;
+  font-weight: bold;
+  float: left;
+  font-family: monospace;
 }
 
 .chordified img {
-    width: 100%;
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: 0;
-    margin-right: 0;
-    margin-top: 0;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
 }
 
 #wholePhraseChords img {
-    width: 100%;
-    padding: 0;
-    margin: 0;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 #wholePhraseChords>div.next {
-    background-color: lightblue;
+  background-color: lightblue;
 }
 
 #wholePhraseChords>div.error {
-    border: 2px solid red;
+  border: 2px solid red;
 }
 
 #chord-image-holder img {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 #charTimes {
-    font-family: monospace;
-    list-style-type: none;
-    color: black;
+  font-family: monospace;
+  list-style-type: none;
+  color: black;
 }
 
 #charTimes li {
-    list-style-type: none;
-    padding-left: 0;
-    margin-bottom: 0;
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 0;
 }
 
 #charTimes li::before {
-    content: "";
-    display: none;
+  content: "";
+  display: none;
 }
 
 /* The switch - the box around the slider */
 .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
 }
 
 /* Hide default HTML checkbox */
 .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
 /* The slider */
 .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
 }
 
 .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
 }
 
 input:checked+.slider {
-    background-color: #2196F3;
+  background-color: #2196F3;
 }
 
 input:focus+.slider {
-    box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196F3;
 }
 
 input:checked+.slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
 }
 
 /* Rounded sliders */
 .slider.round {
-    border-radius: 34px;
+  border-radius: 34px;
 }
 
 .slider.round:before {
-    border-radius: 50%;
+  border-radius: 50%;
 }
 
 section.page-header {
-    padding-top: 0;
-    padding-bottom: 0;
-    margin-top: 0 !important;
-    margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0 !important;
+  margin-bottom: 0;
 }
 
 section.section {
-    padding-top: 0;
-    padding-bottom: 0;
-    margin-top: 0 !important;
-    margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0 !important;
+  margin-bottom: 0;
 }
+
 div.main-content {
-    padding: 0;
-    margin: 0 !important;
+  padding: 0;
+  margin: 0 !important;
 }
+
 section.section div.container {
-    padding: 0;
-    margin: 0 !important;
-    max-width: 100%;
+  padding: 0;
+  margin: 0 !important;
+  max-width: 100%;
 }
 
 div#video-section {
-    position: relative;
-    top: -145px;
-    padding: 0 5px 0 5px;
-    margin: 0 ;
+  position: relative;
+  top: -145px;
+  padding: 0 5px 0 5px;
+  margin: 0;
 }
+
 div#video-section video#preview {
-    z-index: -100;
-    position: relative; 
-    margin-left: 0px;
-    margin-right: 0px;
-    border-radius: 20px;
+  z-index: -100;
+  position: relative;
+  margin-left: 0px;
+  margin-right: 0px;
+  border-radius: 20px;
 }
 
 .phrase-over-video {
-    position: relative;
-    width: 90%;
-    height: 100%;
-    background-color: #FFF8;
-    font-size: 1.5em;
-    font-family: 'Fira Code', monospace;
-    margin: 0 0 0 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  position: relative;
+  width: 90%;
+  height: 100%;
+  background-color: #FFF8;
+  font-size: 1.5em;
+  font-family: 'Fira Code', monospace;
+  margin: 0 0 0 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .chord-section-over-video {
-    position: relative;
-    top: -80px;
-    left: 15px;
-    padding: 0 0 0 35px;
-    margin: 0;
-    width: 95%;
-    height: 100%;
-    z-index: 100;
-    background-color: #FFF0;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+  position: relative;
+  top: -80px;
+  left: 15px;
+  padding: 0 0 0 35px;
+  margin: 0;
+  width: 95%;
+  height: 100%;
+  z-index: 100;
+  background-color: #FFF0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 /* FROM video demo */
@@ -283,7 +286,7 @@ div#video-section video#preview {
 
 video {
   width: 100%;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .video-options {
@@ -300,7 +303,7 @@ video {
 
 }
 
-.controls > button {
+.controls>button {
   width: 45px;
   height: 45px;
   text-align: center;
@@ -326,7 +329,7 @@ video {
   }
 }
 
-.controls > button > svg {
+.controls>button>svg {
   height: 20px;
   width: 18px;
   text-align: center;
@@ -359,7 +362,7 @@ video {
   }
 }
 
-.controls > button {
+.controls>button {
   width: 45px;
   height: 45px;
   text-align: center;
@@ -375,23 +378,52 @@ video {
 }
 
 .chord-navigation img {
-    width: 30px;
-    height: 30px;
-    margin: 0 5px 0 0px;
+  width: 30px;
+  height: 30px;
+  margin: 0 5px 0 0px;
 }
+
 .chord-navigation label {
-    font-size: 0.8em;
-    font-family: 'Fira Code', monospace;
-    margin: 0 0 0 0px;
-    padding: 0;
-    color: gray;
-    font-weight: 900;
+  font-size: 0.8em;
+  font-family: 'Fira Code', monospace;
+  margin: 0 0 0 0px;
+  padding: 0;
+  color: gray;
+  font-weight: 900;
 }
 
 .chord-error rect {
-    fill: lightsalmon;
+  fill: lightsalmon;
 }
 
 .chord-highlight rect {
-    fill: lightgreen;
+  fill: lightgreen;
+}
+
+#pangrams {
+  font-family: 'Fira Code', monospace;
+  font-size: 1em;
+  font-weight: 700;
+  color: black;
+  margin: 0;
+  padding: 0;
+  list-style-type: none !important;
+  li {
+    list-style-type: none !important;
+    margin: 2;
+    background-color: lightgray;
+    padding-left: 20px;
+    border: 1px solid #0003;
+    border-radius: 4px;
+  }
+}
+
+#nextChars {
+  font-size: 20px;
+  font-weight: 700;
+  padding: 5px;
+  font-family: 'Fira Code', monospace;
+  color: darkgreen;
+  background-color: black;
+  border-radius: 4px;
 }
