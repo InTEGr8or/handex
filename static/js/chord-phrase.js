@@ -122,6 +122,11 @@ var setNext = () => {
         }
         );
     if (nextIndex > APP.wholePhraseChords.children.length - 1) return;
+
+    document.getElementById('nextChars').innerHTML = APP.phrase.value
+        .substring(nextIndex, nextIndex + 20)
+        .replace(' ', spaceDisplayChar);
+
     const next = APP.wholePhraseChords.children[nextIndex];
     APP.nextChar = next.getAttribute("name").replace("Space", " ");
     next.classList.add("next");
