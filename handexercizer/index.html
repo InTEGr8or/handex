@@ -65,7 +65,7 @@ hexcode, finger, action
 <img id=select-key alt=select-key src=/images/svgs/313.svg></div><div class=col-xs-2 style=width:20%><label style=float:right;z-index:200 class=switch><input id=videoMode type=checkbox>
 <span class="slider round"></span>
 </label><label style=float:right;padding:5px>Video Mode</label></div></div><div id=video-section class=full-width><div id=btnDeviceIdContainer style=height:20px;overflow:hidden><button id=btnUser>user(front)</button>
-<button id=btnEnvironment>env(back)</button></div><video id=preview autoplay></video></div><div id=chord-section class="row col-md-12"><div id=svgAndChar class="row col-md-12"><pre id=chordified hidden class="col-md-6 bold chordified"></pre></div><div id=testAreaDiv class=col-md-12><div class=row><textarea id=testArea placeholder="Test your typing here" style=min-width:90% title="test chord"></textarea></div><div class=col-md-4><pre id=svgCharacter hidden></pre><div id=chord-image-holder style=float:left></div></div><div class=row><div id=test-timer style=padding-left:0;width:80%;float:left;font-family:monospace;font-size:16px><svg id="timerSvg" width="15" height="20"><use href="#start" transform="scale(2,2)"/></svg><span id=timer>0.0</span>
+<button id=btnEnvironment>env(back)</button></div><video id=preview autoplay></video></div><div id=chord-section class="row col-md-12"><div id=svgAndChar class="row col-md-12"><pre id=chordified hidden class="col-md-6 bold chordified"></pre></div><div id=testAreaDiv class=col-md-12><div class=row><div id=nextChars class="col-md-12 bold" style=font-size:20px;font-weight:700;padding:5px;font-family:monospace;color:#adff2f;background-color:#000></div></div><div class=row><textarea id=testArea placeholder="Test your typing here" style=min-width:90% title="test chord"></textarea></div><div class=col-md-4><pre id=svgCharacter hidden></pre><div id=chord-image-holder style=float:left></div></div><div class=row><div id=test-timer style=padding-left:0;width:80%;float:left;font-family:monospace;font-size:16px><svg id="timerSvg" width="15" height="20"><use href="#start" transform="scale(2,2)"/></svg><span id=timer>0.0</span>
 seconds, Errors:
 <b><span id=errorCount>0</span></b><br>WPM:
 <b><span id=wpm>0</span></b></div><div style="padding:5px 0"><button type=button id=timerCancel class="btn btn-secondary btn-xs">&#8635;</button>
@@ -192,13 +192,13 @@ seconds, Errors:
 <img loading=lazy alt=C2 src=/images/svgs/C2.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord8B><span id=char73>PageDown</span>
 <img loading=lazy alt=8B src=/images/svgs/8B.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord2C><span id=char74>RightArrow</span>
 <img loading=lazy alt=2C src=/images/svgs/2C.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord1B><span id=char75>LeftArrow</span>
-<img loading=lazy alt=1B src=/images/svgs/1B.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord74><span id=char76>DownArrow</span>
-<img loading=lazy alt=74 src=/images/svgs/74.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord73><span id=char77>UpArrow</span>
+<img loading=lazy alt=1B src=/images/svgs/1B.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord71><span id=char76>DownArrow</span>
+<img loading=lazy alt=71 src=/images/svgs/71.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord73><span id=char77>UpArrow</span>
 <img loading=lazy alt=73 src=/images/svgs/73.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord202><span id=char78>Keypad Num Lock</span>
 <img loading=lazy alt=202 src=/images/svgs/202.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord5202><span id=charU78>Clear</span>
 <img loading=lazy alt=5202 src=/images/svgs/5202.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord2A2><span id=char79>Keypad /</span>
-<img loading=lazy alt=2A2 src=/images/svgs/2A2.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord71><span id=char80>Keypad *</span>
-<img loading=lazy alt=71 src=/images/svgs/71.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord212><span id=char81>Keypad -</span>
+<img loading=lazy alt=2A2 src=/images/svgs/2A2.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord717><span id=char80>Keypad *</span>
+<img loading=lazy alt=717 src=/images/svgs/717.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord212><span id=char81>Keypad -</span>
 <img loading=lazy alt=212 src=/images/svgs/212.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord2B><span id=char82>Keypad +</span>
 <img loading=lazy alt=2B src=/images/svgs/2B.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord27E><span id=char83>Keypad ENTER</span>
 <img loading=lazy alt=27E src=/images/svgs/27E.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord2C4><span id=char84>Keypad 1</span>
@@ -236,20 +236,20 @@ seconds, Errors:
 <img loading=lazy alt=8B8 src=/images/svgs/8B8.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord878><span id=char105>F19</span>
 <img loading=lazy alt=878 src=/images/svgs/878.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord82><span id=char106>F20</span>
 <img loading=lazy alt=82 src=/images/svgs/82.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord8C><span id=char107>F21</span>
-<img loading=lazy alt=8C src=/images/svgs/8C.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord838><span id=char108>F22</span>
-<img loading=lazy alt=838 src=/images/svgs/838.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord8D><span id=char109>F23</span>
+<img loading=lazy alt=8C src=/images/svgs/8C.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord8383><span id=char108>F22</span>
+<img loading=lazy alt=8383 src=/images/svgs/8383.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord8D><span id=char109>F23</span>
 <img loading=lazy alt=8D src=/images/svgs/8D.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord3E><span id=char110>F24</span>
 <img loading=lazy alt=3E src=/images/svgs/3E.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord1A1><span id=char111>Execute</span>
 <img loading=lazy alt=1A1 src=/images/svgs/1A1.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord7E><span id=char112>Help</span>
 <img loading=lazy alt=7E src=/images/svgs/7E.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord36><span id=char113>Menu</span>
 <img loading=lazy alt=36 src=/images/svgs/36.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord313><span id=char114>Select</span>
-<img loading=lazy alt=313 src=/images/svgs/313.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord3B><span id=char115>Stop</span>
-<img loading=lazy alt=3B src=/images/svgs/3B.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord7A7><span id=char116>Again</span>
+<img loading=lazy alt=313 src=/images/svgs/313.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord123><span id=char115>Stop</span>
+<img loading=lazy alt=123 src=/images/svgs/123.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord7A7><span id=char116>Again</span>
 <img loading=lazy alt=7A7 src=/images/svgs/7A7.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord232><span id=char117>Undo</span>
 <img loading=lazy alt=232 src=/images/svgs/232.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord3C><span id=char118>Cut</span>
 <img loading=lazy alt=3C src=/images/svgs/3C.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord383><span id=char119>Copy</span>
-<img loading=lazy alt=383 src=/images/svgs/383.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord3D3><span id=char120>Paste</span>
-<img loading=lazy alt=3D3 src=/images/svgs/3D3.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chordDE><span id=char121>Find</span>
+<img loading=lazy alt=383 src=/images/svgs/383.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chord838><span id=char120>Paste</span>
+<img loading=lazy alt=838 src=/images/svgs/838.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chordDE><span id=char121>Find</span>
 <img loading=lazy alt=DE src=/images/svgs/DE.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chordD0D><span id=char122>Mute</span>
 <img loading=lazy alt=D0D src=/images/svgs/D0D.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chordDA><span id=char123>Volume Up</span>
 <img loading=lazy alt=DA src=/images/svgs/DA.svg width=100 class=hand></div><div class="col-sm-2 row generated" id=chordD6><span id=char124>Volume Down</span>

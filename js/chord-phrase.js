@@ -110,7 +110,6 @@ var chordify = function () {
 };
 var setNext = () => {
     const nextIndex = getFirstNonMatchingChar();
-    console.log("nextIndex:", nextIndex);
 
     if (nextIndex < 0) {
         return;
@@ -123,6 +122,11 @@ var setNext = () => {
         }
         );
     if (nextIndex > APP.wholePhraseChords.children.length - 1) return;
+
+    document.getElementById('nextChars').innerHTML = APP.phrase.value
+        .substring(nextIndex, nextIndex + 20)
+        .replace(' ', spaceDisplayChar);
+
     const next = APP.wholePhraseChords.children[nextIndex];
     APP.nextChar = next.getAttribute("name").replace("Space", " ");
     next.classList.add("next");
@@ -142,6 +146,7 @@ var setNext = () => {
     if(!APP.testMode.checked){
         APP.svgCharacter.hidden = false;
     }
+    setWpm();
     return next;
 };
 var listAllChords = () => {
@@ -255,8 +260,13 @@ var testTimer = function (event) {
     }
     startTimer();
 }
+function setWpm() {
+    let words = APP.testArea.value.length / 5;
+    APP.wpm.innerText = (words / (APP.timerCentiSecond / 100 / 60)).toFixed(2);
+}
 const setTimerSvg = (status) => {
     const statusSvg = document.getElementById('timerSvg');
+    setWpm();
     switch (status) {
         case 'start':
             statusSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
@@ -265,8 +275,6 @@ const setTimerSvg = (status) => {
             break;
         case 'stop':
             statusSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
-            let words = APP.phrase.value.length / 5;
-            APP.wpm.innerText = (words / (APP.timerCentiSecond / 100 / 60)).toFixed(2);
             APP.testArea.disabled = true;
             break;
         case 'pause':
