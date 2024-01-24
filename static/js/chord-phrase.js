@@ -256,6 +256,7 @@ var testTimer = function (event) {
     startTimer();
 }
 function setWpm() {
+    let words = APP.testArea.value.length / 5;
     APP.wpm.innerText = (words / (APP.timerCentiSecond / 100 / 60)).toFixed(2);
 }
 const setTimerSvg = (status) => {
@@ -269,7 +270,6 @@ const setTimerSvg = (status) => {
             break;
         case 'stop':
             statusSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
-            let words = APP.phrase.value.length / 5;
             APP.testArea.disabled = true;
             break;
         case 'pause':
