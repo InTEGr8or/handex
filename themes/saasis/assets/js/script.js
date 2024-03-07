@@ -17,6 +17,7 @@ jQuery.event.special.touchmove = {
 // prelaoder
 $(window).on("load", function () {
   $(".preloader").fadeOut(10);
+  if(!AOS) return;
   AOS.init({
     once: true,
     anchorPlacement: "top-bottom",
