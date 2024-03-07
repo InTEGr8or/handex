@@ -95,7 +95,7 @@ $(document).ready(function () {
   });
 
   //single slider
-  $(".single-slider")?.slick({
+  $(".single-slider").slick({
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
@@ -108,7 +108,7 @@ $(document).ready(function () {
   });
 
   // brandCarousel fix
-  $(".brand-carousel")?.slick({
+  $(".brand-carousel").slick({
     dots: false,
     arrows: false,
     infinite: true,
@@ -153,7 +153,7 @@ $(document).ready(function () {
 
   // tab slider
   function tabSliderInit() {
-    $(".tab-slider")?.slick({
+    $(".tab-slider").slick({
       infinite: true,
       slidesToShow: 3,
       slidesToScroll: 3,
@@ -187,11 +187,11 @@ $(document).ready(function () {
   tabSliderInit();
 
   $('[data-bs-toggle="pill"]').on("shown.bs.tab", function (e) {
-    $(".tab-slider")?.slick("setPosition");
+    $(".tab-slider").slick("setPosition");
   });
 
   //post slider
-  $(".post-slider")?.slick({
+  $(".post-slider").slick({
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
