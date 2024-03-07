@@ -17,6 +17,7 @@ if (window.PublicKeyCredential &&
     if (results.every(r => r === true)) {  
       // Display "Create a new passkey" button  
       let profile = document.getElementById('loginForm');
+      if(profile == null) return;
       profile.appendChild(createRoot('button', {
         id: 'createPasskey',
         class: 'btn btn-primary',
