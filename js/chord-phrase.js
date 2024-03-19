@@ -261,6 +261,10 @@ var testTimer = function (event) {
     startTimer();
 }
 function setWpm() {
+    if(APP.testArea.value.length < 2){
+        APP.wpm.innerText = 0;
+        return;
+    }
     let words = APP.testArea.value.length / 5;
     APP.wpm.innerText = (words / (APP.timerCentiSecond / 100 / 60) + 0.000001).toFixed(2);
 }
