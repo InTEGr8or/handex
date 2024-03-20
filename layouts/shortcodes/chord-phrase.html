@@ -23,48 +23,48 @@
     <li >Waltz, bad nymph, for quick jigs vex.</li>
     <li >Sphinx of black quartz, judge my vow.</li>
     <li >List.map(fun i -> i + 1)[1;2;3]</li>
-    <li >arr=(1 2 3); sum=0; for i in "${arr[@]}"; do sum=$(($sum + i)); done; echo "Sum: $sum"; [[ $sum -lt 10 ]] && echo "$sum is less than 10" || echo "$sum is 10 or more"</li>
+    <li >arr=(1 2 3); sum=0; for i in "${arr[@]}"; do sum=$(($sum + i)); done; echo "Sum: $sum"; [[ $sum -lt 10 ]] && echo "$sum < 10" || echo "$sum >= 10"</li>
     <li >f() { return $(($1 & $2)); }; f 4 5; echo "Bitwise AND: $?"</li>
     <li > a=5; b=3; c=$((a / b)); d=$((a - b)); echo $c $d; [ $a -gt $b ] && echo "$a>$b" || echo "$a<$b"; e=$(($a % $b)); echo "Result: $e"
     </li>
     <li>Termux</li>
     <li>Handex</li>
 </ul>
-<details class="row ">
-    <summary class="row col-sm-12">Chord Syntax Legend</summary>
+<details class="row col-sm-12">
+    <summary class="">Chord Syntax Legend</summary>
     <pre id="legend" class="bold col-sm-3">
-t = thumb
-i = index
-m = middle
-r = ring
-p = pinky
+    t = thumb
+    i = index
+    m = middle
+    r = ring
+    p = pinky
 
-mf = metacarpo-flexion
-pf = proximal-flexion
-me = metacarpo-extension
+    mf = metacarpo-flexion
+    pf = proximal-flexion
+    me = metacarpo-extension
 
-Modifiers:
-tmf = Shift
-tpf = Ctrl
-tmf_tpf = Alt
+    Modifiers:
+    tmf = Shift
+    tpf = Ctrl
+    tmf_tpf = Alt
     </pre>
     <pre id="hex-chords" class="bold col-sm-3">
-hexcode, finger, action
-0x0, thumb, pf
-0x1, index, pf
-0x2, middle, pf
-0x3, ring, pf
-0x4, pinky, pf
-0x5, thumb, mf
-0x6, index, mf
-0x7, middle, mf
-0x8, ring, mf
-0x9, pinky, mf
-0xA, thumb, me
-0xB, index, me
-0xC, middle, me
-0xD, ring, me
-0xE, pinky, me
+    hexcode, finger, action
+    0x0, thumb, pf
+    0x1, index, pf
+    0x2, middle, pf
+    0x3, ring, pf
+    0x4, pinky, pf
+    0x5, thumb, mf
+    0x6, index, mf
+    0x7, middle, mf
+    0x8, ring, mf
+    0x9, pinky, mf
+    0xA, thumb, me
+    0xB, index, me
+    0xC, middle, me
+    0xD, ring, me
+    0xE, pinky, me
     </pre>
 </details>
 
@@ -133,19 +133,19 @@ hexcode, finger, action
     {{/*  <h5>change by deviceId</h5>  */}}
     {{/*  <pre id="res"></pre>  */}}
 </div>
-<div id="chord-section" class="row col-md-12">
-    <div id="svgAndChar" class="row col-md-12" >
-        <pre id="chordified" hidden class="col-md-6 bold chordified" ></pre>
+<div id="chord-section" class="row col-sm-12">
+    <div id="svgAndChar" class="row" >
+        <pre id="chordified" hidden class="col-sm-6 bold chordified" ></pre>
     </div>
-    <div id="testAreaDiv" class="col-md-12" >
+    <div id="testAreaDiv" class="row">
         <div class="row">
-            <div id="nextChars" class="col-md-6 bold" style="">
+            <div id="nextChars" class="bold" style="min-height: 20px">
             </div>
         </div>
         <div class="row">
-            <textarea id="testArea" placeholder="Test your typing here" style="min-width: 90%" title="test chord"></textarea>
+            <textarea id="testArea" placeholder="Test your typing here" title="test chord"></textarea>
         </div>
-        <div class="col-md-4 ">
+        <div class="col-sm-4 ">
             <pre id="svgCharacter" hidden ></pre>
             <div id="chord-image-holder" style="float: left;">
                 <!-- <svg width="300" height="300" transform="rotate(-90) traslate(20,20) scale(1.5,1.5)">
@@ -154,7 +154,7 @@ hexcode, finger, action
             </div>
         </div>
         <div class="row">
-            <div id="test-timer" style="padding-left: 0; width: 80%; float: left; font-family: monospace; font-size: 16px">
+            <div id="test-timer">
                 <svg id="timerSvg" width="15" height="20">
                     <use href="#start" transform="scale(2,2)" >
 
@@ -167,10 +167,10 @@ hexcode, finger, action
                 WPM:
                 <b><span id="wpm" >0</span></b>
             </div>
-            <div style="padding: 5px 0">
-                <button type="button" id="timerCancel" class="btn btn-secondary btn-xs" style="">&#x21bb;</button>
-                <button type="button" id="listAllChords" class="btn btn-secondary btn-xs" style="">&#8659;</button>
-            </div>
+        </div>
+        <div class="row form-buttons">
+            <button type="button" id="timerCancel" class="col-xs-2 btn btn-secondary btn-xs" style="">&#x21bb;</button>
+            <button type="button" id="listAllChords" class="btn btn-secondary btn-xs" style="">&#8659;</button>
         </div>
         <ul id="charTimes"></ul>
     </div>

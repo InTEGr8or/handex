@@ -123,9 +123,10 @@ var setNext = () => {
         );
     if (nextIndex > APP.wholePhraseChords.children.length - 1) return;
 
-    document.getElementById('nextChars').innerHTML = APP.phrase.value
-        .substring(nextIndex, nextIndex + 20)
-        .replace(' ', spaceDisplayChar);
+    let nextCharacter = `<span class="nextCharacter">${APP.phrase.value.substring(nextIndex, nextIndex + 1).replace(' ','&nbsp;')}</span>`;
+    document.getElementById('nextChars').innerHTML 
+        = `${nextCharacter}${APP.phrase.value
+        .substring(nextIndex + 1, nextIndex + 40)}`;
 
     const next = APP.wholePhraseChords.children[nextIndex];
     APP.nextChar = next.getAttribute("name").replace("Space", " ");
