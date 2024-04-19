@@ -36,8 +36,9 @@ textarea#testArea {
 }
 
 .container .col-lg-10 {
-  padding-left: 20px !important;
-  padding-right: 20px !important;
+  width: 90%;
+  padding: 0;
+  margin: 0;
 }
 
 svg g {
