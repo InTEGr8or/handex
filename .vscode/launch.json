@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "msedge",
+            "request": "launch",
+            "name": "Launch Edge against local Hugo server",
+            "url": "http://localhost:1313",
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true,
+            "breakOnLoad": true,
+            "pathMapping": {
+                "/": "${workspaceFolder}/static"
+            },
+            "sourceMapPathOverrides": {
+                "webpack:///./src/*": "${webRoot}/*"
+            }
+        }
+    ]
+}

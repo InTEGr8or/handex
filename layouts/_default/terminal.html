@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html data-name="html-terminal" lang='{{ .Site.LanguageCode | default "en-US" }}'>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ .Title }}</title>
+        {{ partial "favicon.html" . }}
+        <link rel="stylesheet" href="/css/handexercizer.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/xterm/5.5.0/xterm.css" integrity="sha512-AbNrj/oSHJaILgcdnkYm+DQ08SqVbZ8jlkJbFyyS1WDcAaXAcAfxJnCH69el7oVgTwVwyA5u5T+RdFyUykrV3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="/js/xterm.js" integrity="sha512-Gujw5GajF5is3nMoGv9X+tCMqePLL/60qvAv1LofUZTV9jK8ENbM9L+maGmOsNzuZaiuyc/fpph1KT9uR5w3CQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@xterm/addon-fit@0.10.0/lib/addon-fit.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@xterm/addon-image@0.8.0/lib/addon-image.min.js"></script>
+        <script src="/js/terminal.js" type="text/javascript"></script>
+        <style>
+            html, body {
+                background-color: #111;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            .terminal-full-page {
+                height: 100%;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .xterm {
+                flex-grow: 1;
+            }
+
+            .terminal-head {
+                color: white;
+                background-color: #000;
+                font-weight: bold;
+                flex-shrink: 1;
+                padding: 0 10px;
+                line-height: 2em;
+            }
+            .chord-navigation {
+                img {
+                    width: 40px;
+                    height: 40px;
+                    margin: 5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="terminal-head">
+            <code>{{ .Title }}</code>
+                <div class="col-sx-9" style="width: 80%;" >
+
+                <div class="row col-xs-12 chord-navigation">
+                    <label for="backspaceSvg" style="padding: 5px; color: gray;">Backspace</label>
+                    <img id="backspaceSvg" alt="backspace" src="/images/svgs/B.svg" />
+                    <label for="move-left" style="padding: 5px; color: gray;">Move Left</label>
+                    <img id="move-left" alt="move-left" src="/images/svgs/1B.svg" />
+                    <label for="move-right" style="padding: 5px; color: gray;">Move Right</label>
+                    <img id="move-right" alt="move-right" src="/images/svgs/2C.svg" />
+                    <label for="tab-key" style="padding: 5px; color: gray;">Tab</label>
+                    <img id="tab-key" alt="tab-key" src="/images/svgs/94.svg" />
+                    <label for="home-key" style="padding: 5px; color: gray;">Home</label>
+                    <img id="home-key" alt="home-key" src="/images/svgs/B1.svg" />
+                    <label for="end-key" style="padding: 5px; color: gray;">End</label>
+                    <img id="end-key" alt="end-key" src="/images/svgs/C2.svg" />
+                    <label for="select-key" style="padding: 5px; color: gray;">Select</label>
+                    <img id="select-key" alt="select-key" src="/images/svgs/313.svg" />
+                    <label for="select-key" style="padding: 5px; color: gray;">Up</label>
+                    <img id="select-key" alt="select-key" src="/images/svgs/71.svg" />
+                    <label for="select-key" style="padding: 5px; color: gray;">Down</label>
+                    <img id="select-key" alt="select-key" src="/images/svgs/73.svg" />
+                    <label for="select-key" style="padding: 5px; color: gray;">Caps Lock</label>
+                    <img id="select-key" alt="select-key" src="/images/svgs/E.svg" />
+                </div>
+    </div>
+        </div>
+        <div id="terminal" class="terminal-full-page"></div>
+    </body>
+</html>
