@@ -7,7 +7,31 @@
   };
 
   // <stdin>
-  var TerminalGame = class {
+  var TerminalInputElement = class {
+    constructor() {
+      __publicField(this, "input");
+      this.input = document.createElement("textarea");
+      this.input.classList.add("terminal-input" /* Input */);
+      this.input.title = "Terminal Input";
+      this.input.wrap = "off";
+      this.input.spellcheck = true;
+      this.input.autofocus = true;
+      this.input.setAttribute("rows", "1");
+      this.bindInputEventListener("input", this.autoExpand);
+    }
+    focus() {
+      this.input.focus();
+    }
+    bindInputEventListener(eventType, listener) {
+      this.input.addEventListener(eventType, listener);
+    }
+    autoExpand(event) {
+      const textarea = event.target;
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  };
+  var _TerminalGame = class _TerminalGame {
     constructor(terminalElement) {
       this.terminalElement = terminalElement;
       __publicField(this, "commandHistory", []);
@@ -15,48 +39,59 @@
       __publicField(this, "startTime", null);
       __publicField(this, "outputElement");
       __publicField(this, "inputElement");
-      this.terminalElement.classList.add("terminal");
+      this.terminalElement.classList.add("terminal" /* Terminal */);
       this.outputElement = this.createOutputElement();
       this.terminalElement.appendChild(this.outputElement);
-      const firstLineElement = document.createElement("div");
-      firstLineElement.classList.add("terminal-line");
-      const promptHead = this.createPromptHead();
-      firstLineElement.appendChild(promptHead);
-      this.terminalElement.appendChild(firstLineElement);
-      const secondLineElement = document.createElement("div");
-      secondLineElement.classList.add("terminal-line");
-      this.inputElement = this.createInputElement();
-      const promptTail = this.createPromptTail(this.createTimeString());
-      secondLineElement.appendChild(promptTail);
-      secondLineElement.appendChild(this.inputElement);
-      this.terminalElement.appendChild(secondLineElement);
+      this.terminalElement.appendChild(this.createPromptElement());
+      this.loadCommandHistory();
       this.bindInput();
     }
-    createOutputElement() {
-      const output = document.createElement("div");
-      output.classList.add("terminal-output");
-      return output;
+    saveCommandHistory() {
+      const historyToSave = this.commandHistory.slice(-_TerminalGame.commandHistoryLimit);
+      localStorage.setItem(_TerminalGame.commandHistoryKey, JSON.stringify(historyToSave));
     }
-    createInputElement() {
-      const input = document.createElement("input");
-      input.type = "text";
-      input.classList.add("terminal-input");
-      return input;
+    loadCommandHistory() {
+      const historyJSON = localStorage.getItem(_TerminalGame.commandHistoryKey);
+      if (historyJSON) {
+        this.commandHistory = JSON.parse(historyJSON);
+        if (!this.commandHistory)
+          return;
+        console.log(this.commandHistory);
+        this.outputElement.innerHTML += this.commandHistory.map((command) => `${command}`).join("");
+      }
     }
     bindInput() {
       if (this.inputElement) {
-        this.inputElement.addEventListener("keydown", (event) => this.handleKeyPress(event));
+        this.inputElement.input.addEventListener(
+          "keydown",
+          (event) => this.handleKeyPress(event)
+        );
       }
     }
     handleCommand(command) {
-      this.commandHistory.push(command);
-      this.outputElement.innerHTML += `[<span class="log-time">${this.createTimeString()}</span>] ${command}<br>`;
+      const commandText = `<span class="log-prefix">[<span class="log-time">${this.createTimeString()}</span>]</span> ${command}<br>`;
+      if (!this.commandHistory) {
+        this.commandHistory = [];
+      }
+      this.commandHistory.push(commandText);
+      if (this.commandHistory.length > _TerminalGame.commandHistoryLimit) {
+        this.commandHistory.shift();
+      }
+      this.saveCommandHistory();
+      this.outputElement.innerHTML += commandText;
     }
     handleKeyPress(event) {
       if (event.key === "Enter") {
-        const command = this.inputElement.value;
-        this.inputElement.value = "";
+        if (event.shiftKey) {
+          this.inputElement.input.value += "\n";
+          return;
+        }
+        const command = this.inputElement.input.value.trim();
+        this.inputElement.input.value = "";
         this.handleCommand(command);
+      }
+      if (event.ctrlKey && event.key === "c") {
+        this.inputElement.input.value = "";
       }
     }
     createTimeString() {
@@ -69,21 +104,46 @@
       head.innerHTML = `<span class="domain">handex.io</span>@<span class="user">${user}</span>[$] via \u{1F439} v1.19.3 on \u2601\uFE0F (us-west-1)`;
       return head;
     }
-    createPromptTail(timeString) {
+    createOutputElement() {
+      const output = document.createElement("div");
+      output.classList.add("terminal-output");
+      return output;
+    }
+    /**
+     * Creates a new textarea element for user input.
+     * @returns The new textarea element with the appropriate class, title, and attributes.
+     */
+    createPromptTail() {
       const tail = document.createElement("div");
       tail.classList.add("tail");
-      tail.innerHTML = `\u{1F550}[${timeString}]\u276F `;
+      tail.innerHTML = `\u{1F550}[${this.createTimeString()}]\u276F `;
       return tail;
     }
     createPromptElement(user = "guest") {
       const prompt = document.createElement("div");
       prompt.classList.add("prompt");
-      const timeString = this.createTimeString();
-      prompt.innerHTML = `<span class="domain">handex.io</span>@<span class="user">${user}</span>[$] via \u{1F439} v1.19.3 on \u2601\uFE0F (us-west-1) <br>\u{1F550}[${timeString}]\u276F `;
+      const line1 = document.createElement("div");
+      line1.classList.add("terminal-line", "first-line");
+      const promptHead = this.createPromptHead(user);
+      line1.appendChild(promptHead);
+      prompt.appendChild(line1);
+      const line2 = document.createElement("div");
+      line2.classList.add("terminal-line");
+      this.inputElement = new TerminalInputElement();
+      const promptTailContainer = document.createElement("div");
+      promptTailContainer.classList.add("prompt-tail-container");
+      const promptTail = this.createPromptTail();
+      promptTailContainer.appendChild(promptTail);
+      line2.appendChild(promptTailContainer);
+      line2.appendChild(this.inputElement.input);
+      prompt.appendChild(line2);
       return prompt;
     }
     // Additional methods for calculating WPM, updating the progress bar, etc.
   };
+  __publicField(_TerminalGame, "commandHistoryKey", "terminalCommandHistory");
+  __publicField(_TerminalGame, "commandHistoryLimit", 100);
+  var TerminalGame = _TerminalGame;
   document.addEventListener("DOMContentLoaded", () => {
     const terminalContainer = document.getElementById("terminal");
     if (terminalContainer) {
