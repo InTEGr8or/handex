@@ -1,3 +1,4 @@
+
 class TerminalGame {
   private commandHistory: string[] = [];
   private wpmCounter: number = 0;
@@ -8,9 +9,21 @@ class TerminalGame {
   constructor(private terminalElement: HTMLElement) {
     this.terminalElement.classList.add('terminal');
     this.outputElement = this.createOutputElement();
-    this.inputElement = this.createInputElement();
     this.terminalElement.appendChild(this.outputElement);
-    this.terminalElement.appendChild(this.inputElement);
+
+    const firstLineElement = document.createElement('div');
+    firstLineElement.classList.add('terminal-line');
+    const promptHead = this.createPromptHead();
+    firstLineElement.appendChild(promptHead);
+    this.terminalElement.appendChild(firstLineElement);
+    
+    const secondLineElement = document.createElement('div');
+    secondLineElement.classList.add('terminal-line');
+    this.inputElement = this.createInputElement();
+    const promptTail = this.createPromptTail(this.createTimeString());
+    secondLineElement.appendChild(promptTail);
+    secondLineElement.appendChild(this.inputElement);
+    this.terminalElement.appendChild(secondLineElement);
     this.bindInput();
   }
 
@@ -35,13 +48,48 @@ class TerminalGame {
     }
   }
 
+  private handleCommand(command: string): void {
+    this.commandHistory.push(command);
+    this.outputElement.innerHTML += `[<span class="log-time">${this.createTimeString()}</span>] ${command}<br>`;
+    // Additional logic for handling the command
+  }
   private handleKeyPress(event: KeyboardEvent): void {
-    console.log('Key pressed:', event.key);
     // Logic to handle keypresses, calculate WPM, and update the progress bar
     // ...
+    if (event.key === 'Enter') {
+        const command = this.inputElement.value;
+        this.inputElement.value = '';
+        this.handleCommand(command);
+    }
   }
 
-  // ... (rest of the existing methods)
+    private createTimeString(): string {
+        const now = new Date();
+        return now.toLocaleTimeString('en-US', { hour12: false });
+    }
+
+    private createPromptHead(user:string = 'guest'): HTMLElement {
+        const head = document.createElement('div');
+        head.classList.add('head');
+        head.innerHTML = `<span class="domain">handex.io</span>@<span class="user">${user}</span>[$] via 🐹 v1.19.3 on ☁️ (us-west-1)`;
+        return head;
+    }
+
+    private createPromptTail(timeString: string): HTMLElement {
+        const tail = document.createElement('div');
+        tail.classList.add('tail');
+        tail.innerHTML = `🕐[${timeString}]❯ `;
+        return tail;
+    }
+
+    private createPromptElement(user:string = 'guest'): HTMLElement {
+        const prompt = document.createElement('div');
+        prompt.classList.add('prompt');
+        const timeString = this.createTimeString();
+        prompt.innerHTML = `<span class="domain">handex.io</span>@<span class="user">${user}</span>[$] via 🐹 v1.19.3 on ☁️ (us-west-1) <br>🕐[${timeString}]❯ `;
+        // Additional styles and attributes can be set here
+        return prompt;
+    }
 
   // Additional methods for calculating WPM, updating the progress bar, etc.
 }

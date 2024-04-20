@@ -4,61 +4,11 @@
         <meta charset="UTF-8">
         <title>{{ .Title }}</title>
         {{ partial "favicon.html" . }}
-        <link rel="stylesheet" href="/css/handexercizer.css">
+        <link rel="stylesheet" href="/css/terminal.css">
         {{ $typescript := resources.Get "ts/terminal.ts" }}
         {{ $transpiledJs := $typescript | js.Build (dict "target" "es2015") }}
         <script src="{{ $transpiledJs.RelPermalink }}"></script>
         <style>
-            html, body {
-                background-color: #111;
-                height: 100%;
-                margin: 0;
-                padding: 0;
-            }
-            .terminal-full-page {
-                height: 100%;
-                width: 100%;
-                padding: 0;
-                margin: 0;
-                display: flex;
-                flex-direction: column;
-            }
-
-            .xterm {
-                flex-grow: 1;
-            }
-
-            .terminal-head {
-                color: white;
-                background-color: #000;
-                font-weight: bold;
-                flex-shrink: 1;
-                padding: 0 10px;
-                line-height: 2em;
-            }
-            .chord-navigation {
-                flex-shrink: 1;
-                img {
-                    width: 40px;
-                    height: 40px;
-                    margin: 5px;
-                }
-            }
-            .terminal {
-                /* Terminal styles */
-                background-color: #000;
-            }
-            .terminal-output {
-                /* Output area styles */
-            }
-            .terminal-input {
-                /* Input styles */
-                background-color: #000;
-                color: #fff;
-            }
-            .terminal-progress-bar {
-                /* Progress bar styles */
-            }
         </style>
     </head>
     <body>
