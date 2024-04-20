@@ -1,10 +1,11 @@
-
-html, body {
+html,
+body {
     background-color: #111;
     height: 100%;
     margin: 0;
     padding: 0;
 }
+
 .terminal-full-page {
     height: 100%;
     width: 100%;
@@ -29,16 +30,33 @@ html, body {
 
 .chord-navigation {
     flex-shrink: 1;
+
     img {
         width: 40px;
         height: 40px;
         margin: 5px;
     }
 }
+
 /* Define the blinking keyframes */
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+.log-time {
+    color: seagreen;
+    font-weight: 100;
+}
+.log-prefix {
+    color: gray;
 }
 .terminal {
     /* Terminal styles */
@@ -47,49 +65,74 @@ html, body {
     font-family: 'Fira Code', monospace;
     display: flex;
     flex-direction: column;
+
     .prompt {
         color: lightseagreen;
+
         .domain {
             color: darkkhaki;
         }
+
         .user {
             color: magenta;
         }
     }
+
     .terminal-output {
         /* Output area styles */
         color: white;
     }
-    .terminal-input {
-        /* Input styles */
-        background-color: #000;
-        border: none;
-        color: #fff;
-        flex: 1;
-        &:focus {
-            outline: none;
-        }
-        &:not(:focus) {
-            caret-color: transparent;
-        }
-        &::after {
-            content: '';
-            display: block;
-            position: absolute;
-            bottom: 1px; /* Align with the text baseline, adjust as needed */
-            left: 0; /* Initial position, will be updated by JS */
-            width: 8px; /* Width of the block cursor */
-            height: 1em; /* Match the line height */
-            background: #33c3f0; /* Example cursor color - light blue */
-        }
-    }
 }
-.terminal .domain {
-    color: darkkhaki;
+
+.first-line {
+    display: grid;
+    grid-template-columns: auto 1fr;
 }
+
 .terminal-line {
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* Align items to the top */
+}
+
+.prompt-tail-container {
+  margin-right: 4px; /* Space between the prompt tail and the input */
+}
+
+.terminal-prompt.tail {
+
+    /* Aligning the prompt-tail vertically */
+    align-self: top;
+}
+
+.terminal-input {
+    grid-column: 2 / -1; /* Span from column 2 to the end */
+    min-width: 0; /* Overcomes the minimum size of the grid item */
+    flex: 1;
+    background: none;
+    border: none;
+    color: inherit;
+    caret-color: lightyellow;
+    overflow: hidden;
+    /* Hides the scrollbar */
+    resize: none;
+    /* Disables the textarea resize handle */
+    line-height: 0.8em;
+    /* Adjust line-height as needed */
+    white-space: pre-wrap;
+    /* Preserves white-space and wraps text */
+    height: 15px;
+    overflow-y: hidden;
+    &:focus {
+        outline: none;
+    }
+}
+.terminal-line:not(.first-line) {
+    display: flex;
+    align-items: center;
+}
+
+.terminal .domain {
+    color: darkkhaki;
 }
 
 .terminal-progress-bar {
