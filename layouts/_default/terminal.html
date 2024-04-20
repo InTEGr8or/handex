@@ -39,6 +39,7 @@
                 line-height: 2em;
             }
             .chord-navigation {
+                flex-shrink: 1;
                 img {
                     width: 40px;
                     height: 40px;
@@ -50,9 +51,8 @@
     <body>
         <div class="terminal-head">
             <code>{{ .Title }}</code>
-                <div class="col-sx-9" style="width: 80%;" >
-
-                <div class="row col-xs-12 chord-navigation">
+            <div class="col-sx-9" style="width: 80%;" >
+                <div class="chord-navigation">
                     <label for="backspaceSvg" style="padding: 5px; color: gray;">Backspace</label>
                     <img id="backspaceSvg" alt="backspace" src="/images/svgs/B.svg" />
                     <label for="move-left" style="padding: 5px; color: gray;">Move Left</label>
@@ -74,7 +74,7 @@
                     <label for="select-key" style="padding: 5px; color: gray;">Caps Lock</label>
                     <img id="select-key" alt="select-key" src="/images/svgs/E.svg" />
                 </div>
-    </div>
+            </div>
         </div>
         <div id="terminal" class="terminal-full-page"></div>
     </body>
