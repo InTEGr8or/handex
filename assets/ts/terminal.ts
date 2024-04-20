@@ -1,51 +1,99 @@
 function pipe<T, R>(value: T, fn: (arg: T) => R): R {
     return fn(value);
 }
+enum TerminalCssClasses {
+    Terminal = 'terminal',
+    Line = 'terminal-line',
+    Output = 'terminal-output',
+    Input = 'terminal-input',
+    Prompt = 'prompt',
+    Head = 'head',
+    Tail = 'tail',
+}
+
+interface ITerminalPromptElement {
+    head: HTMLDivElement;
+    tail: HTMLDivElement;
+    input: HTMLTextAreaElement;
+    toString(): string;
+}
+
+class TerminalPrompt implements ITerminalPromptElement {
+    head: HTMLDivElement;
+    tail: HTMLDivElement;
+    input: HTMLTextAreaElement;
+    constructor() {
+        this.head = document.createElement('div');
+        this.tail = document.createElement('div');
+        this.input = document.createElement('textarea');
+        this.head.classList.add(TerminalCssClasses.Head);
+        this.tail.classList.add(TerminalCssClasses.Tail);
+        this.input.classList.add(TerminalCssClasses.Input);
+        this.head.appendChild(this.input);
+        this.tail.appendChild(this.input);
+    }
+    toString(): string {
+        return this.input.value;
+    }
+}
+
+class TerminalInputElement implements ITerminalInputElement {
+    public input: HTMLTextAreaElement;
+
+    constructor() {
+        this.input = document.createElement('textarea');
+        this.input.classList.add(TerminalCssClasses.Input);
+        this.input.title = 'Terminal Input';
+        this.input.wrap = 'off'; // Disables soft-wrapping
+        this.input.spellcheck = true;
+        this.input.autofocus = true;
+        this.input.setAttribute('rows', '1');
+        // Set additional properties and attributes
+        // Optionally, bind the 'input' event listener here if it's standard for all input elements
+        this.bindInputEventListener('input', this.autoExpand);
+    }
+
+    public focus(): void {
+        this.input.focus();
+    }
+
+    public bindInputEventListener(eventType: string, listener: EventListener): void {
+        this.input.addEventListener(eventType, listener);
+    }
+
+    private autoExpand(event: Event): void {
+        const textarea = event.target as HTMLTextAreaElement;
+        textarea.style.height = 'auto'; // Reset the height
+        textarea.style.height = `${textarea.scrollHeight}px`; // Set to scrollHeight
+    }
+}
+
+interface ITerminalInputElement {
+    input: HTMLTextAreaElement;
+    focus(): void;
+    bindInputEventListener(eventType: string, listener: EventListener): void;
+}
 
 class TerminalGame {
     private commandHistory: string[] = [];
     private wpmCounter: number = 0;
     private startTime: Date | null = null;
     private outputElement: HTMLElement;
-    private inputElement: HTMLTextAreaElement;
+    private inputElement: ITerminalInputElement;
 
     constructor(private terminalElement: HTMLElement) {
-        this.terminalElement.classList.add('terminal');
+        this.terminalElement.classList.add(TerminalCssClasses.Terminal);
         this.outputElement = this.createOutputElement();
         this.terminalElement.appendChild(this.outputElement);
         this.terminalElement.appendChild(this.createPromptElement());
         this.bindInput();
     }
 
-    private createOutputElement(): HTMLElement {
-        const output = document.createElement('div');
-        output.classList.add('terminal-output');
-        // Additional styles and attributes can be set here
-        return output;
-    }
-    private autoExpand(event: Event): void {
-        const textarea = event.target as HTMLTextAreaElement;
-        textarea.style.height = 'auto'; // Reset the height
-        textarea.style.height = `${textarea.scrollHeight}px`; // Set to scrollHeight
-    }
-
-    private createInputElement(): HTMLTextAreaElement {
-        const input = document.createElement('textarea');
-        input.classList.add('terminal-input');
-        input.title = 'Terminal Input';
-        input.wrap = 'off'; // Disables soft-wrapping
-        input.spellcheck = true;
-        input.autofocus = true;
-        input.setAttribute('rows', '1');
-        input.addEventListener('input', this.autoExpand.bind(this));
-        // Set additional styles and attributes as needed
-        return input;
-    }
-
     private bindInput(): void {
         if (this.inputElement) {
             this
                 .inputElement
+                .input
                 .addEventListener(
                     'keydown',
                     (event: KeyboardEvent) => this.handleKeyPress(event)
@@ -63,12 +111,15 @@ class TerminalGame {
         // ...
         if (event.key === 'Enter') {
             if (event.shiftKey) {
-                this.inputElement.value += '\n';
+                this.inputElement.input.value += '\n';
                 return;
             }
-            const command = this.inputElement.value.trim();
-            this.inputElement.value = '';
+            const command = this.inputElement.input.value.trim();
+            this.inputElement.input.value = '';
             this.handleCommand(command);
+        }
+        if(event.ctrlKey && event.key === 'c') {
+            this.inputElement.input.value = '';
         }
     }
 
@@ -84,13 +135,23 @@ class TerminalGame {
         return head;
     }
 
-    private createPromptTail(timeString: string): HTMLElement {
+    private createOutputElement(): HTMLElement {
+        const output = document.createElement('div');
+        output.classList.add('terminal-output');
+        // Additional styles and attributes can be set here
+        return output;
+    }
+    /**
+     * Creates a new textarea element for user input.
+     * @returns The new textarea element with the appropriate class, title, and attributes.
+     */
+
+    private createPromptTail(): HTMLElement {
         const tail = document.createElement('div');
         tail.classList.add('tail');
-        tail.innerHTML = `🕐[${timeString}]❯ `;
+        tail.innerHTML = `🕐[${this.createTimeString()}]❯ `;
         return tail;
     }
-
 
     private createPromptElement(user: string = 'guest'): HTMLElement {
         const prompt = document.createElement('div');
@@ -106,17 +167,17 @@ class TerminalGame {
         // Create the second line which will be a flex container for the prompt tail and input
         const line2 = document.createElement('div');
         line2.classList.add('terminal-line');
-        this.inputElement = this.createInputElement();
+        this.inputElement = new TerminalInputElement();
 
         // Create a container for the prompt tail to align it properly
         const promptTailContainer = document.createElement('div');
         promptTailContainer.classList.add('prompt-tail-container');
-        const promptTail = this.createPromptTail(this.createTimeString());
+        const promptTail = this.createPromptTail();
         promptTailContainer.appendChild(promptTail);
 
         // Append the prompt tail container and the input element to the second line
         line2.appendChild(promptTailContainer);
-        line2.appendChild(this.inputElement);
+        line2.appendChild(this.inputElement.input);
         prompt.appendChild(line2);
 
         // Additional styles and attributes can be set here

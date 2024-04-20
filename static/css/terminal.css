@@ -6,28 +6,6 @@ body {
     padding: 0;
 }
 
-.terminal-full-page {
-    height: 100%;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.xterm {
-    flex-grow: 1;
-}
-
-.terminal-head {
-    color: white;
-    background-color: #000;
-    font-weight: bold;
-    flex-shrink: 1;
-    padding: 0 10px;
-    line-height: 2em;
-}
-
 .chord-navigation {
     flex-shrink: 1;
 
@@ -58,12 +36,26 @@ body {
 .log-prefix {
     color: gray;
 }
+
+.terminal-head {
+    color: white;
+    background-color: #000;
+    font-weight: bold;
+    flex-shrink: 1;
+    padding: 0 10px;
+    line-height: 2em;
+}
+
 .terminal {
     /* Terminal styles */
     background-color: #000;
     color: white;
     font-family: 'Fira Code', monospace;
     display: flex;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
     flex-direction: column;
 
     .prompt {
@@ -84,11 +76,6 @@ body {
     }
 }
 
-.first-line {
-    display: grid;
-    grid-template-columns: auto 1fr;
-}
-
 .terminal-line {
   display: flex;
   align-items: flex-start; /* Align items to the top */
@@ -99,32 +86,25 @@ body {
 }
 
 .terminal-prompt.tail {
-
     /* Aligning the prompt-tail vertically */
     align-self: top;
 }
 
 .terminal-input {
-    grid-column: 2 / -1; /* Span from column 2 to the end */
-    min-width: 0; /* Overcomes the minimum size of the grid item */
-    flex: 1;
-    background: none;
-    border: none;
-    color: inherit;
-    caret-color: lightyellow;
-    overflow: hidden;
-    /* Hides the scrollbar */
-    resize: none;
-    /* Disables the textarea resize handle */
-    line-height: 0.8em;
-    /* Adjust line-height as needed */
-    white-space: pre-wrap;
-    /* Preserves white-space and wraps text */
-    height: 15px;
-    overflow-y: hidden;
-    &:focus {
-        outline: none;
-    }
+  flex: 1;
+  background: none;
+  border: none;
+  color: inherit;
+  caret-color: lightyellow;
+  resize: none;
+  line-height: 0.8em;
+  white-space: pre-wrap;
+  overflow-y: hidden; /* If you want the textarea to grow without a scrollbar */
+  /* Remove fixed height to allow auto-expanding */
+  /* height: 15px; */
+}
+.terminal-input:focus {
+  outline: none;
 }
 .terminal-line:not(.first-line) {
     display: flex;
