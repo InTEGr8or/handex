@@ -1,0 +1,98 @@
+
+html, body {
+    background-color: #111;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.terminal-full-page {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.xterm {
+    flex-grow: 1;
+}
+
+.terminal-head {
+    color: white;
+    background-color: #000;
+    font-weight: bold;
+    flex-shrink: 1;
+    padding: 0 10px;
+    line-height: 2em;
+}
+
+.chord-navigation {
+    flex-shrink: 1;
+    img {
+        width: 40px;
+        height: 40px;
+        margin: 5px;
+    }
+}
+/* Define the blinking keyframes */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.terminal {
+    /* Terminal styles */
+    background-color: #000;
+    color: white;
+    font-family: 'Fira Code', monospace;
+    display: flex;
+    flex-direction: column;
+    .prompt {
+        color: lightseagreen;
+        .domain {
+            color: darkkhaki;
+        }
+        .user {
+            color: magenta;
+        }
+    }
+    .terminal-output {
+        /* Output area styles */
+        color: white;
+    }
+    .terminal-input {
+        /* Input styles */
+        background-color: #000;
+        border: none;
+        color: #fff;
+        flex: 1;
+        &:focus {
+            outline: none;
+        }
+        &:not(:focus) {
+            caret-color: transparent;
+        }
+        &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: 1px; /* Align with the text baseline, adjust as needed */
+            left: 0; /* Initial position, will be updated by JS */
+            width: 8px; /* Width of the block cursor */
+            height: 1em; /* Match the line height */
+            background: #33c3f0; /* Example cursor color - light blue */
+        }
+    }
+}
+.terminal .domain {
+    color: darkkhaki;
+}
+.terminal-line {
+  display: flex;
+  align-items: center;
+}
+
+.terminal-progress-bar {
+    /* Progress bar styles */
+    background-color: darkblue;
+}
