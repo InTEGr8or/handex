@@ -7,13 +7,36 @@ body {
 }
 
 .chord-navigation {
-    flex-shrink: 1;
+    font-family: 'Fira Code', monospace;
 
     img {
+        display: block;
         width: 40px;
         height: 40px;
         margin: 5px;
     }
+
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+.key-container {
+    float: left;
+    flex-direction: column;
+    align-items: left;
+    /* Center-align the items horizontally */
+    text-align: left;
+    /* Center-align the text */
+    margin-bottom: 15px;
+    /* Add some space between the pairs */
+}
+
+.key-container label {
+    line-height: 0.6em;
+    vertical-align: text-top;
 }
 
 /* Define the blinking keyframes */
@@ -33,6 +56,7 @@ body {
     color: seagreen;
     font-weight: 100;
 }
+
 .log-prefix {
     color: gray;
 }
@@ -77,12 +101,14 @@ body {
 }
 
 .terminal-line {
-  display: flex;
-  align-items: flex-start; /* Align items to the top */
+    display: flex;
+    align-items: flex-start;
+    /* Align items to the top */
 }
 
 .prompt-tail-container {
-  margin-right: 4px; /* Space between the prompt tail and the input */
+    margin-right: 4px;
+    /* Space between the prompt tail and the input */
 }
 
 .terminal-prompt.tail {
@@ -91,21 +117,24 @@ body {
 }
 
 .terminal-input {
-  flex: 1;
-  background: none;
-  border: none;
-  color: inherit;
-  caret-color: lightyellow;
-  resize: none;
-  line-height: 0.8em;
-  white-space: pre-wrap;
-  overflow-y: hidden; /* If you want the textarea to grow without a scrollbar */
-  /* Remove fixed height to allow auto-expanding */
-  /* height: 15px; */
+    flex: 1;
+    background: none;
+    border: none;
+    color: inherit;
+    caret-color: lightyellow;
+    resize: none;
+    line-height: 0.8em;
+    white-space: pre-wrap;
+    overflow-y: hidden;
+    /* If you want the textarea to grow without a scrollbar */
+    /* Remove fixed height to allow auto-expanding */
+    /* height: 15px; */
 }
+
 .terminal-input:focus {
-  outline: none;
+    outline: none;
 }
+
 .terminal-line:not(.first-line) {
     display: flex;
     align-items: center;

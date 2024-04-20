@@ -9,7 +9,17 @@ enum TerminalCssClasses {
     Prompt = 'prompt',
     Head = 'head',
     Tail = 'tail',
+    LogPrefix = 'log-prefix',
+    LogTime = 'log-time',
 }
+// function setWpm() {
+//     if(APP.testArea.value.length < 2){
+//         APP.wpm.innerText = 0;
+//         return;
+//     }
+//     let words = APP.testArea.value.length / 5;
+//     APP.wpm.innerText = (words / (APP.timerCentiSecond / 100 / 60) + 0.000001).toFixed(2);
+// }
 
 interface ITerminalPromptElement {
     head: HTMLDivElement;
@@ -74,21 +84,43 @@ interface ITerminalInputElement {
     bindInputEventListener(eventType: string, listener: EventListener): void;
 }
 
+interface ITerminal {
+    prompt: ITerminalPromptElement;
+    output: HTMLElement;
+}
+
 class TerminalGame {
     private commandHistory: string[] = [];
     private wpmCounter: number = 0;
     private startTime: Date | null = null;
     private outputElement: HTMLElement;
     private inputElement: ITerminalInputElement;
+    private static readonly commandHistoryKey = 'terminalCommandHistory';
+    private static readonly commandHistoryLimit = 100;
 
     constructor(private terminalElement: HTMLElement) {
         this.terminalElement.classList.add(TerminalCssClasses.Terminal);
         this.outputElement = this.createOutputElement();
         this.terminalElement.appendChild(this.outputElement);
         this.terminalElement.appendChild(this.createPromptElement());
+        this.loadCommandHistory();
         this.bindInput();
     }
+    private saveCommandHistory(): void {
+        // Only keep the latest this.commandHistoryLimit number of commands
+        const historyToSave = this.commandHistory.slice(-TerminalGame.commandHistoryLimit);
+        localStorage.setItem(TerminalGame.commandHistoryKey, JSON.stringify(historyToSave));
+    }
 
+    private loadCommandHistory(): void {
+        const historyJSON = localStorage.getItem(TerminalGame.commandHistoryKey);
+        if (historyJSON) {
+            this.commandHistory = JSON.parse(historyJSON);
+            if(!this.commandHistory) return;
+            console.log(this.commandHistory);
+            this.outputElement.innerHTML += this.commandHistory.map((command) => `${command}`).join('');
+        }
+    }
     private bindInput(): void {
         if (this.inputElement) {
             this
@@ -102,8 +134,15 @@ class TerminalGame {
     }
 
     private handleCommand(command: string): void {
-        this.commandHistory.push(command);
-        this.outputElement.innerHTML += `<span class="log-prefix">[<span class="log-time">${this.createTimeString()}</span>]</span> ${command}<br>`;
+        const commandText = `<span class="log-prefix">[<span class="log-time">${this.createTimeString()}</span>]</span> ${command}<br>`;
+        if(!this.commandHistory) { this.commandHistory = []; }
+        this.commandHistory.push(commandText);
+        // Truncate the history if it's too long before saving
+        if (this.commandHistory.length > TerminalGame.commandHistoryLimit) {
+            this.commandHistory.shift(); // Remove the oldest command
+        }
+        this.saveCommandHistory(); // Save updated history to localStorage
+        this.outputElement.innerHTML += commandText;
         // Additional logic for handling the command
     }
     private handleKeyPress(event: KeyboardEvent): void {
@@ -118,7 +157,7 @@ class TerminalGame {
             this.inputElement.input.value = '';
             this.handleCommand(command);
         }
-        if(event.ctrlKey && event.key === 'c') {
+        if (event.ctrlKey && event.key === 'c') {
             this.inputElement.input.value = '';
         }
     }
