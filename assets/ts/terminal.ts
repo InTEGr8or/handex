@@ -1,6 +1,8 @@
+
 function pipe<T, R>(value: T, fn: (arg: T) => R): R {
     return fn(value);
 }
+
 enum TerminalCssClasses {
     Terminal = 'terminal',
     Line = 'terminal-line',
@@ -12,14 +14,49 @@ enum TerminalCssClasses {
     LogPrefix = 'log-prefix',
     LogTime = 'log-time',
 }
-// function setWpm() {
-//     if(APP.testArea.value.length < 2){
-//         APP.wpm.innerText = 0;
-//         return;
-//     }
-//     let words = APP.testArea.value.length / 5;
-//     APP.wpm.innerText = (words / (APP.timerCentiSecond / 100 / 60) + 0.000001).toFixed(2);
-// }
+
+type TimeCode = {
+    hour: number;
+    minute: number;
+    second: number;
+};
+
+interface WPMCalculatorInterface {
+    recordKeystroke(character: string): void;
+    clearKeystrokes(): void;
+    getKeystrokes(): Array<{ character: string; timestamp: number; wpm: number }>;
+}
+
+class WPMCalculator implements WPMCalculatorInterface {
+    keystrokes: Array<{ character: string; timestamp: number; wpm: number }>;
+    getKeystrokes(): { character: string; timestamp: number; wpm: number; }[] {
+        return this.keystrokes;
+    }
+    constructor() {
+        this.keystrokes = [];
+    }
+
+    clearKeystrokes(): void {
+        this.keystrokes = [];
+    }
+
+    recordKeystroke(character: string): number {
+        let wpm: number = 0.0;
+        if (this.keystrokes.length > 0) {
+            // Calculate WPM for this keystroke
+            const lastTimestamp = this.keystrokes[this.keystrokes.length - 1].timestamp;
+            const timeDifferenceMinute = (Date.now() - lastTimestamp) / 60000.0; // Time difference in minutes
+            if (timeDifferenceMinute > 0) {
+                let CPM = 1 / timeDifferenceMinute;
+                // The standard is that one word = 5 characters
+                wpm = CPM / 5;
+            }
+        }
+        // Record the keystroke with the current timestamp
+        this.keystrokes.push({ character, timestamp: Date.now(), wpm });
+        return wpm;
+    }
+}
 
 interface ITerminalPromptElement {
     head: HTMLDivElement;
@@ -54,6 +91,7 @@ class TerminalInputElement implements ITerminalInputElement {
         this.input = document.createElement('textarea');
         this.input.classList.add(TerminalCssClasses.Input);
         this.input.title = 'Terminal Input';
+        this.input.id = 'terminal-input';
         this.input.wrap = 'off'; // Disables soft-wrapping
         this.input.spellcheck = true;
         this.input.autofocus = true;
@@ -89,13 +127,20 @@ interface ITerminal {
     output: HTMLElement;
 }
 
+interface IPromptHead {
+    head: HTMLElement;
+}
+
+
+
 class TerminalGame {
     private commandHistory: string[] = [];
-    private wpmCounter: number = 0;
+    private wpmCalculator: WPMCalculator = new WPMCalculator();
     private startTime: Date | null = null;
     private outputElement: HTMLElement;
     private inputElement: ITerminalInputElement;
     private static readonly commandHistoryKey = 'terminalCommandHistory';
+    private static readonly wpmLogKey = 'wpmLogKey';
     private static readonly commandHistoryLimit = 100;
     private lastTouchDistance: number | null = null;
     private currentFontSize: number;
@@ -110,6 +155,12 @@ class TerminalGame {
         this.addTouchListeners();
     }
 
+    private handleClick(event: MouseEvent): void {
+        setTimeout(() => {
+            this.inputElement.focus();
+        }, 500)
+    }
+
     private addTouchListeners(): void {
         this.terminal.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: false });
         this.terminal.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: false });
@@ -117,6 +168,9 @@ class TerminalGame {
     }
 
     private handleTouchStart(event: TouchEvent): void {
+        setTimeout(() => {
+            this.inputElement.focus();
+        }, 500)
         if (event.touches.length === 2) {
             event.preventDefault();
             this.lastTouchDistance = this.getDistanceBetweenTouches(event.touches);
@@ -148,19 +202,24 @@ class TerminalGame {
             Math.pow(touch2.pageY - touch1.pageY, 2),
         );
     }
-    private saveCommandHistory(): void {
+    private saveCommandHistory(commandText: string, commandTime: string): void {
         // Only keep the latest this.commandHistoryLimit number of commands
         const historyToSave = this.commandHistory.slice(-TerminalGame.commandHistoryLimit);
-        localStorage.setItem(TerminalGame.commandHistoryKey, JSON.stringify(historyToSave));
+        localStorage.setItem(`${TerminalGame.commandHistoryKey}_${commandTime}`, JSON.stringify(historyToSave));
+        localStorage.setItem(TerminalGame.wpmLogKey, JSON.stringify(this.wpmCalculator.getKeystrokes()));
+        this.wpmCalculator.clearKeystrokes();
     }
 
     private loadCommandHistory(): void {
-        const historyJSON = localStorage.getItem(TerminalGame.commandHistoryKey);
-        if (historyJSON) {
-            this.commandHistory = JSON.parse(historyJSON);
-            if(!this.commandHistory) return;
-            console.log(this.commandHistory);
-            this.outputElement.innerHTML += this.commandHistory.map((command) => `${command}`).join('');
+        for (let i = 0; i < localStorage.length; i++) {
+            if (!localStorage.key(i)?.startsWith(TerminalGame.commandHistoryKey)) continue;
+            const historyJSON = localStorage.getItem(TerminalGame.commandHistoryKey);
+            if (historyJSON) {
+                this.commandHistory = JSON.parse(historyJSON);
+                if (!this.commandHistory) return;
+                console.log(this.commandHistory);
+                this.outputElement.innerHTML += this.commandHistory.map((command) => `${command}`).join('');
+            }
         }
     }
     private bindInput(): void {
@@ -176,14 +235,15 @@ class TerminalGame {
     }
 
     private handleCommand(command: string): void {
-        const commandText = `<span class="log-prefix">[<span class="log-time">${this.createTimeString()}</span>]</span> ${command}<br>`;
-        if(!this.commandHistory) { this.commandHistory = []; }
+        const timeCode = this.createTimeCode();
+        const commandText = `<span class="log-time">${this.createTimeString(timeCode)}</span> ${command}<br>`;
+        if (!this.commandHistory) { this.commandHistory = []; }
         this.commandHistory.push(commandText);
         // Truncate the history if it's too long before saving
         if (this.commandHistory.length > TerminalGame.commandHistoryLimit) {
             this.commandHistory.shift(); // Remove the oldest command
         }
-        this.saveCommandHistory(); // Save updated history to localStorage
+        this.saveCommandHistory(commandText, timeCode.join('')); // Save updated history to localStorage
         this.outputElement.innerHTML += commandText;
         // Additional logic for handling the command
     }
@@ -202,17 +262,22 @@ class TerminalGame {
         if (event.ctrlKey && event.key === 'c') {
             this.inputElement.input.value = '';
         }
+        const wpm = this.wpmCalculator.recordKeystroke(event.key);
     }
 
-    private createTimeString(): string {
+    private createTimeCode(): string[] {
         const now = new Date();
-        return now.toLocaleTimeString('en-US', { hour12: false });
+        return now.toLocaleTimeString('en-US', { hour12: false }).split(':');
+    }
+
+    private createTimeString(time: string[]): string {
+        return `<span class="log-hour">${time[0]}</span><span class="log-minute">${time[1]}</span><span class="log-second">${time[2]}</span>`;
     }
 
     private createPromptHead(user: string = 'guest'): HTMLElement {
         const head = document.createElement('div');
         head.classList.add('head');
-        head.innerHTML = `<span class="domain">handex.io</span>@<span class="user">${user}</span>[$] via 🐹 v1.19.3 on ☁️ (us-west-1)`;
+        head.innerHTML = `<span class="domain"><a href="https://handex.io">handex.io</a></span>@<span class="user">${user}</span>[$] via 🐹 v1.19.3 on ☁️ (us-west-1)`;
         return head;
     }
 
@@ -230,7 +295,7 @@ class TerminalGame {
     private createPromptTail(): HTMLElement {
         const tail = document.createElement('div');
         tail.classList.add('tail');
-        tail.innerHTML = `🕐[${this.createTimeString()}]❯ `;
+        tail.innerHTML = `🕐[${this.createTimeString(this.createTimeCode())}]❯ `;
         return tail;
     }
 
