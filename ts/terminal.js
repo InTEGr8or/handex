@@ -146,8 +146,9 @@
       }
     }
     handleCommand(command) {
-      const timeCode = this.createTimeCode();
-      const commandText = `<span class="log-time">${this.createTimeHTML(timeCode)}</span> ${command}<br>`;
+      const commandTime = /* @__PURE__ */ new Date();
+      const timeCode = this.createTimeCode(commandTime);
+      const commandText = `<span class="log-time">${this.createTimeHTML(commandTime)}</span> ${command}<br>`;
       if (!this.commandHistory) {
         this.commandHistory = [];
       }
@@ -173,12 +174,14 @@
       }
       const wpm = this.wpmCalculator.recordKeystroke(event.key);
     }
-    createTimeCode() {
-      const now = /* @__PURE__ */ new Date();
+    createTimeCode(now = /* @__PURE__ */ new Date()) {
       return now.toLocaleTimeString("en-US", { hour12: false }).split(":");
     }
-    createTimeHTML(time) {
-      return `<span class="log-hour">${time[0]}</span><span class="log-minute">${time[1]}</span><span class="log-second">${time[2]}</span>`;
+    createTimeHTML(time = /* @__PURE__ */ new Date()) {
+      const hours = time.getHours().toString().padStart(2, "0");
+      const minutes = time.getMinutes().toString().padStart(2, "0");
+      const seconds = time.getSeconds().toString().padStart(2, "0");
+      return `<span class="log-hour">${hours}</span><span class="log-minute">${minutes}</span><span class="log-second">${seconds}</span>`;
     }
     createPromptHead(user = "guest") {
       const head = document.createElement("div");
@@ -198,7 +201,7 @@
     createPromptTail() {
       const tail = document.createElement("div");
       tail.classList.add("tail");
-      tail.innerHTML = `\u{1F550}[${this.createTimeHTML(this.createTimeCode())}]\u276F `;
+      tail.innerHTML = `\u{1F550}[${this.createTimeHTML()}]\u276F `;
       return tail;
     }
     createPromptElement(user = "guest") {
