@@ -1,3 +1,8 @@
+:root {
+    --terminal-font-family: 'Fira Code', monospace;
+    --terminal-font-size: 14px;
+    --terminal-line-height: 1.5em;
+}
 html,
 body {
     background-color: #111;
@@ -60,7 +65,7 @@ body {
     font-weight: 100;
 }
 .log-minute {
-    color: yellow;
+    color: #FF09;
     font-weight: bold;
 }
 .log-second {
@@ -112,8 +117,11 @@ body {
 }
 /* Responsive font size and padding */
 @media (max-width: 600px) { /* Example breakpoint for mobile devices */
+    :root{
+        --terminal-font-size: 16px;
+        --terminal-line-height: 1.2em;
+    }
     .terminal {
-        font-size: 16px; /* Smaller font size for mobile */
         padding: 5px; /* Adjust padding if necessary */
     }
     /* Add any additional mobile-specific styles here */
@@ -141,12 +149,14 @@ body {
     color: yellow;
     caret-color: lightyellow;
     resize: none;
-    line-height: 0.8em;
     white-space: pre-wrap;
     overflow-y: hidden;
+    font-family: 'Fira Code', monospace;
+    font-size: var(--terminal-font-size);
+    padding: 0;
+    vertical-align: top;
     /* If you want the textarea to grow without a scrollbar */
     /* Remove fixed height to allow auto-expanding */
-    /* height: 15px; */
 }
 
 .terminal-input:focus {

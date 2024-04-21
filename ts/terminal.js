@@ -147,7 +147,7 @@
     }
     handleCommand(command) {
       const timeCode = this.createTimeCode();
-      const commandText = `<span class="log-time">${this.createTimeString(timeCode)}</span> ${command}<br>`;
+      const commandText = `<span class="log-time">${this.createTimeHTML(timeCode)}</span> ${command}<br>`;
       if (!this.commandHistory) {
         this.commandHistory = [];
       }
@@ -177,7 +177,7 @@
       const now = /* @__PURE__ */ new Date();
       return now.toLocaleTimeString("en-US", { hour12: false }).split(":");
     }
-    createTimeString(time) {
+    createTimeHTML(time) {
       return `<span class="log-hour">${time[0]}</span><span class="log-minute">${time[1]}</span><span class="log-second">${time[2]}</span>`;
     }
     createPromptHead(user = "guest") {
@@ -198,7 +198,7 @@
     createPromptTail() {
       const tail = document.createElement("div");
       tail.classList.add("tail");
-      tail.innerHTML = `\u{1F550}[${this.createTimeString(this.createTimeCode())}]\u276F `;
+      tail.innerHTML = `\u{1F550}[${this.createTimeHTML(this.createTimeCode())}]\u276F `;
       return tail;
     }
     createPromptElement(user = "guest") {
