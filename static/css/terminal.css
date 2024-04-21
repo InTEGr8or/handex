@@ -99,7 +99,14 @@ body {
         color: white;
     }
 }
-
+/* Responsive font size and padding */
+@media (max-width: 600px) { /* Example breakpoint for mobile devices */
+    .terminal {
+        font-size: 16px; /* Smaller font size for mobile */
+        padding: 5px; /* Adjust padding if necessary */
+    }
+    /* Add any additional mobile-specific styles here */
+}
 .terminal-line {
     display: flex;
     align-items: flex-start;

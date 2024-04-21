@@ -1402,3 +1402,547 @@ Now, update your CSS to reflect the grid layout for the `first-line` and flex la
 The `.first-line` class now uses a grid layout to place the `prompt-head` on the left and allow the `terminal-input` to fill the rest of the space. The `prompt-tail-container` is using `display: contents;` to avoid creating an unnecessary box in the layout, so the `prompt-tail` can be treated as if it were a direct child of the `.terminal-line` for styling purposes.
 
 The `tail` class is aligned vertically with `align-self: center;`, and the `terminal-input` is set to take the second grid column to the end, allowing it to expand to the full width on subsequent lines. The `.terminal-line:not(.first-line)` selector applies flex styling to all `.terminal-line` elements that are not the first line, ensuring that the `prompt-tail` and `terminal-input` are in a flex container for just the first line.
+
+---
+
+**User** _at 11:30 am, Apr 20, 2024_
+
+This still center aligns vertically with the expanding `<textarea>`
+
+```html
+<div class="prompt-tail-container"><div class="tail">🕐[11:21:24]❯ </div></div>
+```
+
+I would like it to stay top-aligned so that the wider text area can wrap below, just like a normal terminal input does.
+
+---
+
+**Codeium** _at 11:30 am, Apr 20, 2024_
+
+Understood. To keep the `prompt-tail` top-aligned with the `textarea` as it expands, you can apply `align-items: flex-start;` to the container that holds both the `prompt-tail` and the `terminal-input`. This will align items to the start of the cross axis, which is the top in a horizontal flex container.
+
+Here's how you can update your TypeScript to create the appropriate structure:
+
+```typescript
+private createPromptElement(user: string = 'guest'): HTMLElement {
+  const prompt = document.createElement('div');
+  prompt.classList.add('prompt');
+
+  // ... (rest of the createPromptHead logic)
+
+  // Create the second line which will be a flex container for the prompt tail and input
+  const line2 = document.createElement('div');
+  line2.classList.add('terminal-line');
+  this.inputElement = this.createInputElement();
+
+  // Create a container for the prompt tail to align it properly
+  const promptTailContainer = document.createElement('div');
+  promptTailContainer.classList.add('prompt-tail-container');
+  const promptTail = this.createPromptTail(this.createTimeString());
+  promptTailContainer.appendChild(promptTail);
+
+  // Append the prompt tail container and the input element to the second line
+  line2.appendChild(promptTailContainer);
+  line2.appendChild(this.inputElement);
+  prompt.appendChild(line2);
+
+  // Additional styles and attributes can be set here
+  return prompt;
+}
+```
+
+And the corresponding CSS:
+
+```css
+.terminal-line {
+  display: flex;
+  align-items: flex-start; /* Align items to the top */
+}
+
+.prompt-tail-container {
+  margin-right: 4px; /* Space between the prompt tail and the input */
+}
+
+.terminal-input {
+  flex: 1;
+  /* ... other styles ... */
+}
+```
+
+By setting `align-items: flex-start;` on `.terminal-line`, you ensure that both the `prompt-tail` and the `terminal-input` are top-aligned within their container. As the `terminal-input` expands, the `prompt-tail` will remain at the top, and the `terminal-input` will grow downward, allowing the text to wrap as expected in a terminal interface.
+
+The `prompt-tail-container` class is kept simple, with just a margin to separate it from the `terminal-input`. This should achieve the effect you're looking for where the `prompt-tail` stays aligned to the top and doesn't affect the vertical position of the text area as it expands.
+
+---
+
+**User** _at 11:43 am, Apr 20, 2024_
+
+I think I may have copied something wrong somewhere and I'm having trouble finding the problem.
+
+Are you able to review the `terminal.ts` for errors that may be causing the `terminal-tail-container` to float down when the input `textarea` `autoExpand()` runs?
+
+---
+
+**Codeium** _at 11:43 am, Apr 20, 2024_
+
+I'll need the current full `terminal.ts` content to review it for errors. Since I don't have access to your entire codebase, please provide me with the relevant parts of the `TerminalGame` class, specifically the `createPromptElement`, `createInputElement`, and `autoExpand` methods, as well as any other parts you suspect might be causing the issue. Once I have that, I can assist you further in diagnosing the problem.
+
+---
+
+**User** _at 11:45 am, Apr 20, 2024_
+
+```ts
+  private createInputElement(): HTMLTextAreaElement {
+    const input = document.createElement('textarea');
+    input.classList.add('terminal-input');
+    input.title = 'Terminal Input';
+    input.wrap = 'off'; // Disables soft-wrapping
+    input.spellcheck = true;
+    input.autofocus = true;
+    input.setAttribute('rows', '1');
+    input.addEventListener('input', this.autoExpand.bind(this));
+    // Set additional styles and attributes as needed
+    return input;
+  }
+
+  private createPromptTail(timeString: string): HTMLElement {
+    const tail = document.createElement('div');
+    tail.classList.add('tail');
+    tail.innerHTML = `🕐[${timeString}]❯ `;
+    return tail;
+  }
+
+  private createPromptElement(user: string = 'guest'): HTMLElement {
+    const prompt = document.createElement('div');
+    prompt.classList.add('prompt');
+
+    // Create the first line which contains only the prompt head
+    const line1 = document.createElement('div');
+    line1.classList.add('terminal-line', 'first-line'); // Add 'first-line' for specific styling
+    const promptHead = this.createPromptHead(user);
+    line1.appendChild(promptHead);
+    prompt.appendChild(line1);
+
+    // Create the second line which will be a flex container for the prompt tail and input
+    const line2 = document.createElement('div');
+    line2.classList.add('terminal-line');
+    this.inputElement = this.createInputElement();
+
+    // Create a container for the prompt tail to align it properly
+    const promptTailContainer = document.createElement('div');
+    promptTailContainer.classList.add('prompt-tail-container');
+    const promptTail = this.createPromptTail(this.createTimeString());
+    promptTailContainer.appendChild(promptTail);
+
+    // Append the prompt tail container and the input element to the second line
+    line2.appendChild(promptTailContainer);
+    line2.appendChild(this.inputElement);
+    prompt.appendChild(line2);
+
+    // Additional styles and attributes can be set here
+    return prompt;
+  }
+```
+
+---
+
+**Codeium** _at 11:46 am, Apr 20, 2024_
+
+Based on the provided code snippet, the `createPromptElement` method seems to be constructed correctly. The `prompt-tail` is wrapped in a `prompt-tail-container`, and both this container and the `terminal-input` are appended to `line2`, which is a flex container.
+
+However, the code for the `autoExpand` method that adjusts the `textarea` height is missing. This method is important as it should ensure that the `textarea` grows in height as more text is entered, without affecting the vertical alignment of the `prompt-tail`.
+
+Here's how the `autoExpand` method should look like, and make sure it's included in the `TerminalGame` class:
+
+```typescript
+private autoExpand(event: Event): void {
+  const textarea = event.target as HTMLTextAreaElement;
+  textarea.style.height = 'auto'; // Reset the height
+  textarea.style.height = `${textarea.scrollHeight}px`; // Set to scrollHeight
+}
+```
+
+The CSS should be set up to align the `prompt-tail` to the top of `line2`. If `line2` is a flex container, ensure you have:
+
+```css
+.terminal-line {
+  display: flex;
+  align-items: flex-start; /* Align items to the top */
+}
+```
+
+If you're still seeing the `prompt-tail-container` floating down when the `textarea` expands, it could be due to a CSS issue. Double-check your CSS to make sure there are no conflicting styles that might affect the alignment.
+
+Also, verify that your `textarea` does not have any margins that could be pushing the `prompt-tail-container` vertically. Margins on a `textarea` can affect the alignment of other flex items in the container.
+
+If these suggestions do not resolve the issue, please provide the relevant CSS or any additional code that styles or affects the `prompt-tail-container` and `terminal-input`, as the problem might lie there.
+
+---
+
+**User** _at 11:57 am, Apr 20, 2024_
+
+I forgot to include the `autoExpand`. The entire class is here:
+
+```ts
+class TerminalGame {
+  private commandHistory: string[] = [];
+  private wpmCounter: number = 0;
+  private startTime: Date | null = null;
+  private outputElement: HTMLElement;
+  private inputElement: HTMLTextAreaElement;
+
+  constructor(private terminalElement: HTMLElement) {
+    this.terminalElement.classList.add('terminal');
+    this.outputElement = this.createOutputElement();
+    this.terminalElement.appendChild(this.outputElement);
+    this.terminalElement.appendChild(this.createPromptElement());
+    this.bindInput();
+  }
+
+  private handleCommand(command: string): void {
+    this.commandHistory.push(command);
+    this.outputElement.innerHTML += `<span class="log-prefix">[<span class="log-time">${this.createTimeString()}</span>]</span> ${command}<br>`;
+    // Additional logic for handling the command
+  }
+  private handleKeyPress(event: KeyboardEvent): void {
+    // Logic to handle keypresses, calculate WPM, and update the progress bar
+    // ...
+    if (event.key === 'Enter') {
+      if (event.shiftKey) {
+        this.inputElement.value += '\n';
+        return;
+      }
+      const command = this.inputElement.value.trim();
+      this.inputElement.value = '';
+      this.handleCommand(command);
+    }
+  }
+
+  private autoExpand(event: Event): void {
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = 'auto'; // Reset the height
+    textarea.style.height = `${textarea.scrollHeight}px`; // Set to scrollHeight
+  }
+
+  private bindInput(): void {
+    if (this.inputElement) {
+      this
+        .inputElement
+        .addEventListener(
+          'keydown',
+          (event: KeyboardEvent) => this.handleKeyPress(event)
+        );
+    }
+  }
+
+  private createTimeString(): string {
+    const now = new Date();
+    return now.toLocaleTimeString('en-US', { hour12: false });
+  }
+
+  private createPromptHead(user: string = 'guest'): HTMLElement {
+    const head = document.createElement('div');
+    head.classList.add('head');
+    head.innerHTML = `<span class="domain">handex.io</span>@<span class="user">${user}</span>[$] via 🐹 v1.19.3 on ☁️ (us-west-1)`;
+    return head;
+  }
+
+  private createOutputElement(): HTMLElement {
+    const output = document.createElement('div');
+    output.classList.add('terminal-output');
+    // Additional styles and attributes can be set here
+    return output;
+  }
+  private createInputElement(): HTMLTextAreaElement {
+    const input = document.createElement('textarea');
+    input.classList.add('terminal-input');
+    input.title = 'Terminal Input';
+    input.wrap = 'off'; // Disables soft-wrapping
+    input.spellcheck = true;
+    input.autofocus = true;
+    input.setAttribute('rows', '1');
+    input.addEventListener('input', this.autoExpand.bind(this));
+    // Set additional styles and attributes as needed
+    return input;
+  }
+
+  private createPromptTail(timeString: string): HTMLElement {
+    const tail = document.createElement('div');
+    tail.classList.add('tail');
+    tail.innerHTML = `🕐[${timeString}]❯ `;
+    return tail;
+  }
+
+  private createPromptElement(user: string = 'guest'): HTMLElement {
+    const prompt = document.createElement('div');
+    prompt.classList.add('prompt');
+
+    // Create the first line which contains only the prompt head
+    const line1 = document.createElement('div');
+    line1.classList.add('terminal-line', 'first-line'); // Add 'first-line' for specific styling
+    const promptHead = this.createPromptHead(user);
+    line1.appendChild(promptHead);
+    prompt.appendChild(line1);
+
+    // Create the second line which will be a flex container for the prompt tail and input
+    const line2 = document.createElement('div');
+    line2.classList.add('terminal-line');
+    this.inputElement = this.createInputElement();
+
+    // Create a container for the prompt tail to align it properly
+    const promptTailContainer = document.createElement('div');
+    promptTailContainer.classList.add('prompt-tail-container');
+    const promptTail = this.createPromptTail(this.createTimeString());
+    promptTailContainer.appendChild(promptTail);
+
+    // Append the prompt tail container and the input element to the second line
+    line2.appendChild(promptTailContainer);
+    line2.appendChild(this.inputElement);
+    prompt.appendChild(line2);
+
+    // Additional styles and attributes can be set here
+    return prompt;
+  }
+
+  // Additional methods for calculating WPM, updating the progress bar, etc.
+}
+```
+
+and the CSS is here:
+
+```css
+.terminal-head {
+  color: white;
+  background-color: #000;
+  font-weight: bold;
+  flex-shrink: 1;
+  padding: 0 10px;
+  line-height: 2em;
+}
+
+.terminal {
+  /* Terminal styles */
+  background-color: #000;
+  color: white;
+  font-family: 'Fira Code', monospace;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  flex-direction: column;
+
+  .prompt {
+    color: lightseagreen;
+
+    .domain {
+      color: darkkhaki;
+    }
+
+    .user {
+      color: magenta;
+    }
+  }
+
+  .terminal-output {
+    /* Output area styles */
+    color: white;
+  }
+}
+
+.first-line {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+.terminal-line {
+ display: flex;
+ align-items: flex-start; /* Align items to the top */
+}
+
+.prompt-tail-container {
+ margin-right: 4px; /* Space between the prompt tail and the input */
+}
+
+.terminal-prompt.tail {
+
+  /* Aligning the prompt-tail vertically */
+  align-self: top;
+}
+
+.terminal-input {
+  grid-column: 2 / -1; /* Span from column 2 to the end */
+  min-width: 0; /* Overcomes the minimum size of the grid item */
+  flex: 1;
+  background: none;
+  border: none;
+  color: inherit;
+  caret-color: lightyellow;
+  overflow: hidden;
+  /* Hides the scrollbar */
+  resize: none;
+  /* Disables the textarea resize handle */
+  line-height: 0.8em;
+  /* Adjust line-height as needed */
+  white-space: pre-wrap;
+  /* Preserves white-space and wraps text */
+  height: 15px;
+  overflow-y: hidden;
+  &:focus {
+    outline: none;
+  }
+}
+.terminal-line:not(.first-line) {
+  display: flex;
+  align-items: center;
+}
+```
+
+Can you see what might be causing the `prompt-tail-container` to float down?
+
+---
+
+**Codeium** _at 11:57 am, Apr 20, 2024_
+
+I've reviewed the code you provided. The structure of your TypeScript code seems correct for creating the elements and assigning classes to them. However, there might be a misunderstanding in the CSS regarding the grid and flex layout that could be causing the `prompt-tail-container` to move.
+
+The current CSS defines `.first-line` to use a grid layout and `.terminal-line` to use a flex layout. However, `.first-line` is a subclass of `.terminal-line`, so you're essentially applying two different display properties to the same line, which could be causing confusion.
+
+Let's refine the CSS and TypeScript to ensure that the `prompt-tail` remains at the top and doesn't move down when the `textarea` expands.
+
+First, update your CSS to remove any conflicting styles:
+
+```css
+/* ... other styles ... */
+
+.terminal-line {
+  display: flex;
+  align-items: flex-start; /* Align items to the top */
+}
+
+.first-line {
+  /* No need for a special display rule here; it's already a flex container */
+}
+
+.prompt-tail-container {
+  /* The container itself doesn't need to be a flex item */
+  margin-right: 4px; /* Space between the prompt tail and the input */
+}
+
+.terminal-input {
+  /* Remove grid-column as it's not a grid item anymore */
+  flex: 1;
+  background: none;
+  /* ... other styles ... */
+  overflow-y: hidden; /* Hide the vertical scrollbar */
+}
+
+/* ... other styles ... */
+```
+
+With these changes, we're making sure that `.terminal-line` and `.first-line` don't have conflicting display properties. The `.first-line` class no longer has a display rule because it inherits the flex display from `.terminal-line`.
+
+In your TypeScript code, the `createPromptElement` method defines `line1` and `line2` as flex containers, and the `prompt-tail` is within the `prompt-tail-container`, which is correctly appended to `line2`.
+
+If you're still experiencing issues, check the following:
+
+1. Ensure there are no additional CSS styles elsewhere that may be affecting the layout.
+
+2. Make sure that your `textarea` does not have any default browser styles that could be affecting its layout. You can reset them using CSS.
+
+3. Double-check that the `autoExpand` function is correctly setting the height of the `textarea` and that there are no other event listeners interfering with its behavior.
+
+If the issue persists, consider creating a minimal, complete, and verifiable example that replicates the issue. This will help you isolate the problem and may reveal any other factors contributing to the layout issue. If you can provide a more detailed example or additional context, I'd be happy to take another look.
+
+---
+
+**User** _at 12:33 pm, Apr 20, 2024_
+
+When I examin the `prompt-tail-container` in the browser dev tools, the only layout I see for it is `margin-right: 4px;`
+
+---
+
+**Codeium** _at 12:33 pm, Apr 20, 2024_
+
+If the `prompt-tail-container` has only `margin-right: 4px;` and no other layout styles, and you're seeing the `prompt-tail` move down as the `textarea` expands, it's likely due to the flexbox alignment properties being applied to the `.terminal-line`. When the `textarea` grows in height, the flex container is adjusting the vertical alignment of all its children, which includes the `prompt-tail-container`.
+
+To fix this, ensure that the `align-items` property is set to `flex-start` on the container that holds both the `prompt-tail` and the `terminal-input`. This should keep the `prompt-tail` aligned to the top.
+
+Update your CSS for `.terminal-line` as follows:
+
+```css
+.terminal-line {
+  display: flex;
+  align-items: flex-start; /* Align items to the top */
+  /* Ensure there's no additional property overriding this alignment */
+}
+```
+
+Additionally, make sure that the `.prompt-tail-container` or its child elements do not have any styles that would cause them to vertically center or align to the bottom within their container. If there are any such styles, they would need to be overridden or removed to maintain top alignment.
+
+Lastly, consider inspecting the computed styles in the browser dev tools for the `.prompt-tail-container` and `.terminal-input` to see if there are any inherited or browser-default styles that might be affecting the layout unexpectedly. Look for properties like `align-self`, which could override the alignment specified by `align-items` on the parent.
+
+If you're still encountering issues, you might want to simplify your layout temporarily (by removing classes and styles one by one) to isolate the problem. Once you find the culprit, you can adjust your styles accordingly. If the problem persists, please provide more details or a screenshot of the dev tools inspection, which could offer additional clues.
+
+---
+
+**User** _at 12:35 pm, Apr 20, 2024_
+
+The `.terminal-input` shows this in the dev tools:
+
+```ts
+.terminal-input {
+    grid-column: 2 / -1;
+    min-width: 0;
+    flex: 1;
+    background: none;
+    border: none;
+    color: inherit;
+    caret-color: lightyellow;
+    overflow: hidden;
+    resize: none;
+    line-height: 0.8em;
+    white-space: pre-wrap;
+    height: 15px;
+    overflow-y: hidden;
+}
+```
+
+---
+
+**Codeium** _at 12:35 pm, Apr 20, 2024_
+
+Based on the CSS provided, it appears there are conflicting styles being applied to the `.terminal-input`. The `grid-column` property is for grid layouts, but `.terminal-input` is in a flex container. This property should be removed because it has no effect in a flex context and might create confusion.
+
+Additionally, you've set both `overflow` and `overflow-y` to `hidden`, which is redundant. You only need `overflow-y`.
+
+Here's the updated CSS for `.terminal-input`:
+
+```css
+.terminal-input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: inherit;
+  caret-color: lightyellow;
+  resize: none;
+  line-height: 0.8em;
+  white-space: pre-wrap;
+  overflow-y: hidden; /* If you want the textarea to grow without a scrollbar */
+  /* Remove fixed height to allow auto-expanding */
+  /* height: 15px; */
+}
+```
+
+Make sure to remove the fixed height (`height: 15px;`). This fixed height could be preventing your `textarea` from expanding as expected. The `autoExpand` method should take care of adjusting the height based on the `scrollHeight` of the `textarea`.
+
+After making the changes, the `textarea` should expand correctly as text is entered without affecting the position of the `prompt-tail-container`. If the `prompt-tail` is still moving down, ensure that the following style is applied to the parent container to keep the `prompt-tail` top-aligned:
+
+```css
+.terminal-line {
+  display: flex;
+  align-items: flex-start; /* Align items to the top */
+}
+```
+
+Remember to check for any additional styles that might be applied from elsewhere and remove any that are not needed or that conflict with the desired layout. If the issue remains, it might be helpful to see a screenshot of the browser's dev tools showing the layout issue, which could provide more context.

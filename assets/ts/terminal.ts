@@ -97,14 +97,56 @@ class TerminalGame {
     private inputElement: ITerminalInputElement;
     private static readonly commandHistoryKey = 'terminalCommandHistory';
     private static readonly commandHistoryLimit = 100;
+    private lastTouchDistance: number | null = null;
+    private currentFontSize: number;
 
-    constructor(private terminalElement: HTMLElement) {
-        this.terminalElement.classList.add(TerminalCssClasses.Terminal);
+    constructor(private terminal: HTMLElement) {
+        this.terminal.classList.add(TerminalCssClasses.Terminal);
         this.outputElement = this.createOutputElement();
-        this.terminalElement.appendChild(this.outputElement);
-        this.terminalElement.appendChild(this.createPromptElement());
+        this.terminal.appendChild(this.outputElement);
+        this.terminal.appendChild(this.createPromptElement());
         this.loadCommandHistory();
         this.bindInput();
+        this.addTouchListeners();
+    }
+
+    private addTouchListeners(): void {
+        this.terminal.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: false });
+        this.terminal.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: false });
+        this.terminal.addEventListener('touchend', this.handleTouchEnd.bind(this));
+    }
+
+    private handleTouchStart(event: TouchEvent): void {
+        if (event.touches.length === 2) {
+            event.preventDefault();
+            this.lastTouchDistance = this.getDistanceBetweenTouches(event.touches);
+        }
+    }
+
+    private handleTouchMove(event: TouchEvent): void {
+        if (event.touches.length === 2) {
+            event.preventDefault();
+            const currentDistance = this.getDistanceBetweenTouches(event.touches);
+            if (this.lastTouchDistance) {
+                const scaleFactor = currentDistance / this.lastTouchDistance;
+                this.currentFontSize *= scaleFactor;
+                this.terminal.style.fontSize = `${this.currentFontSize}px`;
+                this.lastTouchDistance = currentDistance;
+            }
+        }
+    }
+
+    private handleTouchEnd(event: TouchEvent): void {
+        this.lastTouchDistance = null;
+    }
+
+    private getDistanceBetweenTouches(touches: TouchList): number {
+        const touch1 = touches[0];
+        const touch2 = touches[1];
+        return Math.sqrt(
+            Math.pow(touch2.pageX - touch1.pageX, 2) +
+            Math.pow(touch2.pageY - touch1.pageY, 2),
+        );
     }
     private saveCommandHistory(): void {
         // Only keep the latest this.commandHistoryLimit number of commands
