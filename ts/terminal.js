@@ -7,12 +7,38 @@
   };
 
   // <stdin>
+  var WPMCalculator = class {
+    constructor() {
+      __publicField(this, "keystrokes");
+      this.keystrokes = [];
+    }
+    getKeystrokes() {
+      return this.keystrokes;
+    }
+    clearKeystrokes() {
+      this.keystrokes = [];
+    }
+    recordKeystroke(character) {
+      let wpm = 0;
+      if (this.keystrokes.length > 0) {
+        const lastTimestamp = this.keystrokes[this.keystrokes.length - 1].timestamp;
+        const timeDifferenceMinute = (Date.now() - lastTimestamp) / 6e4;
+        if (timeDifferenceMinute > 0) {
+          let CPM = 1 / timeDifferenceMinute;
+          wpm = CPM / 5;
+        }
+      }
+      this.keystrokes.push({ character, timestamp: Date.now(), wpm });
+      return wpm;
+    }
+  };
   var TerminalInputElement = class {
     constructor() {
       __publicField(this, "input");
       this.input = document.createElement("textarea");
       this.input.classList.add("terminal-input" /* Input */);
       this.input.title = "Terminal Input";
+      this.input.id = "terminal-input";
       this.input.wrap = "off";
       this.input.spellcheck = true;
       this.input.autofocus = true;
@@ -35,7 +61,7 @@
     constructor(terminal) {
       this.terminal = terminal;
       __publicField(this, "commandHistory", []);
-      __publicField(this, "wpmCounter", 0);
+      __publicField(this, "wpmCalculator", new WPMCalculator());
       __publicField(this, "startTime", null);
       __publicField(this, "outputElement");
       __publicField(this, "inputElement");
@@ -49,12 +75,20 @@
       this.bindInput();
       this.addTouchListeners();
     }
+    handleClick(event) {
+      setTimeout(() => {
+        this.inputElement.focus();
+      }, 500);
+    }
     addTouchListeners() {
       this.terminal.addEventListener("touchstart", this.handleTouchStart.bind(this), { passive: false });
       this.terminal.addEventListener("touchmove", this.handleTouchMove.bind(this), { passive: false });
       this.terminal.addEventListener("touchend", this.handleTouchEnd.bind(this));
     }
     handleTouchStart(event) {
+      setTimeout(() => {
+        this.inputElement.focus();
+      }, 500);
       if (event.touches.length === 2) {
         event.preventDefault();
         this.lastTouchDistance = this.getDistanceBetweenTouches(event.touches);
@@ -82,18 +116,25 @@
         Math.pow(touch2.pageX - touch1.pageX, 2) + Math.pow(touch2.pageY - touch1.pageY, 2)
       );
     }
-    saveCommandHistory() {
+    saveCommandHistory(commandText, commandTime) {
       const historyToSave = this.commandHistory.slice(-_TerminalGame.commandHistoryLimit);
-      localStorage.setItem(_TerminalGame.commandHistoryKey, JSON.stringify(historyToSave));
+      localStorage.setItem(`${_TerminalGame.commandHistoryKey}_${commandTime}`, JSON.stringify(historyToSave));
+      localStorage.setItem(_TerminalGame.wpmLogKey, JSON.stringify(this.wpmCalculator.getKeystrokes()));
+      this.wpmCalculator.clearKeystrokes();
     }
     loadCommandHistory() {
-      const historyJSON = localStorage.getItem(_TerminalGame.commandHistoryKey);
-      if (historyJSON) {
-        this.commandHistory = JSON.parse(historyJSON);
-        if (!this.commandHistory)
-          return;
-        console.log(this.commandHistory);
-        this.outputElement.innerHTML += this.commandHistory.map((command) => `${command}`).join("");
+      var _a;
+      for (let i = 0; i < localStorage.length; i++) {
+        if (!((_a = localStorage.key(i)) == null ? void 0 : _a.startsWith(_TerminalGame.commandHistoryKey)))
+          continue;
+        const historyJSON = localStorage.getItem(_TerminalGame.commandHistoryKey);
+        if (historyJSON) {
+          this.commandHistory = JSON.parse(historyJSON);
+          if (!this.commandHistory)
+            return;
+          console.log(this.commandHistory);
+          this.outputElement.innerHTML += this.commandHistory.map((command) => `${command}`).join("");
+        }
       }
     }
     bindInput() {
@@ -105,7 +146,8 @@
       }
     }
     handleCommand(command) {
-      const commandText = `<span class="log-prefix">[<span class="log-time">${this.createTimeString()}</span>]</span> ${command}<br>`;
+      const timeCode = this.createTimeCode();
+      const commandText = `<span class="log-time">${this.createTimeString(timeCode)}</span> ${command}<br>`;
       if (!this.commandHistory) {
         this.commandHistory = [];
       }
@@ -113,7 +155,7 @@
       if (this.commandHistory.length > _TerminalGame.commandHistoryLimit) {
         this.commandHistory.shift();
       }
-      this.saveCommandHistory();
+      this.saveCommandHistory(commandText, timeCode.join(""));
       this.outputElement.innerHTML += commandText;
     }
     handleKeyPress(event) {
@@ -129,15 +171,19 @@
       if (event.ctrlKey && event.key === "c") {
         this.inputElement.input.value = "";
       }
+      const wpm = this.wpmCalculator.recordKeystroke(event.key);
     }
-    createTimeString() {
+    createTimeCode() {
       const now = /* @__PURE__ */ new Date();
-      return now.toLocaleTimeString("en-US", { hour12: false });
+      return now.toLocaleTimeString("en-US", { hour12: false }).split(":");
+    }
+    createTimeString(time) {
+      return `<span class="log-hour">${time[0]}</span><span class="log-minute">${time[1]}</span><span class="log-second">${time[2]}</span>`;
     }
     createPromptHead(user = "guest") {
       const head = document.createElement("div");
       head.classList.add("head");
-      head.innerHTML = `<span class="domain">handex.io</span>@<span class="user">${user}</span>[$] via \u{1F439} v1.19.3 on \u2601\uFE0F (us-west-1)`;
+      head.innerHTML = `<span class="domain"><a href="https://handex.io">handex.io</a></span>@<span class="user">${user}</span>[$] via \u{1F439} v1.19.3 on \u2601\uFE0F (us-west-1)`;
       return head;
     }
     createOutputElement() {
@@ -152,7 +198,7 @@
     createPromptTail() {
       const tail = document.createElement("div");
       tail.classList.add("tail");
-      tail.innerHTML = `\u{1F550}[${this.createTimeString()}]\u276F `;
+      tail.innerHTML = `\u{1F550}[${this.createTimeString(this.createTimeCode())}]\u276F `;
       return tail;
     }
     createPromptElement(user = "guest") {
@@ -178,6 +224,7 @@
     // Additional methods for calculating WPM, updating the progress bar, etc.
   };
   __publicField(_TerminalGame, "commandHistoryKey", "terminalCommandHistory");
+  __publicField(_TerminalGame, "wpmLogKey", "wpmLogKey");
   __publicField(_TerminalGame, "commandHistoryLimit", 100);
   var TerminalGame = _TerminalGame;
   document.addEventListener("DOMContentLoaded", () => {

@@ -41,7 +41,6 @@ body {
 
 /* Define the blinking keyframes */
 @keyframes blink {
-
     0%,
     100% {
         opacity: 1;
@@ -54,6 +53,18 @@ body {
 
 .log-time {
     color: seagreen;
+    font-weight: 100;
+}
+.log-hour {
+    color: cyan;
+    font-weight: 100;
+}
+.log-minute {
+    color: yellow;
+    font-weight: bold;
+}
+.log-second {
+    color: green;
     font-weight: 100;
 }
 
@@ -127,7 +138,7 @@ body {
     flex: 1;
     background: none;
     border: none;
-    color: inherit;
+    color: yellow;
     caret-color: lightyellow;
     resize: none;
     line-height: 0.8em;
