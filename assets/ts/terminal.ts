@@ -15,11 +15,8 @@ enum TerminalCssClasses {
     LogTime = 'log-time',
 }
 
-type TimeCode = {
-    hour: number;
-    minute: number;
-    second: number;
-};
+type TimeCode = string;
+type TimeHTML = string;
 
 interface WPMCalculatorInterface {
     recordKeystroke(character: string): void;
@@ -235,8 +232,9 @@ class TerminalGame {
     }
 
     private handleCommand(command: string): void {
-        const timeCode = this.createTimeCode();
-        const commandText = `<span class="log-time">${this.createTimeHTML(timeCode)}</span> ${command}<br>`;
+        const commandTime = new Date();
+        const timeCode = this.createTimeCode(commandTime);
+        const commandText = `<span class="log-time">${this.createTimeHTML(commandTime)}</span> ${command}<br>`;
         if (!this.commandHistory) { this.commandHistory = []; }
         this.commandHistory.push(commandText);
         // Truncate the history if it's too long before saving
@@ -265,13 +263,15 @@ class TerminalGame {
         const wpm = this.wpmCalculator.recordKeystroke(event.key);
     }
 
-    private createTimeCode(): string[] {
-        const now = new Date();
+    private createTimeCode(now = new Date()): string[] {
         return now.toLocaleTimeString('en-US', { hour12: false }).split(':');
     }
 
-    private createTimeHTML(time: string[]): string {
-        return `<span class="log-hour">${time[0]}</span><span class="log-minute">${time[1]}</span><span class="log-second">${time[2]}</span>`;
+    private createTimeHTML(time = new Date()): TimeHTML {
+        const hours = time.getHours().toString().padStart(2, '0');
+        const minutes = time.getMinutes().toString().padStart(2, '0');
+        const seconds = time.getSeconds().toString().padStart(2, '0');
+        return `<span class="log-hour">${hours}</span><span class="log-minute">${minutes}</span><span class="log-second">${seconds}</span>`;
     }
 
     private createPromptHead(user: string = 'guest'): HTMLElement {
@@ -295,7 +295,7 @@ class TerminalGame {
     private createPromptTail(): HTMLElement {
         const tail = document.createElement('div');
         tail.classList.add('tail');
-        tail.innerHTML = `🕐[${this.createTimeHTML(this.createTimeCode())}]❯ `;
+        tail.innerHTML = `🕐[${this.createTimeHTML()}]❯ `;
         return tail;
     }
 
