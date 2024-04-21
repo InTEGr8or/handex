@@ -236,7 +236,7 @@ class TerminalGame {
 
     private handleCommand(command: string): void {
         const timeCode = this.createTimeCode();
-        const commandText = `<span class="log-time">${this.createTimeString(timeCode)}</span> ${command}<br>`;
+        const commandText = `<span class="log-time">${this.createTimeHTML(timeCode)}</span> ${command}<br>`;
         if (!this.commandHistory) { this.commandHistory = []; }
         this.commandHistory.push(commandText);
         // Truncate the history if it's too long before saving
@@ -270,7 +270,7 @@ class TerminalGame {
         return now.toLocaleTimeString('en-US', { hour12: false }).split(':');
     }
 
-    private createTimeString(time: string[]): string {
+    private createTimeHTML(time: string[]): string {
         return `<span class="log-hour">${time[0]}</span><span class="log-minute">${time[1]}</span><span class="log-second">${time[2]}</span>`;
     }
 
@@ -295,7 +295,7 @@ class TerminalGame {
     private createPromptTail(): HTMLElement {
         const tail = document.createElement('div');
         tail.classList.add('tail');
-        tail.innerHTML = `🕐[${this.createTimeString(this.createTimeCode())}]❯ `;
+        tail.innerHTML = `🕐[${this.createTimeHTML(this.createTimeCode())}]❯ `;
         return tail;
     }
 
