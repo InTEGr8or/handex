@@ -201,7 +201,7 @@
     createPromptTail() {
       const tail = document.createElement("div");
       tail.classList.add("tail");
-      tail.innerHTML = `\u{1F550}[${this.createTimeHTML()}]\u276F `;
+      tail.innerHTML = `\u276F `;
       return tail;
     }
     createPromptElement(user = "guest") {
