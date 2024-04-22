@@ -295,7 +295,7 @@ class TerminalGame {
     private createPromptTail(): HTMLElement {
         const tail = document.createElement('div');
         tail.classList.add('tail');
-        tail.innerHTML = `🕐[${this.createTimeHTML()}]❯ `;
+        tail.innerHTML = `❯ `;
         return tail;
     }
 

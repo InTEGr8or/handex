@@ -1,5 +1,6 @@
 handex.io.code-workspace
 themes/*
+node_modules
 resources/**.blend
 *.blend1
 **/*.blend
