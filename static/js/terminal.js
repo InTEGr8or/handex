@@ -1,7 +1,11 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const xterm_1 = require("@xterm/xterm");
+const addon_fit_1 = require("@xterm/addon-fit");
 function pipe(value, fn) {
     return fn(value);
 }
+var term = new xterm_1.Terminal();
 const TerminalCssClasses = {
     Terminal: 'terminal',
     Line: 'terminal-line',
@@ -318,11 +322,24 @@ class TerminalGame {
 TerminalGame.commandHistoryKey = 'cmd';
 TerminalGame.wpmLogKey = 'wpmLogKey';
 TerminalGame.commandHistoryLimit = 100;
+function writePrompt() {
+    term.write('\x1b[1;34muser@host:\x1b[0m\x1b[1;32m~$\x1b[0m ');
+}
+term.onData(data => {
+    term.write(data);
+});
+term.onRender(() => {
+    // writePrompt();
+});
 // Usage
 document.addEventListener('DOMContentLoaded', () => {
     const terminalContainer = document.getElementById('terminal');
     if (terminalContainer) {
-        const terminalGame = new TerminalGame(terminalContainer);
+        // const terminalGame = new TerminalGame(terminalContainer);
+        const fitAddon = new addon_fit_1.FitAddon();
+        term.loadAddon(fitAddon);
+        term.open(terminalContainer);
+        fitAddon.fit();
     }
 });
 //# sourceMappingURL=terminal.js.map

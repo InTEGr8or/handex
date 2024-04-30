@@ -1,7 +1,10 @@
-
+import { Terminal } from '@xterm/xterm';
+import { FitAddon } from '@xterm/addon-fit';
 function pipe<T, R>(value: T, fn: (arg: T) => R): R {
     return fn(value);
 }
+
+var term = new Terminal();
 
 const TerminalCssClasses = {
     Terminal: 'terminal',
@@ -406,10 +409,24 @@ class TerminalGame {
     // Additional methods for calculating WPM, updating the progress bar, etc.
 }
 
+function writePrompt() {
+    term.write('\x1b[1;34muser@host:\x1b[0m\x1b[1;32m~$\x1b[0m ');
+}
+term.onData(data => {
+    term.write(data);
+})
+term.onRender(() => {
+    // writePrompt();
+})
 // Usage
 document.addEventListener('DOMContentLoaded', () => {
     const terminalContainer = document.getElementById('terminal');
     if (terminalContainer) {
-        const terminalGame = new TerminalGame(terminalContainer);
+        // const terminalGame = new TerminalGame(terminalContainer);
+        const fitAddon = new FitAddon();
+        term.loadAddon(fitAddon);
+        term.open(terminalContainer);
+        fitAddon.fit();
+
     }
 });
