@@ -42,7 +42,7 @@ function createElement<T extends HTMLElement>(tagName: keyof HTMLElementTagNameM
 interface IWPMCalculator {
     previousTimestamp: number;
     recordKeystroke(character: string): void;
-    saveKeystrokes(): number;
+    saveKeystrokes(timeCode: TimeCode): number;
     clearKeystrokes(): void;
     getKeystrokes(): CharDuration[];
 }
@@ -62,11 +62,9 @@ class WPMCalculator implements IWPMCalculator {
     }
 
     saveKeystrokes(timeCode: TimeCode): number {
-        let charWpms = this.keystrokes.map(this.getWPM);
-        let wpmSum = charWpms.filter(charWpm => charWpm.wpm > 0).reduce((a, b) => a + b.wpm, 0);
-        localStorage.setItem(LogKeys.CharTime + '_' + timeCode, JSON.stringify(charWpms));
-        wpmSum = Math.round(wpmSum * 1000) / 1000
-        return wpmSum;
+        let charsAndSum = this.getWPMs();
+        localStorage.setItem(LogKeys.CharTime + '_' + timeCode, JSON.stringify(charsAndSum.charWpms));
+        return charsAndSum.wpmSum;
     }
 
     recordKeystroke(character: string): CharDuration {
@@ -78,6 +76,12 @@ class WPMCalculator implements IWPMCalculator {
         // Record the keystroke with the current timestamp
         this.keystrokes.push(charDur);
         return charDur;
+    }
+    getWPMs(): { wpmSum: number; charWpms: CharWPM[] } {
+        let charWpms = this.keystrokes.map(this.getWPM);
+        let wpmSum = charWpms.filter(charWpm => charWpm.wpm > 0).reduce((a, b) => a + b.wpm, 0);
+        wpmSum = Math.round(wpmSum * 1000) / 1000
+        return { wpmSum, charWpms };
     }
     getWPM(charDur: CharDuration): CharWPM {
         let charWpm: CharWPM = { character: charDur.character, wpm: 0.0 };

@@ -36,11 +36,9 @@ class WPMCalculator {
         this.keystrokes = [];
     }
     saveKeystrokes(timeCode) {
-        let charWpms = this.keystrokes.map(this.getWPM);
-        let wpmSum = charWpms.filter(charWpm => charWpm.wpm > 0).reduce((a, b) => a + b.wpm, 0);
-        localStorage.setItem(LogKeys.CharTime + '_' + timeCode, JSON.stringify(charWpms));
-        wpmSum = Math.round(wpmSum * 1000) / 1000;
-        return wpmSum;
+        let charsAndSum = this.getWPMs();
+        localStorage.setItem(LogKeys.CharTime + '_' + timeCode, JSON.stringify(charsAndSum.charWpms));
+        return charsAndSum.wpmSum;
     }
     recordKeystroke(character) {
         let charDur = { character, durationMilliseconds: 0 };
@@ -51,6 +49,12 @@ class WPMCalculator {
         // Record the keystroke with the current timestamp
         this.keystrokes.push(charDur);
         return charDur;
+    }
+    getWPMs() {
+        let charWpms = this.keystrokes.map(this.getWPM);
+        let wpmSum = charWpms.filter(charWpm => charWpm.wpm > 0).reduce((a, b) => a + b.wpm, 0);
+        wpmSum = Math.round(wpmSum * 1000) / 1000;
+        return { wpmSum, charWpms };
     }
     getWPM(charDur) {
         let charWpm = { character: charDur.character, wpm: 0.0 };
