@@ -7,9 +7,16 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && hugo",
+    "start": "concurrently \"npm run tsc-watch\" \"npm run hugo-serve\"",
+    "tsc-watch": "tsc --watch",
+    "hugo-serve": "hugo serve"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }

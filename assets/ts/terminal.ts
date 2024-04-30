@@ -3,28 +3,44 @@ function pipe<T, R>(value: T, fn: (arg: T) => R): R {
     return fn(value);
 }
 
-enum TerminalCssClasses {
-    Terminal = 'terminal',
-    Line = 'terminal-line',
-    Output = 'terminal-output',
-    Input = 'terminal-input',
-    Prompt = 'prompt',
-    Head = 'head',
-    Tail = 'tail',
-    LogPrefix = 'log-prefix',
-    LogTime = 'log-time',
-}
+const TerminalCssClasses = {
+    Terminal: 'terminal',
+    Line: 'terminal-line',
+    Output: 'terminal-output',
+    Input: 'terminal-input',
+    Prompt: 'prompt',
+    Head: 'head',
+    Tail: 'tail',
+    LogPrefix: 'log-prefix',
+    LogTime: 'log-time',
+} as const;
 
 type TimeCode = string;
 type TimeHTML = string;
+type CharDuration = {
+    character: string;
+    duration: number;
+}
+type CharWPM = {
+    character: string;
+    wpm: number;
+}
 
-interface WPMCalculatorInterface {
+function createElement<T extends HTMLElement>(tagName: keyof HTMLElementTagNameMap, className?: string): T {
+    const element = document.createElement(tagName) as T;
+    if (className) {
+        element.classList.add(className);
+    }
+    return element;
+}
+
+interface IWPMCalculator {
     recordKeystroke(character: string): void;
     clearKeystrokes(): void;
     getKeystrokes(): Array<{ character: string; timestamp: number; wpm: number }>;
 }
 
-class WPMCalculator implements WPMCalculatorInterface {
+class WPMCalculator implements IWPMCalculator {
     keystrokes: Array<{ character: string; timestamp: number; wpm: number }>;
     getKeystrokes(): { character: string; timestamp: number; wpm: number; }[] {
         return this.keystrokes;
@@ -67,12 +83,9 @@ class TerminalPrompt implements ITerminalPromptElement {
     tail: HTMLDivElement;
     input: HTMLTextAreaElement;
     constructor() {
-        this.head = document.createElement('div');
-        this.tail = document.createElement('div');
-        this.input = document.createElement('textarea');
-        this.head.classList.add(TerminalCssClasses.Head);
-        this.tail.classList.add(TerminalCssClasses.Tail);
-        this.input.classList.add(TerminalCssClasses.Input);
+        this.head = createElement('div', TerminalCssClasses.Head);
+        this.tail = createElement('div', TerminalCssClasses.Tail);
+        this.input = createElement('textarea', TerminalCssClasses.Input);
         this.head.appendChild(this.input);
         this.tail.appendChild(this.input);
     }
@@ -85,8 +98,7 @@ class TerminalInputElement implements ITerminalInputElement {
     public input: HTMLTextAreaElement;
 
     constructor() {
-        this.input = document.createElement('textarea');
-        this.input.classList.add(TerminalCssClasses.Input);
+        this.input = createElement('textarea', TerminalCssClasses.Input);
         this.input.title = 'Terminal Input';
         this.input.id = 'terminal-input';
         this.input.wrap = 'off'; // Disables soft-wrapping
@@ -133,9 +145,8 @@ interface IPromptHead {
 class TerminalGame {
     private commandHistory: string[] = [];
     private wpmCalculator: WPMCalculator = new WPMCalculator();
-    private startTime: Date | null = null;
     private outputElement: HTMLElement;
-    private inputElement: ITerminalInputElement;
+    private inputElement!: ITerminalInputElement;
     private static readonly commandHistoryKey = 'terminalCommandHistory';
     private static readonly wpmLogKey = 'wpmLogKey';
     private static readonly commandHistoryLimit = 100;
@@ -150,6 +161,7 @@ class TerminalGame {
         this.loadCommandHistory();
         this.bindInput();
         this.addTouchListeners();
+        this.currentFontSize = 14;
     }
 
     private handleClick(event: MouseEvent): void {
@@ -259,6 +271,8 @@ class TerminalGame {
         }
         if (event.ctrlKey && event.key === 'c') {
             this.inputElement.input.value = '';
+
+            debugger;
         }
         const wpm = this.wpmCalculator.recordKeystroke(event.key);
     }
@@ -277,7 +291,7 @@ class TerminalGame {
     private createPromptHead(user: string = 'guest'): HTMLElement {
         const head = document.createElement('div');
         head.classList.add('head');
-        head.innerHTML = `<span class="domain"><a href="https://handex.io">handex.io</a></span>@<span class="user">${user}</span>[$] via 🐹 v1.19.3 on ☁️ (us-west-1)`;
+        head.innerHTML = `<span class="user">${user}</span>@<span class="domain"><a href="https://handex.io">handex.io</a></span> via 🐹 v1.19.3 on ☁️ (us-west-1)`;
         return head;
     }
 

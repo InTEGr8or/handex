@@ -8,13 +8,39 @@
             "url": "http://localhost:1313",
             "webRoot": "${workspaceFolder}",
             "sourceMaps": true,
-            "breakOnLoad": true,
             "pathMapping": {
                 "/": "${workspaceFolder}/static"
             },
+            "resolveSourceMapLocations": [
+                "${workspaceFolder}/assets/ts",
+                "${workspaceFolder}/static"
+            ],
             "sourceMapPathOverrides": {
-                "webpack:///./src/*": "${webRoot}/*"
+                "webpack:///../../assets/ts/*": "${webRoot}/assets/ts/*"
             }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/path/to/your/entry.ts",
+            "preLaunchTask": "tsc: build - tsconfig.json", // This will compile TypeScript before debugging
+            "outFiles": [
+                "${workspaceFolder}/path/to/your/compiled/javascript/**/*.js"
+            ],
+            "sourceMaps": true
+        },
+        {
+            "type": "chrome", // or "edge" for Microsoft Edge
+            "request": "launch",
+            "name": "Launch Chrome against localhost",
+            "url": "http://localhost:1313", // Replace with your Hugo server URL and port
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true,
+            "preLaunchTask": "tsc: build - tsconfig.json" // Compile TypeScript before launching the browser
         }
     ]
 }
