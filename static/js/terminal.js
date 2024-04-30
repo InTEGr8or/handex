@@ -35,6 +35,13 @@ class WPMCalculator {
     clearKeystrokes() {
         this.keystrokes = [];
     }
+    saveKeystrokes(timeCode) {
+        let charWpms = this.keystrokes.map(this.getWPM);
+        let wpmSum = charWpms.filter(charWpm => charWpm.wpm > 0).reduce((a, b) => a + b.wpm, 0);
+        localStorage.setItem(LogKeys.CharTime + '_' + timeCode, JSON.stringify(charWpms));
+        wpmSum = Math.round(wpmSum * 1000) / 1000;
+        return wpmSum;
+    }
     recordKeystroke(character) {
         let charDur = { character, durationMilliseconds: 0 };
         if (this.previousTimestamp > 0) {
@@ -55,6 +62,7 @@ class WPMCalculator {
                 charWpm.wpm = CPM / 5;
             }
         }
+        charWpm.wpm = Math.round(charWpm.wpm * 1000) / 1000;
         return charWpm;
     }
 }
@@ -152,9 +160,11 @@ class TerminalGame {
     }
     saveCommandHistory(commandText, commandTime) {
         // Only keep the latest this.commandHistoryLimit number of commands
-        localStorage.setItem(`${TerminalGame.commandHistoryKey}_${commandTime}`, JSON.stringify(commandText));
-        // localStorage.setItem(TerminalGame.wpmLogKey, JSON.stringify(this.wpmCalculator.getKeystrokes()));
+        let wpmSum = this.wpmCalculator.saveKeystrokes(commandTime);
         this.wpmCalculator.clearKeystrokes();
+        commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpmSum.toFixed(0)).slice(-4));
+        localStorage.setItem(`${TerminalGame.commandHistoryKey}_${commandTime}`, JSON.stringify(commandText));
+        return wpmSum;
     }
     loadCommandHistory() {
         var _a;
@@ -213,16 +223,17 @@ class TerminalGame {
         }
         const commandTime = new Date();
         const timeCode = this.createTimeCode(commandTime);
-        const commandText = `<span class="log-time">${this.createTimeHTML(commandTime)}</span> ${command}<br>`;
-        if (!this.commandHistory) {
-            this.commandHistory = [];
-        }
-        this.commandHistory.push(commandText);
+        let commandText = `<span class="log-time">${this.createTimeHTML(commandTime)}</span><span class="wpm">{{wpm}}</span>${command}<br>`;
         // Truncate the history if it's too long before saving
         if (this.commandHistory.length > TerminalGame.commandHistoryLimit) {
             this.commandHistory.shift(); // Remove the oldest command
         }
-        this.saveCommandHistory(commandText, timeCode.join('')); // Save updated history to localStorage
+        let wpm = this.saveCommandHistory(commandText, timeCode.join('')); // Save updated history to localStorage
+        commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpm.toFixed(0)).slice(-4));
+        if (!this.commandHistory) {
+            this.commandHistory = [];
+        }
+        this.commandHistory.push(commandText);
         this.outputElement.innerHTML += commandText;
         // Additional logic for handling the command
     }

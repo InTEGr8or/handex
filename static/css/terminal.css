@@ -113,6 +113,10 @@ body {
     .terminal-output {
         /* Output area styles */
         color: white;
+        .wpm {
+            color: salmon;
+            padding: 0 5px;
+        }
     }
 }
 /* Responsive font size and padding */
