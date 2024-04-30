@@ -13,6 +13,10 @@ const TerminalCssClasses = {
     LogPrefix: 'log-prefix',
     LogTime: 'log-time',
 };
+const LogKeys = {
+    CharTime: 'char-time',
+    Command: 'command',
+};
 function createElement(tagName, className) {
     const element = document.createElement(tagName);
     if (className) {
@@ -25,26 +29,33 @@ class WPMCalculator {
         return this.keystrokes;
     }
     constructor() {
+        this.previousTimestamp = 0;
         this.keystrokes = [];
     }
     clearKeystrokes() {
         this.keystrokes = [];
     }
     recordKeystroke(character) {
-        let wpm = 0.0;
-        if (this.keystrokes.length > 0) {
-            // Calculate WPM for this keystroke
-            const lastTimestamp = this.keystrokes[this.keystrokes.length - 1].timestamp;
-            const timeDifferenceMinute = (Date.now() - lastTimestamp) / 60000.0; // Time difference in minutes
+        let charDur = { character, durationMilliseconds: 0 };
+        if (this.previousTimestamp > 0) {
+            charDur.durationMilliseconds = Date.now() - this.previousTimestamp;
+        }
+        this.previousTimestamp = Date.now();
+        // Record the keystroke with the current timestamp
+        this.keystrokes.push(charDur);
+        return charDur;
+    }
+    getWPM(charDur) {
+        let charWpm = { character: charDur.character, wpm: 0.0 };
+        if (charDur.durationMilliseconds > 0) {
+            let timeDifferenceMinute = charDur.durationMilliseconds / 60000.0;
             if (timeDifferenceMinute > 0) {
                 let CPM = 1 / timeDifferenceMinute;
                 // The standard is that one word = 5 characters
-                wpm = CPM / 5;
+                charWpm.wpm = CPM / 5;
             }
         }
-        // Record the keystroke with the current timestamp
-        this.keystrokes.push({ character, timestamp: Date.now(), wpm });
-        return wpm;
+        return charWpm;
     }
 }
 class TerminalPrompt {
@@ -141,25 +152,51 @@ class TerminalGame {
     }
     saveCommandHistory(commandText, commandTime) {
         // Only keep the latest this.commandHistoryLimit number of commands
-        const historyToSave = this.commandHistory.slice(-TerminalGame.commandHistoryLimit);
-        localStorage.setItem(`${TerminalGame.commandHistoryKey}_${commandTime}`, JSON.stringify(historyToSave));
-        localStorage.setItem(TerminalGame.wpmLogKey, JSON.stringify(this.wpmCalculator.getKeystrokes()));
+        localStorage.setItem(`${TerminalGame.commandHistoryKey}_${commandTime}`, JSON.stringify(commandText));
+        // localStorage.setItem(TerminalGame.wpmLogKey, JSON.stringify(this.wpmCalculator.getKeystrokes()));
         this.wpmCalculator.clearKeystrokes();
     }
     loadCommandHistory() {
         var _a;
+        let keys = [];
         for (let i = 0; i < localStorage.length; i++) {
             if (!((_a = localStorage.key(i)) === null || _a === void 0 ? void 0 : _a.startsWith(TerminalGame.commandHistoryKey)))
                 continue;
-            const historyJSON = localStorage.getItem(TerminalGame.commandHistoryKey);
+            const key = localStorage.key(i);
+            if (!key)
+                continue;
+            keys.push(key);
+        }
+        keys.sort();
+        for (let key of keys) {
+            const historyJSON = localStorage.getItem(key);
             if (historyJSON) {
-                this.commandHistory = JSON.parse(historyJSON);
+                this.commandHistory = [JSON.parse(historyJSON)];
                 if (!this.commandHistory)
                     return;
-                console.log(this.commandHistory);
-                this.outputElement.innerHTML += this.commandHistory.map((command) => `${command}`).join('');
+                this.outputElement.innerHTML += this.commandHistory;
             }
         }
+    }
+    clearCommandHistory() {
+        let keys = [];
+        for (let i = localStorage.length; i >= 0; i--) {
+            let key = localStorage.key(i);
+            if (!key)
+                continue;
+            if (key.includes(TerminalGame.commandHistoryKey)
+                || key.includes('terminalCommandHistory') // Remove after clearing legacy phone db.
+                || key.includes(TerminalGame.wpmLogKey)
+                || key.includes(LogKeys.Command)
+                || key.includes(LogKeys.CharTime)) {
+                keys.push(key);
+            }
+        }
+        for (let key of keys) {
+            localStorage.removeItem(key); // Clear localStorage.length
+        }
+        this.commandHistory = [];
+        this.outputElement.innerHTML = '';
     }
     bindInput() {
         if (this.inputElement) {
@@ -170,6 +207,10 @@ class TerminalGame {
         }
     }
     handleCommand(command) {
+        if (command === 'clear') {
+            this.clearCommandHistory();
+            return;
+        }
         const commandTime = new Date();
         const timeCode = this.createTimeCode(commandTime);
         const commandText = `<span class="log-time">${this.createTimeHTML(commandTime)}</span> ${command}<br>`;
@@ -199,7 +240,6 @@ class TerminalGame {
         }
         if (event.ctrlKey && event.key === 'c') {
             this.inputElement.input.value = '';
-            debugger;
         }
         const wpm = this.wpmCalculator.recordKeystroke(event.key);
     }
@@ -260,7 +300,7 @@ class TerminalGame {
         return prompt;
     }
 }
-TerminalGame.commandHistoryKey = 'terminalCommandHistory';
+TerminalGame.commandHistoryKey = 'cmd';
 TerminalGame.wpmLogKey = 'wpmLogKey';
 TerminalGame.commandHistoryLimit = 100;
 // Usage

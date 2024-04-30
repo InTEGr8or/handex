@@ -15,11 +15,16 @@ const TerminalCssClasses = {
     LogTime: 'log-time',
 } as const;
 
+const LogKeys = {
+    CharTime: 'char-time',
+    Command: 'command',
+} as const;
+
 type TimeCode = string;
 type TimeHTML = string;
 type CharDuration = {
     character: string;
-    duration: number;
+    durationMilliseconds: number;
 }
 type CharWPM = {
     character: string;
@@ -35,14 +40,16 @@ function createElement<T extends HTMLElement>(tagName: keyof HTMLElementTagNameM
 }
 
 interface IWPMCalculator {
+    previousTimestamp: number;
     recordKeystroke(character: string): void;
     clearKeystrokes(): void;
-    getKeystrokes(): Array<{ character: string; timestamp: number; wpm: number }>;
+    getKeystrokes(): CharDuration[];
 }
 
 class WPMCalculator implements IWPMCalculator {
-    keystrokes: Array<{ character: string; timestamp: number; wpm: number }>;
-    getKeystrokes(): { character: string; timestamp: number; wpm: number; }[] {
+    previousTimestamp: number = 0;
+    keystrokes: CharDuration[];
+    getKeystrokes(): CharDuration[] {
         return this.keystrokes;
     }
     constructor() {
@@ -53,21 +60,27 @@ class WPMCalculator implements IWPMCalculator {
         this.keystrokes = [];
     }
 
-    recordKeystroke(character: string): number {
-        let wpm: number = 0.0;
-        if (this.keystrokes.length > 0) {
-            // Calculate WPM for this keystroke
-            const lastTimestamp = this.keystrokes[this.keystrokes.length - 1].timestamp;
-            const timeDifferenceMinute = (Date.now() - lastTimestamp) / 60000.0; // Time difference in minutes
+    recordKeystroke(character: string): CharDuration {
+        let charDur: CharDuration = { character, durationMilliseconds: 0 };
+        if (this.previousTimestamp > 0) {
+            charDur.durationMilliseconds = Date.now() - this.previousTimestamp;
+        }
+        this.previousTimestamp = Date.now();
+        // Record the keystroke with the current timestamp
+        this.keystrokes.push(charDur);
+        return charDur;
+    }
+    getWPM(charDur: CharDuration): CharWPM {
+        let charWpm: CharWPM = { character: charDur.character, wpm: 0.0 };
+        if (charDur.durationMilliseconds > 0) {
+            let timeDifferenceMinute = charDur.durationMilliseconds / 60000.0
             if (timeDifferenceMinute > 0) {
                 let CPM = 1 / timeDifferenceMinute;
                 // The standard is that one word = 5 characters
-                wpm = CPM / 5;
+                charWpm.wpm = CPM / 5;
             }
         }
-        // Record the keystroke with the current timestamp
-        this.keystrokes.push({ character, timestamp: Date.now(), wpm });
-        return wpm;
+        return charWpm;
     }
 }
 
@@ -147,7 +160,7 @@ class TerminalGame {
     private wpmCalculator: WPMCalculator = new WPMCalculator();
     private outputElement: HTMLElement;
     private inputElement!: ITerminalInputElement;
-    private static readonly commandHistoryKey = 'terminalCommandHistory';
+    private static readonly commandHistoryKey = 'cmd';
     private static readonly wpmLogKey = 'wpmLogKey';
     private static readonly commandHistoryLimit = 100;
     private lastTouchDistance: number | null = null;
@@ -213,23 +226,50 @@ class TerminalGame {
     }
     private saveCommandHistory(commandText: string, commandTime: string): void {
         // Only keep the latest this.commandHistoryLimit number of commands
-        const historyToSave = this.commandHistory.slice(-TerminalGame.commandHistoryLimit);
-        localStorage.setItem(`${TerminalGame.commandHistoryKey}_${commandTime}`, JSON.stringify(historyToSave));
-        localStorage.setItem(TerminalGame.wpmLogKey, JSON.stringify(this.wpmCalculator.getKeystrokes()));
+        localStorage.setItem(`${TerminalGame.commandHistoryKey}_${commandTime}`, JSON.stringify(commandText));
+        // localStorage.setItem(TerminalGame.wpmLogKey, JSON.stringify(this.wpmCalculator.getKeystrokes()));
         this.wpmCalculator.clearKeystrokes();
     }
 
     private loadCommandHistory(): void {
+        let keys: string[] = [];
         for (let i = 0; i < localStorage.length; i++) {
             if (!localStorage.key(i)?.startsWith(TerminalGame.commandHistoryKey)) continue;
-            const historyJSON = localStorage.getItem(TerminalGame.commandHistoryKey);
+
+            const key = localStorage.key(i);
+            if (!key) continue;
+            keys.push(key);
+        }
+        keys.sort();
+        for (let key of keys) {
+            const historyJSON = localStorage.getItem(key);
             if (historyJSON) {
-                this.commandHistory = JSON.parse(historyJSON);
+                this.commandHistory = [JSON.parse(historyJSON)];
                 if (!this.commandHistory) return;
-                console.log(this.commandHistory);
-                this.outputElement.innerHTML += this.commandHistory.map((command) => `${command}`).join('');
+                this.outputElement.innerHTML += this.commandHistory;
             }
         }
+    }
+    private clearCommandHistory(): void {
+        let keys: string[] = [];
+        for (let i = localStorage.length; i >= 0; i--) {
+            let key = localStorage.key(i);
+            if (!key) continue;
+            if (
+                key.includes(TerminalGame.commandHistoryKey)
+                || key.includes('terminalCommandHistory') // Remove after clearing legacy phone db.
+                || key.includes(TerminalGame.wpmLogKey)
+                || key.includes(LogKeys.Command)
+                || key.includes(LogKeys.CharTime)
+            ) {
+                keys.push(key);
+            }
+        }
+        for (let key of keys) {
+            localStorage.removeItem(key); // Clear localStorage.length
+        }
+        this.commandHistory = [];
+        this.outputElement.innerHTML = '';
     }
     private bindInput(): void {
         if (this.inputElement) {
@@ -244,6 +284,10 @@ class TerminalGame {
     }
 
     private handleCommand(command: string): void {
+        if (command === 'clear') {
+            this.clearCommandHistory();
+            return;
+        }
         const commandTime = new Date();
         const timeCode = this.createTimeCode(commandTime);
         const commandText = `<span class="log-time">${this.createTimeHTML(commandTime)}</span> ${command}<br>`;
@@ -271,8 +315,6 @@ class TerminalGame {
         }
         if (event.ctrlKey && event.key === 'c') {
             this.inputElement.input.value = '';
-
-            debugger;
         }
         const wpm = this.wpmCalculator.recordKeystroke(event.key);
     }
