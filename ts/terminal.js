@@ -1,15 +1,31 @@
+"use strict";
 (() => {
-  var __defProp = Object.defineProperty;
-  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __publicField = (obj, key, value) => {
-    __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
-    return value;
-  };
-
   // <stdin>
+  var TerminalCssClasses = {
+    Terminal: "terminal",
+    Line: "terminal-line",
+    Output: "terminal-output",
+    Input: "terminal-input",
+    Prompt: "prompt",
+    Head: "head",
+    Tail: "tail",
+    LogPrefix: "log-prefix",
+    LogTime: "log-time"
+  };
+  var LogKeys = {
+    CharTime: "char-time",
+    Command: "command"
+  };
+  function createElement(tagName, className) {
+    const element = document.createElement(tagName);
+    if (className) {
+      element.classList.add(className);
+    }
+    return element;
+  }
   var WPMCalculator = class {
     constructor() {
-      __publicField(this, "keystrokes");
+      this.previousTimestamp = 0;
       this.keystrokes = [];
     }
     getKeystrokes() {
@@ -18,25 +34,38 @@
     clearKeystrokes() {
       this.keystrokes = [];
     }
+    saveKeystrokes(timeCode) {
+      let charWpms = this.keystrokes.map(this.getWPM);
+      let wpmSum = charWpms.filter((charWpm) => charWpm.wpm > 0).reduce((a, b) => a + b.wpm, 0);
+      localStorage.setItem(LogKeys.CharTime + "_" + timeCode, JSON.stringify(charWpms));
+      wpmSum = Math.round(wpmSum * 1e3) / 1e3;
+      return wpmSum;
+    }
     recordKeystroke(character) {
-      let wpm = 0;
-      if (this.keystrokes.length > 0) {
-        const lastTimestamp = this.keystrokes[this.keystrokes.length - 1].timestamp;
-        const timeDifferenceMinute = (Date.now() - lastTimestamp) / 6e4;
+      let charDur = { character, durationMilliseconds: 0 };
+      if (this.previousTimestamp > 0) {
+        charDur.durationMilliseconds = Date.now() - this.previousTimestamp;
+      }
+      this.previousTimestamp = Date.now();
+      this.keystrokes.push(charDur);
+      return charDur;
+    }
+    getWPM(charDur) {
+      let charWpm = { character: charDur.character, wpm: 0 };
+      if (charDur.durationMilliseconds > 0) {
+        let timeDifferenceMinute = charDur.durationMilliseconds / 6e4;
         if (timeDifferenceMinute > 0) {
           let CPM = 1 / timeDifferenceMinute;
-          wpm = CPM / 5;
+          charWpm.wpm = CPM / 5;
         }
       }
-      this.keystrokes.push({ character, timestamp: Date.now(), wpm });
-      return wpm;
+      charWpm.wpm = Math.round(charWpm.wpm * 1e3) / 1e3;
+      return charWpm;
     }
   };
   var TerminalInputElement = class {
     constructor() {
-      __publicField(this, "input");
-      this.input = document.createElement("textarea");
-      this.input.classList.add("terminal-input" /* Input */);
+      this.input = createElement("textarea", TerminalCssClasses.Input);
       this.input.title = "Terminal Input";
       this.input.id = "terminal-input";
       this.input.wrap = "off";
@@ -60,20 +89,17 @@
   var _TerminalGame = class _TerminalGame {
     constructor(terminal) {
       this.terminal = terminal;
-      __publicField(this, "commandHistory", []);
-      __publicField(this, "wpmCalculator", new WPMCalculator());
-      __publicField(this, "startTime", null);
-      __publicField(this, "outputElement");
-      __publicField(this, "inputElement");
-      __publicField(this, "lastTouchDistance", null);
-      __publicField(this, "currentFontSize");
-      this.terminal.classList.add("terminal" /* Terminal */);
+      this.commandHistory = [];
+      this.wpmCalculator = new WPMCalculator();
+      this.lastTouchDistance = null;
+      this.terminal.classList.add(TerminalCssClasses.Terminal);
       this.outputElement = this.createOutputElement();
       this.terminal.appendChild(this.outputElement);
       this.terminal.appendChild(this.createPromptElement());
       this.loadCommandHistory();
       this.bindInput();
       this.addTouchListeners();
+      this.currentFontSize = 14;
     }
     handleClick(event) {
       setTimeout(() => {
@@ -117,25 +143,49 @@
       );
     }
     saveCommandHistory(commandText, commandTime) {
-      const historyToSave = this.commandHistory.slice(-_TerminalGame.commandHistoryLimit);
-      localStorage.setItem(`${_TerminalGame.commandHistoryKey}_${commandTime}`, JSON.stringify(historyToSave));
-      localStorage.setItem(_TerminalGame.wpmLogKey, JSON.stringify(this.wpmCalculator.getKeystrokes()));
+      let wpmSum = this.wpmCalculator.saveKeystrokes(commandTime);
       this.wpmCalculator.clearKeystrokes();
+      commandText = commandText.replace(/{{wpm}}/g, ("_____" + wpmSum.toFixed(0)).slice(-4));
+      localStorage.setItem(`${_TerminalGame.commandHistoryKey}_${commandTime}`, JSON.stringify(commandText));
+      return wpmSum;
     }
     loadCommandHistory() {
       var _a;
+      let keys = [];
       for (let i = 0; i < localStorage.length; i++) {
         if (!((_a = localStorage.key(i)) == null ? void 0 : _a.startsWith(_TerminalGame.commandHistoryKey)))
           continue;
-        const historyJSON = localStorage.getItem(_TerminalGame.commandHistoryKey);
+        const key = localStorage.key(i);
+        if (!key)
+          continue;
+        keys.push(key);
+      }
+      keys.sort();
+      for (let key of keys) {
+        const historyJSON = localStorage.getItem(key);
         if (historyJSON) {
-          this.commandHistory = JSON.parse(historyJSON);
+          this.commandHistory = [JSON.parse(historyJSON)];
           if (!this.commandHistory)
             return;
-          console.log(this.commandHistory);
-          this.outputElement.innerHTML += this.commandHistory.map((command) => `${command}`).join("");
+          this.outputElement.innerHTML += this.commandHistory;
         }
       }
+    }
+    clearCommandHistory() {
+      let keys = [];
+      for (let i = localStorage.length; i >= 0; i--) {
+        let key = localStorage.key(i);
+        if (!key)
+          continue;
+        if (key.includes(_TerminalGame.commandHistoryKey) || key.includes("terminalCommandHistory") || key.includes(_TerminalGame.wpmLogKey) || key.includes(LogKeys.Command) || key.includes(LogKeys.CharTime)) {
+          keys.push(key);
+        }
+      }
+      for (let key of keys) {
+        localStorage.removeItem(key);
+      }
+      this.commandHistory = [];
+      this.outputElement.innerHTML = "";
     }
     bindInput() {
       if (this.inputElement) {
@@ -146,17 +196,22 @@
       }
     }
     handleCommand(command) {
+      if (command === "clear") {
+        this.clearCommandHistory();
+        return;
+      }
       const commandTime = /* @__PURE__ */ new Date();
       const timeCode = this.createTimeCode(commandTime);
-      const commandText = `<span class="log-time">${this.createTimeHTML(commandTime)}</span> ${command}<br>`;
+      let commandText = `<span class="log-time">${this.createTimeHTML(commandTime)}</span><span class="wpm">{{wpm}}</span>${command}<br>`;
+      if (this.commandHistory.length > _TerminalGame.commandHistoryLimit) {
+        this.commandHistory.shift();
+      }
+      let wpm = this.saveCommandHistory(commandText, timeCode.join(""));
+      commandText = commandText.replace(/{{wpm}}/g, ("_____" + wpm.toFixed(0)).slice(-4));
       if (!this.commandHistory) {
         this.commandHistory = [];
       }
       this.commandHistory.push(commandText);
-      if (this.commandHistory.length > _TerminalGame.commandHistoryLimit) {
-        this.commandHistory.shift();
-      }
-      this.saveCommandHistory(commandText, timeCode.join(""));
       this.outputElement.innerHTML += commandText;
     }
     handleKeyPress(event) {
@@ -186,7 +241,7 @@
     createPromptHead(user = "guest") {
       const head = document.createElement("div");
       head.classList.add("head");
-      head.innerHTML = `<span class="domain"><a href="https://handex.io">handex.io</a></span>@<span class="user">${user}</span>[$] via \u{1F439} v1.19.3 on \u2601\uFE0F (us-west-1)`;
+      head.innerHTML = `<span class="user">${user}</span>@<span class="domain"><a href="https://handex.io">handex.io</a></span> via \u{1F439} v1.19.3 on \u2601\uFE0F (us-west-1)`;
       return head;
     }
     createOutputElement() {
@@ -226,9 +281,9 @@
     }
     // Additional methods for calculating WPM, updating the progress bar, etc.
   };
-  __publicField(_TerminalGame, "commandHistoryKey", "terminalCommandHistory");
-  __publicField(_TerminalGame, "wpmLogKey", "wpmLogKey");
-  __publicField(_TerminalGame, "commandHistoryLimit", 100);
+  _TerminalGame.commandHistoryKey = "cmd";
+  _TerminalGame.wpmLogKey = "wpmLogKey";
+  _TerminalGame.commandHistoryLimit = 100;
   var TerminalGame = _TerminalGame;
   document.addEventListener("DOMContentLoaded", () => {
     const terminalContainer = document.getElementById("terminal");
