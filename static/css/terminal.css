@@ -1,8 +1,9 @@
 :root {
     --terminal-font-family: 'Fira Code', monospace;
-    --terminal-font-size: 14px;
+    --terminal-font-size: 16px;
     --terminal-line-height: 1.5em;
 }
+
 html,
 body {
     background-color: #111;
@@ -46,6 +47,7 @@ body {
 
 /* Define the blinking keyframes */
 @keyframes blink {
+
     0%,
     100% {
         opacity: 1;
@@ -60,14 +62,17 @@ body {
     color: seagreen;
     font-weight: 100;
 }
+
 .log-hour {
     color: cyan;
     font-weight: 100;
 }
+
 .log-minute {
     color: #FF09;
     font-weight: bold;
 }
+
 .log-second {
     color: green;
     font-weight: 100;
@@ -86,11 +91,14 @@ body {
     line-height: 2em;
 }
 
+textarea.xterm-helper-textarea {font-size: var(--terminal-font-size);/* font-family: 'Fira Code', monospace; */}
+
 .terminal {
     /* Terminal styles */
     background-color: #000;
     color: white;
     font-family: 'Fira Code', monospace;
+    font-size: var(--terminal-font-size);
     display: flex;
     height: 100%;
     width: 100%;
@@ -113,23 +121,31 @@ body {
     .terminal-output {
         /* Output area styles */
         color: white;
+
         .wpm {
             color: salmon;
             padding: 0 5px;
         }
     }
 }
+
 /* Responsive font size and padding */
-@media (max-width: 600px) { /* Example breakpoint for mobile devices */
-    :root{
+@media (max-width: 600px) {
+
+    /* Example breakpoint for mobile devices */
+    :root {
         --terminal-font-size: 16px;
         --terminal-line-height: 1.2em;
     }
+
     .terminal {
-        padding: 5px; /* Adjust padding if necessary */
+        padding: 5px;
+        /* Adjust padding if necessary */
     }
+
     /* Add any additional mobile-specific styles here */
 }
+
 .terminal-line {
     display: flex;
     align-items: flex-start;

@@ -7,7 +7,7 @@
     {{ partial "favicon.html" . }}
     <link rel="stylesheet" href="/css/xterm.css" />
     <link rel="stylesheet" href="/css/terminal.css">
-    {{ $typescript := resources.Get "ts/terminal.ts" }}
+    {{ $typescript := resources.Get "ts/terminal/main.ts" }}
     {{ $transpiledJs := $typescript | js.Build (dict "target" "es2015") }}
     <script src="{{ $transpiledJs.RelPermalink }}"></script>
     <style>

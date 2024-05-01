@@ -17,7 +17,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "typescript": "^5.4.5"
   },
   "dependencies": {
     "@xterm/addon-fit": "^0.10.0",
