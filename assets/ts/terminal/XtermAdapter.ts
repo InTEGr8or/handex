@@ -8,21 +8,52 @@ export class XtermAdapter {
   private terminalElement: HTMLElement;
   private lastTouchDistance: number | null = null;
   private currentFontSize: number = 17;
+  private outputElement: HTMLElement;
 
   constructor(private handexTerm: IHandexTerm, private element: HTMLElement) {
     this.terminalElement = element;
     this.terminalElement.classList.add(TerminalCssClasses.Terminal);
-    this.terminalElement.appendChild(this.outputElement);
+    this.outputElement = this.createOutputElement();
+    this.terminalElement.prepend(this.outputElement);
     // this._terminalElement.appendChild(this.createPromptElement());
     this.terminal = new Terminal();
     this.terminal.open(element);
-    this.terminal.onData((data: string) => {
-      this.handexTerm.processInput(data);
-    });
+    this.terminal.onData(this.onDataHandler.bind(this));
   }
 
-  clearTerminal(): void {
+
+  private onDataHandler(data: string): void {
+    // Check if the Enter key was pressed
+    if (data === '\r') {
+      // Process the command before clearing the terminal
+      let result = this.handexTerm.processInput(data);
+      console.log(result);
+      this.outputElement.appendChild(result);
+
+      // Clear the terminal after processing the command
+      this.clear();
+
+      // Write the new prompt after clearing
+      this.prompt();
+    } else {
+      // For other input, just pass it to the HandexTerm's processInput
+      this.handexTerm.processInput(data);
+    }
+  }
+
+  private createOutputElement(): HTMLElement {
+    const output = document.createElement('div');
+    output.classList.add('terminal-output');
+    // Additional styles and attributes can be set here
+    return output;
+  }
+
+  clear(): void {
     this.terminal.clear();
+  }
+
+  prompt(user: string = 'guest', host: string = 'handex.io') {
+    this.terminal.write(`\x1b[1;34m${user}@${host} \x1b[0m\x1b[1;32m~$\x1b[0m `);
   }
 
   // Method to render data to the terminal
@@ -31,11 +62,6 @@ export class XtermAdapter {
   }
 
   // Implement the interface methods
-  attachToXterm(term: Terminal): void {
-    term.onData((data: string) => {
-      this.handexTerm.processInput(data); 
-    });
-  }
 
   private addTouchListeners(): void {
     this.terminalElement.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: false });

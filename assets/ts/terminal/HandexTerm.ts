@@ -7,9 +7,9 @@ import { createElement } from '../utils/dom';
 import { XtermAdapter } from './XtermAdapter';
 export interface IHandexTerm {
   // Define the interface for your HandexTerm logic
-  processInput(input: string): void;
+  processInput(input: string): HTMLElement;
   // Other product-specific terminal logic
-  output (data: string):void;
+  output(data: string): void;
 }
 
 
@@ -22,7 +22,7 @@ export class HandexTerm implements IHandexTerm {
   private inputElement: ITerminalInputElement = new TerminalInputElement();
   private static readonly commandHistoryLimit = 100;
 
-  constructor(private persistence: IPersistence) {
+  constructor(private persistence: IPersistence,) {
     this._persistence = persistence;
     this.outputElement = this.createOutputElement();
     this.loadCommandHistory();
@@ -30,13 +30,13 @@ export class HandexTerm implements IHandexTerm {
   }
 
 
- processInput(input: string): void {
+  processInput(input: string): HTMLElement {
     // Handle special key sequences like Enter and Ctrl+C
     if (input === '\r') { // Enter key
       // Execute the command or handle a new line
-      this.output('\r\n');
-      this.output('Processing command...\r\n');
-      this.output('\r\n');
+      this.clearCommandHistory();
+      let outputHTML = this.handleCommand(input);
+      this.outputElement.appendChild(outputHTML);
     } else if (input === '\x03') { // Ctrl+C
       // Handle the interrupt signal, maybe clear the current line or command
       this.output('');
@@ -47,10 +47,12 @@ export class HandexTerm implements IHandexTerm {
 
     // Call the output method to update the terminal display
     this.output(input);
+    return this.outputElement;
   }
 
 
   output(data: string): void {
+    console.log("HandexTerm.output():", data);
     this.outputElement.innerHTML += data;
   }
 
@@ -119,10 +121,16 @@ export class HandexTerm implements IHandexTerm {
     }
   }
 
-  private handleCommand(command: string): void {
+  createHTMLElementFromHTML(htmlString: string): HTMLElement {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+    return doc.body.firstChild as HTMLElement;
+  }
+
+  private handleCommand(command: string): HTMLElement {
     if (command === 'clear') {
       this.clearCommandHistory();
-      return;
+      return new HTMLElement();
     }
     const commandTime = new Date();
     const timeCode = this.createTimeCode(commandTime);
@@ -136,8 +144,9 @@ export class HandexTerm implements IHandexTerm {
     if (!this.commandHistory) { this.commandHistory = []; }
     this.commandHistory.push(commandText);
     this.outputElement.innerHTML += commandText;
-    // Additional logic for handling the command
+    return this.createHTMLElementFromHTML(commandText);
   }
+
   private handleKeyPress(event: KeyboardEvent): void {
     // Logic to handle keypresses, calculate WPM, and update the progress bar
     // ...

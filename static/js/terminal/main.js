@@ -12,9 +12,6 @@ const addon_fit_1 = require("@xterm/addon-fit");
 // Instantiate xterm.js terminal and fit addon
 var xTerm = new xterm_1.Terminal();
 const fitAddon = new addon_fit_1.FitAddon();
-function writePrompt(user = 'guest', host = 'handex.io') {
-    xTerm.write(`\x1b[1;34m${user}@${host}:\x1b[0m\x1b[1;32m~$\x1b[0m `);
-}
 xTerm.onData(data => {
     xTerm.write(data);
     // If the Enter key is pressed, process the input and then write the prompt

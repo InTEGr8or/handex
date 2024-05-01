@@ -1,17 +1,10 @@
 {
-    "compilerOptions": {
-        "target": "es6",
-        "lib": [
-            "dom",
-            "es2015",
-            "esnext"
-        ],
-        "baseUrl": ".",
-        "paths": {
-            "*": [
-                "*"
-            ]
-        }
-    },
-    "include": ["**/*.js"]
+ "compilerOptions": {
+  "baseUrl": ".",
+  "paths": {
+   "*": [
+    "*"
+   ]
+  }
+ }
 }

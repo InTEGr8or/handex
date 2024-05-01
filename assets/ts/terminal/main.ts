@@ -16,9 +16,6 @@ var xTerm = new Terminal();
 const fitAddon = new FitAddon();
 
 
-function writePrompt(user: string = 'guest', host: string = 'handex.io') {
-    xTerm.write(`\x1b[1;34m${user}@${host}:\x1b[0m\x1b[1;32m~$\x1b[0m `);
-}
 
 xTerm.onData(data => {
     xTerm.write(data);
