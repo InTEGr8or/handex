@@ -7,6 +7,7 @@ import { createElement } from '../utils/dom';
 export interface IHandexTerm {
   // Define the interface for your HandexTerm logic
   handleCommand(input: string): HTMLElement;
+  clearCommandHistory(): void;
   handleCharacter(character: string): number;
   getCommandHistory(): HTMLElement[];
   // Other product-specific terminal logic
@@ -60,7 +61,7 @@ export class HandexTerm implements IHandexTerm {
     return wpmSum;
   }
 
-  private clearCommandHistory(): void {
+  clearCommandHistory(): void {
     let keys: string[] = [];
     for (let i = localStorage.length; i >= 0; i--) {
       let key = localStorage.key(i);

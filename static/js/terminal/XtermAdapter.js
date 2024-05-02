@@ -43,9 +43,15 @@ class XtermAdapter {
         // Check if the Enter key was pressed
         if (data.charCodeAt(0) === 13) { // Enter key
             // Process the command before clearing the terminal
-            let buffer = this.getCurrentCommand();
-            console.log(buffer);
-            let result = this.handexTerm.handleCommand(buffer);
+            let command = this.getCurrentCommand();
+            if (command === 'clear') {
+                this.handexTerm.clearCommandHistory();
+                this.outputElement.innerHTML = '';
+                this.terminal.reset();
+                this.prompt();
+                return;
+            }
+            let result = this.handexTerm.handleCommand(command);
             this.outputElement.appendChild(result);
             // Clear the terminal after processing the command
             this.terminal.reset();
