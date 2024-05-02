@@ -4,56 +4,45 @@ import { ITerminalInputElement, TerminalInputElement } from './TerminalInputElem
 import { IWPMCalculator, WPMCalculator } from './WPMCalculator';
 import { IPersistence } from './Persistence';
 import { createElement } from '../utils/dom';
-import { XtermAdapter } from './XtermAdapter';
 export interface IHandexTerm {
   // Define the interface for your HandexTerm logic
-  processInput(input: string): HTMLElement;
+  handleCommand(input: string): HTMLElement;
+  handleCharacter(character: string): number;
+  getCommandHistory(): HTMLElement[];
   // Other product-specific terminal logic
-  output(data: string): void;
 }
-
 
 export class HandexTerm implements IHandexTerm {
   // Implement the interface methods
   private _persistence: IPersistence;
-  private commandHistory: string[] = [];
+  private _commandHistory: HTMLElement[] = [];
   private wpmCalculator: IWPMCalculator = new WPMCalculator();
-  private outputElement: HTMLElement;
   private inputElement: ITerminalInputElement = new TerminalInputElement();
   private static readonly commandHistoryLimit = 100;
 
   constructor(private persistence: IPersistence,) {
     this._persistence = persistence;
-    this.outputElement = this.createOutputElement();
-    this.loadCommandHistory();
     this.bindInput();
   }
 
+  getCommandHistory(): HTMLElement[] {
+    let keys: string[] = [];
+    let commandHistory: HTMLElement[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      if (!localStorage.key(i)?.startsWith(LogKeys.Command)) continue;
 
-  processInput(input: string): HTMLElement {
-    // Handle special key sequences like Enter and Ctrl+C
-    if (input === '\r') { // Enter key
-      // Execute the command or handle a new line
-      this.clearCommandHistory();
-      let outputHTML = this.handleCommand(input);
-      this.outputElement.appendChild(outputHTML);
-    } else if (input === '\x03') { // Ctrl+C
-      // Handle the interrupt signal, maybe clear the current line or command
-      this.output('');
-    } else {
-      // Handle regular character input
-      // Append the input to the current command buffer, echo back, etc.
+      const key = localStorage.key(i);
+      if (!key) continue;
+      keys.push(key);
     }
-
-    // Call the output method to update the terminal display
-    this.output(input);
-    return this.outputElement;
-  }
-
-
-  output(data: string): void {
-    console.log("HandexTerm.output():", data);
-    this.outputElement.innerHTML += data;
+    keys.sort();
+    for (let key of keys) {
+      const historyJSON = localStorage.getItem(key);
+      if (historyJSON) {
+        commandHistory.push(JSON.parse(historyJSON));
+      }
+    }
+    return commandHistory;
   }
 
   private handleClick(event: MouseEvent): void {
@@ -71,25 +60,6 @@ export class HandexTerm implements IHandexTerm {
     return wpmSum;
   }
 
-  private loadCommandHistory(): void {
-    let keys: string[] = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      if (!localStorage.key(i)?.startsWith(LogKeys.Command)) continue;
-
-      const key = localStorage.key(i);
-      if (!key) continue;
-      keys.push(key);
-    }
-    keys.sort();
-    for (let key of keys) {
-      const historyJSON = localStorage.getItem(key);
-      if (historyJSON) {
-        this.commandHistory = [JSON.parse(historyJSON)];
-        if (!this.commandHistory) return;
-        this.outputElement.innerHTML += this.commandHistory;
-      }
-    }
-  }
   private clearCommandHistory(): void {
     let keys: string[] = [];
     for (let i = localStorage.length; i >= 0; i--) {
@@ -106,8 +76,7 @@ export class HandexTerm implements IHandexTerm {
     for (let key of keys) {
       localStorage.removeItem(key); // Clear localStorage.length
     }
-    this.commandHistory = [];
-    this.outputElement.innerHTML = '';
+    this._commandHistory = [];
   }
   private bindInput(): void {
     if (this.inputElement) {
@@ -127,23 +96,26 @@ export class HandexTerm implements IHandexTerm {
     return doc.body.firstChild as HTMLElement;
   }
 
-  private handleCommand(command: string): HTMLElement {
+  public handleCharacter(character: string): number {
+    return this.wpmCalculator.recordKeystroke(character).durationMilliseconds;
+  }
+
+  public handleCommand(command: string): HTMLElement {
     if (command === 'clear') {
       this.clearCommandHistory();
       return new HTMLElement();
     }
     const commandTime = new Date();
     const timeCode = this.createTimeCode(commandTime);
-    let commandText = `<span class="log-time">${this.createTimeHTML(commandTime)}</span><span class="wpm">{{wpm}}</span>${command}<br>`;
+    let commandText = `<div class="log-line"><span class="log-time">${this.createTimeHTML(commandTime)}</span><span class="wpm">{{wpm}}</span>${command}</div>`;
     // Truncate the history if it's too long before saving
-    if (this.commandHistory.length > HandexTerm.commandHistoryLimit) {
-      this.commandHistory.shift(); // Remove the oldest command
+    if (this._commandHistory.length > HandexTerm.commandHistoryLimit) {
+      this._commandHistory.shift(); // Remove the oldest command
     }
     let wpm = this.saveCommandHistory(commandText, timeCode.join('')); // Save updated history to localStorage
     commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpm.toFixed(0)).slice(-4));
-    if (!this.commandHistory) { this.commandHistory = []; }
-    this.commandHistory.push(commandText);
-    this.outputElement.innerHTML += commandText;
+    if (!this._commandHistory) { this._commandHistory = []; }
+    this._commandHistory.push(this.createHTMLElementFromHTML(commandText));
     return this.createHTMLElementFromHTML(commandText);
   }
 
@@ -180,12 +152,6 @@ export class HandexTerm implements IHandexTerm {
     const head = createElement('div', 'head');
     head.innerHTML = `<span class="user">${user}</span>@<span class="domain"><a href="https://handex.io">handex.io</a></span> via 🐹 v1.19.3 on ☁️ (us-west-1)`;
     return head;
-  }
-
-  private createOutputElement(): HTMLElement {
-    const output = createElement('div', 'terminal-output');
-    // Additional styles and attributes can be set here
-    return output;
   }
 
   private createPromptTail(): HTMLElement {

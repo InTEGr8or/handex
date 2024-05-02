@@ -8,8 +8,10 @@ class XtermAdapter {
     constructor(handexTerm, element) {
         this.handexTerm = handexTerm;
         this.element = element;
+        this.commandHistory = [];
         this.lastTouchDistance = null;
         this.currentFontSize = 17;
+        this.promptDelimiter = '$';
         this.terminalElement = element;
         this.terminalElement.classList.add(TerminalTypes_1.TerminalCssClasses.Terminal);
         this.outputElement = this.createOutputElement();
@@ -18,35 +20,66 @@ class XtermAdapter {
         this.terminal = new xterm_1.Terminal();
         this.terminal.open(element);
         this.terminal.onData(this.onDataHandler.bind(this));
+        this.loadCommandHistory();
+    }
+    getCommandHistory() {
+        return this.handexTerm.getCommandHistory();
+    }
+    getCurrentCommand() {
+        const buffer = this.terminal.buffer.active;
+        // Assuming the command prompt starts at the top of the terminal (line 0)
+        // Adjust the starting line accordingly if your prompt starts elsewhere
+        let command = '';
+        for (let i = 0; i <= buffer.cursorY; i++) {
+            const line = buffer.getLine(i);
+            if (line) {
+                command += line.translateToString(true);
+            }
+        }
+        return command.substring(command.indexOf(this.promptDelimiter) + 2);
     }
     onDataHandler(data) {
         // Check if the Enter key was pressed
-        if (data === '\r') {
+        if (data.charCodeAt(0) === 13) { // Enter key
             // Process the command before clearing the terminal
-            let result = this.handexTerm.processInput(data);
-            console.log(result);
+            let buffer = this.getCurrentCommand();
+            console.log(buffer);
+            let result = this.handexTerm.handleCommand(buffer);
             this.outputElement.appendChild(result);
             // Clear the terminal after processing the command
-            this.clear();
+            this.terminal.reset();
             // Write the new prompt after clearing
             this.prompt();
         }
-        else {
-            // For other input, just pass it to the HandexTerm's processInput
-            this.handexTerm.processInput(data);
+        else if (data.charCodeAt(0) === 3) { // Ctrl+C
+            this.terminal.reset();
         }
+        else if (data.charCodeAt(0) === 127) { // Backspace
+            // Remove the last character from the terminal
+            this.terminal.write('\x1b[D \x1b[D');
+            let cursorIndex = this.terminal.buffer.active.cursorX;
+        }
+        else {
+            // For other input, just return it to the terminal.
+            let wpm = this.handexTerm.handleCharacter(data);
+            this.terminal.write(data);
+            if (data.charCodeAt(0) === 27)
+                return; // escape and navigation characters
+        }
+    }
+    loadCommandHistory() {
+        const commandHistory = this.handexTerm.getCommandHistory();
+        this.outputElement.innerHTML = commandHistory.join('');
     }
     createOutputElement() {
         const output = document.createElement('div');
+        output.id = 'terminal-output';
         output.classList.add('terminal-output');
         // Additional styles and attributes can be set here
         return output;
     }
-    clear() {
-        this.terminal.clear();
-    }
     prompt(user = 'guest', host = 'handex.io') {
-        this.terminal.write(`\x1b[1;34m${user}@${host} \x1b[0m\x1b[1;32m~$\x1b[0m `);
+        this.terminal.write(`\r\n\x1b[1;34m${user}@${host} \x1b[0m\x1b[1;32m~${this.promptDelimiter}\x1b[0m `);
     }
     // Method to render data to the terminal
     renderOutput(data) {

@@ -9,37 +9,32 @@ const dom_1 = require("../utils/dom");
 class HandexTerm {
     constructor(persistence) {
         this.persistence = persistence;
-        this.commandHistory = [];
+        this._commandHistory = [];
         this.wpmCalculator = new WPMCalculator_1.WPMCalculator();
         this.inputElement = new TerminalInputElement_1.TerminalInputElement();
         this._persistence = persistence;
-        this.outputElement = this.createOutputElement();
-        this.loadCommandHistory();
         this.bindInput();
     }
-    processInput(input) {
-        // Handle special key sequences like Enter and Ctrl+C
-        if (input === '\r') { // Enter key
-            // Execute the command or handle a new line
-            this.clearCommandHistory();
-            let outputHTML = this.handleCommand(input);
-            this.outputElement.appendChild(outputHTML);
+    getCommandHistory() {
+        var _a;
+        let keys = [];
+        let commandHistory = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            if (!((_a = localStorage.key(i)) === null || _a === void 0 ? void 0 : _a.startsWith(TerminalTypes_1.LogKeys.Command)))
+                continue;
+            const key = localStorage.key(i);
+            if (!key)
+                continue;
+            keys.push(key);
         }
-        else if (input === '\x03') { // Ctrl+C
-            // Handle the interrupt signal, maybe clear the current line or command
-            this.output('');
+        keys.sort();
+        for (let key of keys) {
+            const historyJSON = localStorage.getItem(key);
+            if (historyJSON) {
+                commandHistory.push(JSON.parse(historyJSON));
+            }
         }
-        else {
-            // Handle regular character input
-            // Append the input to the current command buffer, echo back, etc.
-        }
-        // Call the output method to update the terminal display
-        this.output(input);
-        return this.outputElement;
-    }
-    output(data) {
-        console.log("HandexTerm.output():", data);
-        this.outputElement.innerHTML += data;
+        return commandHistory;
     }
     handleClick(event) {
         setTimeout(() => {
@@ -53,28 +48,6 @@ class HandexTerm {
         commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpmSum.toFixed(0)).slice(-4));
         localStorage.setItem(`${TerminalTypes_1.LogKeys.Command}_${commandTime}`, JSON.stringify(commandText));
         return wpmSum;
-    }
-    loadCommandHistory() {
-        var _a;
-        let keys = [];
-        for (let i = 0; i < localStorage.length; i++) {
-            if (!((_a = localStorage.key(i)) === null || _a === void 0 ? void 0 : _a.startsWith(TerminalTypes_1.LogKeys.Command)))
-                continue;
-            const key = localStorage.key(i);
-            if (!key)
-                continue;
-            keys.push(key);
-        }
-        keys.sort();
-        for (let key of keys) {
-            const historyJSON = localStorage.getItem(key);
-            if (historyJSON) {
-                this.commandHistory = [JSON.parse(historyJSON)];
-                if (!this.commandHistory)
-                    return;
-                this.outputElement.innerHTML += this.commandHistory;
-            }
-        }
     }
     clearCommandHistory() {
         let keys = [];
@@ -91,8 +64,7 @@ class HandexTerm {
         for (let key of keys) {
             localStorage.removeItem(key); // Clear localStorage.length
         }
-        this.commandHistory = [];
-        this.outputElement.innerHTML = '';
+        this._commandHistory = [];
     }
     bindInput() {
         if (this.inputElement) {
@@ -107,6 +79,9 @@ class HandexTerm {
         const doc = parser.parseFromString(htmlString, 'text/html');
         return doc.body.firstChild;
     }
+    handleCharacter(character) {
+        return this.wpmCalculator.recordKeystroke(character).durationMilliseconds;
+    }
     handleCommand(command) {
         if (command === 'clear') {
             this.clearCommandHistory();
@@ -114,18 +89,17 @@ class HandexTerm {
         }
         const commandTime = new Date();
         const timeCode = this.createTimeCode(commandTime);
-        let commandText = `<span class="log-time">${this.createTimeHTML(commandTime)}</span><span class="wpm">{{wpm}}</span>${command}<br>`;
+        let commandText = `<div class="log-line"><span class="log-time">${this.createTimeHTML(commandTime)}</span><span class="wpm">{{wpm}}</span>${command}</div>`;
         // Truncate the history if it's too long before saving
-        if (this.commandHistory.length > HandexTerm.commandHistoryLimit) {
-            this.commandHistory.shift(); // Remove the oldest command
+        if (this._commandHistory.length > HandexTerm.commandHistoryLimit) {
+            this._commandHistory.shift(); // Remove the oldest command
         }
         let wpm = this.saveCommandHistory(commandText, timeCode.join('')); // Save updated history to localStorage
         commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpm.toFixed(0)).slice(-4));
-        if (!this.commandHistory) {
-            this.commandHistory = [];
+        if (!this._commandHistory) {
+            this._commandHistory = [];
         }
-        this.commandHistory.push(commandText);
-        this.outputElement.innerHTML += commandText;
+        this._commandHistory.push(this.createHTMLElementFromHTML(commandText));
         return this.createHTMLElementFromHTML(commandText);
     }
     handleKeyPress(event) {
@@ -158,11 +132,6 @@ class HandexTerm {
         const head = (0, dom_1.createElement)('div', 'head');
         head.innerHTML = `<span class="user">${user}</span>@<span class="domain"><a href="https://handex.io">handex.io</a></span> via 🐹 v1.19.3 on ☁️ (us-west-1)`;
         return head;
-    }
-    createOutputElement() {
-        const output = (0, dom_1.createElement)('div', 'terminal-output');
-        // Additional styles and attributes can be set here
-        return output;
     }
     createPromptTail() {
         const tail = (0, dom_1.createElement)('div', 'tail');

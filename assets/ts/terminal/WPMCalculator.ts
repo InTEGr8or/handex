@@ -1,7 +1,7 @@
 import { CharDuration, LogKeys, TimeCode, CharWPM } from './TerminalTypes';
 export interface IWPMCalculator {
     previousTimestamp: number;
-    recordKeystroke(character: string): void;
+    recordKeystroke(character: string): CharDuration;
     saveKeystrokes(timeCode: TimeCode): number;
     clearKeystrokes(): void;
     getKeystrokes(): CharDuration[];
