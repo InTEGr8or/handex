@@ -1,7 +1,11 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const xterm_1 = require("@xterm/xterm");
+const addon_fit_1 = require("@xterm/addon-fit");
 function pipe(value, fn) {
     return fn(value);
 }
+var xTerm = new xterm_1.Terminal();
 const TerminalCssClasses = {
     Terminal: 'terminal',
     Line: 'terminal-line',
@@ -36,11 +40,9 @@ class WPMCalculator {
         this.keystrokes = [];
     }
     saveKeystrokes(timeCode) {
-        let charWpms = this.keystrokes.map(this.getWPM);
-        let wpmSum = charWpms.filter(charWpm => charWpm.wpm > 0).reduce((a, b) => a + b.wpm, 0);
-        localStorage.setItem(LogKeys.CharTime + '_' + timeCode, JSON.stringify(charWpms));
-        wpmSum = Math.round(wpmSum * 1000) / 1000;
-        return wpmSum;
+        let charsAndSum = this.getWPMs();
+        localStorage.setItem(LogKeys.CharTime + '_' + timeCode, JSON.stringify(charsAndSum.charWpms));
+        return charsAndSum.wpmSum;
     }
     recordKeystroke(character) {
         let charDur = { character, durationMilliseconds: 0 };
@@ -51,6 +53,12 @@ class WPMCalculator {
         // Record the keystroke with the current timestamp
         this.keystrokes.push(charDur);
         return charDur;
+    }
+    getWPMs() {
+        let charWpms = this.keystrokes.map(this.getWPM);
+        let wpmSum = charWpms.filter(charWpm => charWpm.wpm > 0).reduce((a, b) => a + b.wpm, 0);
+        wpmSum = Math.round(wpmSum * 1000) / 1000;
+        return { wpmSum, charWpms };
     }
     getWPM(charDur) {
         let charWpm = { character: charDur.character, wpm: 0.0 };
@@ -314,11 +322,31 @@ class TerminalGame {
 TerminalGame.commandHistoryKey = 'cmd';
 TerminalGame.wpmLogKey = 'wpmLogKey';
 TerminalGame.commandHistoryLimit = 100;
+function writePrompt(user = 'guest', host = 'handex.io') {
+    xTerm.write(`\x1b[1;34m${user}@${host}:\x1b[0m\x1b[1;32m~$\x1b[0m `);
+}
+xTerm.onData(data => {
+    xTerm.write(data);
+    // If the Enter key is pressed, process the input and then write the prompt
+    if (data.charCodeAt(0) === 13) {
+        // Process the command here (not shown)
+        // Write the prompt on a new line
+        writePrompt();
+    }
+});
+xTerm.onRender(() => {
+    // writePrompt();
+});
 // Usage
 document.addEventListener('DOMContentLoaded', () => {
     const terminalContainer = document.getElementById('terminal');
     if (terminalContainer) {
-        const terminalGame = new TerminalGame(terminalContainer);
+        // const terminalGame = new TerminalGame(terminalContainer);
+        const fitAddon = new addon_fit_1.FitAddon();
+        xTerm.loadAddon(fitAddon);
+        xTerm.open(terminalContainer);
+        fitAddon.fit();
+        writePrompt();
     }
 });
 //# sourceMappingURL=terminal.js.map
