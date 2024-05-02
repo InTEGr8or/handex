@@ -12,6 +12,7 @@ import { FitAddon } from '@xterm/addon-fit';
 // const terminalGame = new TerminalGame(handexTerm, persistence);
 
 document.addEventListener('DOMContentLoaded', () => {
+
     const terminalContainer = document.getElementById('terminal');
     if (terminalContainer) {
         const persistence = new LocalStoragePersistence();
@@ -21,5 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Optionally, if you have output from HandexTerm to display, use xtermAdapter.renderOutput
         xtermAdapter.prompt();
+        document.getElementById('terminal-head')?.addEventListener('click', () => {
+            terminalContainer.focus();
+        })
     }
 });

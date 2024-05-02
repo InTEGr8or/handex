@@ -19,7 +19,12 @@ export class XtermAdapter {
     this.outputElement = this.createOutputElement();
     this.terminalElement.prepend(this.outputElement);
     // this._terminalElement.appendChild(this.createPromptElement());
-    this.terminal = new Terminal();
+    this.terminal = new Terminal({
+      fontSize: 14,
+      fontFamily: '"Fira Code", Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
+      cursorBlink: true,
+      cursorStyle: 'block'
+    });
     this.terminal.open(element);
     this.terminal.onData(this.onDataHandler.bind(this));
     this.loadCommandHistory();
@@ -48,7 +53,7 @@ export class XtermAdapter {
     if (data.charCodeAt(0) === 13) { // Enter key
       // Process the command before clearing the terminal
       let command = this.getCurrentCommand();
-      if(command === 'clear') {
+      if (command === 'clear') {
         this.handexTerm.clearCommandHistory();
         this.outputElement.innerHTML = '';
         this.terminal.reset();
@@ -56,12 +61,9 @@ export class XtermAdapter {
         return;
       }
       let result = this.handexTerm.handleCommand(command);
-
       this.outputElement.appendChild(result);
-
       // Clear the terminal after processing the command
       this.terminal.reset();
-
       // Write the new prompt after clearing
       this.prompt();
     } else if (data.charCodeAt(0) === 3) { // Ctrl+C
@@ -75,9 +77,9 @@ export class XtermAdapter {
       // For other input, just return it to the terminal.
       let wpm = this.handexTerm.handleCharacter(data);
       if (data.charCodeAt(0) === 27) { // escape and navigation characters
-        if(data.charCodeAt(1) === 91) {
+        if (data.charCodeAt(1) === 91) {
           console.log("Cursor x, y", this.terminal.buffer.active.cursorX, this.terminal.buffer.active.cursorY);
-          if(data.charCodeAt(2) === 68 && (this.terminal.buffer.active.cursorX < this.promptLength)) {
+          if (data.charCodeAt(2) === 68 && (this.terminal.buffer.active.cursorX < this.promptLength)) {
             return;
           }
         }
@@ -103,7 +105,6 @@ export class XtermAdapter {
     const promptText = `\x1b[1;34m${user}@${host} \x1b[0m\x1b[1;32m~${this.promptDelimiter}\x1b[0m `;
     console.log("promptChars: ", promptText.split(''))
     this.promptLength = promptText.length - 21;
-
     this.terminal.write(promptText);
     // this.promptLength = this.terminal.buffer.active.cursorX;
   }
