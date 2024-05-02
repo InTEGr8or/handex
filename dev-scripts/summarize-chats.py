@@ -16,8 +16,8 @@ for filename in os.listdir(directory):
         file_modification_datetime = os.path.getmtime(filepath)
         file_creation_datetime_obj = datetime.fromtimestamp(os.path.getctime(filepath))
         # If the file was modified within the last 24 hours, skip it
-        if datetime.now() - file_creation_datetime_obj < timedelta(days=1):
-            continue
+        # if datetime.now() - file_creation_datetime_obj < timedelta(days=1):
+        #     continue
 
         # Read the content of the file
         with open(filepath, "r", encoding="utf-8") as file:
@@ -29,7 +29,6 @@ for filename in os.listdir(directory):
         date_str = re.search(datetime_pattern, content)
         if date_str:
             date_str = date_str.group(0)
-            print(date_str)
             # Parse the datetime string into a datetime object
             date_obj = datetime.strptime(date_str, date_format)
 
@@ -89,7 +88,7 @@ for filename in os.listdir(directory):
             file.write(new_content)
 
         # Rename the file with datetime formatted to YYYY-MM-DD and lowercase title with spaces replaced with hyphens
-        new_filename = date_code + "-" + title.lower().replace(" ", "-").replace(":", "_").replace("&", "and") + ".md"
+        new_filename = date_code + "-" + title.replace("\"","").replace("'","").replace('`','').lower().replace(" ", "-").replace(":", "_").replace("&", "and").replace('*', '') + ".md"
         print(f"Renaming {filename} to {new_filename}")
         os.rename(filepath, os.path.join(directory, new_filename))
 

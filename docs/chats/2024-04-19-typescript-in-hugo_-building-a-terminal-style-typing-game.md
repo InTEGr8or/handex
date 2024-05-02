@@ -1,4 +1,10 @@
 ---
+original file name: Codeium Chat - TBTJ3OdUU4go7Ax68TukbnxuMZCIMZSJ.md
+summary: This chat discusses using TypeScript in a Hugo static website to create a web-based terminal-style typing game. It covers setting up TypeScript files, transpiling them with Hugo's `js.Build()` function, and structuring the TypeScript module for the game. The steps include creating a terminal UI, handling user input, processing commands, calculating WPM, and implementing a progress bar. Troubleshooting steps for logging keypress events and improving the `TerminalGame` class structure are provided.
+date: 2024-04-19T19:41
+---
+
+---
 oringinal file name: Codeium Chat - TBTJ3OdUU4go7Ax68TukbnxuMZCIMZSJ.md
 summary: The chat conversation discusses how to use TypeScript in a Hugo static website, specifically for creating a web-based terminal-style typing game. It covers setting up TypeScript files, transpiling them using Hugo's `js.Build()` function, and structuring the TypeScript module for the typing game. The steps include creating a terminal UI, handling user input, processing commands, calculating WPM, and implementing a progress bar. Troubleshooting steps for an issue with logging keypress events and improving the structure of the `TerminalGame` class are also provided.
 date: 2024-04-19T19:41
