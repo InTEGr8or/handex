@@ -18,7 +18,12 @@ class XtermAdapter {
         this.outputElement = this.createOutputElement();
         this.terminalElement.prepend(this.outputElement);
         // this._terminalElement.appendChild(this.createPromptElement());
-        this.terminal = new xterm_1.Terminal();
+        this.terminal = new xterm_1.Terminal({
+            fontSize: 14,
+            fontFamily: '"Fira Code", Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
+            cursorBlink: true,
+            cursorStyle: 'block'
+        });
         this.terminal.open(element);
         this.terminal.onData(this.onDataHandler.bind(this));
         this.loadCommandHistory();

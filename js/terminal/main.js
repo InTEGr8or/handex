@@ -7,6 +7,7 @@ const XtermAdapter_1 = require("./XtermAdapter");
 const Persistence_1 = require("./Persistence");
 // const terminalGame = new TerminalGame(handexTerm, persistence);
 document.addEventListener('DOMContentLoaded', () => {
+    var _a;
     const terminalContainer = document.getElementById('terminal');
     if (terminalContainer) {
         const persistence = new Persistence_1.LocalStoragePersistence();
@@ -15,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Now, xtermAdapter is bridging the third-party xterm.js terminal with HandexTerm
         // Optionally, if you have output from HandexTerm to display, use xtermAdapter.renderOutput
         xtermAdapter.prompt();
+        (_a = document.getElementById('terminal-head')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', () => {
+            terminalContainer.focus();
+        });
     }
 });
 //# sourceMappingURL=main.js.map

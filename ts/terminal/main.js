@@ -6998,7 +6998,12 @@ WARNING: This link could potentially be dangerous`)) {
       this.terminalElement.classList.add(TerminalCssClasses.Terminal);
       this.outputElement = this.createOutputElement();
       this.terminalElement.prepend(this.outputElement);
-      this.terminal = new import_xterm.Terminal();
+      this.terminal = new import_xterm.Terminal({
+        fontSize: 14,
+        fontFamily: '"Fira Code", Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
+        cursorBlink: true,
+        cursorStyle: "block"
+      });
       this.terminal.open(element);
       this.terminal.onData(this.onDataHandler.bind(this));
       this.loadCommandHistory();
@@ -7122,12 +7127,16 @@ WARNING: This link could potentially be dangerous`)) {
 
   // <stdin>
   document.addEventListener("DOMContentLoaded", () => {
+    var _a;
     const terminalContainer = document.getElementById("terminal");
     if (terminalContainer) {
       const persistence = new LocalStoragePersistence();
       const handexTerm = new HandexTerm(persistence);
       const xtermAdapter = new XtermAdapter(handexTerm, terminalContainer);
       xtermAdapter.prompt();
+      (_a = document.getElementById("terminal-head")) == null ? void 0 : _a.addEventListener("click", () => {
+        terminalContainer.focus();
+      });
     }
   });
 })();
