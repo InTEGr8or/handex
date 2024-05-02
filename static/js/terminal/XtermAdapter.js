@@ -12,6 +12,7 @@ class XtermAdapter {
         this.lastTouchDistance = null;
         this.currentFontSize = 17;
         this.promptDelimiter = '$';
+        this.promptLength = 0;
         this.terminalElement = element;
         this.terminalElement.classList.add(TerminalTypes_1.TerminalCssClasses.Terminal);
         this.outputElement = this.createOutputElement();
@@ -56,15 +57,23 @@ class XtermAdapter {
         }
         else if (data.charCodeAt(0) === 127) { // Backspace
             // Remove the last character from the terminal
+            if (this.terminal.buffer.active.cursorX < this.promptLength)
+                return;
             this.terminal.write('\x1b[D \x1b[D');
             let cursorIndex = this.terminal.buffer.active.cursorX;
         }
         else {
             // For other input, just return it to the terminal.
             let wpm = this.handexTerm.handleCharacter(data);
+            if (data.charCodeAt(0) === 27) { // escape and navigation characters
+                if (data.charCodeAt(1) === 91) {
+                    console.log("Cursor x, y", this.terminal.buffer.active.cursorX, this.terminal.buffer.active.cursorY);
+                    if (data.charCodeAt(2) === 68 && (this.terminal.buffer.active.cursorX < this.promptLength)) {
+                        return;
+                    }
+                }
+            }
             this.terminal.write(data);
-            if (data.charCodeAt(0) === 27)
-                return; // escape and navigation characters
         }
     }
     loadCommandHistory() {
@@ -79,7 +88,11 @@ class XtermAdapter {
         return output;
     }
     prompt(user = 'guest', host = 'handex.io') {
-        this.terminal.write(`\r\n\x1b[1;34m${user}@${host} \x1b[0m\x1b[1;32m~${this.promptDelimiter}\x1b[0m `);
+        const promptText = `\x1b[1;34m${user}@${host} \x1b[0m\x1b[1;32m~${this.promptDelimiter}\x1b[0m `;
+        console.log("promptChars: ", promptText.split(''));
+        this.promptLength = promptText.length - 21;
+        this.terminal.write(promptText);
+        // this.promptLength = this.terminal.buffer.active.cursorX;
     }
     // Method to render data to the terminal
     renderOutput(data) {

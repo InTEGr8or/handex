@@ -13,7 +13,6 @@
                 "/": "${workspaceFolder}/static"
             },
             "resolveSourceMapLocations": [
-                "${workspaceFolder}/assets/ts",
                 "${workspaceFolder}/static"
             ],
             "sourceMapPathOverrides": {
