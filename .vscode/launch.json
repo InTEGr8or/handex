@@ -16,7 +16,7 @@
                 "${workspaceFolder}/static"
             ],
             "sourceMapPathOverrides": {
-                "webpack:///*": "${workspaceFolder}/*"
+                "webpack:///./static/js/*": "${webRoot}/assets/ts/*"
             }
         },
         {

@@ -1,3 +1,9 @@
+---
+oringinal file name: Codeium Chat - U0W4I9lRlX1xJaJ8gDOMDM0zzk81OacJ.md
+summary: The chat involved a user seeking guidance on integrating an NPM package into a Hugo static site and deploying it to GitHub Pages using GitHub Actions. The user also needed help with TypeScript debugging in VS Code while working on the Hugo site. Additionally, there were discussions on creating a `tsconfig.json`, configuring VS Code for debugging, and automating the process of compiling TypeScript and starting the Hugo server using NPM scripts or shell scripts. Suggestions were provided on setting up launch configurations in VS Code for browser-side debugging and incorporating continuous TypeScript compilation.
+date: 2024-04-21T10:28
+---
+
 # Codeium Chat Conversation
 
 Note: _This is purely the output of the chat conversation and does not contain any raw data, codebase snippets, etc. used to generate the output._
