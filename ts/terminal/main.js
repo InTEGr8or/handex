@@ -6993,6 +6993,7 @@ WARNING: This link could potentially be dangerous`)) {
       this.lastTouchDistance = null;
       this.currentFontSize = 17;
       this.promptDelimiter = "$";
+      this.promptLength = 0;
       this.terminalElement = element;
       this.terminalElement.classList.add(TerminalCssClasses.Terminal);
       this.outputElement = this.createOutputElement();
@@ -7018,22 +7019,36 @@ WARNING: This link could potentially be dangerous`)) {
     }
     onDataHandler(data) {
       if (data.charCodeAt(0) === 13) {
-        let buffer = this.getCurrentCommand();
-        console.log(buffer);
-        let result = this.handexTerm.handleCommand(buffer);
+        let command = this.getCurrentCommand();
+        if (command === "clear") {
+          this.handexTerm.clearCommandHistory();
+          this.outputElement.innerHTML = "";
+          this.terminal.reset();
+          this.prompt();
+          return;
+        }
+        let result = this.handexTerm.handleCommand(command);
         this.outputElement.appendChild(result);
         this.terminal.reset();
         this.prompt();
       } else if (data.charCodeAt(0) === 3) {
         this.terminal.reset();
       } else if (data.charCodeAt(0) === 127) {
+        if (this.terminal.buffer.active.cursorX < this.promptLength)
+          return;
         this.terminal.write("\x1B[D \x1B[D");
         let cursorIndex = this.terminal.buffer.active.cursorX;
       } else {
         let wpm = this.handexTerm.handleCharacter(data);
+        if (data.charCodeAt(0) === 27) {
+          if (data.charCodeAt(1) === 91) {
+            console.log("Cursor x, y", this.terminal.buffer.active.cursorX, this.terminal.buffer.active.cursorY);
+            if (data.charCodeAt(2) === 68 && this.terminal.buffer.active.cursorX < this.promptLength) {
+              return;
+            }
+          }
+        }
         this.terminal.write(data);
-        if (data.charCodeAt(0) === 27)
-          return;
       }
     }
     loadCommandHistory() {
@@ -7047,8 +7062,10 @@ WARNING: This link could potentially be dangerous`)) {
       return output;
     }
     prompt(user = "guest", host = "handex.io") {
-      this.terminal.write(`\r
-\x1B[1;34m${user}@${host} \x1B[0m\x1B[1;32m~${this.promptDelimiter}\x1B[0m `);
+      const promptText = `\x1B[1;34m${user}@${host} \x1B[0m\x1B[1;32m~${this.promptDelimiter}\x1B[0m `;
+      console.log("promptChars: ", promptText.split(""));
+      this.promptLength = promptText.length - 21;
+      this.terminal.write(promptText);
     }
     // Method to render data to the terminal
     renderOutput(data) {
