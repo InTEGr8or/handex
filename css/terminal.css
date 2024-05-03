@@ -45,19 +45,6 @@ body {
     vertical-align: text-top;
 }
 
-/* Define the blinking keyframes */
-@keyframes blink {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0;
-    }
-}
-
 .log-time {
     color: seagreen;
     font-weight: 100;
@@ -82,7 +69,7 @@ body {
     color: gray;
 }
 
-.terminal-head {
+.terminal-nav {
     color: white;
     background-color: #000;
     font-weight: bold;
@@ -91,7 +78,10 @@ body {
     line-height: 2em;
 }
 
-textarea.xterm-helper-textarea {font-size: var(--terminal-font-size);/* font-family: 'Fira Code', monospace; */}
+textarea.xterm-helper-textarea {
+    font-size: var(--terminal-font-size);
+    /* font-family: 'Fira Code', monospace; */
+}
 
 .terminal {
     /* Terminal styles */
@@ -136,6 +126,9 @@ textarea.xterm-helper-textarea {font-size: var(--terminal-font-size);/* font-fam
     :root {
         --terminal-font-size: 16px;
         --terminal-line-height: 1.2em;
+    }
+    body {
+        padding: 10px;
     }
 
     .terminal {

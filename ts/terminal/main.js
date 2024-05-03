@@ -6985,6 +6985,39 @@ WARNING: This link could potentially be dangerous`)) {
 
   // ns-hugo:/home/runner/work/handex/handex/assets/ts/terminal/XtermAdapter.ts
   var import_xterm = __toESM(require_xterm());
+
+  // ns-hugo:/home/runner/work/handex/handex/assets/ts/utils/WebCam.ts
+  var WebCam = class {
+    constructor(videoElement, isVideo = false) {
+      this.isVideo = false;
+      this.facingMode = "user";
+      this.toggleVideo = (setOn) => {
+        var _a;
+        if (setOn) {
+          navigator.mediaDevices.getUserMedia({
+            video: {
+              facingMode: "environment"
+            }
+          }).then((stream) => this.preview.srcObject = stream);
+        } else {
+          if (this.preview.srcObject) {
+            (_a = this.preview.srcObject) == null ? void 0 : _a.getTracks().forEach((track) => track.stop());
+          }
+          this.preview.srcObject = null;
+        }
+        this.preview.hidden = !setOn;
+      };
+      this.isVideo = isVideo;
+      this.preview = videoElement;
+      this.preview.autoplay = true;
+      this.preview.muted = true;
+      this.preview.setAttribute("playsinline", "");
+      this.preview.setAttribute("webkit-playsinline", "");
+      this.preview.setAttribute("x5-playsinline", "");
+    }
+  };
+
+  // ns-hugo:/home/runner/work/handex/handex/assets/ts/terminal/XtermAdapter.ts
   var XtermAdapter = class {
     constructor(handexTerm, element) {
       this.handexTerm = handexTerm;
@@ -6997,6 +7030,9 @@ WARNING: This link could potentially be dangerous`)) {
       this.terminalElement = element;
       this.terminalElement.classList.add(TerminalCssClasses.Terminal);
       this.outputElement = this.createOutputElement();
+      this.videoElement = this.createVideoElement();
+      this.webCam = new WebCam(this.videoElement);
+      this.terminalElement.prepend(this.videoElement);
       this.terminalElement.prepend(this.outputElement);
       this.terminal = new import_xterm.Terminal({
         fontSize: 14,
@@ -7007,6 +7043,11 @@ WARNING: This link could potentially be dangerous`)) {
       this.terminal.open(element);
       this.terminal.onData(this.onDataHandler.bind(this));
       this.loadCommandHistory();
+    }
+    enableVideoMode(isVideo) {
+      if (isVideo) {
+        this.webCam.toggleVideo(true);
+      }
     }
     getCommandHistory() {
       return this.handexTerm.getCommandHistory();
@@ -7025,19 +7066,24 @@ WARNING: This link could potentially be dangerous`)) {
     onDataHandler(data) {
       if (data.charCodeAt(0) === 13) {
         let command = this.getCurrentCommand();
+        this.terminal.reset();
+        this.prompt();
+        if (command === "")
+          return;
         if (command === "clear") {
           this.handexTerm.clearCommandHistory();
           this.outputElement.innerHTML = "";
-          this.terminal.reset();
-          this.prompt();
+          return;
+        }
+        if (command === "video") {
+          this.webCam.toggleVideo(true);
           return;
         }
         let result = this.handexTerm.handleCommand(command);
         this.outputElement.appendChild(result);
-        this.terminal.reset();
-        this.prompt();
       } else if (data.charCodeAt(0) === 3) {
         this.terminal.reset();
+        this.prompt();
       } else if (data.charCodeAt(0) === 127) {
         if (this.terminal.buffer.active.cursorX < this.promptLength)
           return;
@@ -7065,6 +7111,12 @@ WARNING: This link could potentially be dangerous`)) {
       output.id = "terminal-output";
       output.classList.add("terminal-output");
       return output;
+    }
+    createVideoElement(isVisible = false) {
+      const video = document.createElement("video");
+      video.id = "terminal-video";
+      video.hidden = !isVisible;
+      return video;
     }
     prompt(user = "guest", host = "handex.io") {
       const promptText = `\x1B[1;34m${user}@${host} \x1B[0m\x1B[1;32m~${this.promptDelimiter}\x1B[0m `;
@@ -7134,7 +7186,7 @@ WARNING: This link could potentially be dangerous`)) {
       const handexTerm = new HandexTerm(persistence);
       const xtermAdapter = new XtermAdapter(handexTerm, terminalContainer);
       xtermAdapter.prompt();
-      (_a = document.getElementById("terminal-head")) == null ? void 0 : _a.addEventListener("click", () => {
+      (_a = document.getElementById("terminal-nav")) == null ? void 0 : _a.addEventListener("click", () => {
         terminalContainer.focus();
       });
     }

@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Now, xtermAdapter is bridging the third-party xterm.js terminal with HandexTerm
         // Optionally, if you have output from HandexTerm to display, use xtermAdapter.renderOutput
         xtermAdapter.prompt();
-        (_a = document.getElementById('terminal-head')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', () => {
+        (_a = document.getElementById('terminal-nav')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', () => {
             terminalContainer.focus();
         });
     }
