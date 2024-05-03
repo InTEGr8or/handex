@@ -7042,6 +7042,7 @@ WARNING: This link could potentially be dangerous`)) {
       this.promptDelimiter = "$";
       this.promptLength = 0;
       this.isShowVideo = false;
+      this.touchDistance = null;
       this.terminalElement = element;
       this.terminalElement.classList.add(TerminalCssClasses.Terminal);
       this.outputElement = this.createOutputElement();
@@ -7059,6 +7060,7 @@ WARNING: This link could potentially be dangerous`)) {
       this.terminal.onData(this.onDataHandler.bind(this));
       this.loadCommandHistory();
       this.setViewPortOpacity();
+      this.addTouchListeners();
     }
     setViewPortOpacity() {
       const viewPort = document.getElementsByClassName("xterm-viewport")[0];
