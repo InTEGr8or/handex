@@ -24,7 +24,6 @@ class XtermAdapter {
         this.terminalElement.prepend(this.videoElement);
         this.terminalElement.prepend(this.outputElement);
         this.terminal = new xterm_1.Terminal({
-            fontSize: 14,
             fontFamily: '"Fira Code", Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
             cursorBlink: true,
             cursorStyle: 'block'
@@ -34,10 +33,19 @@ class XtermAdapter {
         this.loadCommandHistory();
         this.setViewPortOpacity();
         this.addTouchListeners();
+        this.loadFontSize();
     }
     setViewPortOpacity() {
         const viewPort = document.getElementsByClassName('xterm-viewport')[0];
         viewPort.style.opacity = "0.5";
+    }
+    loadFontSize() {
+        const fontSize = localStorage.getItem('terminalFontSize');
+        if (fontSize) {
+            this.currentFontSize = parseInt(fontSize);
+            this.terminalElement.style.fontSize = `${this.currentFontSize}px`;
+            this.terminal.options.fontSize = this.currentFontSize;
+        }
     }
     toggleVideo() {
         this.isShowVideo = !this.isShowVideo;
@@ -158,10 +166,14 @@ class XtermAdapter {
                 this.currentFontSize *= scaleFactor;
                 this.terminalElement.style.fontSize = `${this.currentFontSize}px`;
                 this.lastTouchDistance = currentDistance;
+                const currentFontSize = this.terminal.options.fontSize;
+                this.terminal.options.fontSize = this.currentFontSize;
+                this.terminal.refresh(0, this.terminal.rows - 1); // Refresh the terminal display
             }
         }
     }
     handleTouchEnd(event) {
+        localStorage.setItem('terminalFontSize', `${this.currentFontSize}`);
         this.lastTouchDistance = null;
     }
     getDistanceBetweenTouches(touches) {
