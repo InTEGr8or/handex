@@ -37,13 +37,12 @@ class HandexTerm {
         console.log(commandHistory);
         return commandHistory;
     }
-    saveCommandHistory(commandText, commandTime) {
-        console.log("saveCommandHistory", commandText);
+    saveCommandResponseHistory(commandResponseElement, commandTime) {
         // Only keep the latest this.commandHistoryLimit number of commands
         let wpmSum = this.wpmCalculator.saveKeystrokes(commandTime);
         this.wpmCalculator.clearKeystrokes();
-        commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpmSum.toFixed(0)).slice(-4));
-        localStorage.setItem(`${TerminalTypes_1.LogKeys.Command}_${commandTime}`, JSON.stringify(commandText));
+        commandResponseElement.innerHTML = commandResponseElement.innerHTML.replace(/{{wpm}}/g, ('_____' + wpmSum.toFixed(0)).slice(-4));
+        localStorage.setItem(`${TerminalTypes_1.LogKeys.Command}_${commandTime}`, JSON.stringify(commandResponseElement.innerHTML));
         return wpmSum;
     }
     clearCommandHistory() {
@@ -101,17 +100,17 @@ class HandexTerm {
         const timeCode = this.createTimeCode(commandTime);
         let commandText = this.createCommandRecord(command, commandTime);
         const commandElement = this.createHTMLElementFromHTML(commandText);
-        let responseElement = document.createElement('div');
-        responseElement.dataset.status = status.toString();
-        responseElement.appendChild(commandElement);
-        responseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
-        let wpm = this.saveCommandHistory(commandText, timeCode.join('')); // Save updated history to localStorage
+        let commandResponseElement = document.createElement('div');
+        commandResponseElement.dataset.status = status.toString();
+        commandResponseElement.appendChild(commandElement);
+        commandResponseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
+        let wpm = this.saveCommandResponseHistory(commandResponseElement, timeCode.join('')); // Save updated history to localStorage
         commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpm.toFixed(0)).slice(-4));
         if (!this._commandHistory) {
             this._commandHistory = [];
         }
-        this._commandHistory.push(responseElement);
-        return responseElement;
+        this._commandHistory.push(commandResponseElement);
+        return commandResponseElement;
     }
     handleKeyPress(event) {
         // Logic to handle keypresses, calculate WPM, and update the progress bar

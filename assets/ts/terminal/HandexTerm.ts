@@ -1,10 +1,9 @@
 // HandexTerm.ts
-import { TimeCode, TerminalCssClasses, LogKeys, TimeHTML } from './TerminalTypes';
+import { LogKeys, TimeHTML } from './TerminalTypes';
 import { ITerminalInputElement, TerminalInputElement } from './TerminalInputElement';
 import { IWPMCalculator, WPMCalculator } from './WPMCalculator';
 import { IPersistence } from './Persistence';
 import { createElement } from '../utils/dom';
-import { IWebCam } from '../utils/WebCam';
 
 export interface IHandexTerm {
   // Define the interface for your HandexTerm logic
@@ -51,13 +50,12 @@ export class HandexTerm implements IHandexTerm {
     return commandHistory;
   }
 
-  private saveCommandHistory(commandText: string, commandTime: string): number {
-    console.log("saveCommandHistory", commandText);
+  private saveCommandResponseHistory(commandResponseElement: HTMLDivElement, commandTime: string): number {
     // Only keep the latest this.commandHistoryLimit number of commands
     let wpmSum = this.wpmCalculator.saveKeystrokes(commandTime);
     this.wpmCalculator.clearKeystrokes();
-    commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpmSum.toFixed(0)).slice(-4));
-    localStorage.setItem(`${LogKeys.Command}_${commandTime}`, JSON.stringify(commandText));
+    commandResponseElement.innerHTML = commandResponseElement.innerHTML.replace(/{{wpm}}/g, ('_____' + wpmSum.toFixed(0)).slice(-4));
+    localStorage.setItem(`${LogKeys.Command}_${commandTime}`, JSON.stringify(commandResponseElement.innerHTML));
     return wpmSum;
   }
 
@@ -124,15 +122,15 @@ export class HandexTerm implements IHandexTerm {
     const timeCode = this.createTimeCode(commandTime);
     let commandText = this.createCommandRecord(command, commandTime);
     const commandElement = this.createHTMLElementFromHTML(commandText);
-    let responseElement = document.createElement('div');
-    responseElement.dataset.status = status.toString();
-    responseElement.appendChild(commandElement);
-    responseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
-    let wpm = this.saveCommandHistory(commandText, timeCode.join('')); // Save updated history to localStorage
+    let commandResponseElement = document.createElement('div');
+    commandResponseElement.dataset.status = status.toString();
+    commandResponseElement.appendChild(commandElement);
+    commandResponseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
+    let wpm = this.saveCommandResponseHistory(commandResponseElement, timeCode.join('')); // Save updated history to localStorage
     commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpm.toFixed(0)).slice(-4));
     if (!this._commandHistory) { this._commandHistory = []; }
-    this._commandHistory.push(responseElement);
-    return responseElement;
+    this._commandHistory.push(commandResponseElement);
+    return commandResponseElement;
   }
 
   private handleKeyPress(event: KeyboardEvent): void {
