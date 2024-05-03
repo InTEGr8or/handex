@@ -15,6 +15,7 @@ export class XtermAdapter {
   private promptDelimiter: string = '$';
   private promptLength: number = 0;
   private webCam: IWebCam;
+  private isShowVideo: boolean = false;
 
   constructor(private handexTerm: IHandexTerm, private element: HTMLElement) {
     this.terminalElement = element;
@@ -34,12 +35,17 @@ export class XtermAdapter {
     this.terminal.open(element);
     this.terminal.onData(this.onDataHandler.bind(this));
     this.loadCommandHistory();
+    this.setViewPortOpacity();
   }
 
-  public enableVideoMode(isVideo: boolean): void {
-    if (isVideo) {
-      this.webCam.toggleVideo(true);
-    }
+  private setViewPortOpacity(): void {
+    const viewPort = document.getElementsByClassName('xterm-viewport')[0] as HTMLDivElement;
+    viewPort.style.opacity = "0.5";
+  }
+
+  public toggleVideo(): void {
+    this.isShowVideo = !this.isShowVideo;
+    this.webCam.toggleVideo(this.isShowVideo);
   }
 
   public getCommandHistory(): HTMLElement[] {
@@ -76,7 +82,7 @@ export class XtermAdapter {
         return;
       }
       if (command === 'video') {
-        this.webCam.toggleVideo(true);
+        this.toggleVideo();
         return;
       }
       let result = this.handexTerm.handleCommand(command);

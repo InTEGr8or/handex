@@ -6,7 +6,7 @@
 
 html,
 body {
-    background-color: #111;
+    background-color: #000;
     height: 100%;
     margin: 0;
     padding: 0;
@@ -46,8 +46,8 @@ body {
 }
 
 .log-time {
-    color: seagreen;
-    font-weight: 100;
+    color: grey;
+    font-weight: 100m
 }
 
 .log-hour {
@@ -83,9 +83,29 @@ textarea.xterm-helper-textarea {
     /* font-family: 'Fira Code', monospace; */
 }
 
+video#terminal-video {
+    width: 95%;
+    padding-left: 2.5%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 1;
+}
+
+div.terminal {
+    background-color: #0008;
+    z-index: 10;
+}
+
+.xterm .xterm-viewport {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Adjust the alpha value for transparency */
+}
+
 .terminal {
     /* Terminal styles */
-    background-color: #000;
+    background-color: #0008;
+    z-index: 10;
     color: white;
     font-family: 'Fira Code', monospace;
     font-size: var(--terminal-font-size);
@@ -107,15 +127,18 @@ textarea.xterm-helper-textarea {
             color: magenta;
         }
     }
+}
 
-    .terminal-output {
-        /* Output area styles */
-        color: white;
 
-        .wpm {
-            color: salmon;
-            padding: 0 5px;
-        }
+#terminal .terminal-output {
+    /* Output area styles */
+    color: #FFF;
+    
+    z-index: 10;
+
+    .wpm {
+        color: salmon;
+        padding: 0 5px;
     }
 }
 
@@ -127,6 +150,7 @@ textarea.xterm-helper-textarea {
         --terminal-font-size: 16px;
         --terminal-line-height: 1.2em;
     }
+
     body {
         padding: 10px;
     }

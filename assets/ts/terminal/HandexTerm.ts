@@ -112,7 +112,7 @@ export class HandexTerm implements IHandexTerm {
     }
     const commandTime = new Date();
     const timeCode = this.createTimeCode(commandTime);
-    let commandText = `<div class="log-line"><span class="log-time">${this.createTimeHTML(commandTime)}</span><span class="wpm">{{wpm}}</span>${command}</div>`;
+    let commandText = `<div class="log-line"><span class="log-time">[${this.createTimeHTML(commandTime)}]</span><span class="wpm">{{wpm}}</span>${command}</div>`;
     // Truncate the history if it's too long before saving
     if (this._commandHistory.length > HandexTerm.commandHistoryLimit) {
       this._commandHistory.shift(); // Remove the oldest command

@@ -27,9 +27,11 @@ export class WebCam {
         }
         else {
             // document.querySelector("div.content").appendChild(APP.chordSection);
-            // this.preview.srcObject?.getTracks().forEach(track => track.stop());
-            if(this.preview.srcObject) {
-                this.preview.srcObject?.getTracks().forEach(track => track.stop());
+            console.log("this.preview.srcObject:", this.preview.srcObject);
+            if (this.preview.srcObject) {
+                const tracks = (this.preview.srcObject as MediaStream).getTracks();
+                tracks.forEach(track => track.stop());
+                this.preview.srcObject = null;
             }
             this.preview.srcObject = null;
         }
