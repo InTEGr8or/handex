@@ -15,6 +15,7 @@ class XtermAdapter {
         this.promptDelimiter = '$';
         this.promptLength = 0;
         this.isShowVideo = false;
+        this.touchDistance = null;
         this.terminalElement = element;
         this.terminalElement.classList.add(TerminalTypes_1.TerminalCssClasses.Terminal);
         this.outputElement = this.createOutputElement();
@@ -22,7 +23,6 @@ class XtermAdapter {
         this.webCam = new WebCam_1.WebCam(this.videoElement);
         this.terminalElement.prepend(this.videoElement);
         this.terminalElement.prepend(this.outputElement);
-        // this._terminalElement.appendChild(this.createPromptElement());
         this.terminal = new xterm_1.Terminal({
             fontSize: 14,
             fontFamily: '"Fira Code", Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
@@ -33,6 +33,7 @@ class XtermAdapter {
         this.terminal.onData(this.onDataHandler.bind(this));
         this.loadCommandHistory();
         this.setViewPortOpacity();
+        this.addTouchListeners();
     }
     setViewPortOpacity() {
         const viewPort = document.getElementsByClassName('xterm-viewport')[0];

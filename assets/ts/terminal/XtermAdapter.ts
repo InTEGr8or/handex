@@ -16,6 +16,7 @@ export class XtermAdapter {
   private promptLength: number = 0;
   private webCam: IWebCam;
   private isShowVideo: boolean = false;
+  private touchDistance: number | null = null;
 
   constructor(private handexTerm: IHandexTerm, private element: HTMLElement) {
     this.terminalElement = element;
@@ -25,7 +26,6 @@ export class XtermAdapter {
     this.webCam = new WebCam(this.videoElement);
     this.terminalElement.prepend(this.videoElement);
     this.terminalElement.prepend(this.outputElement);
-    // this._terminalElement.appendChild(this.createPromptElement());
     this.terminal = new Terminal({
       fontSize: 14,
       fontFamily: '"Fira Code", Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
@@ -36,6 +36,7 @@ export class XtermAdapter {
     this.terminal.onData(this.onDataHandler.bind(this));
     this.loadCommandHistory();
     this.setViewPortOpacity();
+    this.addTouchListeners();
   }
 
   private setViewPortOpacity(): void {
@@ -65,6 +66,7 @@ export class XtermAdapter {
     }
     return command.substring(command.indexOf(this.promptDelimiter) + 2);
   }
+  
 
   public onDataHandler(data: string): void {
     // Check if the Enter key was pressed
