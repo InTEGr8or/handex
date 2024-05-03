@@ -47,16 +47,12 @@ export class HandexTerm implements IHandexTerm {
         commandHistory.push(JSON.parse(historyJSON));
       }
     }
+    console.log(commandHistory);
     return commandHistory;
   }
 
-  private handleClick(event: MouseEvent): void {
-    setTimeout(() => {
-      this.inputElement.focus();
-    }, 500)
-  }
-
   private saveCommandHistory(commandText: string, commandTime: string): number {
+    console.log("saveCommandHistory", commandText);
     // Only keep the latest this.commandHistoryLimit number of commands
     let wpmSum = this.wpmCalculator.saveKeystrokes(commandTime);
     this.wpmCalculator.clearKeystrokes();
@@ -127,15 +123,15 @@ export class HandexTerm implements IHandexTerm {
     const commandTime = new Date();
     const timeCode = this.createTimeCode(commandTime);
     let commandText = this.createCommandRecord(command, commandTime);
-    let wpm = this.saveCommandHistory(commandText, timeCode.join('')); // Save updated history to localStorage
-    commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpm.toFixed(0)).slice(-4));
-    if (!this._commandHistory) { this._commandHistory = []; }
     const commandElement = this.createHTMLElementFromHTML(commandText);
     let responseElement = document.createElement('div');
     responseElement.dataset.status = status.toString();
     responseElement.appendChild(commandElement);
     responseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
-    this._commandHistory.push(commandElement);
+    let wpm = this.saveCommandHistory(commandText, timeCode.join('')); // Save updated history to localStorage
+    commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpm.toFixed(0)).slice(-4));
+    if (!this._commandHistory) { this._commandHistory = []; }
+    this._commandHistory.push(responseElement);
     return responseElement;
   }
 
