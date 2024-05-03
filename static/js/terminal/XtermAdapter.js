@@ -15,7 +15,6 @@ class XtermAdapter {
         this.promptDelimiter = '$';
         this.promptLength = 0;
         this.isShowVideo = false;
-        this.touchDistance = null;
         this.terminalElement = element;
         this.terminalElement.classList.add(TerminalTypes_1.TerminalCssClasses.Terminal);
         this.outputElement = this.createOutputElement();
@@ -50,6 +49,7 @@ class XtermAdapter {
     toggleVideo() {
         this.isShowVideo = !this.isShowVideo;
         this.webCam.toggleVideo(this.isShowVideo);
+        return this.isShowVideo;
     }
     getCommandHistory() {
         return this.handexTerm.getCommandHistory();
@@ -85,6 +85,8 @@ class XtermAdapter {
             }
             if (command === 'video') {
                 this.toggleVideo();
+                let result = this.handexTerm.handleCommand(command + ' --' + this.isShowVideo);
+                this.outputElement.appendChild(result);
                 return;
             }
             let result = this.handexTerm.handleCommand(command);

@@ -89,7 +89,7 @@ for filename in os.listdir(directory):
 
         # Rename the file with datetime formatted to YYYY-MM-DD and lowercase title with spaces replaced with hyphens
         title = title.lower().replace(' ', '-').replace('_', '-')
-        title_replace_pattern = r"[^_-\w\-]"
+        title_replace_pattern = r"[^\w\-]"
         title = re.sub(title_replace_pattern, "", title)
         new_filename = date_code + "-" + title + ".md"
         print(f"Renaming {filename} to {new_filename}")

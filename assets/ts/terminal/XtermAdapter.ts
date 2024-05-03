@@ -16,7 +16,6 @@ export class XtermAdapter {
   private promptLength: number = 0;
   private webCam: IWebCam;
   private isShowVideo: boolean = false;
-  private touchDistance: number | null = null;
 
   constructor(private handexTerm: IHandexTerm, private element: HTMLElement) {
     this.terminalElement = element;
@@ -53,9 +52,10 @@ export class XtermAdapter {
     }
   }
 
-  public toggleVideo(): void {
+  public toggleVideo(): boolean {
     this.isShowVideo = !this.isShowVideo;
     this.webCam.toggleVideo(this.isShowVideo);
+    return this.isShowVideo;
   }
 
   public getCommandHistory(): HTMLElement[] {
@@ -94,6 +94,8 @@ export class XtermAdapter {
       }
       if (command === 'video') {
         this.toggleVideo();
+        let result = this.handexTerm.handleCommand(command + ' --' + this.isShowVideo);
+        this.outputElement.appendChild(result);
         return;
       }
       let result = this.handexTerm.handleCommand(command);

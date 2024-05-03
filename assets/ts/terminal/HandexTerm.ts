@@ -98,7 +98,7 @@ export class HandexTerm implements IHandexTerm {
     return this.wpmCalculator.recordKeystroke(character).durationMilliseconds;
   }
 
-  createCommandRecord(command: string, commandTime: Date ): string {
+  createCommandRecord(command: string, commandTime: Date): string {
     let commandText = `<div class="log-line"><span class="log-time">[${this.createTimeHTML(commandTime)}]</span><span class="wpm">{{wpm}}</span>${command}</div>`;
     return commandText;
   }
@@ -110,8 +110,19 @@ export class HandexTerm implements IHandexTerm {
       this.clearCommandHistory();
       return new HTMLElement();
     }
-    if(command === 'play'){
+    if (command === 'play') {
+      status = 200;
       response = "Would you like to play a game?"
+    }
+    if (command.startsWith('video --')) {
+      status = 200;
+      console.log("Video Command: " + command);
+      if (command === 'video --true') {
+        response = "Starting video camera..."
+      }
+      else {
+        response = "Stopping video camera..."
+      }
     }
     // Truncate the history if it's too long before saving
     if (this._commandHistory.length > HandexTerm.commandHistoryLimit) {
