@@ -79,7 +79,6 @@ body {
 }
 
 textarea.xterm-helper-textarea {
-    font-size: var(--terminal-font-size);
     /* font-family: 'Fira Code', monospace; */
 }
 
@@ -147,7 +146,6 @@ div.terminal {
 
     /* Example breakpoint for mobile devices */
     :root {
-        --terminal-font-size: 16px;
         --terminal-line-height: 1.2em;
     }
 
@@ -189,7 +187,6 @@ div.terminal {
     white-space: pre-wrap;
     overflow-y: hidden;
     font-family: 'Fira Code', monospace;
-    font-size: var(--terminal-font-size);
     padding: 0;
     vertical-align: top;
     /* If you want the textarea to grow without a scrollbar */

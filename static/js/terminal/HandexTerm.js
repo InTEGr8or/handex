@@ -34,7 +34,6 @@ class HandexTerm {
                 commandHistory.push(JSON.parse(historyJSON));
             }
         }
-        console.log(commandHistory);
         return commandHistory;
     }
     saveCommandResponseHistory(commandResponseElement, commandTime) {

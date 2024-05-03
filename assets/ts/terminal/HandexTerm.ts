@@ -46,7 +46,6 @@ export class HandexTerm implements IHandexTerm {
         commandHistory.push(JSON.parse(historyJSON));
       }
     }
-    console.log(commandHistory);
     return commandHistory;
   }
 

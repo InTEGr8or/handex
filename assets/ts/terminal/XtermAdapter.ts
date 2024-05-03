@@ -27,7 +27,6 @@ export class XtermAdapter {
     this.terminalElement.prepend(this.videoElement);
     this.terminalElement.prepend(this.outputElement);
     this.terminal = new Terminal({
-      fontSize: 14,
       fontFamily: '"Fira Code", Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
       cursorBlink: true,
       cursorStyle: 'block'
@@ -37,11 +36,21 @@ export class XtermAdapter {
     this.loadCommandHistory();
     this.setViewPortOpacity();
     this.addTouchListeners();
+    this.loadFontSize();
   }
 
   private setViewPortOpacity(): void {
     const viewPort = document.getElementsByClassName('xterm-viewport')[0] as HTMLDivElement;
     viewPort.style.opacity = "0.5";
+  }
+
+  private loadFontSize(): void {
+    const fontSize = localStorage.getItem('terminalFontSize');
+    if (fontSize) {
+      this.currentFontSize = parseInt(fontSize);
+      this.terminalElement.style.fontSize = `${this.currentFontSize}px`;
+      this.terminal.options.fontSize = this.currentFontSize;
+    }
   }
 
   public toggleVideo(): void {
@@ -66,7 +75,7 @@ export class XtermAdapter {
     }
     return command.substring(command.indexOf(this.promptDelimiter) + 2);
   }
-  
+
 
   public onDataHandler(data: string): void {
     // Check if the Enter key was pressed
@@ -77,7 +86,7 @@ export class XtermAdapter {
       this.terminal.reset();
       // Write the new prompt after clearing
       this.prompt();
-      if(command === '') return;
+      if (command === '') return;
       if (command === 'clear') {
         this.handexTerm.clearCommandHistory();
         this.outputElement.innerHTML = '';
@@ -123,7 +132,7 @@ export class XtermAdapter {
     // Additional styles and attributes can be set here
     return output;
   }
-  
+
   private createVideoElement(isVisible: boolean = false): HTMLVideoElement {
     const video = document.createElement('video');
     video.id = 'terminal-video';
@@ -170,11 +179,15 @@ export class XtermAdapter {
         this.currentFontSize *= scaleFactor;
         this.terminalElement.style.fontSize = `${this.currentFontSize}px`;
         this.lastTouchDistance = currentDistance;
+        const currentFontSize = this.terminal.options.fontSize;
+        this.terminal.options.fontSize = this.currentFontSize;
+        this.terminal.refresh(0, this.terminal.rows - 1); // Refresh the terminal display
       }
     }
   }
 
   private handleTouchEnd(event: TouchEvent): void {
+    localStorage.setItem('terminalFontSize', `${this.currentFontSize}`);
     this.lastTouchDistance = null;
   }
 
