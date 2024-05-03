@@ -19,11 +19,15 @@ export class WebCam {
 
     toggleVideo = (setOn: boolean) => {
         if (setOn) {
-            navigator.mediaDevices.getUserMedia({
+            navigator.mediaDevices
+            .getUserMedia({
                 video: {
                     facingMode: 'environment'
                 }
-            }).then(stream => this.preview.srcObject = stream);
+            })
+            .then(
+                stream => this.preview.srcObject = stream
+            );
         }
         else {
             // document.querySelector("div.content").appendChild(APP.chordSection);

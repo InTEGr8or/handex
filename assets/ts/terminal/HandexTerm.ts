@@ -105,23 +105,38 @@ export class HandexTerm implements IHandexTerm {
     return this.wpmCalculator.recordKeystroke(character).durationMilliseconds;
   }
 
+  createCommandRecord(command: string, commandTime: Date ): string {
+    let commandText = `<div class="log-line"><span class="log-time">[${this.createTimeHTML(commandTime)}]</span><span class="wpm">{{wpm}}</span>${command}</div>`;
+    return commandText;
+  }
+
   public handleCommand(command: string): HTMLElement {
+    let status = 404;
+    let response = "Command not found.";
     if (command === 'clear') {
       this.clearCommandHistory();
       return new HTMLElement();
     }
-    const commandTime = new Date();
-    const timeCode = this.createTimeCode(commandTime);
-    let commandText = `<div class="log-line"><span class="log-time">[${this.createTimeHTML(commandTime)}]</span><span class="wpm">{{wpm}}</span>${command}</div>`;
+    if(command === 'play'){
+      response = "Would you like to play a game?"
+    }
     // Truncate the history if it's too long before saving
     if (this._commandHistory.length > HandexTerm.commandHistoryLimit) {
       this._commandHistory.shift(); // Remove the oldest command
     }
+    const commandTime = new Date();
+    const timeCode = this.createTimeCode(commandTime);
+    let commandText = this.createCommandRecord(command, commandTime);
     let wpm = this.saveCommandHistory(commandText, timeCode.join('')); // Save updated history to localStorage
     commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpm.toFixed(0)).slice(-4));
     if (!this._commandHistory) { this._commandHistory = []; }
-    this._commandHistory.push(this.createHTMLElementFromHTML(commandText));
-    return this.createHTMLElementFromHTML(commandText);
+    const commandElement = this.createHTMLElementFromHTML(commandText);
+    let responseElement = document.createElement('div');
+    responseElement.dataset.status = status.toString();
+    responseElement.appendChild(commandElement);
+    responseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
+    this._commandHistory.push(commandElement);
+    return responseElement;
   }
 
   private handleKeyPress(event: KeyboardEvent): void {
