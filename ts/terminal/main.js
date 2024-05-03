@@ -6912,7 +6912,7 @@ WARNING: This link could potentially be dangerous`)) {
       }
       const commandTime = /* @__PURE__ */ new Date();
       const timeCode = this.createTimeCode(commandTime);
-      let commandText = `<div class="log-line"><span class="log-time">${this.createTimeHTML(commandTime)}</span><span class="wpm">{{wpm}}</span>${command}</div>`;
+      let commandText = `<div class="log-line"><span class="log-time">[${this.createTimeHTML(commandTime)}]</span><span class="wpm">{{wpm}}</span>${command}</div>`;
       if (this._commandHistory.length > _HandexTerm.commandHistoryLimit) {
         this._commandHistory.shift();
       }
@@ -6992,7 +6992,6 @@ WARNING: This link could potentially be dangerous`)) {
       this.isVideo = false;
       this.facingMode = "user";
       this.toggleVideo = (setOn) => {
-        var _a;
         if (setOn) {
           navigator.mediaDevices.getUserMedia({
             video: {
@@ -7000,8 +6999,11 @@ WARNING: This link could potentially be dangerous`)) {
             }
           }).then((stream) => this.preview.srcObject = stream);
         } else {
+          console.log("this.preview.srcObject:", this.preview.srcObject);
           if (this.preview.srcObject) {
-            (_a = this.preview.srcObject) == null ? void 0 : _a.getTracks().forEach((track) => track.stop());
+            const tracks = this.preview.srcObject.getTracks();
+            tracks.forEach((track) => track.stop());
+            this.preview.srcObject = null;
           }
           this.preview.srcObject = null;
         }
@@ -7027,6 +7029,7 @@ WARNING: This link could potentially be dangerous`)) {
       this.currentFontSize = 17;
       this.promptDelimiter = "$";
       this.promptLength = 0;
+      this.isShowVideo = false;
       this.terminalElement = element;
       this.terminalElement.classList.add(TerminalCssClasses.Terminal);
       this.outputElement = this.createOutputElement();
@@ -7043,11 +7046,15 @@ WARNING: This link could potentially be dangerous`)) {
       this.terminal.open(element);
       this.terminal.onData(this.onDataHandler.bind(this));
       this.loadCommandHistory();
+      this.setViewPortOpacity();
     }
-    enableVideoMode(isVideo) {
-      if (isVideo) {
-        this.webCam.toggleVideo(true);
-      }
+    setViewPortOpacity() {
+      const viewPort = document.getElementsByClassName("xterm-viewport")[0];
+      viewPort.style.opacity = "0.5";
+    }
+    toggleVideo() {
+      this.isShowVideo = !this.isShowVideo;
+      this.webCam.toggleVideo(this.isShowVideo);
     }
     getCommandHistory() {
       return this.handexTerm.getCommandHistory();
@@ -7076,7 +7083,7 @@ WARNING: This link could potentially be dangerous`)) {
           return;
         }
         if (command === "video") {
-          this.webCam.toggleVideo(true);
+          this.toggleVideo();
           return;
         }
         let result = this.handexTerm.handleCommand(command);
