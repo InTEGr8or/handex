@@ -2,6 +2,7 @@
 import { Terminal } from '@xterm/xterm';
 import { IHandexTerm } from './HandexTerm';
 import { TerminalCssClasses } from './TerminalTypes';
+import { IWebCam, WebCam } from '../utils/WebCam';
 
 export class XtermAdapter {
   private terminal: Terminal;
@@ -10,13 +11,18 @@ export class XtermAdapter {
   private lastTouchDistance: number | null = null;
   private currentFontSize: number = 17;
   private outputElement: HTMLElement;
+  private videoElement: HTMLVideoElement;
   private promptDelimiter: string = '$';
   private promptLength: number = 0;
+  private webCam: IWebCam;
 
   constructor(private handexTerm: IHandexTerm, private element: HTMLElement) {
     this.terminalElement = element;
     this.terminalElement.classList.add(TerminalCssClasses.Terminal);
     this.outputElement = this.createOutputElement();
+    this.videoElement = this.createVideoElement();
+    this.webCam = new WebCam(this.videoElement);
+    this.terminalElement.prepend(this.videoElement);
     this.terminalElement.prepend(this.outputElement);
     // this._terminalElement.appendChild(this.createPromptElement());
     this.terminal = new Terminal({
@@ -28,6 +34,12 @@ export class XtermAdapter {
     this.terminal.open(element);
     this.terminal.onData(this.onDataHandler.bind(this));
     this.loadCommandHistory();
+  }
+
+  public enableVideoMode(isVideo: boolean): void {
+    if (isVideo) {
+      this.webCam.toggleVideo(true);
+    }
   }
 
   public getCommandHistory(): HTMLElement[] {
@@ -53,21 +65,25 @@ export class XtermAdapter {
     if (data.charCodeAt(0) === 13) { // Enter key
       // Process the command before clearing the terminal
       let command = this.getCurrentCommand();
-      if (command === 'clear') {
-        this.handexTerm.clearCommandHistory();
-        this.outputElement.innerHTML = '';
-        this.terminal.reset();
-        this.prompt();
-        return;
-      }
-      let result = this.handexTerm.handleCommand(command);
-      this.outputElement.appendChild(result);
       // Clear the terminal after processing the command
       this.terminal.reset();
       // Write the new prompt after clearing
       this.prompt();
+      if(command === '') return;
+      if (command === 'clear') {
+        this.handexTerm.clearCommandHistory();
+        this.outputElement.innerHTML = '';
+        return;
+      }
+      if (command === 'video') {
+        this.webCam.toggleVideo(true);
+        return;
+      }
+      let result = this.handexTerm.handleCommand(command);
+      this.outputElement.appendChild(result);
     } else if (data.charCodeAt(0) === 3) { // Ctrl+C
       this.terminal.reset();
+      this.prompt();
     } else if (data.charCodeAt(0) === 127) { // Backspace
       // Remove the last character from the terminal
       if (this.terminal.buffer.active.cursorX < this.promptLength) return;
@@ -99,6 +115,14 @@ export class XtermAdapter {
     output.classList.add('terminal-output');
     // Additional styles and attributes can be set here
     return output;
+  }
+  
+  private createVideoElement(isVisible: boolean = false): HTMLVideoElement {
+    const video = document.createElement('video');
+    video.id = 'terminal-video';
+    video.hidden = !isVisible;
+    // Additional styles and attributes can be set here
+    return video;
   }
 
   prompt(user: string = 'guest', host: string = 'handex.io') {

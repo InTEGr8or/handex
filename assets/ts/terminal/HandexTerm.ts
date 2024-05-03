@@ -4,6 +4,8 @@ import { ITerminalInputElement, TerminalInputElement } from './TerminalInputElem
 import { IWPMCalculator, WPMCalculator } from './WPMCalculator';
 import { IPersistence } from './Persistence';
 import { createElement } from '../utils/dom';
+import { IWebCam } from '../utils/WebCam';
+
 export interface IHandexTerm {
   // Define the interface for your HandexTerm logic
   handleCommand(input: string): HTMLElement;
@@ -24,7 +26,9 @@ export class HandexTerm implements IHandexTerm {
   constructor(private persistence: IPersistence,) {
     this._persistence = persistence;
     this.bindInput();
+
   }
+
 
   getCommandHistory(): HTMLElement[] {
     let keys: string[] = [];

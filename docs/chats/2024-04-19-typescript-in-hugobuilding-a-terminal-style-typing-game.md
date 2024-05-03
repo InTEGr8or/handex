@@ -1723,7 +1723,7 @@ class TerminalGame {
 and the CSS is here:
 
 ```css
-.terminal-head {
+.terminal-nav {
   color: white;
   background-color: #000;
   font-weight: bold;

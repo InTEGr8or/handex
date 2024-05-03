@@ -5,9 +5,6 @@ import { XtermAdapter } from './XtermAdapter';
 import { IPersistence, LocalStoragePersistence } from './Persistence';
 import { TerminalGame } from './TerminalGame';
 
-// Import xterm.js and its addons
-import { Terminal } from '@xterm/xterm';
-import { FitAddon } from '@xterm/addon-fit';
 
 // const terminalGame = new TerminalGame(handexTerm, persistence);
 
@@ -22,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Optionally, if you have output from HandexTerm to display, use xtermAdapter.renderOutput
         xtermAdapter.prompt();
-        document.getElementById('terminal-head')?.addEventListener('click', () => {
+        document.getElementById('terminal-nav')?.addEventListener('click', () => {
             terminalContainer.focus();
         })
     }
