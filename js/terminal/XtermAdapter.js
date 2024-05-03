@@ -4,6 +4,7 @@ exports.XtermAdapter = void 0;
 // XtermAdapter.ts
 const xterm_1 = require("@xterm/xterm");
 const TerminalTypes_1 = require("./TerminalTypes");
+const WebCam_1 = require("../utils/WebCam");
 class XtermAdapter {
     constructor(handexTerm, element) {
         this.handexTerm = handexTerm;
@@ -13,9 +14,13 @@ class XtermAdapter {
         this.currentFontSize = 17;
         this.promptDelimiter = '$';
         this.promptLength = 0;
+        this.isShowVideo = false;
         this.terminalElement = element;
         this.terminalElement.classList.add(TerminalTypes_1.TerminalCssClasses.Terminal);
         this.outputElement = this.createOutputElement();
+        this.videoElement = this.createVideoElement();
+        this.webCam = new WebCam_1.WebCam(this.videoElement);
+        this.terminalElement.prepend(this.videoElement);
         this.terminalElement.prepend(this.outputElement);
         // this._terminalElement.appendChild(this.createPromptElement());
         this.terminal = new xterm_1.Terminal({
@@ -27,6 +32,15 @@ class XtermAdapter {
         this.terminal.open(element);
         this.terminal.onData(this.onDataHandler.bind(this));
         this.loadCommandHistory();
+        this.setViewPortOpacity();
+    }
+    setViewPortOpacity() {
+        const viewPort = document.getElementsByClassName('xterm-viewport')[0];
+        viewPort.style.opacity = "0.5";
+    }
+    toggleVideo() {
+        this.isShowVideo = !this.isShowVideo;
+        this.webCam.toggleVideo(this.isShowVideo);
     }
     getCommandHistory() {
         return this.handexTerm.getCommandHistory();
@@ -49,22 +63,27 @@ class XtermAdapter {
         if (data.charCodeAt(0) === 13) { // Enter key
             // Process the command before clearing the terminal
             let command = this.getCurrentCommand();
-            if (command === 'clear') {
-                this.handexTerm.clearCommandHistory();
-                this.outputElement.innerHTML = '';
-                this.terminal.reset();
-                this.prompt();
-                return;
-            }
-            let result = this.handexTerm.handleCommand(command);
-            this.outputElement.appendChild(result);
             // Clear the terminal after processing the command
             this.terminal.reset();
             // Write the new prompt after clearing
             this.prompt();
+            if (command === '')
+                return;
+            if (command === 'clear') {
+                this.handexTerm.clearCommandHistory();
+                this.outputElement.innerHTML = '';
+                return;
+            }
+            if (command === 'video') {
+                this.toggleVideo();
+                return;
+            }
+            let result = this.handexTerm.handleCommand(command);
+            this.outputElement.appendChild(result);
         }
         else if (data.charCodeAt(0) === 3) { // Ctrl+C
             this.terminal.reset();
+            this.prompt();
         }
         else if (data.charCodeAt(0) === 127) { // Backspace
             // Remove the last character from the terminal
@@ -78,7 +97,6 @@ class XtermAdapter {
             let wpm = this.handexTerm.handleCharacter(data);
             if (data.charCodeAt(0) === 27) { // escape and navigation characters
                 if (data.charCodeAt(1) === 91) {
-                    console.log("Cursor x, y", this.terminal.buffer.active.cursorX, this.terminal.buffer.active.cursorY);
                     if (data.charCodeAt(2) === 68 && (this.terminal.buffer.active.cursorX < this.promptLength)) {
                         return;
                     }
@@ -98,9 +116,15 @@ class XtermAdapter {
         // Additional styles and attributes can be set here
         return output;
     }
+    createVideoElement(isVisible = false) {
+        const video = document.createElement('video');
+        video.id = 'terminal-video';
+        video.hidden = !isVisible;
+        // Additional styles and attributes can be set here
+        return video;
+    }
     prompt(user = 'guest', host = 'handex.io') {
         const promptText = `\x1b[1;34m${user}@${host} \x1b[0m\x1b[1;32m~${this.promptDelimiter}\x1b[0m `;
-        console.log("promptChars: ", promptText.split(''));
         this.promptLength = promptText.length - 21;
         this.terminal.write(promptText);
         // this.promptLength = this.terminal.buffer.active.cursorX;

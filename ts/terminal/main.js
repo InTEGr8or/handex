@@ -6860,18 +6860,14 @@ WARNING: This link could potentially be dangerous`)) {
           commandHistory.push(JSON.parse(historyJSON));
         }
       }
+      console.log(commandHistory);
       return commandHistory;
     }
-    handleClick(event) {
-      setTimeout(() => {
-        this.inputElement.focus();
-      }, 500);
-    }
-    saveCommandHistory(commandText, commandTime) {
+    saveCommandResponseHistory(commandResponseElement, commandTime) {
       let wpmSum = this.wpmCalculator.saveKeystrokes(commandTime);
       this.wpmCalculator.clearKeystrokes();
-      commandText = commandText.replace(/{{wpm}}/g, ("_____" + wpmSum.toFixed(0)).slice(-4));
-      localStorage.setItem(`${LogKeys.Command}_${commandTime}`, JSON.stringify(commandText));
+      commandResponseElement.innerHTML = commandResponseElement.innerHTML.replace(/{{wpm}}/g, ("_____" + wpmSum.toFixed(0)).slice(-4));
+      localStorage.setItem(`${LogKeys.Command}_${commandTime}`, JSON.stringify(commandResponseElement.innerHTML));
       return wpmSum;
     }
     clearCommandHistory() {
@@ -6925,18 +6921,18 @@ WARNING: This link could potentially be dangerous`)) {
       const commandTime = /* @__PURE__ */ new Date();
       const timeCode = this.createTimeCode(commandTime);
       let commandText = this.createCommandRecord(command, commandTime);
-      let wpm = this.saveCommandHistory(commandText, timeCode.join(""));
+      const commandElement = this.createHTMLElementFromHTML(commandText);
+      let commandResponseElement = document.createElement("div");
+      commandResponseElement.dataset.status = status.toString();
+      commandResponseElement.appendChild(commandElement);
+      commandResponseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
+      let wpm = this.saveCommandResponseHistory(commandResponseElement, timeCode.join(""));
       commandText = commandText.replace(/{{wpm}}/g, ("_____" + wpm.toFixed(0)).slice(-4));
       if (!this._commandHistory) {
         this._commandHistory = [];
       }
-      const commandElement = this.createHTMLElementFromHTML(commandText);
-      let responseElement = document.createElement("div");
-      responseElement.dataset.status = status.toString();
-      responseElement.appendChild(commandElement);
-      responseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
-      this._commandHistory.push(commandElement);
-      return responseElement;
+      this._commandHistory.push(commandResponseElement);
+      return commandResponseElement;
     }
     handleKeyPress(event) {
       if (event.key === "Enter") {

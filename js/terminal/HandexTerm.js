@@ -34,19 +34,15 @@ class HandexTerm {
                 commandHistory.push(JSON.parse(historyJSON));
             }
         }
+        console.log(commandHistory);
         return commandHistory;
     }
-    handleClick(event) {
-        setTimeout(() => {
-            this.inputElement.focus();
-        }, 500);
-    }
-    saveCommandHistory(commandText, commandTime) {
+    saveCommandResponseHistory(commandResponseElement, commandTime) {
         // Only keep the latest this.commandHistoryLimit number of commands
         let wpmSum = this.wpmCalculator.saveKeystrokes(commandTime);
         this.wpmCalculator.clearKeystrokes();
-        commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpmSum.toFixed(0)).slice(-4));
-        localStorage.setItem(`${TerminalTypes_1.LogKeys.Command}_${commandTime}`, JSON.stringify(commandText));
+        commandResponseElement.innerHTML = commandResponseElement.innerHTML.replace(/{{wpm}}/g, ('_____' + wpmSum.toFixed(0)).slice(-4));
+        localStorage.setItem(`${TerminalTypes_1.LogKeys.Command}_${commandTime}`, JSON.stringify(commandResponseElement.innerHTML));
         return wpmSum;
     }
     clearCommandHistory() {
@@ -82,25 +78,39 @@ class HandexTerm {
     handleCharacter(character) {
         return this.wpmCalculator.recordKeystroke(character).durationMilliseconds;
     }
+    createCommandRecord(command, commandTime) {
+        let commandText = `<div class="log-line"><span class="log-time">[${this.createTimeHTML(commandTime)}]</span><span class="wpm">{{wpm}}</span>${command}</div>`;
+        return commandText;
+    }
     handleCommand(command) {
+        let status = 404;
+        let response = "Command not found.";
         if (command === 'clear') {
             this.clearCommandHistory();
             return new HTMLElement();
         }
-        const commandTime = new Date();
-        const timeCode = this.createTimeCode(commandTime);
-        let commandText = `<div class="log-line"><span class="log-time">${this.createTimeHTML(commandTime)}</span><span class="wpm">{{wpm}}</span>${command}</div>`;
+        if (command === 'play') {
+            response = "Would you like to play a game?";
+        }
         // Truncate the history if it's too long before saving
         if (this._commandHistory.length > HandexTerm.commandHistoryLimit) {
             this._commandHistory.shift(); // Remove the oldest command
         }
-        let wpm = this.saveCommandHistory(commandText, timeCode.join('')); // Save updated history to localStorage
+        const commandTime = new Date();
+        const timeCode = this.createTimeCode(commandTime);
+        let commandText = this.createCommandRecord(command, commandTime);
+        const commandElement = this.createHTMLElementFromHTML(commandText);
+        let commandResponseElement = document.createElement('div');
+        commandResponseElement.dataset.status = status.toString();
+        commandResponseElement.appendChild(commandElement);
+        commandResponseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
+        let wpm = this.saveCommandResponseHistory(commandResponseElement, timeCode.join('')); // Save updated history to localStorage
         commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpm.toFixed(0)).slice(-4));
         if (!this._commandHistory) {
             this._commandHistory = [];
         }
-        this._commandHistory.push(this.createHTMLElementFromHTML(commandText));
-        return this.createHTMLElementFromHTML(commandText);
+        this._commandHistory.push(commandResponseElement);
+        return commandResponseElement;
     }
     handleKeyPress(event) {
         // Logic to handle keypresses, calculate WPM, and update the progress bar
