@@ -6905,24 +6905,38 @@ WARNING: This link could potentially be dangerous`)) {
     handleCharacter(character) {
       return this.wpmCalculator.recordKeystroke(character).durationMilliseconds;
     }
+    createCommandRecord(command, commandTime) {
+      let commandText = `<div class="log-line"><span class="log-time">[${this.createTimeHTML(commandTime)}]</span><span class="wpm">{{wpm}}</span>${command}</div>`;
+      return commandText;
+    }
     handleCommand(command) {
+      let status = 404;
+      let response = "Command not found.";
       if (command === "clear") {
         this.clearCommandHistory();
         return new HTMLElement();
       }
-      const commandTime = /* @__PURE__ */ new Date();
-      const timeCode = this.createTimeCode(commandTime);
-      let commandText = `<div class="log-line"><span class="log-time">[${this.createTimeHTML(commandTime)}]</span><span class="wpm">{{wpm}}</span>${command}</div>`;
+      if (command === "play") {
+        response = "Would you like to play a game?";
+      }
       if (this._commandHistory.length > _HandexTerm.commandHistoryLimit) {
         this._commandHistory.shift();
       }
+      const commandTime = /* @__PURE__ */ new Date();
+      const timeCode = this.createTimeCode(commandTime);
+      let commandText = this.createCommandRecord(command, commandTime);
       let wpm = this.saveCommandHistory(commandText, timeCode.join(""));
       commandText = commandText.replace(/{{wpm}}/g, ("_____" + wpm.toFixed(0)).slice(-4));
       if (!this._commandHistory) {
         this._commandHistory = [];
       }
-      this._commandHistory.push(this.createHTMLElementFromHTML(commandText));
-      return this.createHTMLElementFromHTML(commandText);
+      const commandElement = this.createHTMLElementFromHTML(commandText);
+      let responseElement = document.createElement("div");
+      responseElement.dataset.status = status.toString();
+      responseElement.appendChild(commandElement);
+      responseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
+      this._commandHistory.push(commandElement);
+      return responseElement;
     }
     handleKeyPress(event) {
       if (event.key === "Enter") {
@@ -6997,7 +7011,9 @@ WARNING: This link could potentially be dangerous`)) {
             video: {
               facingMode: "environment"
             }
-          }).then((stream) => this.preview.srcObject = stream);
+          }).then(
+            (stream) => this.preview.srcObject = stream
+          );
         } else {
           console.log("this.preview.srcObject:", this.preview.srcObject);
           if (this.preview.srcObject) {
@@ -7100,7 +7116,6 @@ WARNING: This link could potentially be dangerous`)) {
         let wpm = this.handexTerm.handleCharacter(data);
         if (data.charCodeAt(0) === 27) {
           if (data.charCodeAt(1) === 91) {
-            console.log("Cursor x, y", this.terminal.buffer.active.cursorX, this.terminal.buffer.active.cursorY);
             if (data.charCodeAt(2) === 68 && this.terminal.buffer.active.cursorX < this.promptLength) {
               return;
             }
@@ -7127,7 +7142,6 @@ WARNING: This link could potentially be dangerous`)) {
     }
     prompt(user = "guest", host = "handex.io") {
       const promptText = `\x1B[1;34m${user}@${host} \x1B[0m\x1B[1;32m~${this.promptDelimiter}\x1B[0m `;
-      console.log("promptChars: ", promptText.split(""));
       this.promptLength = promptText.length - 21;
       this.terminal.write(promptText);
     }

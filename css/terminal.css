@@ -93,7 +93,7 @@ video#terminal-video {
 }
 
 div.terminal {
-    background-color: #0008;
+    background-color: #0000;
     z-index: 10;
 }
 
@@ -104,7 +104,7 @@ div.terminal {
 
 .terminal {
     /* Terminal styles */
-    background-color: #0008;
+    background-color: #0003;
     z-index: 10;
     color: white;
     font-family: 'Fira Code', monospace;
@@ -117,14 +117,14 @@ div.terminal {
     flex-direction: column;
 
     .prompt {
-        color: lightseagreen;
+    color: lightseagreen;
 
         .domain {
-            color: darkkhaki;
+    color: darkkhaki;
         }
 
         .user {
-            color: magenta;
+    color: magenta;
         }
     }
 }
