@@ -1,9 +1,7 @@
 // HandexTerm.ts
 import { LogKeys, TimeHTML } from './TerminalTypes';
-import { ITerminalInputElement, TerminalInputElement } from './TerminalInputElement';
 import { IWPMCalculator, WPMCalculator } from './WPMCalculator';
 import { IPersistence } from './Persistence';
-import { createElement } from '../utils/dom';
 
 export interface IHandexTerm {
   // Define the interface for your HandexTerm logic
@@ -11,7 +9,6 @@ export interface IHandexTerm {
   clearCommandHistory(): void;
   handleCharacter(character: string): number;
   getCommandHistory(): HTMLElement[];
-  // Other product-specific terminal logic
 }
 
 export class HandexTerm implements IHandexTerm {
@@ -19,15 +16,78 @@ export class HandexTerm implements IHandexTerm {
   private _persistence: IPersistence;
   private _commandHistory: HTMLElement[] = [];
   private wpmCalculator: IWPMCalculator = new WPMCalculator();
-  private inputElement: ITerminalInputElement = new TerminalInputElement();
   private static readonly commandHistoryLimit = 100;
 
   constructor(private persistence: IPersistence,) {
     this._persistence = persistence;
-    this.bindInput();
 
   }
 
+  public handleCommand(command: string): HTMLElement {
+    let status = 404;
+    let response = "Command not found.";
+    if (command === 'clear') {
+      status = 200;
+      this.clearCommandHistory();
+      return new HTMLElement();
+    }
+    if (command === 'play') {
+      status = 200;
+      response = "Would you like to play a game?"
+    }
+    if (command.startsWith('video --')) {
+      status = 200;
+      console.log("Video Command: " + command);
+      if (command === 'video --true') {
+        response = "Starting video camera..."
+      }
+      else {
+        response = "Stopping video camera..."
+      }
+    }
+
+    
+
+    // Truncate the history if it's too long before saving
+    if (this._commandHistory.length > HandexTerm.commandHistoryLimit) {
+      this._commandHistory.shift(); // Remove the oldest command
+    }
+    const commandTime = new Date();
+    const timeCode = this.createTimeCode(commandTime);
+    let commandText = this.createCommandRecord(command, commandTime);
+    const commandElement = this.createHTMLElementFromHTML(commandText);
+    let commandResponseElement = document.createElement('div');
+    commandResponseElement.dataset.status = status.toString();
+    commandResponseElement.appendChild(commandElement);
+    commandResponseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
+    let wpm = this.saveCommandResponseHistory(commandResponseElement, timeCode.join('')); // Save updated history to localStorage
+    commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpm.toFixed(0)).slice(-4));
+    if (!this._commandHistory) { this._commandHistory = []; }
+    this._commandHistory.push(commandResponseElement);
+    return commandResponseElement;
+  }
+
+  parseCommand(input: string): void {
+    const args = input.split(/\s+/); // Split the input by whitespace
+    const command = args[0]; // The first element is the command
+    const options = args.slice(1); // The rest are the associated options/arguments
+
+    // Now you can handle the command and options
+    console.log('Command:', command);
+    console.log('Options:', options);
+    
+
+    // Based on the command, you can switch and call different functions
+    switch (command) {
+      case 'someCommand':
+        // Handle 'someCommand'
+        break;
+      // Add cases for other commands as needed
+      default:
+        // Handle unknown command
+        break;
+    }
+  }
 
   getCommandHistory(): HTMLElement[] {
     let keys: string[] = [];
@@ -54,7 +114,7 @@ export class HandexTerm implements IHandexTerm {
     let wpmSum = this.wpmCalculator.saveKeystrokes(commandTime);
     this.wpmCalculator.clearKeystrokes();
     commandResponseElement.innerHTML = commandResponseElement.innerHTML.replace(/{{wpm}}/g, ('_____' + wpmSum.toFixed(0)).slice(-4));
-    localStorage.setItem(`${LogKeys.Command}_${commandTime}`, JSON.stringify(commandResponseElement.innerHTML));
+    this._persistence.setItem(`${LogKeys.Command}_${commandTime}`, JSON.stringify(commandResponseElement.innerHTML));
     return wpmSum;
   }
 
@@ -76,17 +136,6 @@ export class HandexTerm implements IHandexTerm {
     }
     this._commandHistory = [];
   }
-  private bindInput(): void {
-    if (this.inputElement) {
-      this
-        .inputElement
-        .input
-        .addEventListener(
-          'keydown',
-          (event: KeyboardEvent) => this.handleKeyPress(event)
-        );
-    }
-  }
 
   createHTMLElementFromHTML(htmlString: string): HTMLElement {
     const parser = new DOMParser();
@@ -103,64 +152,6 @@ export class HandexTerm implements IHandexTerm {
     return commandText;
   }
 
-  public handleCommand(command: string): HTMLElement {
-    let status = 404;
-    let response = "Command not found.";
-    if (command === 'clear') {
-      this.clearCommandHistory();
-      return new HTMLElement();
-    }
-    if (command === 'play') {
-      status = 200;
-      response = "Would you like to play a game?"
-    }
-    if (command.startsWith('video --')) {
-      status = 200;
-      console.log("Video Command: " + command);
-      if (command === 'video --true') {
-        response = "Starting video camera..."
-      }
-      else {
-        response = "Stopping video camera..."
-      }
-    }
-    // Truncate the history if it's too long before saving
-    if (this._commandHistory.length > HandexTerm.commandHistoryLimit) {
-      this._commandHistory.shift(); // Remove the oldest command
-    }
-    const commandTime = new Date();
-    const timeCode = this.createTimeCode(commandTime);
-    let commandText = this.createCommandRecord(command, commandTime);
-    const commandElement = this.createHTMLElementFromHTML(commandText);
-    let commandResponseElement = document.createElement('div');
-    commandResponseElement.dataset.status = status.toString();
-    commandResponseElement.appendChild(commandElement);
-    commandResponseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
-    let wpm = this.saveCommandResponseHistory(commandResponseElement, timeCode.join('')); // Save updated history to localStorage
-    commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpm.toFixed(0)).slice(-4));
-    if (!this._commandHistory) { this._commandHistory = []; }
-    this._commandHistory.push(commandResponseElement);
-    return commandResponseElement;
-  }
-
-  private handleKeyPress(event: KeyboardEvent): void {
-    // Logic to handle keypresses, calculate WPM, and update the progress bar
-    // ...
-    if (event.key === 'Enter') {
-      if (event.shiftKey) {
-        this.inputElement.input.value += '\n';
-        return;
-      }
-      const command = this.inputElement.input.value.trim();
-      this.inputElement.input.value = '';
-      this.handleCommand(command);
-    }
-    if (event.ctrlKey && event.key === 'c') {
-      this.inputElement.input.value = '';
-    }
-    const wpm = this.wpmCalculator.recordKeystroke(event.key);
-  }
-
   private createTimeCode(now = new Date()): string[] {
     return now.toLocaleTimeString('en-US', { hour12: false }).split(':');
   }
@@ -172,46 +163,4 @@ export class HandexTerm implements IHandexTerm {
     return `<span class="log-hour">${hours}</span><span class="log-minute">${minutes}</span><span class="log-second">${seconds}</span>`;
   }
 
-  private createPromptHead(user: string = 'guest'): HTMLElement {
-    const head = createElement('div', 'head');
-    head.innerHTML = `<span class="user">${user}</span>@<span class="domain"><a href="https://handex.io">handex.io</a></span> via 🐹 v1.19.3 on ☁️ (us-west-1)`;
-    return head;
-  }
-
-  private createPromptTail(): HTMLElement {
-    const tail = createElement('div', 'tail');
-    tail.innerHTML = `❯ `;
-    return tail;
-  }
-  private createPromptElement(user: string = 'guest'): HTMLElement {
-    const prompt = document.createElement('div');
-    prompt.classList.add('prompt');
-
-    // Create the first line which contains only the prompt head
-    const line1 = document.createElement('div');
-    line1.classList.add('terminal-line', 'first-line'); // Add 'first-line' for specific styling
-    const promptHead = this.createPromptHead(user);
-    line1.appendChild(promptHead);
-    prompt.appendChild(line1);
-
-    // Create the second line which will be a flex container for the prompt tail and input
-    const line2 = document.createElement('div');
-    line2.classList.add('terminal-line');
-    this.inputElement = new TerminalInputElement();
-
-    // Create a container for the prompt tail to align it properly
-    const promptTailContainer = document.createElement('div');
-    promptTailContainer.classList.add('prompt-tail-container');
-    const promptTail = this.createPromptTail();
-    promptTailContainer.appendChild(promptTail);
-
-    // Append the prompt tail container and the input element to the second line
-    line2.appendChild(promptTailContainer);
-    line2.appendChild(this.inputElement.input);
-    prompt.appendChild(line2);
-
-    // Additional styles and attributes can be set here
-    return prompt;
-  }
-  // Additional product-specific methods and properties
 }

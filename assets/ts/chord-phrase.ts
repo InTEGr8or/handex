@@ -1,4 +1,3 @@
-"use strict";
 let APP = {
     phrase: null,
     testArea: null,
@@ -13,62 +12,79 @@ let APP = {
     testMode: null,
     lambdaUrl: 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/'
 };
+
 const spaceDisplayChar = "&#x2581;";
 const tabDisplayChar = "&#x2B7E;";
-var timerHandle = null;
+
+var timerHandle:any = null;
+
 const fingers = { t: "thumb", i: "index", m: "middle", r: "ring", p: "pinky" };
+
 /**
  * Creates a timer object that can be started, stopped, and reset.
  * @param t The initial interval in milliseconds (a `number`).
  * @param fn The function to call on each interval (a function that takes no arguments and returns no value).
  * @return The timer object (with type `Timer<T>` where `T` is the type of `fn`).
  */
-var Timer = function (t, fn) {
-    let timerObj = null;
+var Timer = function <T extends (() => void)>(t: number, fn: T): Timer<T> {
+    let timerObj: number | null = null;
+
     /**
      * Stops the timer, if it is running.
      * @return The timer object (with type `Timer<T>` where `T` is the type of `fn`).
      */
-    this.stop = function () {
+    this.stop = function (): Timer<T> {
         if (timerObj) {
             clearInterval(timerObj);
             timerObj = null;
         }
         return this;
-    };
+    }
+
     /**
      * Starts the timer using the current settings (if it's not already running).
      * @return The timer object (with type `Timer<T>` where `T` is the type of `fn`).
      */
-    this.start = function () {
+    this.start = function (): Timer<T> {
         if (!timerObj) {
             this.stop();
             timerObj = setInterval(fn, t);
         }
         return this;
-    };
+    }
+
     /**
      * Starts with a new or original interval, and stops the current interval.
      * @param newT The new interval in milliseconds; defaults to `t` (optional, a `number`).
      * @return The timer object (with type `Timer<T>` where `T` is the type of `fn`).
      */
-    this.reset = function (newT) {
-        t = newT !== null && newT !== void 0 ? newT : t;
+    this.reset = function (newT?: number): Timer<T> {
+        t = newT ?? t;
         return this.stop().start();
-    };
+    }
 };
+
+type Timer = {
+    stop: () => Timer;
+    start: () => Timer;
+    reset: (newT?: number) => Timer;
+};
+
+
 /**
  * Saves the state of a checkbox input element to local storage.
  * @param {Event} modeEvent - A change event from a checkbox input element.
  * @return {boolean} The new state of the checkbox.
  */
-const saveMode = (modeEvent) => {
+const saveMode = (modeEvent: Event): boolean => {
     // chordify();
     // Hide the chordified sub-divs.
-    const result = modeEvent.target.checked;
-    localStorage.setItem(modeEvent.target.id, result.toString());
+    const result = (modeEvent.target as HTMLInputElement).checked
+    localStorage.setItem((modeEvent.target as HTMLInputElement).id, result.toString());
     return result;
-};
+}
+
+
 var chordify = function () {
     APP.chordified.innerHTML = '';
     var phraseVal = APP.phrase.value;
@@ -80,63 +96,65 @@ var chordify = function () {
     console.log("phraseEncoded:", phraseEncoded);
     fetch(APP.lambdaUrl, {
         method: 'POST',
-        headers: {},
+        headers: {
+
+        },
         body: JSON.stringify({
             phrase: phraseEncoded
         })
     })
         .then(function (response) {
-        return response.json();
-    })
+            return response.json();
+        })
         .then(function (chordList) {
-        if (chordList.error) {
-            console.log("chordList.error:", chordList.error);
-            return;
-        }
-        const chordRows = chordList.json;
-        // Add each row to the chordified element as a separate div with the first character of the row as the name.
-        APP.wholePhraseChords.innerHTML = '';
-        const isTestMode = APP.testMode.checked;
-        chordRows.forEach(function (row, i) {
-            var _a, _b;
-            const rowDiv = document.createElement('div');
-            const chordCode = row.chord;
-            const foundChords = Array.from(APP.allChordsList.children).filter(x => { return x.id == `chord${chordCode}`; });
-            // Load the clone in Chord order into the wholePhraseChords div.
-            if (foundChords.length > 0) {
-                const inChord = foundChords[0].cloneNode(true);
-                inChord.setAttribute("name", row.char);
-                inChord.hidden = isTestMode;
-                Array.from(inChord.children)
-                    .filter(x => x.nodeName == "IMG")
-                    .forEach(x => {
-                    x.setAttribute("loading", "eager");
-                    // x.hidden = isTestMode;
-                });
-                APP.wholePhraseChords.appendChild(inChord);
+            if (chordList.error) {
+                console.log("chordList.error:", chordList.error);
+                return;
             }
-            else {
-                console.log("Missing chord:", chordCode);
-            }
-            (_b = (_a = document.getElementById(`chord${chordCode}`)) === null || _a === void 0 ? void 0 : _a.querySelector(`img`)) === null || _b === void 0 ? void 0 : _b.setAttribute("loading", "eager");
-            // document.querySelector(`#${chordCode}`).hidden = false;
-            rowDiv.id = i;
-            rowDiv.setAttribute("name", row.char);
-            const charSpan = document.createElement('span');
-            charSpan.innerHTML = row.char;
-            rowDiv.appendChild(charSpan);
-            rowDiv.appendChild(document.createTextNode(row.strokes));
-            APP.chordified.appendChild(rowDiv);
+            const chordRows = chordList.json;
+            // Add each row to the chordified element as a separate div with the first character of the row as the name.
+            APP.wholePhraseChords.innerHTML = '';
+            const isTestMode = APP.testMode.checked;
+            chordRows.forEach(function (row, i) {
+                const rowDiv = document.createElement('div');
+                const chordCode = row.chord;
+                const foundChords = Array.from(APP.allChordsList.children).filter(x => { return x.id == `chord${chordCode}`; });
+                // Load the clone in Chord order into the wholePhraseChords div.
+                if (foundChords.length > 0) {
+                    const inChord = foundChords[0].cloneNode(true);
+                    inChord.setAttribute("name", row.char);
+                    inChord.hidden = isTestMode;
+                    Array.from(inChord.children)
+                        .filter(x => x.nodeName == "IMG")
+                        .forEach(x => {
+                            x.setAttribute("loading", "eager");
+                            // x.hidden = isTestMode;
+                        });
+                    APP.wholePhraseChords.appendChild(inChord);
+                }
+                else {
+                    console.log("Missing chord:", chordCode);
+                }
+                document.getElementById(`chord${chordCode}`)?.querySelector(`img`)?.setAttribute("loading", "eager");
+                // document.querySelector(`#${chordCode}`).hidden = false;
+                rowDiv.id = i;
+                rowDiv.setAttribute("name", row.char);
+                const charSpan = document.createElement('span');
+                charSpan.innerHTML = row.char;
+                rowDiv.appendChild(charSpan);
+                rowDiv.appendChild(document.createTextNode(row.strokes));
+                APP.chordified.appendChild(rowDiv);
+            });
+            setNext();
+            setTimerSvg('start');
+            APP.testArea.focus();
         });
-        setNext();
-        setTimerSvg('start');
-        APP.testArea.focus();
-    });
     timerCancel();
     APP.phrase.disabled = true;
 };
 var setNext = () => {
     const nextIndex = getFirstNonMatchingChar();
+
     if (nextIndex < 0) {
         return;
     }
@@ -144,14 +162,16 @@ var setNext = () => {
     Array
         .from(APP.wholePhraseChords.children)
         .forEach((chord, i) => {
-        chord.classList.remove("next");
-    });
-    if (nextIndex > APP.wholePhraseChords.children.length - 1)
-        return;
-    let nextCharacter = `<span class="nextCharacter">${APP.phrase.value.substring(nextIndex, nextIndex + 1).replace(' ', '&nbsp;')}</span>`;
-    document.getElementById('nextChars').innerHTML
+            chord.classList.remove("next");
+        }
+        );
+    if (nextIndex > APP.wholePhraseChords.children.length - 1) return;
+
+    let nextCharacter = `<span class="nextCharacter">${APP.phrase.value.substring(nextIndex, nextIndex + 1).replace(' ','&nbsp;')}</span>`;
+    document.getElementById('nextChars').innerHTML 
         = `${nextCharacter}${APP.phrase.value
-            .substring(nextIndex + 1, nextIndex + 40)}`;
+        .substring(nextIndex + 1, nextIndex + 40)}`;
+
     const next = APP.wholePhraseChords.children[nextIndex];
     APP.nextChar = next.getAttribute("name").replace("Space", " ");
     next.classList.add("next");
@@ -159,15 +179,16 @@ var setNext = () => {
     Array.from(next.childNodes)
         .filter(x => x.nodeName == "IMG")
         .forEach(x => {
-        x.width = 140;
-        charSvgClone = x.cloneNode(true);
-        charSvgClone.hidden = APP.testMode.checked;
-        APP.chordImageHolder.replaceChildren(charSvgClone);
-    });
+            x.width = 140;
+            charSvgClone = x.cloneNode(true);
+            charSvgClone.hidden = APP.testMode.checked;
+            APP.chordImageHolder.replaceChildren(charSvgClone);
+
+        });
     APP.svgCharacter.innerHTML = next.getAttribute("name")
         .replace("Space", spaceDisplayChar)
         .replace("tab", "↹");
-    if (!APP.testMode.checked) {
+    if(!APP.testMode.checked){
         APP.svgCharacter.hidden = false;
     }
     setWpm();
@@ -196,10 +217,10 @@ var getFirstNonMatchingChar = () => {
             return i;
         }
         result++;
-    }
-    ;
+    };
     return result;
 };
+
 var sayText = (e) => {
     var text = e.target.value;
     const key = e.key;
@@ -220,7 +241,7 @@ var sayText = (e) => {
             text = text;
         }
         else {
-            textSplit = text.trim().split(' ');
+            textSplit = text.trim().split(' ')
             text = textSplit[textSplit.length - 1];
         }
     }
@@ -228,7 +249,7 @@ var sayText = (e) => {
     utterThis.pitch = 1;
     utterThis.rate = 0.7;
     APP.voiceSynth.speak(utterThis);
-};
+}
 var testTimer = function (event) {
     if (event.data == APP.nextChar) {
         APP.charTimer.push({
@@ -242,6 +263,7 @@ var testTimer = function (event) {
         next.classList.remove("error");
     }
     APP.prevCharTime = APP.timerCentiSecond;
+
     // TODO: de-overlap this and comparePhrase
     if (APP.testArea.value.trim().length == 0) {
         // stop timer
@@ -257,15 +279,15 @@ var testTimer = function (event) {
     if (APP.testArea.value == APP.phrase.value.trim().substring(0, APP.testArea.value.length)) {
         APP.testArea.style.border = "4px solid #FFF3";
         APP.svgCharacter.hidden = true;
+
     }
     else {
         // Alert mismatched text with red border.
         APP.testArea.style.border = "4px solid red";
         chordImageHolderImg = APP.chordImageHolder.querySelector("img");
-        if (chordImageHolderImg)
-            chordImageHolderImg.hidden = false;
+        if (chordImageHolderImg) chordImageHolderImg.hidden = false;
         APP.svgCharacter.hidden = false;
-        next === null || next === void 0 ? void 0 : next.classList.add("error");
+        next?.classList.add("error");
         APP.errorCount.innerText = parseInt(APP.errorCount.innerText) + 1;
     }
     if (APP.testArea.value.trim() == APP.phrase.value.trim()) {
@@ -282,9 +304,9 @@ var testTimer = function (event) {
         return;
     }
     startTimer();
-};
+}
 function setWpm() {
-    if (APP.testArea.value.length < 2) {
+    if(APP.testArea.value.length < 2){
         APP.wpm.innerText = 0;
         return;
     }
@@ -323,6 +345,7 @@ const resetChordify = () => {
     APP.testArea.value = '';
     APP.testArea.disabled = false;
 };
+
 var startTimer = function () {
     if (!timerHandle) {
         timerHandle = setInterval(runTimer, 10);
@@ -343,19 +366,18 @@ var timerCancel = function () {
     Array.from(APP.wholePhraseChords.children).forEach(function (chord) {
         chord.classList.remove("error");
         // element.setAttribute("class", "outstanding");
-    });
+    })
     clearInterval(timerHandle);
     timerHandle = null;
     setNext();
     setTimerSvg('start');
-};
+}
 var clearChords = function () {
     document.getElementById('searchChords').value = '';
     // listAllChords();
-};
+}
 var toggleVideo = (setOn) => {
-    var _a;
-    if (setOn) {
+    if(setOn) {
         navigator.mediaDevices.getUserMedia({
             video: {
                 facingMode: 'environment'
@@ -365,15 +387,15 @@ var toggleVideo = (setOn) => {
     }
     else {
         document.querySelector("div.content").appendChild(APP.chordSection);
-        (_a = preview === null || preview === void 0 ? void 0 : preview.srcObject) === null || _a === void 0 ? void 0 : _a.getTracks().forEach(track => track.stop());
+        preview?.srcObject?.getTracks().forEach(track => track.stop());
         preview.srcObject = null;
     }
     document.getElementById("video-section").hidden = !setOn;
     APP.phrase.classList.toggle('phrase-over-video', setOn);
     APP.chordSection.classList.toggle('chord-section-over-video', setOn);
-};
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-    var _a, _b, _c;
     APP.testArea = document.getElementById('testArea');
     APP.chordified = document.getElementById('chordified');
     APP.videoSection = document.getElementById('video-section');
@@ -385,25 +407,27 @@ document.addEventListener("DOMContentLoaded", () => {
     APP.pangrams = document.getElementById('pangrams');
     APP.chordImageHolder = document.getElementById('chord-image-holder');
     APP.wholePhraseChords = document.getElementById("wholePhraseChords");
+
     APP.testMode = document.getElementById("testMode");
     APP.testMode.checked = localStorage.getItem('testMode') == 'true';
-    (_a = APP.testMode) === null || _a === void 0 ? void 0 : _a.addEventListener('change', e => {
+    APP.testMode?.addEventListener('change', e => {
         saveMode(e);
         chordify();
     });
     APP.voiceMode = document.getElementById("voiceMode");
     APP.voiceMode.checked = localStorage.getItem('voiceMode') == 'true';
-    (_b = APP.voiceMode) === null || _b === void 0 ? void 0 : _b.addEventListener('change', e => {
+    APP.voiceMode?.addEventListener('change', e => {
         saveMode(e);
     });
     APP.videoMode = document.getElementById("videoMode");
     // NOTE: Starting video on page load is non-optimal.
     // APP.videoMode.checked = localStorage.getItem('videoMode') == 'true';
     document.getElementById("video-section").hidden = !APP.videoMode.checked;
-    (_c = APP.videoMode) === null || _c === void 0 ? void 0 : _c.addEventListener('change', e => {
+    APP.videoMode?.addEventListener('change', e => {
         var changeResult = saveMode(e);
         toggleVideo(changeResult);
     });
+
     APP.allChordsList = document.getElementById("allChordsList");
     // APP.testModeLabel = document.getElementById("testModeLabel");
     APP.svgCharacter = document.getElementById("svgCharacter");
@@ -411,7 +435,9 @@ document.addEventListener("DOMContentLoaded", () => {
     APP.wpm = document.getElementById("wpm");
     APP.charTimes = document.getElementById("charTimes");
     APP.nextChar = null;
+
     APP.timerCentiSecond = 0;
+
     APP.testArea.addEventListener('input', testTimer);
     APP.testArea.addEventListener('keyup', function (e) {
         if (APP.voiceMode.checked) {
@@ -425,13 +451,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     APP.pangrams.addEventListener('click', function (e) {
-        if (e.target.innerText === "Termux") {
+        if(e.target.innerText === "Termux"){
             APP.phrase.value = "Termux is an Android terminal emulator and Linux environment app that works directly with no rooting or setup required. A minimal base system is installed automatically - additional packages are available using the APT package manager. The termux-shared library was added in v0.109. It defines shared constants and utils of the Termux app and its plugins. It was created to allow for the removal of all hardcoded paths in the Termux app. Some of the termux plugins are using this as well and rest will in future. If you are contributing code that is using a constant or a util that may be shared, then define it in termux-shared library if it currently doesn't exist and reference it from there. Update the relevant changelogs as well. Pull requests using hardcoded values will/should not be accepted. Termux app and plugin specific classes must be added under com.termux.shared.termux package and general classes outside it. The termux-shared LICENSE must also be checked and updated if necessary when contributing code. The licenses of any external library or code must be honoured. The main Termux constants are defined by TermuxConstants class. It also contains information on how to fork Termux or build it with your own package name. Changing the package name will require building the bootstrap zip packages and other packages with the new $PREFIX, check Building Packages for more info. Check Termux Libraries for how to import termux libraries in plugin apps and Forking and Local Development for how to update termux libraries for plugins. The versionName in build.gradle files of Termux and its plugin apps must follow the semantic version 2.0.0 spec in the format major.minor.patch(-prerelease)(+buildmetadata). When bumping versionName in build.gradle files and when creating a tag for new releases on GitHub, make sure to include the patch number as well, like v0.1.0 instead of just v0.1. The build.gradle files and attach_debug_apks_to_release workflow validates the version as well and the build/attachment will fail if versionName does not follow the spec.";
-        }
-        else if (e.target.innerText === "Handex") {
+        } else if(e.target.innerText === "Handex"){
             APP.phrase.value = "Type anywhere with this one-handed keyboard. Stop sitting down to type. Stop looking down to send messages. Built to the shape of your finger actions, this device will eliminate your need to reposition your fingers while typeing. Use the same keyboard, designed for your hand, everywhere. You never have to learn a new one. The natural motions of your fingers compose the characters. It's build around your hand, so you don't have to reorient your finger placement on a board. Repositioning your fingers on a board is the biggest hurdle of typing-training, so don't do it. Handex is built around your finger movements, so you'll never have to reposition your fingers to find a key. Even unusual keys, such `\`, `~`, `|`, `^`, `&` are easy to type. Handex liberates you from the key-board-shackle problem. 151 keys are currently available and more are coming.";
-        }
-        else {
+        }else{
             APP.phrase.value = e.target.innerText;
         }
         chordify();
@@ -442,6 +466,8 @@ document.addEventListener("DOMContentLoaded", () => {
         .addEventListener('click', listAllChords);
     document.getElementById('resetChordify')
         .addEventListener('click', resetChordify);
+
+
     btnUser.onclick = _ => changeFacingMode('user');
     btnEnvironment.onclick = _ => changeFacingMode('environment');
     // btnLeft.onclick = _ => changeFacingMode('left');
@@ -451,4 +477,3 @@ document.addEventListener("DOMContentLoaded", () => {
     // changeFacingMode('environment');
     toggleVideo(false);
 });
-//# sourceMappingURL=chord-phrase.js.map
