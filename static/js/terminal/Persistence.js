@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LocalStoragePersistence = void 0;
-class LocalStoragePersistence {
+export class LocalStoragePersistence {
     saveCommandHistory(command) {
         // Use localStorage to save the command history
     }
@@ -14,5 +11,4 @@ class LocalStoragePersistence {
         return [];
     }
 }
-exports.LocalStoragePersistence = LocalStoragePersistence;
 //# sourceMappingURL=Persistence.js.map

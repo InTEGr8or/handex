@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LogKeys = exports.TerminalCssClasses = void 0;
-exports.TerminalCssClasses = {
+export const TerminalCssClasses = {
     Terminal: 'terminal',
     Line: 'terminal-line',
     Output: 'terminal-output',
@@ -12,7 +9,7 @@ exports.TerminalCssClasses = {
     LogPrefix: 'log-prefix',
     LogTime: 'log-time',
 };
-exports.LogKeys = {
+export const LogKeys = {
     CharTime: 'char-time',
     Command: 'command',
 };

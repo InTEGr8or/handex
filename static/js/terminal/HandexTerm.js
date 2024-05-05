@@ -1,14 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.HandexTerm = void 0;
 // HandexTerm.ts
-const TerminalTypes_1 = require("./TerminalTypes");
-const WPMCalculator_1 = require("./WPMCalculator");
-class HandexTerm {
+import { LogKeys } from './TerminalTypes';
+import { WPMCalculator } from './WPMCalculator';
+export class HandexTerm {
     constructor(persistence) {
         this.persistence = persistence;
         this._commandHistory = [];
-        this.wpmCalculator = new WPMCalculator_1.WPMCalculator();
+        this.wpmCalculator = new WPMCalculator();
         this._persistence = persistence;
     }
     handleCommand(command) {
@@ -76,7 +73,7 @@ class HandexTerm {
         let keys = [];
         let commandHistory = [];
         for (let i = 0; i < localStorage.length; i++) {
-            if (!((_a = localStorage.key(i)) === null || _a === void 0 ? void 0 : _a.startsWith(TerminalTypes_1.LogKeys.Command)))
+            if (!((_a = localStorage.key(i)) === null || _a === void 0 ? void 0 : _a.startsWith(LogKeys.Command)))
                 continue;
             const key = localStorage.key(i);
             if (!key)
@@ -97,7 +94,7 @@ class HandexTerm {
         let wpmSum = this.wpmCalculator.saveKeystrokes(commandTime);
         this.wpmCalculator.clearKeystrokes();
         commandResponseElement.innerHTML = commandResponseElement.innerHTML.replace(/{{wpm}}/g, ('_____' + wpmSum.toFixed(0)).slice(-4));
-        this._persistence.setItem(`${TerminalTypes_1.LogKeys.Command}_${commandTime}`, JSON.stringify(commandResponseElement.innerHTML));
+        this._persistence.setItem(`${LogKeys.Command}_${commandTime}`, JSON.stringify(commandResponseElement.innerHTML));
         return wpmSum;
     }
     clearCommandHistory() {
@@ -106,9 +103,9 @@ class HandexTerm {
             let key = localStorage.key(i);
             if (!key)
                 continue;
-            if (key.includes(TerminalTypes_1.LogKeys.Command)
+            if (key.includes(LogKeys.Command)
                 || key.includes('terminalCommandHistory') // Remove after clearing legacy phone db.
-                || key.includes(TerminalTypes_1.LogKeys.CharTime)) {
+                || key.includes(LogKeys.CharTime)) {
                 keys.push(key);
             }
         }
@@ -139,6 +136,5 @@ class HandexTerm {
         return `<span class="log-hour">${hours}</span><span class="log-minute">${minutes}</span><span class="log-second">${seconds}</span>`;
     }
 }
-exports.HandexTerm = HandexTerm;
 HandexTerm.commandHistoryLimit = 100;
 //# sourceMappingURL=HandexTerm.js.map

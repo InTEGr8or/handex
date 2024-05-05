@@ -1,0 +1,11 @@
+export const spaceDisplayChar = "&#x2581;";
+export const tabDisplayChar = "&#x2B7E;";
+export interface CharTime {
+    char: string;
+    duration: number;
+    time: number;
+}
+
+export function createCharTime(char: string, duration: number, time: number): CharTime {
+    return { char, duration, time }
+}
