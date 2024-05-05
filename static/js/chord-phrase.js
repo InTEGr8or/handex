@@ -8,6 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+const spaceDisplayChar = "&#x2581;";
+const tabDisplayChar = "&#x2B7E;";
+var timerHandle = null;
 class HandChord {
     constructor() {
         var _a, _b, _c, _d, _e, _f;
@@ -19,94 +22,88 @@ class HandChord {
             return result;
         };
         this.toggleVideo = (setOn) => {
+            var _a;
             if (setOn) {
                 navigator.mediaDevices.getUserMedia({
                     video: {
                         facingMode: 'environment'
                     }
                 })
-                    .then((stream) => (this.preview.srcObject = stream));
-                if (this.videoSection)
+                    .then((stream) => {
+                    if (this.preview) {
+                        this.preview.srcObject = stream;
+                    }
+                });
+                if (this.videoSection && this.chordSection)
                     this.videoSection.appendChild(this.chordSection);
             }
             else {
-                document.querySelector("div.content").appendChild(this.chordSection);
-                if (preview.srcObject) {
-                    preview.srcObject.getTracks().forEach(track => track.stop());
+                const divContent = document.querySelector("div.content");
+                if (divContent && this.chordSection) {
+                    // Safely use divContent here
+                    divContent.appendChild(this.chordSection);
                 }
-                preview.srcObject = null;
+                if ((_a = this.preview) === null || _a === void 0 ? void 0 : _a.srcObject) {
+                    this.preview.srcObject.getTracks().forEach(track => track.stop());
+                    this.preview.srcObject = null;
+                }
             }
-            this.videoSection.hidden = !setOn;
-            this.phrase.classList.toggle('phrase-over-video', setOn);
-            this.chordSection.classList.toggle('chord-section-over-video', setOn);
+            if (this.videoSection)
+                this.videoSection.hidden = !setOn;
+            if (this.phrase)
+                this.phrase.classList.toggle('phrase-over-video', setOn);
+            if (this.chordSection)
+                this.chordSection.classList.toggle('chord-section-over-video', setOn);
             return !setOn;
         };
-        this.timerCancel = () => {
-            var _a, _b;
-            if (this.testArea)
-                this.testArea.value = '';
-            this.charTimer = [];
-            this.prevCharTime = 0;
-            if (this.wpm)
-                this.wpm.innerText = '0';
-            if (this.charTimes)
-                this.charTimes.innerHTML = '';
-            if (this.testArea) {
-                this.testArea.focus();
-                this.testArea.style.border = "";
-            }
-            if (this.timer)
-                this.timer.innerHTML = '0.0';
-            this.timerCentiSecond = 0;
-            // clear error class from all chords
-            Array
-                .from((_b = (_a = this.wholePhraseChords) === null || _a === void 0 ? void 0 : _a.children) !== null && _b !== void 0 ? _b : [])
-                .forEach(function (chord) {
-                chord.classList.remove("error");
-                // element.setAttribute("class", "outstanding");
-            });
-            clearInterval(timerHandle);
-            timerHandle = null;
-            this.setNext();
-            ;
-            setTimerSvg('start');
-        };
         this.setNext = () => {
-            const nextIndex = getFirstNonMatchingChar();
+            var _a, _b, _c, _d, _e, _f, _g;
+            const nextIndex = this.getFirstNonMatchingChar();
             if (nextIndex < 0) {
                 return;
             }
             // Remove the outstanding class from the previous chord.
             Array
-                .from(APP.wholePhraseChords.children)
+                .from((_b = (_a = this.wholePhraseChords) === null || _a === void 0 ? void 0 : _a.children) !== null && _b !== void 0 ? _b : [])
                 .forEach((chord, i) => {
                 chord.classList.remove("next");
             });
-            if (nextIndex > APP.wholePhraseChords.children.length - 1)
+            if (this.wholePhraseChords && nextIndex > this.wholePhraseChords.children.length - 1)
                 return;
-            let nextCharacter = `<span class="nextCharacter">${APP.phrase.value.substring(nextIndex, nextIndex + 1).replace(' ', '&nbsp;')}</span>`;
-            document.getElementById('nextChars').innerHTML
-                = `${nextCharacter}${APP.phrase.value
-                    .substring(nextIndex + 1, nextIndex + 40)}`;
-            const next = APP.wholePhraseChords.children[nextIndex];
-            APP.nextChar = next.getAttribute("name").replace("Space", " ");
-            next.classList.add("next");
-            // If we're in test mode and the last character typed doesn't match the next, expose the svg.
-            Array.from(next.childNodes)
-                .filter(x => x.nodeName == "IMG")
-                .forEach(x => {
-                x.width = 140;
-                charSvgClone = x.cloneNode(true);
-                charSvgClone.hidden = APP.testMode.checked;
-                APP.chordImageHolder.replaceChildren(charSvgClone);
-            });
-            APP.svgCharacter.innerHTML = next.getAttribute("name")
-                .replace("Space", spaceDisplayChar)
-                .replace("tab", "↹");
-            if (!APP.testMode.checked) {
-                APP.svgCharacter.hidden = false;
+            let nextCharacter = `<span class="nextCharacter">${(_c = this.phrase) === null || _c === void 0 ? void 0 : _c.value.substring(nextIndex, nextIndex + 1).replace(' ', '&nbsp;')}</span>`;
+            if (this.nextChars && this.phrase)
+                this.nextChars.innerHTML
+                    = `${nextCharacter}${this.phrase.value
+                        .substring(nextIndex + 1, nextIndex + 40)}`;
+            const next = (_d = this.wholePhraseChords) === null || _d === void 0 ? void 0 : _d.children[nextIndex];
+            if (next) {
+                if (this.nextChar)
+                    this.nextChar = (_f = (_e = next.getAttribute("name")) === null || _e === void 0 ? void 0 : _e.replace("Space", " ")) !== null && _f !== void 0 ? _f : "";
+                next.classList.add("next");
+                // If we're in test mode and the last character typed doesn't match the next, expose the svg.
+                Array.from(next.childNodes)
+                    .filter((x) => x.nodeName == "IMG")
+                    .forEach((x) => {
+                    var _a, _b;
+                    x.width = 140;
+                    let charSvgClone = x.cloneNode(true);
+                    charSvgClone.hidden = (_b = (_a = this.testMode) === null || _a === void 0 ? void 0 : _a.checked) !== null && _b !== void 0 ? _b : false;
+                    if (this.chordImageHolder)
+                        this.chordImageHolder.replaceChildren(charSvgClone);
+                });
             }
-            setWpm();
+            if (this.svgCharacter && next) {
+                const nameAttribute = next.getAttribute("name");
+                if (nameAttribute) {
+                    this.svgCharacter.innerHTML = nameAttribute
+                        .replace("Space", spaceDisplayChar)
+                        .replace("tab", "↹");
+                }
+            }
+            if (this.svgCharacter && !((_g = this.testMode) === null || _g === void 0 ? void 0 : _g.checked)) {
+                this.svgCharacter.hidden = false;
+            }
+            this.setWpm();
             return next;
         };
         this.getFirstNonMatchingChar = () => {
@@ -118,7 +115,7 @@ class HandChord {
                 return 0;
             }
             if (testPhrase == sourcePhrase) {
-                setTimerSvg('stop');
+                this.timer.setSvg('stop', this);
                 return -1;
             }
             var result = 0;
@@ -131,6 +128,40 @@ class HandChord {
             ;
             return result;
         };
+        this.clearChords = () => {
+            document.getElementById('searchChords').value = '';
+            // listAllChords();
+        };
+        this.resetChordify = () => {
+            if (this.phrase) {
+                this.phrase.value = '';
+                this.phrase.disabled = false;
+            }
+            if (this.wholePhraseChords)
+                this.wholePhraseChords.innerHTML = '';
+            if (this.allChordsList)
+                this.allChordsList.hidden = true;
+            if (this.testArea) {
+                this.testArea.value = '';
+                this.testArea.disabled = false;
+            }
+        };
+        this.listAllChords = () => {
+            if (this.allChordsList)
+                this.allChordsList.hidden = false;
+            // highlight Vim navigation keys
+            Array.from(document.querySelectorAll("#allChordsList div span"))
+                .filter((x) => {
+                const element = x;
+                return element.tagName === 'SPAN' && "asdfgjkl;/0$^m\"web".includes(element.innerText);
+            })
+                .forEach((x, index, array) => {
+                const element = x;
+                if (element.tagName === 'SPAN' && "asdfgjkl;/0$^m\"web".includes(element.innerText)) {
+                    element.style.color = "blue";
+                }
+            });
+        };
         this.phrase = document.getElementById("phrase");
         this.testArea = document.getElementById("testArea");
         this.chordified = document.getElementById("chordified");
@@ -139,8 +170,11 @@ class HandChord {
         this.charTimer = [];
         this.charTimes = document.getElementById("charTimes");
         this.wpm = document.getElementById("wpm");
-        this.timer = document.getElementById("timer");
-        this.timerCentiSecond = 0;
+        this.timerElement = document.getElementById("timer");
+        if (!this.timerElement) {
+            throw new Error('timer element not found');
+        }
+        this.timer = new Timer(this.timerElement, this.updateTimerDisplay.bind(this, this));
         this.prevCharTime = 0;
         this.testMode = document.getElementById("testMode");
         this.testMode.checked = localStorage.getItem('testMode') == 'true';
@@ -148,6 +182,7 @@ class HandChord {
         this.pangrams = document.getElementById("pangrams");
         this.chordImageHolder = document.getElementById("chord-image-holder");
         this.prevCharTime = 0;
+        this.preview = document.getElementById("preview");
         this.charTimer = [];
         this.chordSection = document.getElementById("chord-section");
         this.timerSvg = document.getElementById('timerSvg');
@@ -177,15 +212,17 @@ class HandChord {
         this.svgCharacter = document.getElementById("svgCharacter");
         this.errorCount = document.getElementById("errorCount");
         this.nextChar = null;
-        this.timerCentiSecond = 0;
-        this.testArea.addEventListener('input', testTimer.bind(this, null, this));
-        this.testArea.addEventListener('keyup', e => {
+        this.nextChars = document.getElementById("nextChars");
+        this.testArea.addEventListener('input', (e) => {
+            this.timer.test(e, this);
+        });
+        this.testArea.addEventListener('keyup', (e) => {
             if (this.voiceMode && this.voiceMode.checked) {
                 sayText(e, this);
             }
         });
         this.phrase.addEventListener('change', this.chordify);
-        this.phrase.addEventListener('touchend', e => {
+        this.phrase.addEventListener('touchend', (e) => {
             if (this.voiceMode && this.voiceMode.checked) {
                 sayText(e, this);
             }
@@ -209,10 +246,18 @@ class HandChord {
             }
             this.chordify();
         });
-        (_d = document.getElementById('timerCancel')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', timerCancel);
-        (_e = document.getElementById('listAllChords')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', listAllChords);
-        (_f = document.getElementById('resetChordify')) === null || _f === void 0 ? void 0 : _f.addEventListener('click', resetChordify);
+        (_d = document.getElementById('timerCancel')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', (e) => {
+            this.timer.cancel(this);
+        });
+        (_e = document.getElementById('listAllChords')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', this.listAllChords);
+        (_f = document.getElementById('resetChordify')) === null || _f === void 0 ? void 0 : _f.addEventListener('click', this.resetChordify);
         this.toggleVideo(false);
+    }
+    updateTimerDisplay(handChord) {
+        console.log("HandChord updateTimerDisplay:", handChord);
+        if (handChord.timer) {
+            // handChord.timer.updateTimer();
+        }
     }
     chordify() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -275,214 +320,217 @@ class HandChord {
                 if (this.chordified)
                     this.chordified.appendChild(rowDiv);
             });
-            setNext(this);
-            setTimerSvg('start', this);
+            this.setNext();
+            this.timer.setSvg('start', this);
             if (this.testArea)
                 this.testArea.focus();
-            this.timerCancel();
+            this.timer.cancel(this);
             this.phrase.disabled = true;
             return chordRows;
         });
     }
+    setWpm() {
+        if (!this.testArea)
+            return "0";
+        if (this.testArea.value.length < 2) {
+            return "0";
+        }
+        const words = this.testArea.value.length / 5;
+        return (words / (this.timer.centiSecond / 100 / 60) + 0.000001).toFixed(2);
+    }
 }
 ;
-const spaceDisplayChar = "&#x2581;";
-const tabDisplayChar = "&#x2B7E;";
-var timerHandle = null;
-const fingers = { t: "thumb", i: "index", m: "middle", r: "ring", p: "pinky" };
-/**
- * Creates a timer object that can be started, stopped, and reset.
- * @param t The initial interval in milliseconds (a `number`).
- * @param fn The function to call on each interval (a function that takes no arguments and returns no value).
- * @return The timer object (with type `Timer<T>` where `T` is the type of `fn`).
- */
-var Timer = function (t, fn) {
-    let timerObj = null;
-    /**
-     * Stops the timer, if it is running.
-     * @return The timer object (with type `Timer<T>` where `T` is the type of `fn`).
-     */
-    this.stop = function () {
-        if (timerObj) {
-            clearInterval(timerObj);
-            timerObj = null;
+class Timer {
+    constructor(timerElement, updateCallback) {
+        this.timerElement = timerElement;
+        this.updateCallback = updateCallback;
+        this.intervalId = null;
+        this._centiSecond = 0;
+        this.handle = null;
+        this.startTimer = (handChord) => {
+            if (!timerHandle) {
+                timerHandle = setInterval(this.run, 10);
+                this.setSvg('pause', handChord);
+            }
+        };
+        this.test = (event, handChord) => {
+            var _a, _b, _c, _d, _e;
+            if (event.data == handChord.nextChar) {
+                const charTime = createCharTime(event.data, Number(((this._centiSecond - handChord.prevCharTime) / 100).toFixed(2)), this._centiSecond / 100);
+                handChord.charTimer.push(charTime);
+            }
+            const next = handChord.setNext();
+            if (next) {
+                next.classList.remove("error");
+            }
+            handChord.prevCharTime = this._centiSecond;
+            // TODO: de-overlap this and comparePhrase
+            if (handChord.testArea && handChord.testArea.value.trim().length == 0) {
+                // stop timer
+                handChord.testArea.style.border = "";
+                if (handChord.svgCharacter)
+                    handChord.svgCharacter.hidden = true;
+                clearInterval(timerHandle);
+                timerHandle = null;
+                this._timerElement.innerHTML = (0).toFixed(1);
+                handChord.timer._centiSecond = 0;
+                this.setSvg('start', handChord);
+                return;
+            }
+            if (handChord.svgCharacter &&
+                handChord.testArea &&
+                handChord.testArea.value
+                    == ((_a = handChord
+                        .phrase) === null || _a === void 0 ? void 0 : _a.value.trim().substring(0, (_b = handChord.testArea) === null || _b === void 0 ? void 0 : _b.value.length))) {
+                handChord.testArea.style.border = "4px solid #FFF3";
+                handChord.svgCharacter.hidden = true;
+            }
+            else {
+                // Alert mismatched text with red border.
+                if (handChord.testArea)
+                    handChord.testArea.style.border = "4px solid red";
+                const chordImageHolderImg = (_c = handChord.chordImageHolder) === null || _c === void 0 ? void 0 : _c.querySelector("img");
+                if (chordImageHolderImg)
+                    chordImageHolderImg.hidden = false;
+                if (handChord.svgCharacter)
+                    handChord.svgCharacter.hidden = false;
+                next === null || next === void 0 ? void 0 : next.classList.add("error");
+                if (handChord.errorCount)
+                    handChord.errorCount.innerText = (parseInt(handChord.errorCount.innerText) + 1).toString(10);
+            }
+            if (((_d = handChord.testArea) === null || _d === void 0 ? void 0 : _d.value.trim()) == ((_e = handChord.phrase) === null || _e === void 0 ? void 0 : _e.value.trim())) {
+                // stop timer
+                clearInterval(timerHandle);
+                this.setSvg('stop', handChord);
+                let charTimeList = "";
+                handChord.charTimer.forEach(x => {
+                    charTimeList += `<li>${x.char.replace(' ', spaceDisplayChar)}: ${x.duration}</li>`;
+                });
+                if (handChord.charTimes)
+                    handChord.charTimes.innerHTML = charTimeList;
+                localStorage.setItem(`charTimerSession_${(new Date).toISOString()}`, JSON.stringify(handChord.charTimer));
+                timerHandle = null;
+                return;
+            }
+            this.start(10);
+        };
+        this.setSvg = (status, handChord) => {
+            handChord.setWpm();
+            switch (status) {
+                case 'start':
+                    if (handChord.timerSvg)
+                        handChord.timerSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
+                    if (handChord.testArea)
+                        handChord.testArea.disabled = false;
+                    if (handChord.errorCount)
+                        handChord.errorCount.innerText = '0';
+                    break;
+                case 'stop':
+                    if (handChord.timerSvg)
+                        handChord.timerSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
+                    if (handChord.testArea)
+                        handChord.testArea.disabled = true;
+                    break;
+                case 'pause':
+                    if (handChord.timerSvg)
+                        handChord.timerSvg.innerHTML = '<use href="#pause" transform="scale(2,2)" ></use>';
+                    break;
+                default:
+                    if (handChord.timerSvg)
+                        handChord.timerSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
+            }
+        };
+        this.run = (handChord) => {
+            this._centiSecond++;
+            this._timerElement.innerHTML = (this._centiSecond / 100).toFixed(1);
+        };
+        this.cancel = (handChord) => {
+            var _a, _b;
+            if (handChord.testArea)
+                handChord.testArea.value = '';
+            handChord.charTimer = [];
+            handChord.prevCharTime = 0;
+            if (handChord.wpm)
+                handChord.wpm.innerText = '0';
+            if (handChord.charTimes)
+                handChord.charTimes.innerHTML = '';
+            if (handChord.testArea) {
+                handChord.testArea.focus();
+                handChord.testArea.style.border = "";
+            }
+            this._timerElement.innerHTML = '0.0';
+            this._centiSecond = 0;
+            // clear error class from all chords
+            Array
+                .from((_b = (_a = handChord.wholePhraseChords) === null || _a === void 0 ? void 0 : _a.children) !== null && _b !== void 0 ? _b : [])
+                .forEach(function (chord) {
+                chord.classList.remove("error");
+                // element.setAttribute("class", "outstanding");
+            });
+            clearInterval(timerHandle);
+            timerHandle = null;
+            handChord.setNext();
+            this.setSvg('start', handChord);
+        };
+        this._timerElement = timerElement;
+    }
+    get centiSecond() {
+        return this._centiSecond;
+    }
+    // TODO: pick one of these two methods
+    start(interval) {
+        if (this.intervalId === null) {
+            this.intervalId = window.setInterval(() => {
+                this._centiSecond++;
+                this.updateCallback(this._centiSecond);
+            }, interval);
         }
-        return this;
-    };
-    /**
-     * Starts the timer using the current settings (if it's not already running).
-     * @return The timer object (with type `Timer<T>` where `T` is the type of `fn`).
-     */
-    this.start = function () {
-        if (!timerObj) {
-            this.stop();
-            timerObj = setInterval(fn, t);
+    }
+    stop() {
+        if (this.intervalId !== null) {
+            clearInterval(this.intervalId);
+            this.intervalId = null;
         }
-        return this;
-    };
-    /**
-     * Starts with a new or original interval, and stops the current interval.
-     * @param newT The new interval in milliseconds; defaults to `t` (optional, a `number`).
-     * @return The timer object (with type `Timer<T>` where `T` is the type of `fn`).
-     */
-    this.reset = function (newT) {
-        t = newT !== null && newT !== void 0 ? newT : t;
-        return this.stop().start();
-    };
-};
-var listAllChords = () => {
-    APP.allChordsList.hidden = false;
-    // highlight Vim navigation keys
-    Array.from(document.querySelectorAll("#allChordsList div span"))
-        .filter(x => "asdfgjkl;/0$^m\"web".includes(x.innerText))
-        .forEach(x => x.style.color = "blue");
-};
+    }
+    reset() {
+        this.stop();
+        this._centiSecond = 0;
+    }
+}
+function createCharTime(char, duration, time) {
+    return { char, duration, time };
+}
 var sayText = (e, APP) => {
-    var text = e.target.value;
-    const key = e.key;
+    const eventTarget = e.target;
+    if (!eventTarget || !eventTarget.value)
+        return;
+    var text = eventTarget.value;
+    const char = e.key;
+    if (!char)
+        return;
     if (!APP.voiceSynth) {
         APP.voiceSynth = window.speechSynthesis;
     }
     if (APP.voiceSynth.speaking) {
         APP.voiceSynth.cancel();
     }
-    if (key) {
-        if (key.match(/^[a-z0-9]$/i)) {
-            text = key;
-        }
-        else if (key == "Backspace") {
-            text = "delete";
-        }
-        else if (key == "Enter") {
-            text = text;
-        }
-        else {
-            textSplit = text.trim().split(' ');
-            text = textSplit[textSplit.length - 1];
-        }
+    if (char === null || char === void 0 ? void 0 : char.match(/^[a-z0-9]$/i)) {
+        text = char;
+    }
+    else if (char == "Backspace") {
+        text = "delete";
+    }
+    else if (char == "Enter") {
+        text = text;
+    }
+    else {
+        const textSplit = text.trim().split(' ');
+        text = textSplit[textSplit.length - 1];
     }
     var utterThis = new SpeechSynthesisUtterance(text);
     utterThis.pitch = 1;
     utterThis.rate = 0.7;
     APP.voiceSynth.speak(utterThis);
-};
-var testTimer = function (event, APP) {
-    if (event.data == APP.nextChar) {
-        APP.charTimer.push({
-            char: event.data,
-            duration: ((APP.timerCentiSecond - APP.prevCharTime) / 100).toFixed(2),
-            time: (APP.timerCentiSecond / 100).toFixed(2)
-        });
-    }
-    const next = setNext(APP);
-    if (next) {
-        next.classList.remove("error");
-    }
-    APP.prevCharTime = APP.timerCentiSecond;
-    // TODO: de-overlap this and comparePhrase
-    if (APP.testArea.value.trim().length == 0) {
-        // stop timer
-        APP.testArea.style.border = "";
-        APP.svgCharacter.hidden = true;
-        clearInterval(timerHandle);
-        timerHandle = null;
-        APP.timer.innerHTML = (0).toFixed(1);
-        APP.timerCentiSecond = 0;
-        setTimerSvg('start', APP);
-        return;
-    }
-    if (APP.testArea.value == APP.phrase.value.trim().substring(0, APP.testArea.value.length)) {
-        APP.testArea.style.border = "4px solid #FFF3";
-        APP.svgCharacter.hidden = true;
-    }
-    else {
-        // Alert mismatched text with red border.
-        APP.testArea.style.border = "4px solid red";
-        chordImageHolderImg = APP.chordImageHolder.querySelector("img");
-        if (chordImageHolderImg)
-            chordImageHolderImg.hidden = false;
-        APP.svgCharacter.hidden = false;
-        next === null || next === void 0 ? void 0 : next.classList.add("error");
-        APP.errorCount.innerText = parseInt(APP.errorCount.innerText) + 1;
-    }
-    if (APP.testArea.value.trim() == APP.phrase.value.trim()) {
-        // stop timer
-        clearInterval(timerHandle);
-        setTimerSvg('stop', APP);
-        let charTimeList = "";
-        APP.charTimer.forEach(x => {
-            charTimeList += `<li>${x.char.replace(' ', spaceDisplayChar)}: ${x.duration}</li>`;
-        });
-        APP.charTimes.innerHTML = charTimeList;
-        localStorage.setItem(`charTimerSession_${(new Date).toISOString()}`, JSON.stringify(APP.charTimer));
-        timerHandle = null;
-        return;
-    }
-    startTimer();
-};
-/**
- * Sets the current WPM based on the number of characters in the textarea and the elapsed time.
- * @param testAreaValue The current value of the textarea.
- * @param timerCentiSecond The elapsed time in centiseconds.
- * @returns The calculated WPM as a string.
- */
-function setWpm(testAreaValue, timerCentiSecond) {
-    if (testAreaValue.length < 2) {
-        return "0";
-    }
-    const words = testAreaValue.length / 5;
-    return (words / (timerCentiSecond / 100 / 60) + 0.000001).toFixed(2);
-}
-/**
- * Sets the timer SVG based on the given status string.
- * @param status The status string to set the timer to. Valid options are 'start', 'stop', and 'pause'.
- * @returns void
- */
-const setTimerSvg = (status, APP) => {
-    const statusSvg = setWpm(APP.testArea.value, APP.timerCentiSecond);
-    switch (status) {
-        case 'start':
-            statusSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
-            APP.testArea.disabled = false;
-            APP.errorCount.innerText = '0';
-            break;
-        case 'stop':
-            statusSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
-            APP.testArea.disabled = true;
-            break;
-        case 'pause':
-            statusSvg.innerHTML = '<use href="#pause" transform="scale(2,2)" ></use>';
-            break;
-        default:
-            statusSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
-    }
-};
-const runTimer = (APP) => {
-    APP.timerCentiSecond++;
-    APP.timer.innerHTML = (APP.timerCentiSecond / 100).toFixed(1);
-};
-const resetChordify = (APP) => {
-    APP.phrase.value = '';
-    APP.phrase.disabled = false;
-    APP.wholePhraseChords.innerHTML = '';
-    APP.allChordsList.hidden = true;
-    APP.testArea.value = '';
-    APP.testArea.disabled = false;
-};
-var startTimer = function () {
-    if (!timerHandle) {
-        timerHandle = setInterval(runTimer, 10);
-        setTimerSvg('pause');
-    }
-};
-/**
- * Clears the chords from the search input.
- * @function
- * @returns {void}
- */
-var clearChords = () => {
-    document.getElementById('searchChords').value = '';
-    // listAllChords();
 };
 document.addEventListener("DOMContentLoaded", () => {
     const handChord = new HandChord();
