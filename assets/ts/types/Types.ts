@@ -9,3 +9,7 @@ export interface CharTime {
 export function createCharTime(char: string, duration: number, time: number): CharTime {
     return { char, duration, time }
 }
+
+export type CancelCallback = () => void;
+
+export type InputEventCallback = (event: InputEvent) => void;

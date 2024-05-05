@@ -8,10 +8,66 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { Timer } from "./Timer.js";
-import { spaceDisplayChar } from "./types/Types.js";
+import { spaceDisplayChar, createCharTime } from "./types/Types.js";
 export class HandChord {
     constructor() {
         var _a, _b, _c, _d, _e, _f;
+        this.test = (event) => {
+            var _a, _b, _c, _d, _e;
+            if (event.data == this.nextChar) {
+                const charTime = createCharTime(event.data, Number(((this.timer.centiSecond - this.prevCharTime) / 100).toFixed(2)), this.timer.centiSecond / 100);
+                this.charTimer.push(charTime);
+            }
+            const next = this.setNext();
+            if (next) {
+                next.classList.remove("error");
+            }
+            this.prevCharTime = this.timer.centiSecond;
+            // TODO: de-overlap this and comparePhrase
+            if (this.testArea && this.testArea.value.trim().length == 0) {
+                // stop timer
+                this.testArea.style.border = "";
+                if (this.svgCharacter)
+                    this.svgCharacter.hidden = true;
+                this.timer.cancel();
+                return;
+            }
+            if (this.svgCharacter &&
+                this.testArea &&
+                this.testArea.value
+                    == ((_a = this
+                        .phrase) === null || _a === void 0 ? void 0 : _a.value.trim().substring(0, (_b = this.testArea) === null || _b === void 0 ? void 0 : _b.value.length))) {
+                this.testArea.style.border = "4px solid #FFF3";
+                this.svgCharacter.hidden = true;
+            }
+            else {
+                // Alert mismatched text with red border.
+                if (this.testArea)
+                    this.testArea.style.border = "4px solid red";
+                const chordImageHolderImg = (_c = this.chordImageHolder) === null || _c === void 0 ? void 0 : _c.querySelector("img");
+                if (chordImageHolderImg)
+                    chordImageHolderImg.hidden = false;
+                if (this.svgCharacter)
+                    this.svgCharacter.hidden = false;
+                next === null || next === void 0 ? void 0 : next.classList.add("error");
+                if (this.errorCount)
+                    this.errorCount.innerText = (parseInt(this.errorCount.innerText) + 1).toString(10);
+            }
+            if (((_d = this.testArea) === null || _d === void 0 ? void 0 : _d.value.trim()) == ((_e = this.phrase) === null || _e === void 0 ? void 0 : _e.value.trim())) {
+                // stop timer
+                this.timer.setSvg('stop');
+                let charTimeList = "";
+                this.charTimer.forEach(x => {
+                    charTimeList += `<li>${x.char.replace(' ', spaceDisplayChar)}: ${x.duration}</li>`;
+                });
+                if (this.charTimes)
+                    this.charTimes.innerHTML = charTimeList;
+                localStorage.setItem(`charTimerSession_${(new Date).toISOString()}`, JSON.stringify(this.charTimer));
+                this.timer.cancel();
+                return;
+            }
+            this.timer.start(10);
+        };
         this.saveMode = (modeEvent) => {
             // chordify();
             // Hide the chordified sub-divs.
@@ -113,7 +169,7 @@ export class HandChord {
                 return 0;
             }
             if (testPhrase == sourcePhrase) {
-                this.timer.setSvg('stop', this);
+                this.timer.setSvg('stop');
                 return -1;
             }
             var result = 0;
@@ -168,7 +224,28 @@ export class HandChord {
         if (!this.timerElement) {
             throw new Error('timer element not found');
         }
-        this.timer = new Timer(this.timerElement, this.updateTimerDisplay.bind(this, this));
+        this.timerSvg = document.getElementById('timerSvg');
+        const cancelAction = () => {
+            var _a, _b;
+            if (this.testArea) {
+                this.testArea.value = '';
+                this.testArea.focus();
+                this.testArea.style.border = "";
+            }
+            this.charTimer = [];
+            this.prevCharTime = 0;
+            if (this.wpm)
+                this.wpm.innerText = '0';
+            if (this.charTimes)
+                this.charTimes.innerHTML = '';
+            // clear error class from all chords
+            Array.from((_b = (_a = this.wholePhraseChords) === null || _a === void 0 ? void 0 : _a.children) !== null && _b !== void 0 ? _b : []).forEach(function (chord) {
+                chord.classList.remove("error");
+            });
+            this.setNext();
+        };
+        const handleInputEvent = this.test.bind(this);
+        this.timer = new Timer(this.timerElement, this.updateTimerDisplay.bind(this, this), this.timerSvg, cancelAction, handleInputEvent);
         this.prevCharTime = 0;
         this.testMode = document.getElementById("testMode");
         this.testMode.checked = localStorage.getItem('testMode') == 'true';
@@ -179,7 +256,6 @@ export class HandChord {
         this.preview = document.getElementById("preview");
         this.charTimer = [];
         this.chordSection = document.getElementById("chord-section");
-        this.timerSvg = document.getElementById('timerSvg');
         (_a = this.testMode) === null || _a === void 0 ? void 0 : _a.addEventListener('change', e => {
             this.saveMode(e);
             this.chordify();
@@ -208,7 +284,7 @@ export class HandChord {
         this.nextChar = null;
         this.nextChars = document.getElementById("nextChars");
         this.testArea.addEventListener('input', (e) => {
-            this.timer.test(e, this);
+            this.test(e);
         });
         this.testArea.addEventListener('keyup', (e) => {
             if (this.voiceMode && this.voiceMode.checked) {
@@ -241,15 +317,15 @@ export class HandChord {
             this.chordify();
         });
         (_d = document.getElementById('timerCancel')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', (e) => {
-            this.timer.cancel(this);
+            this.timer.cancel();
         });
         (_e = document.getElementById('listAllChords')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', this.listAllChords);
         (_f = document.getElementById('resetChordify')) === null || _f === void 0 ? void 0 : _f.addEventListener('click', this.resetChordify);
         this.toggleVideo(false);
     }
     updateTimerDisplay(handChord) {
-        console.log("HandChord updateTimerDisplay:", handChord);
         if (handChord.timer) {
+            console.log("HandChord.updateTimerDisplay:", handChord.timer.centiSecond);
             // handChord.timer.updateTimer();
         }
     }
@@ -315,10 +391,10 @@ export class HandChord {
                     this.chordified.appendChild(rowDiv);
             });
             this.setNext();
-            this.timer.setSvg('start', this);
+            this.timer.setSvg('start');
             if (this.testArea)
                 this.testArea.focus();
-            this.timer.cancel(this);
+            this.timer.cancel();
             this.phrase.disabled = true;
             return chordRows;
         });
