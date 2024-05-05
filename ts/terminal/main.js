@@ -6744,7 +6744,8 @@ WARNING: This link could potentially be dangerous`)) {
     Head: "head",
     Tail: "tail",
     LogPrefix: "log-prefix",
-    LogTime: "log-time"
+    LogTime: "log-time",
+    NextChars: "nextChars"
   };
   var LogKeys = {
     CharTime: "char-time",
@@ -6814,6 +6815,10 @@ WARNING: This link could potentially be dangerous`)) {
         return new HTMLElement();
       }
       if (command === "play") {
+        status = 200;
+        response = "Would you like to play a game?";
+      }
+      if (command === "phrase") {
         status = 200;
         response = "Would you like to play a game?";
       }
@@ -6964,12 +6969,46 @@ WARNING: This link could potentially be dangerous`)) {
     }
   };
 
+  // ns-hugo:/home/runner/work/handex/handex/assets/ts/NextCharsDisplay.ts
+  var NextCharsDisplay = class {
+    constructor(nextCharsElement) {
+      this.phrase = "";
+      if (!nextCharsElement)
+        throw new Error("NextChars element not found");
+      this.nextCharsElement = nextCharsElement;
+      this.nextCharsElement.hidden = true;
+    }
+    setPhrase(newPhrase) {
+      this.phrase = newPhrase;
+      this.updateDisplay(0);
+      this.nextCharsElement.hidden = false;
+    }
+    updateDisplay(nextIndex) {
+      const nextChars = this.phrase.substring(nextIndex, nextIndex + 40);
+      console.log(nextChars);
+      this.nextCharsElement.innerHTML = this.formatNextChars(nextChars);
+    }
+    formatNextChars(chars) {
+      let result = chars;
+      return result;
+    }
+  };
+
+  // ns-hugo:/home/runner/work/handex/handex/assets/ts/utils/dom.ts
+  function createElement(tagName, className) {
+    const element = document.createElement(tagName);
+    if (className) {
+      element.id = className;
+      element.classList.add(className);
+    }
+    return element;
+  }
+
   // ns-hugo:/home/runner/work/handex/handex/assets/ts/terminal/XtermAdapter.ts
   var XtermAdapter = class {
     constructor(handexTerm, element) {
       this.handexTerm = handexTerm;
       this.element = element;
-      this.commandHistory = [];
       this.lastTouchDistance = null;
       this.currentFontSize = 17;
       this.promptDelimiter = "$";
@@ -6977,11 +7016,15 @@ WARNING: This link could potentially be dangerous`)) {
       this.isShowVideo = false;
       this.terminalElement = element;
       this.terminalElement.classList.add(TerminalCssClasses.Terminal);
-      this.outputElement = this.createOutputElement();
       this.videoElement = this.createVideoElement();
       this.webCam = new WebCam(this.videoElement);
       this.terminalElement.prepend(this.videoElement);
+      this.nextChars = createElement("div", TerminalCssClasses.NextChars);
+      this.nextChars.hidden = true;
+      this.nextCharsDisplay = new NextCharsDisplay(this.nextChars);
+      this.outputElement = this.createOutputElement();
       this.terminalElement.prepend(this.outputElement);
+      this.terminalElement.append(this.nextChars);
       this.terminal = new import_xterm.Terminal({
         fontFamily: '"Fira Code", Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
         cursorBlink: true,
@@ -6993,6 +7036,50 @@ WARNING: This link could potentially be dangerous`)) {
       this.setViewPortOpacity();
       this.addTouchListeners();
       this.loadFontSize();
+    }
+    onDataHandler(data) {
+      if (data.charCodeAt(0) === 13) {
+        let command = this.getCurrentCommand();
+        this.terminal.reset();
+        this.prompt();
+        if (command === "")
+          return;
+        if (command === "clear") {
+          this.handexTerm.clearCommandHistory();
+          this.outputElement.innerHTML = "";
+          return;
+        }
+        if (command === "video") {
+          this.toggleVideo();
+          let result2 = this.handexTerm.handleCommand(command + " --" + this.isShowVideo);
+          this.outputElement.appendChild(result2);
+          return;
+        }
+        if (command === "phrase") {
+          let result2 = this.nextCharsDisplay.setPhrase("test phrase");
+        }
+        let result = this.handexTerm.handleCommand(command);
+        this.outputElement.appendChild(result);
+      } else if (data.charCodeAt(0) === 3) {
+        this.terminal.reset();
+        this.prompt();
+      } else if (data.charCodeAt(0) === 127) {
+        if (this.terminal.buffer.active.cursorX < this.promptLength)
+          return;
+        this.terminal.write("\x1B[D \x1B[D");
+        let cursorIndex = this.terminal.buffer.active.cursorX;
+      } else {
+        let wpm = this.handexTerm.handleCharacter(data);
+        if (data.charCodeAt(0) === 27) {
+          if (data.charCodeAt(1) === 91) {
+            if (data.charCodeAt(2) === 68 && this.terminal.buffer.active.cursorX < this.promptLength) {
+              return;
+            }
+          }
+        }
+        this.nextCharsDisplay.updateDisplay(5);
+        this.terminal.write(data);
+      }
     }
     setViewPortOpacity() {
       const viewPort = document.getElementsByClassName("xterm-viewport")[0];
@@ -7024,46 +7111,6 @@ WARNING: This link could potentially be dangerous`)) {
         }
       }
       return command.substring(command.indexOf(this.promptDelimiter) + 2);
-    }
-    onDataHandler(data) {
-      if (data.charCodeAt(0) === 13) {
-        let command = this.getCurrentCommand();
-        this.terminal.reset();
-        this.prompt();
-        if (command === "")
-          return;
-        if (command === "clear") {
-          this.handexTerm.clearCommandHistory();
-          this.outputElement.innerHTML = "";
-          return;
-        }
-        if (command === "video") {
-          this.toggleVideo();
-          let result2 = this.handexTerm.handleCommand(command + " --" + this.isShowVideo);
-          this.outputElement.appendChild(result2);
-          return;
-        }
-        let result = this.handexTerm.handleCommand(command);
-        this.outputElement.appendChild(result);
-      } else if (data.charCodeAt(0) === 3) {
-        this.terminal.reset();
-        this.prompt();
-      } else if (data.charCodeAt(0) === 127) {
-        if (this.terminal.buffer.active.cursorX < this.promptLength)
-          return;
-        this.terminal.write("\x1B[D \x1B[D");
-        let cursorIndex = this.terminal.buffer.active.cursorX;
-      } else {
-        let wpm = this.handexTerm.handleCharacter(data);
-        if (data.charCodeAt(0) === 27) {
-          if (data.charCodeAt(1) === 91) {
-            if (data.charCodeAt(2) === 68 && this.terminal.buffer.active.cursorX < this.promptLength) {
-              return;
-            }
-          }
-        }
-        this.terminal.write(data);
-      }
     }
     loadCommandHistory() {
       const commandHistory = this.handexTerm.getCommandHistory();

@@ -20,6 +20,10 @@ export class HandexTerm {
             status = 200;
             response = "Would you like to play a game?";
         }
+        if (command === 'phrase') {
+            status = 200;
+            response = "Would you like to play a game?";
+        }
         if (command.startsWith('video --')) {
             status = 200;
             console.log("Video Command: " + command);
