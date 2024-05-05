@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.WPMCalculator = void 0;
-const TerminalTypes_1 = require("./TerminalTypes");
-class WPMCalculator {
+import { LogKeys } from './TerminalTypes';
+export class WPMCalculator {
     getKeystrokes() {
         return this.keystrokes;
     }
@@ -15,7 +12,7 @@ class WPMCalculator {
     }
     saveKeystrokes(timeCode) {
         let charsAndSum = this.getWPMs();
-        localStorage.setItem(TerminalTypes_1.LogKeys.CharTime + '_' + timeCode, JSON.stringify(charsAndSum.charWpms));
+        localStorage.setItem(LogKeys.CharTime + '_' + timeCode, JSON.stringify(charsAndSum.charWpms));
         return charsAndSum.wpmSum;
     }
     recordKeystroke(character) {
@@ -48,5 +45,4 @@ class WPMCalculator {
         return charWpm;
     }
 }
-exports.WPMCalculator = WPMCalculator;
 //# sourceMappingURL=WPMCalculator.js.map

@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const XtermAdapter_1 = require("./XtermAdapter");
+import { XtermAdapter } from './XtermAdapter';
 // jsdom doesn't support matchMedia so we have to mock it
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -30,7 +28,7 @@ describe('XtermAdapter', () => {
             }),
             handleCharacter: jest.fn((data) => 0)
         };
-        xtermAdapter = new XtermAdapter_1.XtermAdapter(mockHandexTerm, mockElement);
+        xtermAdapter = new XtermAdapter(mockHandexTerm, mockElement);
     });
     it('should add command element to commandHistory when user enters a command', () => {
         // The command the user types

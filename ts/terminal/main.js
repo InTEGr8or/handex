@@ -6751,40 +6751,6 @@ WARNING: This link could potentially be dangerous`)) {
     Command: "command"
   };
 
-  // ns-hugo:/home/runner/work/handex/handex/assets/ts/utils/dom.ts
-  function createElement(tagName, className) {
-    const element = document.createElement(tagName);
-    if (className) {
-      element.classList.add(className);
-    }
-    return element;
-  }
-
-  // ns-hugo:/home/runner/work/handex/handex/assets/ts/terminal/TerminalInputElement.ts
-  var TerminalInputElement = class {
-    constructor() {
-      this.input = createElement("textarea", TerminalCssClasses.Input);
-      this.input.title = "Terminal Input";
-      this.input.id = "terminal-input";
-      this.input.wrap = "off";
-      this.input.spellcheck = true;
-      this.input.autofocus = true;
-      this.input.setAttribute("rows", "1");
-      this.bindInputEventListener("input", this.autoExpand);
-    }
-    focus() {
-      this.input.focus();
-    }
-    bindInputEventListener(eventType, listener) {
-      this.input.addEventListener(eventType, listener);
-    }
-    autoExpand(event) {
-      const textarea = event.target;
-      textarea.style.height = "auto";
-      textarea.style.height = `${textarea.scrollHeight}px`;
-    }
-  };
-
   // ns-hugo:/home/runner/work/handex/handex/assets/ts/terminal/WPMCalculator.ts
   var WPMCalculator = class {
     constructor() {
@@ -6837,9 +6803,60 @@ WARNING: This link could potentially be dangerous`)) {
       this.persistence = persistence;
       this._commandHistory = [];
       this.wpmCalculator = new WPMCalculator();
-      this.inputElement = new TerminalInputElement();
       this._persistence = persistence;
-      this.bindInput();
+    }
+    handleCommand(command) {
+      let status = 404;
+      let response = "Command not found.";
+      if (command === "clear") {
+        status = 200;
+        this.clearCommandHistory();
+        return new HTMLElement();
+      }
+      if (command === "play") {
+        status = 200;
+        response = "Would you like to play a game?";
+      }
+      if (command.startsWith("video --")) {
+        status = 200;
+        console.log("Video Command: " + command);
+        if (command === "video --true") {
+          response = "Starting video camera...";
+        } else {
+          response = "Stopping video camera...";
+        }
+      }
+      if (this._commandHistory.length > _HandexTerm.commandHistoryLimit) {
+        this._commandHistory.shift();
+      }
+      const commandTime = /* @__PURE__ */ new Date();
+      const timeCode = this.createTimeCode(commandTime);
+      let commandText = this.createCommandRecord(command, commandTime);
+      const commandElement = this.createHTMLElementFromHTML(commandText);
+      let commandResponseElement = document.createElement("div");
+      commandResponseElement.dataset.status = status.toString();
+      commandResponseElement.appendChild(commandElement);
+      commandResponseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
+      let wpm = this.saveCommandResponseHistory(commandResponseElement, timeCode.join(""));
+      commandText = commandText.replace(/{{wpm}}/g, ("_____" + wpm.toFixed(0)).slice(-4));
+      if (!this._commandHistory) {
+        this._commandHistory = [];
+      }
+      this._commandHistory.push(commandResponseElement);
+      return commandResponseElement;
+    }
+    parseCommand(input) {
+      const args = input.split(/\s+/);
+      const command = args[0];
+      const options = args.slice(1);
+      console.log("Command:", command);
+      console.log("Options:", options);
+      switch (command) {
+        case "someCommand":
+          break;
+        default:
+          break;
+      }
     }
     getCommandHistory() {
       var _a;
@@ -6866,7 +6883,7 @@ WARNING: This link could potentially be dangerous`)) {
       let wpmSum = this.wpmCalculator.saveKeystrokes(commandTime);
       this.wpmCalculator.clearKeystrokes();
       commandResponseElement.innerHTML = commandResponseElement.innerHTML.replace(/{{wpm}}/g, ("_____" + wpmSum.toFixed(0)).slice(-4));
-      localStorage.setItem(`${LogKeys.Command}_${commandTime}`, JSON.stringify(commandResponseElement.innerHTML));
+      this._persistence.setItem(`${LogKeys.Command}_${commandTime}`, JSON.stringify(commandResponseElement.innerHTML));
       return wpmSum;
     }
     clearCommandHistory() {
@@ -6884,14 +6901,6 @@ WARNING: This link could potentially be dangerous`)) {
       }
       this._commandHistory = [];
     }
-    bindInput() {
-      if (this.inputElement) {
-        this.inputElement.input.addEventListener(
-          "keydown",
-          (event) => this.handleKeyPress(event)
-        );
-      }
-    }
     createHTMLElementFromHTML(htmlString) {
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlString, "text/html");
@@ -6904,50 +6913,6 @@ WARNING: This link could potentially be dangerous`)) {
       let commandText = `<div class="log-line"><span class="log-time">[${this.createTimeHTML(commandTime)}]</span><span class="wpm">{{wpm}}</span>${command}</div>`;
       return commandText;
     }
-    handleCommand(command) {
-      let status = 404;
-      let response = "Command not found.";
-      if (command === "clear") {
-        this.clearCommandHistory();
-        return new HTMLElement();
-      }
-      if (command === "play") {
-        response = "Would you like to play a game?";
-      }
-      if (this._commandHistory.length > _HandexTerm.commandHistoryLimit) {
-        this._commandHistory.shift();
-      }
-      const commandTime = /* @__PURE__ */ new Date();
-      const timeCode = this.createTimeCode(commandTime);
-      let commandText = this.createCommandRecord(command, commandTime);
-      const commandElement = this.createHTMLElementFromHTML(commandText);
-      let commandResponseElement = document.createElement("div");
-      commandResponseElement.dataset.status = status.toString();
-      commandResponseElement.appendChild(commandElement);
-      commandResponseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
-      let wpm = this.saveCommandResponseHistory(commandResponseElement, timeCode.join(""));
-      commandText = commandText.replace(/{{wpm}}/g, ("_____" + wpm.toFixed(0)).slice(-4));
-      if (!this._commandHistory) {
-        this._commandHistory = [];
-      }
-      this._commandHistory.push(commandResponseElement);
-      return commandResponseElement;
-    }
-    handleKeyPress(event) {
-      if (event.key === "Enter") {
-        if (event.shiftKey) {
-          this.inputElement.input.value += "\n";
-          return;
-        }
-        const command = this.inputElement.input.value.trim();
-        this.inputElement.input.value = "";
-        this.handleCommand(command);
-      }
-      if (event.ctrlKey && event.key === "c") {
-        this.inputElement.input.value = "";
-      }
-      const wpm = this.wpmCalculator.recordKeystroke(event.key);
-    }
     createTimeCode(now = /* @__PURE__ */ new Date()) {
       return now.toLocaleTimeString("en-US", { hour12: false }).split(":");
     }
@@ -6957,37 +6922,6 @@ WARNING: This link could potentially be dangerous`)) {
       const seconds = time.getSeconds().toString().padStart(2, "0");
       return `<span class="log-hour">${hours}</span><span class="log-minute">${minutes}</span><span class="log-second">${seconds}</span>`;
     }
-    createPromptHead(user = "guest") {
-      const head = createElement("div", "head");
-      head.innerHTML = `<span class="user">${user}</span>@<span class="domain"><a href="https://handex.io">handex.io</a></span> via \u{1F439} v1.19.3 on \u2601\uFE0F (us-west-1)`;
-      return head;
-    }
-    createPromptTail() {
-      const tail = createElement("div", "tail");
-      tail.innerHTML = `\u276F `;
-      return tail;
-    }
-    createPromptElement(user = "guest") {
-      const prompt = document.createElement("div");
-      prompt.classList.add("prompt");
-      const line1 = document.createElement("div");
-      line1.classList.add("terminal-line", "first-line");
-      const promptHead = this.createPromptHead(user);
-      line1.appendChild(promptHead);
-      prompt.appendChild(line1);
-      const line2 = document.createElement("div");
-      line2.classList.add("terminal-line");
-      this.inputElement = new TerminalInputElement();
-      const promptTailContainer = document.createElement("div");
-      promptTailContainer.classList.add("prompt-tail-container");
-      const promptTail = this.createPromptTail();
-      promptTailContainer.appendChild(promptTail);
-      line2.appendChild(promptTailContainer);
-      line2.appendChild(this.inputElement.input);
-      prompt.appendChild(line2);
-      return prompt;
-    }
-    // Additional product-specific methods and properties
   };
   _HandexTerm.commandHistoryLimit = 100;
   var HandexTerm = _HandexTerm;
@@ -7041,7 +6975,6 @@ WARNING: This link could potentially be dangerous`)) {
       this.promptDelimiter = "$";
       this.promptLength = 0;
       this.isShowVideo = false;
-      this.touchDistance = null;
       this.terminalElement = element;
       this.terminalElement.classList.add(TerminalCssClasses.Terminal);
       this.outputElement = this.createOutputElement();
@@ -7076,6 +7009,7 @@ WARNING: This link could potentially be dangerous`)) {
     toggleVideo() {
       this.isShowVideo = !this.isShowVideo;
       this.webCam.toggleVideo(this.isShowVideo);
+      return this.isShowVideo;
     }
     getCommandHistory() {
       return this.handexTerm.getCommandHistory();
@@ -7105,6 +7039,8 @@ WARNING: This link could potentially be dangerous`)) {
         }
         if (command === "video") {
           this.toggleVideo();
+          let result2 = this.handexTerm.handleCommand(command + " --" + this.isShowVideo);
+          this.outputElement.appendChild(result2);
           return;
         }
         let result = this.handexTerm.handleCommand(command);
@@ -7200,6 +7136,9 @@ WARNING: This link could potentially be dangerous`)) {
   // ns-hugo:/home/runner/work/handex/handex/assets/ts/terminal/Persistence.ts
   var LocalStoragePersistence = class {
     saveCommandHistory(command) {
+    }
+    setItem(key, value) {
+      localStorage.setItem(key, value);
     }
     loadCommandHistory() {
       return [];

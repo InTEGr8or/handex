@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.WebCam = void 0;
-class WebCam {
+export class WebCam {
     constructor(videoElement, isVideo = false) {
         this.isVideo = false;
         this.facingMode = 'user';
@@ -38,5 +35,4 @@ class WebCam {
         this.preview.setAttribute('x5-playsinline', '');
     }
 }
-exports.WebCam = WebCam;
 //# sourceMappingURL=WebCam.js.map

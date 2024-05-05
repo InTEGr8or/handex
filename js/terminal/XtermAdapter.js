@@ -1,11 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.XtermAdapter = void 0;
 // XtermAdapter.ts
-const xterm_1 = require("@xterm/xterm");
-const TerminalTypes_1 = require("./TerminalTypes");
-const WebCam_1 = require("../utils/WebCam");
-class XtermAdapter {
+import { Terminal } from '@xterm/xterm';
+import { TerminalCssClasses } from './TerminalTypes';
+import { WebCam } from '../utils/WebCam';
+export class XtermAdapter {
     constructor(handexTerm, element) {
         this.handexTerm = handexTerm;
         this.element = element;
@@ -15,15 +12,14 @@ class XtermAdapter {
         this.promptDelimiter = '$';
         this.promptLength = 0;
         this.isShowVideo = false;
-        this.touchDistance = null;
         this.terminalElement = element;
-        this.terminalElement.classList.add(TerminalTypes_1.TerminalCssClasses.Terminal);
+        this.terminalElement.classList.add(TerminalCssClasses.Terminal);
         this.outputElement = this.createOutputElement();
         this.videoElement = this.createVideoElement();
-        this.webCam = new WebCam_1.WebCam(this.videoElement);
+        this.webCam = new WebCam(this.videoElement);
         this.terminalElement.prepend(this.videoElement);
         this.terminalElement.prepend(this.outputElement);
-        this.terminal = new xterm_1.Terminal({
+        this.terminal = new Terminal({
             fontFamily: '"Fira Code", Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
             cursorBlink: true,
             cursorStyle: 'block'
@@ -50,6 +46,7 @@ class XtermAdapter {
     toggleVideo() {
         this.isShowVideo = !this.isShowVideo;
         this.webCam.toggleVideo(this.isShowVideo);
+        return this.isShowVideo;
     }
     getCommandHistory() {
         return this.handexTerm.getCommandHistory();
@@ -85,6 +82,8 @@ class XtermAdapter {
             }
             if (command === 'video') {
                 this.toggleVideo();
+                let result = this.handexTerm.handleCommand(command + ' --' + this.isShowVideo);
+                this.outputElement.appendChild(result);
                 return;
             }
             let result = this.handexTerm.handleCommand(command);
@@ -183,5 +182,4 @@ class XtermAdapter {
             Math.pow(touch2.pageY - touch1.pageY, 2));
     }
 }
-exports.XtermAdapter = XtermAdapter;
 //# sourceMappingURL=XtermAdapter.js.map

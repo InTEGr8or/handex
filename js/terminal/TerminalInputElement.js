@@ -1,13 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TerminalInputElement = void 0;
-const dom_1 = require("../utils/dom");
-const TerminalTypes_1 = require("./TerminalTypes");
+import { createElement } from '../utils/dom';
+import { TerminalCssClasses } from './TerminalTypes';
 class TerminalPrompt {
     constructor() {
-        this.head = (0, dom_1.createElement)('div', TerminalTypes_1.TerminalCssClasses.Head);
-        this.tail = (0, dom_1.createElement)('div', TerminalTypes_1.TerminalCssClasses.Tail);
-        this.input = (0, dom_1.createElement)('textarea', TerminalTypes_1.TerminalCssClasses.Input);
+        this.head = createElement('div', TerminalCssClasses.Head);
+        this.tail = createElement('div', TerminalCssClasses.Tail);
+        this.input = createElement('textarea', TerminalCssClasses.Input);
         this.head.appendChild(this.input);
         this.tail.appendChild(this.input);
     }
@@ -15,9 +12,9 @@ class TerminalPrompt {
         return this.input.value;
     }
 }
-class TerminalInputElement {
+export class TerminalInputElement {
     constructor() {
-        this.input = (0, dom_1.createElement)('textarea', TerminalTypes_1.TerminalCssClasses.Input);
+        this.input = createElement('textarea', TerminalCssClasses.Input);
         this.input.title = 'Terminal Input';
         this.input.id = 'terminal-input';
         this.input.wrap = 'off'; // Disables soft-wrapping
@@ -40,5 +37,4 @@ class TerminalInputElement {
         textarea.style.height = `${textarea.scrollHeight}px`; // Set to scrollHeight
     }
 }
-exports.TerminalInputElement = TerminalInputElement;
 //# sourceMappingURL=TerminalInputElement.js.map
