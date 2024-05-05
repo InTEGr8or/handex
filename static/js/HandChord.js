@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { NextCharsDisplay } from "./NextCharsDisplay.js";
 import { Timer } from "./Timer.js";
 import { spaceDisplayChar, createCharTime } from "./types/Types.js";
 export class HandChord {
@@ -57,7 +58,7 @@ export class HandChord {
                 // stop timer
                 this.timer.setSvg('stop');
                 let charTimeList = "";
-                this.charTimer.forEach(x => {
+                this.charTimer.forEach((x) => {
                     charTimeList += `<li>${x.char.replace(' ', spaceDisplayChar)}: ${x.duration}</li>`;
                 });
                 if (this.charTimes)
@@ -66,7 +67,7 @@ export class HandChord {
                 this.timer.cancel();
                 return;
             }
-            this.timer.start(10);
+            this.timer.start();
         };
         this.saveMode = (modeEvent) => {
             // chordify();
@@ -125,10 +126,8 @@ export class HandChord {
             if (this.wholePhraseChords && nextIndex > this.wholePhraseChords.children.length - 1)
                 return;
             let nextCharacter = `<span class="nextCharacter">${(_c = this.phrase) === null || _c === void 0 ? void 0 : _c.value.substring(nextIndex, nextIndex + 1).replace(' ', '&nbsp;')}</span>`;
-            if (this.nextChars && this.phrase)
-                this.nextChars.innerHTML
-                    = `${nextCharacter}${this.phrase.value
-                        .substring(nextIndex + 1, nextIndex + 40)}`;
+            console.log("nextIndex:", nextIndex);
+            this.nextCharsDisplay.updateDisplay(nextIndex);
             const next = (_d = this.wholePhraseChords) === null || _d === void 0 ? void 0 : _d.children[nextIndex];
             if (next) {
                 if (this.nextChar)
@@ -217,6 +216,8 @@ export class HandChord {
         this.chordified = document.getElementById("chordified");
         this.wholePhraseChords = document.getElementById("wholePhraseChords");
         this.nextChar = null;
+        this.nextChars = document.getElementById("nextChars");
+        this.nextCharsDisplay = new NextCharsDisplay(this.nextChars);
         this.charTimer = [];
         this.charTimes = document.getElementById("charTimes");
         this.wpm = document.getElementById("wpm");
@@ -282,7 +283,6 @@ export class HandChord {
         this.svgCharacter = document.getElementById("svgCharacter");
         this.errorCount = document.getElementById("errorCount");
         this.nextChar = null;
-        this.nextChars = document.getElementById("nextChars");
         this.testArea.addEventListener('input', (e) => {
             this.test(e);
         });
@@ -326,7 +326,7 @@ export class HandChord {
     updateTimerDisplay(handChord) {
         if (handChord.timer) {
             console.log("HandChord.updateTimerDisplay:", handChord.timer.centiSecond);
-            // handChord.timer.updateTimer();
+            handChord.timer.updateTimer();
         }
     }
     chordify() {
@@ -336,9 +336,7 @@ export class HandChord {
             if (!this.phrase || this.phrase.value.trim().length == 0) {
                 return [];
             }
-            console.log("handChord.phrase:", this.phrase);
             const phraseEncoded = btoa(this.phrase.value);
-            console.log("phraseEncoded:", phraseEncoded);
             const response = yield fetch(this.lambdaUrl, {
                 method: 'POST',
                 headers: {},
@@ -396,6 +394,7 @@ export class HandChord {
                 this.testArea.focus();
             this.timer.cancel();
             this.phrase.disabled = true;
+            this.nextCharsDisplay.setPhrase(this.phrase.value);
             return chordRows;
         });
     }

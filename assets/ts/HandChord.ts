@@ -1,3 +1,4 @@
+import { NextCharsDisplay } from "./NextCharsDisplay.js";
 import { Timer } from "./Timer.js";
 import { CharTime, spaceDisplayChar, CancelCallback, InputEventCallback, createCharTime } from "./types/Types.js";
 
@@ -35,6 +36,7 @@ export class HandChord {
     svgCharacter: HTMLImageElement | null;
     chordSection: HTMLDivElement | null;
     nextChars: HTMLElement | null;
+    private nextCharsDisplay: NextCharsDisplay;
 
     constructor() {
         this.phrase = document.getElementById("phrase") as HTMLInputElement;
@@ -42,6 +44,8 @@ export class HandChord {
         this.chordified = document.getElementById("chordified") as HTMLElement;
         this.wholePhraseChords = document.getElementById("wholePhraseChords") as HTMLElement;
         this.nextChar = null;
+        this.nextChars = document.getElementById("nextChars") as HTMLElement;
+        this.nextCharsDisplay = new NextCharsDisplay(this.nextChars);
         this.charTimer = [];
         this.charTimes = document.getElementById("charTimes") as HTMLElement;
         this.wpm = document.getElementById("wpm") as HTMLElement;
@@ -107,7 +111,6 @@ export class HandChord {
         this.svgCharacter = document.getElementById("svgCharacter") as HTMLImageElement;
         this.errorCount = document.getElementById("errorCount") as HTMLElement;
         this.nextChar = null;
-        this.nextChars = document.getElementById("nextChars") as HTMLElement;
 
         this.testArea.addEventListener('input', (e: Event) => {
             this.test(e as InputEvent);
@@ -155,7 +158,7 @@ export class HandChord {
     updateTimerDisplay(handChord: HandChord): void {
         if (handChord.timer) {
             console.log("HandChord.updateTimerDisplay:", handChord.timer.centiSecond);
-            // handChord.timer.updateTimer();
+            handChord.timer.updateTimer();
         }
     }
 
@@ -210,7 +213,7 @@ export class HandChord {
             // stop timer
             this.timer.setSvg('stop');
             let charTimeList = "";
-            this.charTimer.forEach(x => {
+            this.charTimer.forEach((x: CharTime) => {
                 charTimeList += `<li>${x.char.replace(' ', spaceDisplayChar)}: ${x.duration}</li>`;
             });
             if (this.charTimes) this.charTimes.innerHTML = charTimeList;
@@ -218,7 +221,7 @@ export class HandChord {
             this.timer.cancel();
             return;
         }
-        this.timer.start(10);
+        this.timer.start();
     }
 
     private async chordify(): Promise<Array<ChordRow>> {
@@ -226,9 +229,7 @@ export class HandChord {
         if (!this.phrase || this.phrase.value.trim().length == 0) {
             return [];
         }
-        console.log("handChord.phrase:", this.phrase);
         const phraseEncoded = btoa(this.phrase.value);
-        console.log("phraseEncoded:", phraseEncoded);
         const response = await fetch(this.lambdaUrl, {
             method: 'POST',
             headers: {
@@ -284,6 +285,7 @@ export class HandChord {
         if (this.testArea) this.testArea.focus();
         this.timer.cancel();
         this.phrase.disabled = true;
+        this.nextCharsDisplay.setPhrase(this.phrase.value);
         return chordRows;
     }
 
@@ -340,9 +342,8 @@ export class HandChord {
 
         let nextCharacter = `<span class="nextCharacter">${this.phrase?.value.substring(nextIndex, nextIndex + 1).replace(' ', '&nbsp;')}</span>`;
 
-        if (this.nextChars && this.phrase) this.nextChars.innerHTML
-            = `${nextCharacter}${this.phrase.value
-                .substring(nextIndex + 1, nextIndex + 40)}`;
+        console.log("nextIndex:", nextIndex);
+        this.nextCharsDisplay.updateDisplay(nextIndex);
 
         const next = this.wholePhraseChords?.children[nextIndex] as HTMLElement;
         if (next) {

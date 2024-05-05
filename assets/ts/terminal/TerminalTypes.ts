@@ -9,6 +9,7 @@ export const TerminalCssClasses = {
     Tail: 'tail',
     LogPrefix: 'log-prefix',
     LogTime: 'log-time',
+    NextChars: 'nextChars'
 } as const;
 
 export const LogKeys = {

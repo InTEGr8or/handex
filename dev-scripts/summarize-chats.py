@@ -36,7 +36,7 @@ for filename in os.listdir(directory):
         # For example:
         # chat_contents = re.split(r'some_pattern', content)
         # Define a safe character limit, for example:
-        safe_char_limit = 16000  # Adjust this limit based on your observations
+        safe_char_limit = 16_000  # Adjust this limit based on observations
 
         # Truncate the content if it's too long
         truncated_content = content if len(content) <= safe_char_limit else content[:safe_char_limit]

@@ -35,6 +35,10 @@ export class HandexTerm implements IHandexTerm {
       status = 200;
       response = "Would you like to play a game?"
     }
+    if(command === 'phrase') {
+      status = 200;
+      response = "Would you like to play a game?"
+    }
     if (command.startsWith('video --')) {
       status = 200;
       console.log("Video Command: " + command);
@@ -45,8 +49,6 @@ export class HandexTerm implements IHandexTerm {
         response = "Stopping video camera..."
       }
     }
-
-    
 
     // Truncate the history if it's too long before saving
     if (this._commandHistory.length > HandexTerm.commandHistoryLimit) {

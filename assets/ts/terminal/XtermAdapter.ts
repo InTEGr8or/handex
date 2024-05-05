@@ -3,10 +3,11 @@ import { Terminal } from '@xterm/xterm';
 import { IHandexTerm } from './HandexTerm';
 import { TerminalCssClasses } from './TerminalTypes';
 import { IWebCam, WebCam } from '../utils/WebCam';
+import { NextCharsDisplay } from '../NextCharsDisplay';
+import { createElement } from '../utils/dom';
 
 export class XtermAdapter {
   private terminal: Terminal;
-  private commandHistory: HTMLElement[] = [];
   private terminalElement: HTMLElement;
   private lastTouchDistance: number | null = null;
   private currentFontSize: number = 17;
@@ -16,15 +17,21 @@ export class XtermAdapter {
   private promptLength: number = 0;
   private webCam: IWebCam;
   private isShowVideo: boolean = false;
+  private nextChars: HTMLElement;
+  private nextCharsDisplay: NextCharsDisplay;
 
   constructor(private handexTerm: IHandexTerm, private element: HTMLElement) {
     this.terminalElement = element;
     this.terminalElement.classList.add(TerminalCssClasses.Terminal);
-    this.outputElement = this.createOutputElement();
     this.videoElement = this.createVideoElement();
     this.webCam = new WebCam(this.videoElement);
     this.terminalElement.prepend(this.videoElement);
+    this.nextChars = createElement('div', TerminalCssClasses.NextChars);
+    this.nextChars.hidden = true;
+    this.nextCharsDisplay = new NextCharsDisplay(this.nextChars);
+    this.outputElement = this.createOutputElement();
     this.terminalElement.prepend(this.outputElement);
+    this.terminalElement.append(this.nextChars);
     this.terminal = new Terminal({
       fontFamily: '"Fira Code", Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
       cursorBlink: true,
@@ -36,6 +43,56 @@ export class XtermAdapter {
     this.setViewPortOpacity();
     this.addTouchListeners();
     this.loadFontSize();
+  }
+
+  public onDataHandler(data: string): void {
+    // Check if the Enter key was pressed
+    if (data.charCodeAt(0) === 13) { // Enter key
+      // Process the command before clearing the terminal
+      let command = this.getCurrentCommand();
+      // Clear the terminal after processing the command
+      this.terminal.reset();
+      // Write the new prompt after clearing
+      this.prompt();
+      if (command === '') return;
+      if (command === 'clear') {
+        this.handexTerm.clearCommandHistory();
+        this.outputElement.innerHTML = '';
+        return;
+      }
+      if (command === 'video') {
+        this.toggleVideo();
+        let result = this.handexTerm.handleCommand(command + ' --' + this.isShowVideo);
+        this.outputElement.appendChild(result);
+        return;
+      }
+      if(command === 'phrase') {
+
+        let result = this.nextCharsDisplay.setPhrase('test phrase');
+      }
+      let result = this.handexTerm.handleCommand(command);
+      this.outputElement.appendChild(result);
+    } else if (data.charCodeAt(0) === 3) { // Ctrl+C
+      this.terminal.reset();
+      this.prompt();
+    } else if (data.charCodeAt(0) === 127) { // Backspace
+      // Remove the last character from the terminal
+      if (this.terminal.buffer.active.cursorX < this.promptLength) return;
+      this.terminal.write('\x1b[D \x1b[D');
+      let cursorIndex = this.terminal.buffer.active.cursorX;
+    } else {
+      // For other input, just return it to the terminal.
+      let wpm = this.handexTerm.handleCharacter(data);
+      if (data.charCodeAt(0) === 27) { // escape and navigation characters
+        if (data.charCodeAt(1) === 91) {
+          if (data.charCodeAt(2) === 68 && (this.terminal.buffer.active.cursorX < this.promptLength)) {
+            return;
+          }
+        }
+      }
+      this.nextCharsDisplay.updateDisplay(5);
+      this.terminal.write(data);
+    }
   }
 
   private setViewPortOpacity(): void {
@@ -76,51 +133,6 @@ export class XtermAdapter {
     return command.substring(command.indexOf(this.promptDelimiter) + 2);
   }
 
-
-  public onDataHandler(data: string): void {
-    // Check if the Enter key was pressed
-    if (data.charCodeAt(0) === 13) { // Enter key
-      // Process the command before clearing the terminal
-      let command = this.getCurrentCommand();
-      // Clear the terminal after processing the command
-      this.terminal.reset();
-      // Write the new prompt after clearing
-      this.prompt();
-      if (command === '') return;
-      if (command === 'clear') {
-        this.handexTerm.clearCommandHistory();
-        this.outputElement.innerHTML = '';
-        return;
-      }
-      if (command === 'video') {
-        this.toggleVideo();
-        let result = this.handexTerm.handleCommand(command + ' --' + this.isShowVideo);
-        this.outputElement.appendChild(result);
-        return;
-      }
-      let result = this.handexTerm.handleCommand(command);
-      this.outputElement.appendChild(result);
-    } else if (data.charCodeAt(0) === 3) { // Ctrl+C
-      this.terminal.reset();
-      this.prompt();
-    } else if (data.charCodeAt(0) === 127) { // Backspace
-      // Remove the last character from the terminal
-      if (this.terminal.buffer.active.cursorX < this.promptLength) return;
-      this.terminal.write('\x1b[D \x1b[D');
-      let cursorIndex = this.terminal.buffer.active.cursorX;
-    } else {
-      // For other input, just return it to the terminal.
-      let wpm = this.handexTerm.handleCharacter(data);
-      if (data.charCodeAt(0) === 27) { // escape and navigation characters
-        if (data.charCodeAt(1) === 91) {
-          if (data.charCodeAt(2) === 68 && (this.terminal.buffer.active.cursorX < this.promptLength)) {
-            return;
-          }
-        }
-      }
-      this.terminal.write(data);
-    }
-  }
 
   private loadCommandHistory(): void {
     const commandHistory = this.handexTerm.getCommandHistory();
