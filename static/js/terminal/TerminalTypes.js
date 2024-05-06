@@ -8,7 +8,9 @@ export const TerminalCssClasses = {
     Tail: 'tail',
     LogPrefix: 'log-prefix',
     LogTime: 'log-time',
-    NextChars: 'nextChars'
+    NextChars: 'nextChars',
+    WholePhraseChords: 'wholePhraseChords',
+    ChordImageHolder: 'chord-image-holder',
 };
 export const LogKeys = {
     CharTime: 'char-time',

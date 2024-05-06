@@ -2,6 +2,7 @@
 import { LogKeys, TimeHTML } from './TerminalTypes';
 import { IWPMCalculator, WPMCalculator } from './WPMCalculator';
 import { IPersistence } from './Persistence';
+import { createElement } from '../utils/dom';
 
 export interface IHandexTerm {
   // Define the interface for your HandexTerm logic
@@ -17,10 +18,15 @@ export class HandexTerm implements IHandexTerm {
   private _commandHistory: HTMLElement[] = [];
   private wpmCalculator: IWPMCalculator = new WPMCalculator();
   private static readonly commandHistoryLimit = 100;
+  private wholePhraseChords: HTMLElement | null = null;
+  private chordImageHolder: HTMLElement | null = null;
+  private svgCharacter: HTMLElement | null = null;
+  private testMode: HTMLInputElement | null = null;
+  private setWpmCallback: () => void = () => {};
 
   constructor(private persistence: IPersistence,) {
     this._persistence = persistence;
-
+    this.wholePhraseChords = createElement('div', 'whole-phrase-chords')
   }
 
   public handleCommand(command: string): HTMLElement {
@@ -41,7 +47,6 @@ export class HandexTerm implements IHandexTerm {
     }
     if (command.startsWith('video --')) {
       status = 200;
-      console.log("Video Command: " + command);
       if (command === 'video --true') {
         response = "Starting video camera..."
       }
@@ -75,8 +80,6 @@ export class HandexTerm implements IHandexTerm {
     const options = args.slice(1); // The rest are the associated options/arguments
 
     // Now you can handle the command and options
-    console.log('Command:', command);
-    console.log('Options:', options);
     
 
     // Based on the command, you can switch and call different functions

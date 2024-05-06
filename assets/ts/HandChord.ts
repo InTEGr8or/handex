@@ -1,5 +1,6 @@
 import { NextCharsDisplay } from "./NextCharsDisplay.js";
 import { Timer } from "./Timer.js";
+import { TerminalCssClasses } from "./terminal/TerminalTypes.js";
 import { CharTime, spaceDisplayChar, CancelCallback, InputEventCallback, createCharTime } from "./types/Types.js";
 
 
@@ -42,10 +43,22 @@ export class HandChord {
         this.phrase = document.getElementById("phrase") as HTMLInputElement;
         this.testArea = document.getElementById("testArea") as HTMLTextAreaElement;
         this.chordified = document.getElementById("chordified") as HTMLElement;
-        this.wholePhraseChords = document.getElementById("wholePhraseChords") as HTMLElement;
+        this.wholePhraseChords = document.getElementById(TerminalCssClasses.WholePhraseChords) as HTMLElement;
         this.nextChar = null;
-        this.nextChars = document.getElementById("nextChars") as HTMLElement;
-        this.nextCharsDisplay = new NextCharsDisplay(this.nextChars);
+        this.nextChars = document.getElementById(TerminalCssClasses.NextChars) as HTMLElement;
+        this.chordImageHolder = document.getElementById("chord-image-holder") as HTMLElement;
+        this.svgCharacter = document.getElementById("svgCharacter") as HTMLImageElement;
+        this.testMode = document.getElementById("testMode") as HTMLInputElement;
+        this.testMode.checked = localStorage.getItem('testMode') == 'true';
+        this.nextCharsDisplay = new NextCharsDisplay(
+            this.nextChars,
+            this.wholePhraseChords,
+            this.chordImageHolder,
+            this.svgCharacter,
+            this.testMode,
+            this.setWpm.bind(this),
+            this.testArea
+        );
         this.charTimer = [];
         this.charTimes = document.getElementById("charTimes") as HTMLElement;
         this.wpm = document.getElementById("wpm") as HTMLElement;
@@ -56,30 +69,12 @@ export class HandChord {
 
         this.timerSvg = document.getElementById('timerSvg') as unknown as SVGElement;
 
-        const cancelAction: CancelCallback = () => {
-            if (this.testArea) {
-                this.testArea.value = '';
-                this.testArea.focus();
-                this.testArea.style.border = "";
-            }
-            this.charTimer = [];
-            this.prevCharTime = 0;
-            if (this.wpm) this.wpm.innerText = '0';
-            if (this.charTimes) this.charTimes.innerHTML = '';
-            // clear error class from all chords
-            Array.from(this.wholePhraseChords?.children ?? []).forEach(function (chord) {
-                chord.classList.remove("error");
-            });
-            this.setNext();
-        };
+        const cancelAction: CancelCallback = this.cancelCallback.bind(this);
         const handleInputEvent: InputEventCallback = this.test.bind(this);
         this.timer = new Timer(this.timerElement, this.updateTimerDisplay.bind(this, this), this.timerSvg, cancelAction, handleInputEvent);
         this.prevCharTime = 0;
-        this.testMode = document.getElementById("testMode") as HTMLInputElement;
-        this.testMode.checked = localStorage.getItem('testMode') == 'true';
         this.lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/';
         this.pangrams = document.getElementById("pangrams") as HTMLElement;
-        this.chordImageHolder = document.getElementById("chord-image-holder") as HTMLElement;
         this.prevCharTime = 0;
         this.preview = document.getElementById("preview") as HTMLVideoElement;
         this.charTimer = [];
@@ -108,7 +103,6 @@ export class HandChord {
 
         this.allChordsList = document.getElementById("allChordsList") as HTMLDivElement;
         // APP.testModeLabel = document.getElementById("testModeLabel");
-        this.svgCharacter = document.getElementById("svgCharacter") as HTMLImageElement;
         this.errorCount = document.getElementById("errorCount") as HTMLElement;
         this.nextChar = null;
 
@@ -157,11 +151,25 @@ export class HandChord {
 
     updateTimerDisplay(handChord: HandChord): void {
         if (handChord.timer) {
-            console.log("HandChord.updateTimerDisplay:", handChord.timer.centiSecond);
             handChord.timer.updateTimer();
         }
     }
-
+    cancelCallback = () => {
+        if (this.testArea) {
+            this.testArea.value = '';
+            this.testArea.focus();
+            this.testArea.style.border = "";
+        }
+        this.charTimer = [];
+        this.prevCharTime = 0;
+        if (this.wpm) this.wpm.innerText = '0';
+        if (this.charTimes) this.charTimes.innerHTML = '';
+        // clear error class from all chords
+        Array.from(this.wholePhraseChords?.children ?? []).forEach(function (chord) {
+            chord.classList.remove("error");
+        });
+        this.nextCharsDisplay.setNext('');
+    }
     test = (event: InputEvent) => {
         if (event.data == this.nextChar) {
             const charTime = createCharTime(
@@ -172,7 +180,7 @@ export class HandChord {
             this.charTimer.push(charTime);
         }
 
-        const next = this.setNext();
+        const next = this.nextCharsDisplay.setNext(this.testArea?.value ?? '');
         if (next) {
             next.classList.remove("error");
         }
@@ -280,7 +288,7 @@ export class HandChord {
             rowDiv.appendChild(document.createTextNode(row.strokes));
             if (this.chordified) this.chordified.appendChild(rowDiv);
         });
-        this.setNext();
+        this.nextCharsDisplay.setNext('');
         this.timer.setSvg('start');
         if (this.testArea) this.testArea.focus();
         this.timer.cancel();
@@ -325,75 +333,6 @@ export class HandChord {
         if (this.chordSection) this.chordSection.classList.toggle('chord-section-over-video', setOn);
         return !setOn;
     }
-    public setNext = () => {
-        const nextIndex = this.getFirstNonMatchingChar();
-
-        if (nextIndex < 0) {
-            return;
-        }
-        // Remove the outstanding class from the previous chord.
-        Array
-            .from(this.wholePhraseChords?.children ?? [])
-            .forEach((chord, i) => {
-                chord.classList.remove("next");
-            }
-            );
-        if (this.wholePhraseChords && nextIndex > this.wholePhraseChords.children.length - 1) return;
-
-        let nextCharacter = `<span class="nextCharacter">${this.phrase?.value.substring(nextIndex, nextIndex + 1).replace(' ', '&nbsp;')}</span>`;
-
-        console.log("nextIndex:", nextIndex);
-        this.nextCharsDisplay.updateDisplay(nextIndex);
-
-        const next = this.wholePhraseChords?.children[nextIndex] as HTMLElement;
-        if (next) {
-            if (this.nextChar) this.nextChar = next.getAttribute("name")?.replace("Space", " ") ?? "";
-            next.classList.add("next");
-            // If we're in test mode and the last character typed doesn't match the next, expose the svg.
-            Array.from(next.childNodes)
-                .filter((x): x is HTMLImageElement => x.nodeName == "IMG")
-                .forEach((x: HTMLImageElement) => {
-                    x.width = 140;
-                    let charSvgClone = x.cloneNode(true) as HTMLImageElement;
-                    charSvgClone.hidden = this.testMode?.checked ?? false;
-                    if (this.chordImageHolder) this.chordImageHolder.replaceChildren(charSvgClone);
-
-                });
-        }
-        if (this.svgCharacter && next) {
-            const nameAttribute = next.getAttribute("name");
-            if (nameAttribute) {
-                this.svgCharacter.innerHTML = nameAttribute
-                    .replace("Space", spaceDisplayChar)
-                    .replace("tab", "↹");
-            }
-        }
-        if (this.svgCharacter && !this.testMode?.checked) {
-            this.svgCharacter.hidden = false;
-        }
-        this.setWpm();
-        return next;
-    };
-    private getFirstNonMatchingChar = () => {
-        if (!this.phrase || !this.testArea) return -1;
-        const sourcePhrase = this.phrase.value.split('');
-        const testPhrase = this.testArea.value.split('');
-        if (testPhrase.length == 0) {
-            return 0;
-        }
-        if (testPhrase == sourcePhrase) {
-            this.timer.setSvg('stop');
-            return -1;
-        }
-        var result = 0;
-        for (let i = 0; i < testPhrase.length; i++) {
-            if (testPhrase[i] !== sourcePhrase[i]) {
-                return i;
-            }
-            result++;
-        };
-        return result;
-    };
 
     private resetChordify = () => {
         if (this.phrase) {

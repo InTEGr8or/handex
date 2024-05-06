@@ -1,12 +1,19 @@
 // HandexTerm.ts
 import { LogKeys } from './TerminalTypes';
 import { WPMCalculator } from './WPMCalculator';
+import { createElement } from '../utils/dom';
 export class HandexTerm {
     constructor(persistence) {
         this.persistence = persistence;
         this._commandHistory = [];
         this.wpmCalculator = new WPMCalculator();
+        this.wholePhraseChords = null;
+        this.chordImageHolder = null;
+        this.svgCharacter = null;
+        this.testMode = null;
+        this.setWpmCallback = () => { };
         this._persistence = persistence;
+        this.wholePhraseChords = createElement('div', 'whole-phrase-chords');
     }
     handleCommand(command) {
         let status = 404;
@@ -26,7 +33,6 @@ export class HandexTerm {
         }
         if (command.startsWith('video --')) {
             status = 200;
-            console.log("Video Command: " + command);
             if (command === 'video --true') {
                 response = "Starting video camera...";
             }
@@ -59,8 +65,6 @@ export class HandexTerm {
         const command = args[0]; // The first element is the command
         const options = args.slice(1); // The rest are the associated options/arguments
         // Now you can handle the command and options
-        console.log('Command:', command);
-        console.log('Options:', options);
         // Based on the command, you can switch and call different functions
         switch (command) {
             case 'someCommand':

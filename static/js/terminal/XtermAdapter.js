@@ -4,6 +4,7 @@ import { TerminalCssClasses } from './TerminalTypes';
 import { WebCam } from '../utils/WebCam';
 import { NextCharsDisplay } from '../NextCharsDisplay';
 import { createElement } from '../utils/dom';
+import * as phrases from '../phrases.json';
 export class XtermAdapter {
     constructor(handexTerm, element) {
         this.handexTerm = handexTerm;
@@ -13,16 +14,20 @@ export class XtermAdapter {
         this.promptDelimiter = '$';
         this.promptLength = 0;
         this.isShowVideo = false;
+        this.chordImageHolder = null;
         this.terminalElement = element;
         this.terminalElement.classList.add(TerminalCssClasses.Terminal);
         this.videoElement = this.createVideoElement();
         this.webCam = new WebCam(this.videoElement);
         this.terminalElement.prepend(this.videoElement);
-        this.nextChars = createElement('div', TerminalCssClasses.NextChars);
+        this.chordImageHolder = createElement('div', TerminalCssClasses.ChordImageHolder);
+        // this.chordImageHolder.hidden = true;
+        this.nextChars = createElement('pre', TerminalCssClasses.NextChars);
         this.nextChars.hidden = true;
-        this.nextCharsDisplay = new NextCharsDisplay(this.nextChars);
+        this.nextCharsDisplay = new NextCharsDisplay(this.nextChars, null, this.chordImageHolder);
         this.outputElement = this.createOutputElement();
         this.terminalElement.prepend(this.outputElement);
+        this.terminalElement.append(this.chordImageHolder);
         this.terminalElement.append(this.nextChars);
         this.terminal = new Terminal({
             fontFamily: '"Fira Code", Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
@@ -43,6 +48,7 @@ export class XtermAdapter {
             let command = this.getCurrentCommand();
             // Clear the terminal after processing the command
             this.terminal.reset();
+            this.nextCharsDisplay.reset();
             // Write the new prompt after clearing
             this.prompt();
             if (command === '')
@@ -59,7 +65,8 @@ export class XtermAdapter {
                 return;
             }
             if (command === 'phrase') {
-                let result = this.nextCharsDisplay.setPhrase('test phrase');
+                const phrase = this.getRandomPhrase();
+                let result = this.nextCharsDisplay.setPhrase(phrase);
             }
             let result = this.handexTerm.handleCommand(command);
             this.outputElement.appendChild(result);
@@ -85,9 +92,18 @@ export class XtermAdapter {
                     }
                 }
             }
-            this.nextCharsDisplay.updateDisplay(5);
             this.terminal.write(data);
+            const currentCommand = this.getCurrentCommand();
+            this.nextCharsDisplay.setNext(currentCommand);
         }
+    }
+    getRandomPhrase() {
+        const keys = Object.keys(phrases);
+        if (keys.length === 0)
+            return '';
+        const randomKey = keys[Math.floor(Math.random() * keys.length)];
+        const result = phrases[randomKey];
+        return result;
     }
     setViewPortOpacity() {
         const viewPort = document.getElementsByClassName('xterm-viewport')[0];
