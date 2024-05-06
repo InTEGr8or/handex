@@ -2,6 +2,7 @@
 import { LogKeys } from './TerminalTypes';
 import { WPMCalculator } from './WPMCalculator';
 import { createElement } from '../utils/dom';
+import { createHTMLElementFromHTML } from '../utils/dom';
 export class HandexTerm {
     constructor(persistence) {
         this.persistence = persistence;
@@ -47,11 +48,11 @@ export class HandexTerm {
         const commandTime = new Date();
         const timeCode = this.createTimeCode(commandTime);
         let commandText = this.createCommandRecord(command, commandTime);
-        const commandElement = this.createHTMLElementFromHTML(commandText);
+        const commandElement = createHTMLElementFromHTML(commandText);
         let commandResponseElement = document.createElement('div');
         commandResponseElement.dataset.status = status.toString();
         commandResponseElement.appendChild(commandElement);
-        commandResponseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
+        commandResponseElement.appendChild(createHTMLElementFromHTML(`<div class="response">${response}</div>`));
         let wpm = this.saveCommandResponseHistory(commandResponseElement, timeCode.join('')); // Save updated history to localStorage
         commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpm.toFixed(0)).slice(-4));
         if (!this._commandHistory) {
@@ -121,11 +122,6 @@ export class HandexTerm {
             localStorage.removeItem(key); // Clear localStorage.length
         }
         this._commandHistory = [];
-    }
-    createHTMLElementFromHTML(htmlString) {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(htmlString, 'text/html');
-        return doc.body.firstChild;
     }
     handleCharacter(character) {
         return this.wpmCalculator.recordKeystroke(character).durationMilliseconds;

@@ -1,9 +1,14 @@
 import { NextCharsDisplay } from "./NextCharsDisplay.js";
-import { Timer } from "./Timer.js";
 import { TerminalCssClasses } from "./terminal/TerminalTypes.js";
 export class HandChord {
     constructor() {
-        var _a, _b, _c, _d, _e, _f, _g;
+        var _a, _b, _c, _d, _e, _f;
+        // updateTimerDisplay(handChord: HandChord): void {
+        //     console.log("Update Timer Display not implemented", handChord);
+        //     if (handChord.nextCharsDisplay.timer) {
+        //         // handChord.nextCharsDisplay.updateCallback();
+        //     }
+        // }
         this.cancelCallback = () => {
             var _a, _b;
             if (this.nextCharsDisplay.testArea) {
@@ -92,34 +97,27 @@ export class HandChord {
         this.nextCharsDisplay.svgCharacter = document.getElementById("svgCharacter");
         this.nextCharsDisplay.testMode = document.getElementById("testMode");
         this.nextCharsDisplay.nextChars = this.nextChars;
-        if ((_a = this.nextCharsDisplay.testMode) === null || _a === void 0 ? void 0 : _a.checked) {
-            this.nextCharsDisplay.testMode.checked = localStorage.getItem('testMode') == 'true';
-        }
+        this.nextCharsDisplay.testArea = document.getElementById(TerminalCssClasses.TestArea);
         this.charTimer = [];
         this.charTimes = document.getElementById("charTimes");
         this.wpm = document.getElementById("wpm");
-        this.timerSvg = document.getElementById('timerSvg');
-        this.timerElement = document.getElementById("timer");
-        if (!this.timerElement) {
-            throw new Error('timer element not found');
-        }
+        this.nextCharsDisplay.wpm = this.wpm;
         const handleInputEvent = (event) => {
             console.log("Handle Input Event not implementd:", event);
         };
-        this.timer = new Timer(this.updateTimerDisplay.bind(this, this), cancelAction, handleInputEvent);
         this.prevCharTime = 0;
         this.pangrams = document.getElementById("pangrams");
         this.prevCharTime = 0;
         this.preview = document.getElementById("preview");
         this.charTimer = [];
         this.chordSection = document.getElementById("chord-section");
-        (_b = this.nextCharsDisplay.testMode) === null || _b === void 0 ? void 0 : _b.addEventListener('change', e => {
+        (_a = this.nextCharsDisplay.testMode) === null || _a === void 0 ? void 0 : _a.addEventListener('change', e => {
             this.saveMode(e);
             this.nextCharsDisplay.chordify();
         });
         this.voiceMode = document.getElementById("voiceMode");
         this.voiceMode.checked = localStorage.getItem('voiceMode') == 'true';
-        (_c = this.voiceMode) === null || _c === void 0 ? void 0 : _c.addEventListener('change', e => {
+        (_b = this.voiceMode) === null || _b === void 0 ? void 0 : _b.addEventListener('change', e => {
             this.saveMode(e);
         });
         this.videoMode = document.getElementById("videoMode");
@@ -129,7 +127,7 @@ export class HandChord {
         if (this.videoSection) {
             this.videoSection.hidden = !this.videoMode.checked;
         }
-        (_d = this.videoMode) === null || _d === void 0 ? void 0 : _d.addEventListener('change', e => {
+        (_c = this.videoMode) === null || _c === void 0 ? void 0 : _c.addEventListener('change', e => {
             var changeResult = this.saveMode(e);
             this.toggleVideo(changeResult);
         });
@@ -161,18 +159,12 @@ export class HandChord {
             }
             this.nextCharsDisplay.chordify();
         });
-        (_e = document.getElementById('timerCancel')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', (e) => {
-            this.timer.cancel();
+        (_d = document.getElementById('timerCancel')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', (e) => {
+            this.nextCharsDisplay.timer.cancel();
         });
-        (_f = document.getElementById('listAllChords')) === null || _f === void 0 ? void 0 : _f.addEventListener('click', this.listAllChords);
-        (_g = document.getElementById('resetChordify')) === null || _g === void 0 ? void 0 : _g.addEventListener('click', this.nextCharsDisplay.resetChordify);
+        (_e = document.getElementById('listAllChords')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', this.listAllChords);
+        (_f = document.getElementById('resetChordify')) === null || _f === void 0 ? void 0 : _f.addEventListener('click', this.nextCharsDisplay.resetChordify);
         this.toggleVideo(false);
-    }
-    updateTimerDisplay(handChord) {
-        console.log("Update Timer Display not implemented", handChord);
-        if (handChord.timer) {
-            // handChord.nextCharsDisplay.updateCallback();
-        }
     }
 }
 ;
