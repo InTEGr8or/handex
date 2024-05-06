@@ -2,7 +2,9 @@ import { spaceDisplayChar, ChordRow, createCharTime, CharTime } from "./types/Ty
 import { Timer } from "./Timer.js";
 import { createElement } from "./utils/dom.js";
 import { TerminalCssClasses } from "./terminal/TerminalTypes.js";
-
+import { createHTMLElementFromHTML } from "./utils/dom.js";
+import * as phrases from './phrases.json';
+import { allChords } from "./allChords.js"; 
 
 export class NextCharsDisplay {
     private _nextChars: HTMLElement;
@@ -49,6 +51,7 @@ export class NextCharsDisplay {
         this.setWpmCallback = this.wpmCallback.bind(this);
         this._testArea = createElement('textarea', TerminalCssClasses.TestArea) as HTMLTextAreaElement;
         this._testArea.addEventListener('input', (e: Event) => {
+            console.log('NextCharsDisplay testArea: input event', e);
             this.test(e as InputEvent);
         });
         this._timer = new Timer(
@@ -94,6 +97,11 @@ export class NextCharsDisplay {
 
     set testArea(testArea: HTMLTextAreaElement) {
         this._testArea = testArea;
+        console.log('testArea', testArea);
+        this._testArea.addEventListener('input', (e: Event) => {
+            console.log('NextCharsDisplay testArea: input event', e);
+            this.test(e as InputEvent);
+        });
     }
 
     get testArea(): HTMLTextAreaElement {
@@ -173,11 +181,16 @@ export class NextCharsDisplay {
             const rowDiv = document.createElement('div') as HTMLDivElement;
             const chordCode = row.chord;
             const foundChords
-                = Array.from(this._allChordsList?.children ?? [])
-                    .filter(x => { return x.id == `chord${chordCode}`; });
+                = Array.from(allChords)
+                    .filter(x => { return x.chordCode == chordCode.toString(); });
             // Load the clone in Chord order into the wholePhraseChords div.
             if (foundChords.length > 0) {
-                const inChord = foundChords[0].cloneNode(true) as HTMLDivElement;
+                // const inChord = foundChords[0].cloneNode(true) as HTMLDivElement;
+                const foundChord = foundChords[0];
+                const inChord = createHTMLElementFromHTML(`<div class="col-sm-2 row generated" id="chord2">
+		<span id="char${foundChord.index}">d</span>
+		<img loading="lazy" alt="2" src="/images/svgs/${foundChord.chordCode}.svg" width="100" class="hand">
+	</div>`)
                 inChord.setAttribute("name", row.char);
                 inChord.hidden = isTestMode;
                 Array.from(inChord.children)
@@ -223,7 +236,6 @@ export class NextCharsDisplay {
     };
     public setNext = (testPhrase: string): HTMLElement | null => {
         const nextIndex = this.getFirstNonMatchingChar(testPhrase);
-        console.log("Next index: " + nextIndex);
         if (nextIndex < 0) {
             return null;
         }
@@ -243,7 +255,6 @@ export class NextCharsDisplay {
 
         const next = this._wholePhraseChords?.children[nextIndex] as HTMLElement;
         if (next) {
-            console.log("Next character: " + nextCharacter);
             if (this._nextChar) this._nextChar = next.getAttribute("name")?.replace("Space", " ") ?? "";
             next.classList.add("next");
             // If we're in test mode and the last character typed doesn't match the next, expose the svg.
@@ -254,7 +265,6 @@ export class NextCharsDisplay {
                     let charSvgClone = x.cloneNode(true) as HTMLImageElement;
                     charSvgClone.hidden = this._testMode?.checked ?? false;
                     if (this._chordImageHolder) {
-                        console.log("chordImageHolder: ", charSvgClone);
                         this._chordImageHolder.replaceChildren(charSvgClone);
                     }
 
@@ -276,6 +286,7 @@ export class NextCharsDisplay {
     };
 
     test = (event: InputEvent) => {
+        console.log("test(): ", event.data);
         if (event.data == this._nextChar) {
             const charTime = createCharTime(
                 event.data as string,

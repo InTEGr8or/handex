@@ -7,3 +7,9 @@ export function createElement<T extends HTMLElement>(tagName: keyof HTMLElementT
     }
     return element;
 }
+
+export function createHTMLElementFromHTML(htmlString: string): HTMLElement {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+    return doc.body.firstChild as HTMLElement;
+}

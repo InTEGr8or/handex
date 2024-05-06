@@ -19,6 +19,7 @@ export class XtermAdapter {
   private webCam: IWebCam;
   private isShowVideo: boolean = false;
   private nextChars: HTMLElement;
+
   private nextCharsDisplay: NextCharsDisplay;
   private chordImageHolder: HTMLElement | null = null;
   private wholePhraseChords: HTMLElement | null = null;

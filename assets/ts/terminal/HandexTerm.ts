@@ -3,6 +3,7 @@ import { LogKeys, TimeHTML } from './TerminalTypes';
 import { IWPMCalculator, WPMCalculator } from './WPMCalculator';
 import { IPersistence } from './Persistence';
 import { createElement } from '../utils/dom';
+import { createHTMLElementFromHTML } from '../utils/dom';
 
 export interface IHandexTerm {
   // Define the interface for your HandexTerm logic
@@ -62,11 +63,11 @@ export class HandexTerm implements IHandexTerm {
     const commandTime = new Date();
     const timeCode = this.createTimeCode(commandTime);
     let commandText = this.createCommandRecord(command, commandTime);
-    const commandElement = this.createHTMLElementFromHTML(commandText);
+    const commandElement = createHTMLElementFromHTML(commandText);
     let commandResponseElement = document.createElement('div');
     commandResponseElement.dataset.status = status.toString();
     commandResponseElement.appendChild(commandElement);
-    commandResponseElement.appendChild(this.createHTMLElementFromHTML(`<div class="response">${response}</div>`));
+    commandResponseElement.appendChild(createHTMLElementFromHTML(`<div class="response">${response}</div>`));
     let wpm = this.saveCommandResponseHistory(commandResponseElement, timeCode.join('')); // Save updated history to localStorage
     commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpm.toFixed(0)).slice(-4));
     if (!this._commandHistory) { this._commandHistory = []; }
@@ -142,11 +143,6 @@ export class HandexTerm implements IHandexTerm {
     this._commandHistory = [];
   }
 
-  createHTMLElementFromHTML(htmlString: string): HTMLElement {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlString, 'text/html');
-    return doc.body.firstChild as HTMLElement;
-  }
 
   public handleCharacter(character: string): number {
     return this.wpmCalculator.recordKeystroke(character).durationMilliseconds;

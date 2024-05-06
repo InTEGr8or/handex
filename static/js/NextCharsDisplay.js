@@ -11,6 +11,8 @@ import { spaceDisplayChar, createCharTime } from "./types/Types.js";
 import { Timer } from "./Timer.js";
 import { createElement } from "./utils/dom.js";
 import { TerminalCssClasses } from "./terminal/TerminalTypes.js";
+import { createHTMLElementFromHTML } from "./utils/dom.js";
+import { allChords } from "./allChords.js";
 export class NextCharsDisplay {
     constructor(cancelCallback) {
         this.phraseString = '';
@@ -37,7 +39,6 @@ export class NextCharsDisplay {
         this.setNext = (testPhrase) => {
             var _a, _b, _c, _d, _e, _f;
             const nextIndex = this.getFirstNonMatchingChar(testPhrase);
-            console.log("Next index: " + nextIndex);
             if (nextIndex < 0) {
                 return null;
             }
@@ -55,7 +56,6 @@ export class NextCharsDisplay {
             this._nextChars.innerHTML = this.formatNextChars(nextChars);
             const next = (_c = this._wholePhraseChords) === null || _c === void 0 ? void 0 : _c.children[nextIndex];
             if (next) {
-                console.log("Next character: " + nextCharacter);
                 if (this._nextChar)
                     this._nextChar = (_e = (_d = next.getAttribute("name")) === null || _d === void 0 ? void 0 : _d.replace("Space", " ")) !== null && _e !== void 0 ? _e : "";
                 next.classList.add("next");
@@ -68,7 +68,6 @@ export class NextCharsDisplay {
                     let charSvgClone = x.cloneNode(true);
                     charSvgClone.hidden = (_b = (_a = this._testMode) === null || _a === void 0 ? void 0 : _a.checked) !== null && _b !== void 0 ? _b : false;
                     if (this._chordImageHolder) {
-                        console.log("chordImageHolder: ", charSvgClone);
                         this._chordImageHolder.replaceChildren(charSvgClone);
                     }
                 });
@@ -89,6 +88,7 @@ export class NextCharsDisplay {
         };
         this.test = (event) => {
             var _a, _b, _c, _d, _e, _f, _g;
+            console.log("test(): ", event.data);
             if (event.data == this._nextChar) {
                 const charTime = createCharTime(event.data, Number(((this._timer.centiSecond - this._prevCharTime) / 100).toFixed(2)), this._timer.centiSecond / 100);
                 this._charTimeArray.push(charTime);
@@ -222,6 +222,7 @@ export class NextCharsDisplay {
         this.setWpmCallback = this.wpmCallback.bind(this);
         this._testArea = createElement('textarea', TerminalCssClasses.TestArea);
         this._testArea.addEventListener('input', (e) => {
+            console.log('NextCharsDisplay testArea: input event', e);
             this.test(e);
         });
         this._timer = new Timer(this.updateDisplay.bind(this, this._testArea.value), cancelCallback, handleInputEvent);
@@ -254,6 +255,11 @@ export class NextCharsDisplay {
     }
     set testArea(testArea) {
         this._testArea = testArea;
+        console.log('testArea', testArea);
+        this._testArea.addEventListener('input', (e) => {
+            console.log('NextCharsDisplay testArea: input event', e);
+            this.test(e);
+        });
     }
     get testArea() {
         return this._testArea;
@@ -324,14 +330,19 @@ export class NextCharsDisplay {
                 this._wholePhraseChords.innerHTML = '';
             const isTestMode = this._testMode ? this._testMode.checked : false;
             chordRows.forEach((row, i) => {
-                var _a, _b, _c, _d;
+                var _a, _b;
                 const rowDiv = document.createElement('div');
                 const chordCode = row.chord;
-                const foundChords = Array.from((_b = (_a = this._allChordsList) === null || _a === void 0 ? void 0 : _a.children) !== null && _b !== void 0 ? _b : [])
-                    .filter(x => { return x.id == `chord${chordCode}`; });
+                const foundChords = Array.from(allChords)
+                    .filter(x => { return x.chordCode == chordCode.toString(); });
                 // Load the clone in Chord order into the wholePhraseChords div.
                 if (foundChords.length > 0) {
-                    const inChord = foundChords[0].cloneNode(true);
+                    // const inChord = foundChords[0].cloneNode(true) as HTMLDivElement;
+                    const foundChord = foundChords[0];
+                    const inChord = createHTMLElementFromHTML(`<div class="col-sm-2 row generated" id="chord2">
+		<span id="char${foundChord.index}">d</span>
+		<img loading="lazy" alt="2" src="/images/svgs/${foundChord.chordCode}.svg" width="100" class="hand">
+	</div>`);
                     inChord.setAttribute("name", row.char);
                     inChord.hidden = isTestMode;
                     Array.from(inChord.children)
@@ -346,7 +357,7 @@ export class NextCharsDisplay {
                 else {
                     console.log("Missing chord:", chordCode);
                 }
-                (_d = (_c = document.getElementById(`chord${chordCode}`)) === null || _c === void 0 ? void 0 : _c.querySelector(`img`)) === null || _d === void 0 ? void 0 : _d.setAttribute("loading", "eager");
+                (_b = (_a = document.getElementById(`chord${chordCode}`)) === null || _a === void 0 ? void 0 : _a.querySelector(`img`)) === null || _b === void 0 ? void 0 : _b.setAttribute("loading", "eager");
                 // document.querySelector(`#${chordCode}`).hidden = false;
                 rowDiv.id = i.toString();
                 rowDiv.setAttribute("name", row.char);
