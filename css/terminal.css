@@ -81,6 +81,13 @@ body {
 textarea.xterm-helper-textarea {
     /* font-family: 'Fira Code', monospace; */
 }
+ pre#nextChars {
+    padding: 0;
+    margin: 0;
+    min-height: 1.5em;
+    font-size: var(--terminal-font-size) +2px;
+    line-height: 1.5em;
+ }
 
 video#terminal-video {
     width: 95%;

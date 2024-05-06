@@ -1,8 +1,9 @@
+import { TerminalCssClasses } from './terminal/TerminalTypes.js';
+import { createElement } from "./utils/dom.js";
 export class Timer {
-    constructor(timerElement, updateCallback, timerSvg, cancelCallback, inputEventCallback) {
-        this.timerElement = timerElement;
+    constructor(updateCallback, cancelCallback, inputEventCallback) {
         this.updateCallback = updateCallback;
-        this.intervalId = null;
+        this._intervalId = null;
         this._centiSecond = 0;
         this.timerHandle = null;
         this.start = () => {
@@ -14,16 +15,16 @@ export class Timer {
         this.setSvg = (status) => {
             switch (status) {
                 case 'start':
-                    this.timerSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
+                    this._timerSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
                     break;
                 case 'stop':
-                    this.timerSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
+                    this._timerSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
                     break;
                 case 'pause':
-                    this.timerSvg.innerHTML = '<use href="#pause" transform="scale(2,2)" ></use>';
+                    this._timerSvg.innerHTML = '<use href="#pause" transform="scale(2,2)" ></use>';
                     break;
                 default:
-                    this.timerSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
+                    this._timerSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
             }
         };
         this.run = () => {
@@ -40,13 +41,28 @@ export class Timer {
             this.timerHandle = null;
             this.setSvg('start');
         };
-        this._timerElement = timerElement;
-        this.timerSvg = timerSvg;
+        this._timerElement = createElement('div', TerminalCssClasses.Timer);
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.id = TerminalCssClasses.TimerSvg;
+        svg.classList.add(TerminalCssClasses.TimerSvg);
+        this._timerSvg = svg;
         this.cancelCallback = cancelCallback;
         this.inputEventCallback = inputEventCallback;
     }
+    get timerElement() {
+        return this._timerElement;
+    }
+    set timerElement(element) {
+        this._timerElement = element;
+    }
+    get timerSvg() {
+        return this._timerSvg;
+    }
+    set timerSvg(svg) {
+        this._timerSvg = svg;
+    }
     updateTimer() {
-        if (this.intervalId !== null) {
+        if (this._intervalId !== null) {
             this._centiSecond++;
             this.updateCallback(this._centiSecond);
         }
@@ -56,17 +72,17 @@ export class Timer {
     }
     // TODO: pick one of these two methods
     start_generated(interval) {
-        if (this.intervalId === null) {
-            this.intervalId = window.setInterval(() => {
+        if (this._intervalId === null) {
+            this._intervalId = window.setInterval(() => {
                 this._centiSecond++;
                 this.updateCallback(this._centiSecond);
             }, interval);
         }
     }
     stop() {
-        if (this.intervalId !== null) {
-            clearInterval(this.intervalId);
-            this.intervalId = null;
+        if (this._intervalId !== null) {
+            clearInterval(this._intervalId);
+            this._intervalId = null;
         }
     }
     reset() {

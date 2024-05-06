@@ -23,6 +23,10 @@
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
   var __copyProps = (to, from, except, desc) => {
     if (from && typeof from === "object" || typeof from === "function") {
       for (let key of __getOwnPropNames(from))
@@ -39,6 +43,26 @@
     isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
     mod
   ));
+  var __async = (__this, __arguments, generator) => {
+    return new Promise((resolve, reject) => {
+      var fulfilled = (value) => {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var rejected = (value) => {
+        try {
+          step(generator.throw(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+      step((generator = generator.apply(__this, __arguments)).next());
+    });
+  };
 
   // node_modules/@xterm/xterm/lib/xterm.js
   var require_xterm = __commonJS({
@@ -6745,7 +6769,23 @@ WARNING: This link could potentially be dangerous`)) {
     Tail: "tail",
     LogPrefix: "log-prefix",
     LogTime: "log-time",
-    NextChars: "nextChars"
+    NextChars: "nextChars",
+    WholePhraseChords: "wholePhraseChords",
+    ChordImageHolder: "chord-image-holder",
+    TestArea: "testArea",
+    SvgCharacter: "svgCharacter",
+    TestMode: "testMode",
+    chordified: "chordified",
+    pangrams: "pangrams",
+    chordSection: "chord-section",
+    voiceMode: "voiceMode",
+    videoSection: "video-section",
+    allChordsList: "allChordsList",
+    errorCount: "errorCount",
+    Phrase: "phrase",
+    Timer: "timer",
+    TimerSvg: "timerSvg",
+    CharTimes: "charTimes"
   };
   var LogKeys = {
     CharTime: "char-time",
@@ -6798,13 +6838,30 @@ WARNING: This link could potentially be dangerous`)) {
     }
   };
 
+  // ns-hugo:/home/runner/work/handex/handex/assets/ts/utils/dom.ts
+  function createElement(tagName, className) {
+    const element = document.createElement(tagName);
+    if (className) {
+      element.id = className;
+      element.classList.add(className);
+    }
+    return element;
+  }
+
   // ns-hugo:/home/runner/work/handex/handex/assets/ts/terminal/HandexTerm.ts
   var _HandexTerm = class _HandexTerm {
     constructor(persistence) {
       this.persistence = persistence;
       this._commandHistory = [];
       this.wpmCalculator = new WPMCalculator();
+      this.wholePhraseChords = null;
+      this.chordImageHolder = null;
+      this.svgCharacter = null;
+      this.testMode = null;
+      this.setWpmCallback = () => {
+      };
       this._persistence = persistence;
+      this.wholePhraseChords = createElement("div", "whole-phrase-chords");
     }
     handleCommand(command) {
       let status = 404;
@@ -6824,7 +6881,6 @@ WARNING: This link could potentially be dangerous`)) {
       }
       if (command.startsWith("video --")) {
         status = 200;
-        console.log("Video Command: " + command);
         if (command === "video --true") {
           response = "Starting video camera...";
         } else {
@@ -6854,8 +6910,6 @@ WARNING: This link could potentially be dangerous`)) {
       const args = input.split(/\s+/);
       const command = args[0];
       const options = args.slice(1);
-      console.log("Command:", command);
-      console.log("Options:", options);
       switch (command) {
         case "someCommand":
           break;
@@ -6969,40 +7023,476 @@ WARNING: This link could potentially be dangerous`)) {
     }
   };
 
+  // ns-hugo:/home/runner/work/handex/handex/assets/ts/types/Types.ts
+  var spaceDisplayChar = "&#x2581;";
+  function createCharTime(char, duration, time) {
+    return { char, duration, time };
+  }
+
+  // ns-hugo:/home/runner/work/handex/handex/assets/ts/Timer.ts
+  var Timer = class {
+    constructor(updateCallback, cancelCallback, inputEventCallback) {
+      this.updateCallback = updateCallback;
+      this._intervalId = null;
+      this._centiSecond = 0;
+      this.timerHandle = null;
+      this.start = () => {
+        if (!this.timerHandle) {
+          this.timerHandle = setInterval(this.run, 10);
+          this.setSvg("pause");
+        }
+      };
+      this.setSvg = (status) => {
+        switch (status) {
+          case "start":
+            this._timerSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
+            break;
+          case "stop":
+            this._timerSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
+            break;
+          case "pause":
+            this._timerSvg.innerHTML = '<use href="#pause" transform="scale(2,2)" ></use>';
+            break;
+          default:
+            this._timerSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
+        }
+      };
+      this.run = () => {
+        this._centiSecond++;
+        this._timerElement.innerHTML = (this._centiSecond / 100).toFixed(1);
+      };
+      this.cancel = () => {
+        this.cancelCallback();
+        this._timerElement.innerHTML = "0.0";
+        this._centiSecond = 0;
+        clearInterval(this.timerHandle);
+        this.timerHandle = null;
+        this.setSvg("start");
+      };
+      this._timerElement = createElement("div", TerminalCssClasses.Timer);
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.id = TerminalCssClasses.TimerSvg;
+      svg.classList.add(TerminalCssClasses.TimerSvg);
+      this._timerSvg = svg;
+      this.cancelCallback = cancelCallback;
+      this.inputEventCallback = inputEventCallback;
+    }
+    get timerElement() {
+      return this._timerElement;
+    }
+    set timerElement(element) {
+      this._timerElement = element;
+    }
+    get timerSvg() {
+      return this._timerSvg;
+    }
+    set timerSvg(svg) {
+      this._timerSvg = svg;
+    }
+    updateTimer() {
+      if (this._intervalId !== null) {
+        this._centiSecond++;
+        this.updateCallback(this._centiSecond);
+      }
+    }
+    get centiSecond() {
+      return this._centiSecond;
+    }
+    // TODO: pick one of these two methods
+    start_generated(interval) {
+      if (this._intervalId === null) {
+        this._intervalId = window.setInterval(() => {
+          this._centiSecond++;
+          this.updateCallback(this._centiSecond);
+        }, interval);
+      }
+    }
+    stop() {
+      if (this._intervalId !== null) {
+        clearInterval(this._intervalId);
+        this._intervalId = null;
+      }
+    }
+    reset() {
+      this.stop();
+      this._centiSecond = 0;
+    }
+  };
+
   // ns-hugo:/home/runner/work/handex/handex/assets/ts/NextCharsDisplay.ts
   var NextCharsDisplay = class {
-    constructor(nextCharsElement) {
-      this.phrase = "";
-      if (!nextCharsElement)
-        throw new Error("NextChars element not found");
-      this.nextCharsElement = nextCharsElement;
-      this.nextCharsElement.hidden = true;
+    constructor(cancelCallback) {
+      this.phraseString = "";
+      this._nextChar = "";
+      this._prevCharTime = 0;
+      this._charTimeArray = [];
+      this.wpmCallback = () => {
+        console.log("wpmCallback not yet implemented");
+      };
+      this.resetChordify = () => {
+        if (this._phrase) {
+          this._phrase.value = "";
+          this._phrase.disabled = false;
+        }
+        if (this._wholePhraseChords)
+          this._wholePhraseChords.innerHTML = "";
+        if (this._allChordsList)
+          this._allChordsList.hidden = true;
+        if (this._testArea) {
+          this._testArea.value = "";
+          this._testArea.disabled = false;
+        }
+      };
+      this.setNext = (testPhrase) => {
+        var _a, _b, _c, _d, _e, _f;
+        const nextIndex = this.getFirstNonMatchingChar(testPhrase);
+        console.log("Next index: " + nextIndex);
+        if (nextIndex < 0) {
+          return null;
+        }
+        Array.from((_b = (_a = this._wholePhraseChords) == null ? void 0 : _a.children) != null ? _b : []).forEach((chord, i) => {
+          chord.classList.remove("next");
+        });
+        if (this._wholePhraseChords && nextIndex > this._wholePhraseChords.children.length - 1)
+          return null;
+        let nextCharacter = `<span class="nextCharacter">${this.phraseString.substring(nextIndex, nextIndex + 1).replace(" ", "&nbsp;")}</span>`;
+        const nextChars = this.phraseString.substring(nextIndex, nextIndex + 40);
+        this._nextChars.innerHTML = this.formatNextChars(nextChars);
+        const next = (_c = this._wholePhraseChords) == null ? void 0 : _c.children[nextIndex];
+        if (next) {
+          console.log("Next character: " + nextCharacter);
+          if (this._nextChar)
+            this._nextChar = (_e = (_d = next.getAttribute("name")) == null ? void 0 : _d.replace("Space", " ")) != null ? _e : "";
+          next.classList.add("next");
+          Array.from(next.childNodes).filter((x) => x.nodeName == "IMG").forEach((x) => {
+            var _a2, _b2;
+            x.width = 140;
+            let charSvgClone = x.cloneNode(true);
+            charSvgClone.hidden = (_b2 = (_a2 = this._testMode) == null ? void 0 : _a2.checked) != null ? _b2 : false;
+            if (this._chordImageHolder) {
+              console.log("chordImageHolder: ", charSvgClone);
+              this._chordImageHolder.replaceChildren(charSvgClone);
+            }
+          });
+        }
+        if (this._svgCharacter && next) {
+          const nameAttribute = next.getAttribute("name");
+          if (nameAttribute) {
+            this._svgCharacter.innerHTML = nameAttribute.replace("Space", spaceDisplayChar).replace("tab", "\u21B9");
+          }
+        }
+        if (this._svgCharacter && !((_f = this._testMode) == null ? void 0 : _f.checked)) {
+          this._svgCharacter.hidden = false;
+        }
+        this.setWpmCallback();
+        return next;
+      };
+      this.test = (event) => {
+        var _a, _b, _c, _d, _e, _f, _g;
+        if (event.data == this._nextChar) {
+          const charTime = createCharTime(
+            event.data,
+            Number(((this._timer.centiSecond - this._prevCharTime) / 100).toFixed(2)),
+            this._timer.centiSecond / 100
+          );
+          this._charTimeArray.push(charTime);
+        }
+        const next = this.setNext((_b = (_a = this.testArea) == null ? void 0 : _a.value) != null ? _b : "");
+        if (next) {
+          next.classList.remove("error");
+        }
+        this._prevCharTime = this._timer.centiSecond;
+        if (this.testArea && this.testArea.value.trim().length == 0) {
+          this.testArea.style.border = "";
+          if (this.svgCharacter)
+            this.svgCharacter.hidden = true;
+          this._timer.cancel();
+          return;
+        }
+        if (this.svgCharacter && this.testArea && this.testArea.value == ((_d = this._phrase) == null ? void 0 : _d.value.trim().substring(0, (_c = this.testArea) == null ? void 0 : _c.value.length))) {
+          this.testArea.style.border = "4px solid #FFF3";
+          this.svgCharacter.hidden = true;
+        } else {
+          if (this.testArea)
+            this.testArea.style.border = "4px solid red";
+          const chordImageHolderImg = (_e = this.chordImageHolder) == null ? void 0 : _e.querySelector("img");
+          if (chordImageHolderImg)
+            chordImageHolderImg.hidden = false;
+          if (this.svgCharacter)
+            this.svgCharacter.hidden = false;
+          next == null ? void 0 : next.classList.add("error");
+          if (this._errorCount)
+            this._errorCount.innerText = (parseInt(this._errorCount.innerText) + 1).toString(10);
+        }
+        if (((_f = this.testArea) == null ? void 0 : _f.value.trim()) == ((_g = this._phrase) == null ? void 0 : _g.value.trim())) {
+          this._timer.setSvg("stop");
+          let charTimeList = "";
+          this._charTimeArray.forEach((x) => {
+            charTimeList += `<li>${x.char.replace(" ", spaceDisplayChar)}: ${x.duration}</li>`;
+          });
+          if (this._charTimes)
+            this._charTimes.innerHTML = charTimeList;
+          localStorage.setItem(`charTimerSession_${(/* @__PURE__ */ new Date()).toISOString()}`, JSON.stringify(this._charTimeArray));
+          this._timer.cancel();
+          return;
+        }
+        this._timer.start();
+      };
+      this.getFirstNonMatchingChar = (testPhrase) => {
+        if (!this.phraseString)
+          return 0;
+        const sourcePhrase = this.phraseString.split("");
+        if (testPhrase.length == 0) {
+          return 0;
+        }
+        var result = 0;
+        for (let i = 0; i < testPhrase.length; i++) {
+          if (testPhrase[i] !== sourcePhrase[i]) {
+            return i;
+          }
+          result++;
+        }
+        ;
+        return result;
+      };
+      this.sayText = (e) => {
+        const eventTarget = e.target;
+        if (!eventTarget || !eventTarget.value)
+          return;
+        let text = eventTarget.value;
+        const char = e.key;
+        if (!char)
+          return;
+        if (!this.voiceSynth) {
+          this.voiceSynth = window.speechSynthesis;
+        }
+        if (this.voiceSynth.speaking) {
+          this.voiceSynth.cancel();
+        }
+        if (char == null ? void 0 : char.match(/^[a-z0-9]$/i)) {
+          text = char;
+        } else if (char == "Backspace") {
+          text = "delete";
+        } else if (char == "Enter") {
+          text = text;
+        } else {
+          const textSplit = text.trim().split(" ");
+          text = textSplit[textSplit.length - 1];
+        }
+        var utterThis = new SpeechSynthesisUtterance(text);
+        utterThis.pitch = 1;
+        utterThis.rate = 0.7;
+        this.voiceSynth.speak(utterThis);
+      };
+      const handleInputEvent = this.test.bind(this);
+      this._phrase = createElement("div", TerminalCssClasses.Phrase);
+      this._lambdaUrl = "https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/";
+      this.voiceSynth = window.speechSynthesis;
+      this._nextChars = createElement("pre", TerminalCssClasses.NextChars);
+      this._nextChars.hidden = true;
+      this._charTimes = createElement("div", TerminalCssClasses.CharTimes);
+      this._wholePhraseChords = createElement("div", TerminalCssClasses.WholePhraseChords);
+      this._allChordsList = createElement("div", TerminalCssClasses.allChordsList);
+      this._chordImageHolder = createElement("div", TerminalCssClasses.ChordImageHolder);
+      this._svgCharacter = createElement("img", TerminalCssClasses.SvgCharacter);
+      this._testMode = createElement("input", TerminalCssClasses.TestMode);
+      this._chordified = createElement("div", TerminalCssClasses.chordified);
+      this._errorCount = createElement("div", TerminalCssClasses.errorCount);
+      this._voiceMode = createElement("input", TerminalCssClasses.voiceMode);
+      this.setWpmCallback = this.wpmCallback.bind(this);
+      this._testArea = createElement("textarea", TerminalCssClasses.TestArea);
+      this._testArea.addEventListener("input", (e) => {
+        this.test(e);
+      });
+      this._timer = new Timer(
+        this.updateDisplay.bind(this, this._testArea.value),
+        cancelCallback,
+        handleInputEvent
+      );
+      this._testArea.addEventListener("keyup", (e) => {
+        if (this._voiceMode && this._voiceMode.checked) {
+          this.sayText(e);
+        }
+      });
     }
-    setPhrase(newPhrase) {
-      this.phrase = newPhrase;
-      this.updateDisplay(0);
-      this.nextCharsElement.hidden = false;
+    get chordified() {
+      return this._chordified;
     }
-    updateDisplay(nextIndex) {
-      const nextChars = this.phrase.substring(nextIndex, nextIndex + 40);
-      console.log(nextChars);
-      this.nextCharsElement.innerHTML = this.formatNextChars(nextChars);
+    set chordified(chordified) {
+      this._chordified = chordified;
+    }
+    set nextChars(nextCharsElement) {
+      this._nextChars = nextCharsElement;
+    }
+    set wholePhraseChords(wholePhraseChords) {
+      this._wholePhraseChords = wholePhraseChords;
+    }
+    set chordImageHolder(chordImageHolder) {
+      this._chordImageHolder = chordImageHolder;
+    }
+    set svgCharacter(svgCharacter) {
+      this._svgCharacter = svgCharacter;
+    }
+    set testMode(testMode) {
+      this._testMode = testMode;
+    }
+    set testArea(testArea) {
+      this._testArea = testArea;
+    }
+    get testArea() {
+      return this._testArea;
+    }
+    reset() {
+      this.phraseString = "";
+      this.setNext("");
+      this._nextChars.hidden = true;
+    }
+    set phrase(phrase) {
+      this._phrase = phrase;
+    }
+    setPhraseString(newPhrase) {
+      this.phraseString = newPhrase;
+      this.setNext("");
+      this._nextChars.hidden = false;
+    }
+    updateDisplay(testPhrase) {
+      const nextIndex = this.getFirstNonMatchingChar(testPhrase);
+      const nextChars = this.phraseString.substring(nextIndex, nextIndex + 40);
+      this._nextChars.innerHTML = this.formatNextChars(nextChars);
+    }
+    /**
+     * Calculates the words per minute (WPM) based on the text typed in the test area.
+     *
+     * @return {string} The calculated words per minute as a string with two decimal places.
+     */
+    setWpm() {
+      if (!this.testArea)
+        return "0";
+      if (this.testArea.value.length < 2) {
+        return "0";
+      }
+      const words = this.testArea.value.length / 5;
+      return (words / (this._timer.centiSecond / 100 / 60) + 1e-6).toFixed(2);
     }
     formatNextChars(chars) {
       let result = chars;
       return result;
     }
+    chordify() {
+      return __async(this, null, function* () {
+        if (this._chordified)
+          this._chordified.innerHTML = "";
+        console.log("Chordifying: ", this._phrase.value);
+        if (!this._phrase || !this._phrase.value || this._phrase.value.trim().length == 0) {
+          return [];
+        }
+        const phraseEncoded = btoa(this._phrase.value);
+        const response = yield fetch(this._lambdaUrl, {
+          method: "POST",
+          headers: {},
+          body: JSON.stringify({
+            phrase: phraseEncoded
+          })
+        });
+        const chordList = yield response.json();
+        if (chordList.error) {
+          console.log("chordList.error:", chordList.error);
+          return [];
+        }
+        const chordRows = chordList.json;
+        if (this._wholePhraseChords)
+          this._wholePhraseChords.innerHTML = "";
+        const isTestMode = this._testMode ? this._testMode.checked : false;
+        chordRows.forEach((row, i) => {
+          var _a, _b, _c, _d;
+          const rowDiv = document.createElement("div");
+          const chordCode = row.chord;
+          const foundChords = Array.from((_b = (_a = this._allChordsList) == null ? void 0 : _a.children) != null ? _b : []).filter((x) => {
+            return x.id == `chord${chordCode}`;
+          });
+          if (foundChords.length > 0) {
+            const inChord = foundChords[0].cloneNode(true);
+            inChord.setAttribute("name", row.char);
+            inChord.hidden = isTestMode;
+            Array.from(inChord.children).filter((x) => x.nodeName == "IMG").forEach((x) => {
+              x.setAttribute("loading", "eager");
+            });
+            if (this._wholePhraseChords)
+              this._wholePhraseChords.appendChild(inChord);
+          } else {
+            console.log("Missing chord:", chordCode);
+          }
+          (_d = (_c = document.getElementById(`chord${chordCode}`)) == null ? void 0 : _c.querySelector(`img`)) == null ? void 0 : _d.setAttribute("loading", "eager");
+          rowDiv.id = i.toString();
+          rowDiv.setAttribute("name", row.char);
+          const charSpan = document.createElement("span");
+          charSpan.innerHTML = row.char;
+          rowDiv.appendChild(charSpan);
+          rowDiv.appendChild(document.createTextNode(row.strokes));
+          if (this._chordified)
+            this._chordified.appendChild(rowDiv);
+        });
+        this.setNext("");
+        this._timer.setSvg("start");
+        if (this._testArea)
+          this._testArea.focus();
+        this._timer.cancel();
+        this._phrase.disabled = true;
+        this.setPhraseString(this._phrase.value);
+        return chordRows;
+      });
+    }
   };
 
-  // ns-hugo:/home/runner/work/handex/handex/assets/ts/utils/dom.ts
-  function createElement(tagName, className) {
-    const element = document.createElement(tagName);
-    if (className) {
-      element.id = className;
-      element.classList.add(className);
-    }
-    return element;
-  }
+  // ns-hugo:/home/runner/work/handex/handex/assets/ts/phrases.json
+  var phrases_exports = {};
+  __export(phrases_exports, {
+    "a=5": () => a_5,
+    "arr=(1 2 3)": () => arr__1_2_3_,
+    default: () => phrases_default,
+    "f()": () => f__,
+    handex: () => handex,
+    "hello-world": () => hello_world,
+    "k=7": () => k_7,
+    list: () => list,
+    "mr-jock": () => mr_jock,
+    pack: () => pack,
+    sphinx: () => sphinx,
+    termux: () => termux,
+    waltz: () => waltz,
+    "watch-jeopardy": () => watch_jeopardy,
+    "x=4": () => x_4
+  });
+  var termux = "Termux is an Android terminal emulator and Linux environment app that works directly with no rooting or setup required. A minimal base system is installed automatically - additional packages are available using the APT package manager. The termux-shared library was added in v0.109. It defines shared constants and utils of the Termux app and its plugins. It was created to allow for the removal of all hardcoded paths in the Termux app. Some of the termux plugins are using this as well and rest will in future. If you are contributing code that is using a constant or a util that may be shared, then define it in termux-shared library if it currently doesn't exist and reference it from there. Update the relevant changelogs as well. Pull requests using hardcoded values will/should not be accepted. Termux app and plugin specific classes must be added under com.termux.shared.termux package and general classes outside it. The termux-shared LICENSE must also be checked and updated if necessary when contributing code. The licenses of any external library or code must be honoured. The main Termux constants are defined by TermuxConstants class. It also contains information on how to fork Termux or build it with your own package name. Changing the package name will require building the bootstrap zip packages and other packages with the new $PREFIX, check Building Packages for more info. Check Termux Libraries for how to import termux libraries in plugin apps and Forking and Local Development for how to update termux libraries for plugins. The versionName in build.gradle files of Termux and its plugin apps must follow the semantic version 2.0.0 spec in the format major.minor.patch(-prerelease)(+buildmetadata). When bumping versionName in build.gradle files and when creating a tag for new releases on GitHub, make sure to include the patch number as well, like v0.1.0 instead of just v0.1. The build.gradle files and attach_debug_apks_to_release workflow validates the version as well and the build/attachment will fail if versionName does not follow the spec.";
+  var handex = "Type anywhere with this one-handed keyboard. Stop sitting down to type. Stop looking down to send messages. Built to the shape of your finger actions, this device will eliminate your need to reposition your fingers while typeing. Use the same keyboard, designed for your hand, everywhere. You never have to learn a new one. The natural motions of your fingers compose the characters. It's build around your hand, so you don't have to reorient your finger placement on a board. Repositioning your fingers on a board is the biggest hurdle of typing-training, so don't do it. Handex is built around your finger movements, so you'll never have to reposition your fingers to find a key. Even unusual keys, such `\\`, `~`, `|`, `^`, `&` are easy to type. Handex liberates you from the key-board-shackle problem. 151 keys are currently available and more are coming.";
+  var hello_world = "Hello, World!";
+  var mr_jock = "Mr. Jock, TV quiz PhD., bags few lynx.";
+  var watch_jeopardy = `Watch "Jeopardy!", Alex Trebek's fun TV`;
+  var pack = "Pack my box with five dozen liquor jugs.";
+  var k_7 = `k=7; l=8; m=$((k + l)); n=$((k > l ? k : l)); echo "Max: $n"; grep 'Max' <<< "Max: $n" || echo "No match found" > /dev/null; echo "Sum: $(($m))"`;
+  var x_4 = `x=4; y=$((x + 5)); z=$((x > 5 ? x : 5)); echo "Max: $z"; grep 'Max' <<< "Max: $z" || echo "No match found" > /dev/null; echo "Sum: $(($y))"`;
+  var waltz = "Waltz, bad nymph, for quick jigs vex.";
+  var sphinx = "Sphinx of black quartz, judge my vow.";
+  var list = "List.map(fun i -> i + 1)[1;2;3]";
+  var arr__1_2_3_ = 'arr=(1 2 3); sum=0; for i in "${arr[@]}"; do sum=$(($sum + i)); done; echo "Sum: $sum"; [[ $sum -lt 10 ]] && echo "$sum < 10" || echo "$sum >= 10"';
+  var f__ = 'f() { return $(($1 & $2)); }; f 4 5; echo "Bitwise AND: $?"';
+  var a_5 = 'a=5; b=3; c=$((a / b)); d=$((a - b)); echo $c $d; [ $a -gt $b ] && echo "$a>$b" || echo "$a<$b"; e=$(($a % $b)); echo "Result: $e"';
+  var phrases_default = {
+    termux,
+    handex,
+    "hello-world": hello_world,
+    "mr-jock": mr_jock,
+    "watch-jeopardy": watch_jeopardy,
+    pack,
+    "k=7": k_7,
+    "x=4": x_4,
+    waltz,
+    sphinx,
+    list,
+    "arr=(1 2 3)": arr__1_2_3_,
+    "f()": f__,
+    "a=5": a_5
+  };
 
   // ns-hugo:/home/runner/work/handex/handex/assets/ts/terminal/XtermAdapter.ts
   var XtermAdapter = class {
@@ -7014,16 +7504,31 @@ WARNING: This link could potentially be dangerous`)) {
       this.promptDelimiter = "$";
       this.promptLength = 0;
       this.isShowVideo = false;
+      this.chordImageHolder = null;
+      this.wholePhraseChords = null;
+      this.wpmCallback = (wpm) => {
+      };
       this.terminalElement = element;
       this.terminalElement.classList.add(TerminalCssClasses.Terminal);
       this.videoElement = this.createVideoElement();
       this.webCam = new WebCam(this.videoElement);
       this.terminalElement.prepend(this.videoElement);
-      this.nextChars = createElement("div", TerminalCssClasses.NextChars);
+      this.chordImageHolder = createElement("div", TerminalCssClasses.ChordImageHolder);
+      this.wholePhraseChords = createElement("div", TerminalCssClasses.WholePhraseChords);
+      this.wholePhraseChords.hidden = true;
+      this.nextChars = createElement("pre", TerminalCssClasses.NextChars);
       this.nextChars.hidden = true;
-      this.nextCharsDisplay = new NextCharsDisplay(this.nextChars);
+      const cancelCallback = () => {
+      };
+      this.nextCharsDisplay = new NextCharsDisplay(
+        () => {
+          console.log("wpmCallback not implemented");
+        }
+      );
       this.outputElement = this.createOutputElement();
       this.terminalElement.prepend(this.outputElement);
+      this.terminalElement.prepend(this.wholePhraseChords);
+      this.terminalElement.append(this.chordImageHolder);
       this.terminalElement.append(this.nextChars);
       this.terminal = new import_xterm.Terminal({
         fontFamily: '"Fira Code", Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
@@ -7041,6 +7546,7 @@ WARNING: This link could potentially be dangerous`)) {
       if (data.charCodeAt(0) === 13) {
         let command = this.getCurrentCommand();
         this.terminal.reset();
+        this.nextCharsDisplay.reset();
         this.prompt();
         if (command === "")
           return;
@@ -7056,7 +7562,8 @@ WARNING: This link could potentially be dangerous`)) {
           return;
         }
         if (command === "phrase") {
-          let result2 = this.nextCharsDisplay.setPhrase("test phrase");
+          const phrase = this.getRandomPhrase();
+          let result2 = this.nextCharsDisplay.setPhraseString(phrase);
         }
         let result = this.handexTerm.handleCommand(command);
         this.outputElement.appendChild(result);
@@ -7077,9 +7584,18 @@ WARNING: This link could potentially be dangerous`)) {
             }
           }
         }
-        this.nextCharsDisplay.updateDisplay(5);
         this.terminal.write(data);
+        const currentCommand = this.getCurrentCommand();
+        this.nextCharsDisplay.setNext(currentCommand);
       }
+    }
+    getRandomPhrase() {
+      const keys = Object.keys(phrases_exports);
+      if (keys.length === 0)
+        return "";
+      const randomKey = keys[Math.floor(Math.random() * keys.length)];
+      const result = phrases_exports[randomKey];
+      return result;
     }
     setViewPortOpacity() {
       const viewPort = document.getElementsByClassName("xterm-viewport")[0];
