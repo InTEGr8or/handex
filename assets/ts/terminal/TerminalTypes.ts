@@ -26,6 +26,7 @@ export const TerminalCssClasses = {
     Timer: 'timer',
     TimerSvg: 'timerSvg',
     CharTimes: 'charTimes',
+    WPM: 'wpm',
 } as const;
 
 export const LogKeys = {

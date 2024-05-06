@@ -25,6 +25,7 @@ export const TerminalCssClasses = {
     Timer: 'timer',
     TimerSvg: 'timerSvg',
     CharTimes: 'charTimes',
+    WPM: 'wpm',
 };
 export const LogKeys = {
     CharTime: 'char-time',

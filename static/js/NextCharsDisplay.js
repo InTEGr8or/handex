@@ -19,9 +19,6 @@ export class NextCharsDisplay {
         this._nextChar = '';
         this._prevCharTime = 0;
         this._charTimeArray = [];
-        this.wpmCallback = () => {
-            console.log('wpmCallback not yet implemented');
-        };
         this.resetChordify = () => {
             if (this._phrase) {
                 this._phrase.value = '';
@@ -50,9 +47,9 @@ export class NextCharsDisplay {
             });
             if (this._wholePhraseChords && nextIndex > this._wholePhraseChords.children.length - 1)
                 return null;
-            let nextCharacter = `<span class="nextCharacter">${this.phraseString.substring(nextIndex, nextIndex + 1).replace(' ', '&nbsp;')}</span>`;
+            let nextCharacter = `<span class="nextCharacter">${this._phrase.value.substring(nextIndex, nextIndex + 1).replace(' ', '&nbsp;')}</span>`;
             // this.updateDisplay(testPhrase);
-            const nextChars = this.phraseString.substring(nextIndex, nextIndex + 40);
+            const nextChars = this._phrase.value.substring(nextIndex, nextIndex + 40);
             this._nextChars.innerHTML = this.formatNextChars(nextChars);
             const next = (_c = this._wholePhraseChords) === null || _c === void 0 ? void 0 : _c.children[nextIndex];
             if (next) {
@@ -83,42 +80,60 @@ export class NextCharsDisplay {
             if (this._svgCharacter && !((_f = this._testMode) === null || _f === void 0 ? void 0 : _f.checked)) {
                 this._svgCharacter.hidden = false;
             }
-            this.setWpmCallback();
+            this._wpm.innerText = this.getWpm();
             return next;
+        };
+        this.cancel = () => {
+            var _a, _b;
+            if (this._testArea) {
+                this._testArea.value = '';
+                this._testArea.focus();
+                this._testArea.style.border = "";
+            }
+            this._charTimeArray = [];
+            this._prevCharTime = 0;
+            if (this.wpm)
+                this.wpm.innerText = '0';
+            if (this._charTimes)
+                this._charTimes.innerHTML = '';
+            // clear error class from all chords
+            Array.from((_b = (_a = this.wholePhraseChords) === null || _a === void 0 ? void 0 : _a.children) !== null && _b !== void 0 ? _b : []).forEach(function (chord) {
+                chord.classList.remove("error");
+            });
+            this.setNext('');
         };
         this.test = (event) => {
             var _a, _b, _c, _d, _e, _f, _g;
-            console.log("test(): ", event.data);
             if (event.data == this._nextChar) {
                 const charTime = createCharTime(event.data, Number(((this._timer.centiSecond - this._prevCharTime) / 100).toFixed(2)), this._timer.centiSecond / 100);
                 this._charTimeArray.push(charTime);
             }
-            const next = this.setNext((_b = (_a = this.testArea) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : '');
+            const next = this.setNext((_b = (_a = this._testArea) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : '');
             if (next) {
                 next.classList.remove("error");
             }
             this._prevCharTime = this._timer.centiSecond;
             // TODO: de-overlap this and comparePhrase
-            if (this.testArea && this.testArea.value.trim().length == 0) {
+            if (this._testArea && this._testArea.value.trim().length == 0) {
                 // stop timer
-                this.testArea.style.border = "";
+                this._testArea.style.border = "";
                 if (this.svgCharacter)
                     this.svgCharacter.hidden = true;
                 this._timer.cancel();
                 return;
             }
             if (this.svgCharacter &&
-                this.testArea &&
-                this.testArea.value
+                this._testArea &&
+                this._testArea.value
                     == ((_c = this
-                        ._phrase) === null || _c === void 0 ? void 0 : _c.value.trim().substring(0, (_d = this.testArea) === null || _d === void 0 ? void 0 : _d.value.length))) {
-                this.testArea.style.border = "4px solid #FFF3";
+                        ._phrase) === null || _c === void 0 ? void 0 : _c.value.trim().substring(0, (_d = this._testArea) === null || _d === void 0 ? void 0 : _d.value.length))) {
+                this._testArea.style.border = "4px solid #FFF3";
                 this.svgCharacter.hidden = true;
             }
             else {
                 // Alert mismatched text with red border.
-                if (this.testArea)
-                    this.testArea.style.border = "4px solid red";
+                if (this._testArea)
+                    this._testArea.style.border = "4px solid red";
                 const chordImageHolderImg = (_e = this.chordImageHolder) === null || _e === void 0 ? void 0 : _e.querySelector("img");
                 if (chordImageHolderImg)
                     chordImageHolderImg.hidden = false;
@@ -128,7 +143,7 @@ export class NextCharsDisplay {
                 if (this._errorCount)
                     this._errorCount.innerText = (parseInt(this._errorCount.innerText) + 1).toString(10);
             }
-            if (((_f = this.testArea) === null || _f === void 0 ? void 0 : _f.value.trim()) == ((_g = this._phrase) === null || _g === void 0 ? void 0 : _g.value.trim())) {
+            if (((_f = this._testArea) === null || _f === void 0 ? void 0 : _f.value.trim()) == ((_g = this._phrase) === null || _g === void 0 ? void 0 : _g.value.trim())) {
                 // stop timer
                 this._timer.setSvg('stop');
                 let charTimeList = "";
@@ -144,9 +159,9 @@ export class NextCharsDisplay {
             this._timer.start();
         };
         this.getFirstNonMatchingChar = (testPhrase) => {
-            if (!this.phraseString)
+            if (!this._phrase.value)
                 return 0;
-            const sourcePhrase = this.phraseString.split('');
+            const sourcePhrase = this._phrase.value.split('');
             if (testPhrase.length == 0) {
                 return 0;
             }
@@ -210,27 +225,37 @@ export class NextCharsDisplay {
         this.voiceSynth = window.speechSynthesis;
         this._nextChars = createElement('pre', TerminalCssClasses.NextChars);
         this._nextChars.hidden = true;
+        this._wpm = createElement('div', TerminalCssClasses.WPM);
         this._charTimes = createElement('div', TerminalCssClasses.CharTimes);
         this._wholePhraseChords = createElement('div', TerminalCssClasses.WholePhraseChords);
         this._allChordsList = createElement('div', TerminalCssClasses.allChordsList);
         this._chordImageHolder = createElement('div', TerminalCssClasses.ChordImageHolder);
+        this._timerSvg = document.getElementById('timerSvg');
         this._svgCharacter = createElement('img', TerminalCssClasses.SvgCharacter);
         this._testMode = createElement('input', TerminalCssClasses.TestMode);
+        this.attachTestMode();
         this._chordified = createElement('div', TerminalCssClasses.chordified);
         this._errorCount = createElement('div', TerminalCssClasses.errorCount);
         this._voiceMode = createElement('input', TerminalCssClasses.voiceMode);
-        this.setWpmCallback = this.wpmCallback.bind(this);
         this._testArea = createElement('textarea', TerminalCssClasses.TestArea);
         this._testArea.addEventListener('input', (e) => {
-            console.log('NextCharsDisplay testArea: input event', e);
             this.test(e);
         });
-        this._timer = new Timer(this.updateDisplay.bind(this, this._testArea.value), cancelCallback, handleInputEvent);
+        this._timer = new Timer(cancelCallback, handleInputEvent);
         this._testArea.addEventListener('keyup', (e) => {
             if (this._voiceMode && this._voiceMode.checked) {
                 this.sayText(e);
             }
         });
+    }
+    set wpm(wpm) {
+        this._wpm = wpm;
+    }
+    set timerSpan(timerSpan) {
+        this._timer.timerElement = timerSpan;
+    }
+    get timer() {
+        return this._timer;
     }
     get chordified() {
         return this._chordified;
@@ -252,12 +277,18 @@ export class NextCharsDisplay {
     }
     set testMode(testMode) {
         this._testMode = testMode;
+        this._testMode.checked = localStorage.getItem('testMode') == 'true';
+        this.attachTestMode();
+    }
+    attachTestMode() {
+        this._testMode.addEventListener('change', e => {
+            localStorage.setItem('testMode', this._testMode.checked.toString());
+            this.getWpm();
+        });
     }
     set testArea(testArea) {
         this._testArea = testArea;
-        console.log('testArea', testArea);
         this._testArea.addEventListener('input', (e) => {
-            console.log('NextCharsDisplay testArea: input event', e);
             this.test(e);
         });
     }
@@ -265,7 +296,7 @@ export class NextCharsDisplay {
         return this._testArea;
     }
     reset() {
-        this.phraseString = '';
+        this._phrase.value = '';
         this.setNext('');
         this._nextChars.hidden = true;
     }
@@ -273,14 +304,14 @@ export class NextCharsDisplay {
         this._phrase = phrase;
     }
     setPhraseString(newPhrase) {
-        this.phraseString = newPhrase;
+        this._phrase.value = newPhrase;
         this.setNext(''); // Reset the display with the new phrase from the beginning
         this._nextChars.hidden = false;
     }
     updateDisplay(testPhrase) {
         const nextIndex = this.getFirstNonMatchingChar(testPhrase);
         // this.setNext(testPhrase);
-        const nextChars = this.phraseString.substring(nextIndex, nextIndex + 40);
+        const nextChars = this._phrase.value.substring(nextIndex, nextIndex + 40);
         this._nextChars.innerHTML = this.formatNextChars(nextChars);
     }
     /**
@@ -288,14 +319,15 @@ export class NextCharsDisplay {
      *
      * @return {string} The calculated words per minute as a string with two decimal places.
      */
-    setWpm() {
-        if (!this.testArea)
+    getWpm() {
+        if (!this._testArea)
             return "0";
-        if (this.testArea.value.length < 2) {
+        if (this._testArea.value.length < 2) {
             return "0";
         }
-        const words = this.testArea.value.length / 5;
-        return (words / (this._timer.centiSecond / 100 / 60) + 0.000001).toFixed(2);
+        const words = this._testArea.value.length / 5;
+        const result = (words / (this._timer.centiSecond / 100 / 60) + 0.000001).toFixed(2);
+        return result;
     }
     formatNextChars(chars) {
         let result = chars;
@@ -307,7 +339,6 @@ export class NextCharsDisplay {
         return __awaiter(this, void 0, void 0, function* () {
             if (this._chordified)
                 this._chordified.innerHTML = '';
-            console.log("Chordifying: ", this._phrase.value);
             if (!this._phrase || !this._phrase.value || this._phrase.value.trim().length == 0) {
                 return [];
             }

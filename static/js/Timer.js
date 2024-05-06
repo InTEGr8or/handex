@@ -1,8 +1,6 @@
 import { TerminalCssClasses } from './terminal/TerminalTypes.js';
-import { createElement } from "./utils/dom.js";
 export class Timer {
-    constructor(updateCallback, cancelCallback, inputEventCallback) {
-        this.updateCallback = updateCallback;
+    constructor(cancelCallback, inputEventCallback) {
         this._intervalId = null;
         this._centiSecond = 0;
         this.timerHandle = null;
@@ -29,7 +27,8 @@ export class Timer {
         };
         this.run = () => {
             this._centiSecond++;
-            this._timerElement.innerHTML = (this._centiSecond / 100).toFixed(1);
+            this._timerElement.innerText = (this._centiSecond / 100).toFixed(1);
+            // console.log("timer: ",this._centiSecond, this._timerElement.innerText);
         };
         this.cancel = () => {
             // Callback to the calling function.
@@ -41,11 +40,15 @@ export class Timer {
             this.timerHandle = null;
             this.setSvg('start');
         };
-        this._timerElement = createElement('div', TerminalCssClasses.Timer);
-        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.id = TerminalCssClasses.TimerSvg;
-        svg.classList.add(TerminalCssClasses.TimerSvg);
-        this._timerSvg = svg;
+        this._timerElement = document.getElementById(TerminalCssClasses.Timer);
+        if (!this._timerElement) {
+            console.log("Timer element not found");
+        }
+        const timerSvgElement = document.getElementById(TerminalCssClasses.TimerSvg);
+        if (!(timerSvgElement instanceof SVGElement)) {
+            throw new Error('Element is not an SVGElement');
+        }
+        this._timerSvg = timerSvgElement;
         this.cancelCallback = cancelCallback;
         this.inputEventCallback = inputEventCallback;
     }
@@ -61,12 +64,6 @@ export class Timer {
     set timerSvg(svg) {
         this._timerSvg = svg;
     }
-    updateTimer() {
-        if (this._intervalId !== null) {
-            this._centiSecond++;
-            this.updateCallback(this._centiSecond);
-        }
-    }
     get centiSecond() {
         return this._centiSecond;
     }
@@ -75,7 +72,6 @@ export class Timer {
         if (this._intervalId === null) {
             this._intervalId = window.setInterval(() => {
                 this._centiSecond++;
-                this.updateCallback(this._centiSecond);
             }, interval);
         }
     }
