@@ -15,18 +15,27 @@ export class XtermAdapter {
         this.promptLength = 0;
         this.isShowVideo = false;
         this.chordImageHolder = null;
+        this.wholePhraseChords = null;
+        this.wpmCallback = (wpm) => {
+        };
         this.terminalElement = element;
         this.terminalElement.classList.add(TerminalCssClasses.Terminal);
         this.videoElement = this.createVideoElement();
         this.webCam = new WebCam(this.videoElement);
         this.terminalElement.prepend(this.videoElement);
         this.chordImageHolder = createElement('div', TerminalCssClasses.ChordImageHolder);
+        this.wholePhraseChords = createElement('div', TerminalCssClasses.WholePhraseChords);
+        this.wholePhraseChords.hidden = true;
         // this.chordImageHolder.hidden = true;
         this.nextChars = createElement('pre', TerminalCssClasses.NextChars);
         this.nextChars.hidden = true;
-        this.nextCharsDisplay = new NextCharsDisplay(this.nextChars, null, this.chordImageHolder);
+        const cancelCallback = () => { };
+        this.nextCharsDisplay = new NextCharsDisplay(() => {
+            console.log("wpmCallback not implemented");
+        });
         this.outputElement = this.createOutputElement();
         this.terminalElement.prepend(this.outputElement);
+        this.terminalElement.prepend(this.wholePhraseChords);
         this.terminalElement.append(this.chordImageHolder);
         this.terminalElement.append(this.nextChars);
         this.terminal = new Terminal({
@@ -66,7 +75,7 @@ export class XtermAdapter {
             }
             if (command === 'phrase') {
                 const phrase = this.getRandomPhrase();
-                let result = this.nextCharsDisplay.setPhrase(phrase);
+                let result = this.nextCharsDisplay.setPhraseString(phrase);
             }
             let result = this.handexTerm.handleCommand(command);
             this.outputElement.appendChild(result);

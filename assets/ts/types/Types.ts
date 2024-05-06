@@ -13,3 +13,8 @@ export function createCharTime(char: string, duration: number, time: number): Ch
 export type CancelCallback = () => void;
 
 export type InputEventCallback = (event: InputEvent) => void;
+export interface ChordRow {
+    char: string;
+    chord: number;
+    strokes: string;
+}

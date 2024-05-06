@@ -1,31 +1,45 @@
+import { TerminalCssClasses } from './terminal/TerminalTypes.js';
 import { CharTime, createCharTime, spaceDisplayChar, CancelCallback, InputEventCallback } from './types/Types.js';
-
+import { createElement } from "./utils/dom.js";
 
 export class Timer {
-    private intervalId: number | null = null;
+    private _intervalId: number | null = null;
     private _centiSecond: number = 0;
     private _timerElement: HTMLElement;
-    private timerSvg: SVGElement;
+    private _timerSvg: SVGElement;
 
     private timerHandle: any = null;
     private cancelCallback: CancelCallback;
     private inputEventCallback: InputEventCallback;
 
     constructor(
-        private timerElement: HTMLElement,
         private updateCallback: (centiSecond: number) => void,
-        timerSvg: SVGElement,
         cancelCallback: CancelCallback, 
         inputEventCallback: InputEventCallback
     ) {
-        this._timerElement = timerElement;
-        this.timerSvg = timerSvg;
+        this._timerElement = createElement('div', TerminalCssClasses.Timer);
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.id = TerminalCssClasses.TimerSvg;
+        svg.classList.add(TerminalCssClasses.TimerSvg);
+        this._timerSvg = svg;
         this.cancelCallback = cancelCallback;
         this.inputEventCallback = inputEventCallback;
     }
+    get timerElement(): HTMLElement {
+        return this._timerElement;
+    }
+    set timerElement(element: HTMLElement) {
+        this._timerElement = element;
+    }
+    get timerSvg(): SVGElement {
+        return this._timerSvg;
+    }
+    set timerSvg(svg: SVGElement) {
+        this._timerSvg = svg;
+    }
 
     public updateTimer(): void {
-        if (this.intervalId !== null) {
+        if (this._intervalId !== null) {
             this._centiSecond++;
             this.updateCallback(this._centiSecond);
         }
@@ -37,8 +51,8 @@ export class Timer {
 
     // TODO: pick one of these two methods
     public start_generated(interval: number): void {
-        if (this.intervalId === null) {
-            this.intervalId = window.setInterval(() => {
+        if (this._intervalId === null) {
+            this._intervalId = window.setInterval(() => {
                 this._centiSecond++;
                 this.updateCallback(this._centiSecond);
             }, interval);
@@ -52,9 +66,9 @@ export class Timer {
     };
 
     stop(): void {
-        if (this.intervalId !== null) {
-            clearInterval(this.intervalId);
-            this.intervalId = null;
+        if (this._intervalId !== null) {
+            clearInterval(this._intervalId);
+            this._intervalId = null;
         }
     }
 
@@ -63,20 +77,19 @@ export class Timer {
         this._centiSecond = 0;
     }
 
-
     setSvg = (status: 'start' | 'stop' | 'pause' ): void => {
         switch (status) {
             case 'start':
-                this.timerSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
+                this._timerSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';
                 break;
             case 'stop':
-                this.timerSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
+                this._timerSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
                 break;
             case 'pause':
-                this.timerSvg.innerHTML = '<use href="#pause" transform="scale(2,2)" ></use>';
+                this._timerSvg.innerHTML = '<use href="#pause" transform="scale(2,2)" ></use>';
                 break;
             default:
-                this.timerSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
+                this._timerSvg.innerHTML = '<use href="#stop" transform="scale(2,2)" ></use>';
         }
     };
 

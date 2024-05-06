@@ -12,6 +12,20 @@ export const TerminalCssClasses = {
     NextChars: 'nextChars',
     WholePhraseChords: 'wholePhraseChords',
     ChordImageHolder: 'chord-image-holder',
+    TestArea: 'testArea',
+    SvgCharacter: 'svgCharacter',
+    TestMode: 'testMode',
+    chordified: 'chordified',
+    pangrams: 'pangrams',
+    chordSection: 'chord-section',
+    voiceMode: 'voiceMode',
+    videoSection: 'video-section',
+    allChordsList: 'allChordsList',
+    errorCount: 'errorCount',
+    Phrase: 'phrase',
+    Timer: 'timer',
+    TimerSvg: 'timerSvg',
+    CharTimes: 'charTimes',
 } as const;
 
 export const LogKeys = {

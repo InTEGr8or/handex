@@ -4,18 +4,10 @@ import { TerminalCssClasses } from "./terminal/TerminalTypes.js";
 import { CharTime, spaceDisplayChar, CancelCallback, InputEventCallback, createCharTime } from "./types/Types.js";
 
 
-interface ChordRow {
-    char: string;
-    chord: number;
-    strokes: string;
-}
-
 export class HandChord {
     phrase: HTMLInputElement | null;
-    testArea: HTMLTextAreaElement | null;
     chordified: HTMLElement | null;
     wholePhraseChords: HTMLElement | null;
-    nextChar: string | null;
     charTimer: CharTime[];
     charTimes: HTMLElement | null;
     wpm: HTMLElement | null;
@@ -24,64 +16,60 @@ export class HandChord {
     timerSvg: SVGElement | null;
     prevCharTime: number;
     preview: HTMLVideoElement | null;
-    testMode: HTMLInputElement | null;
-    lambdaUrl: string;
     pangrams: HTMLElement | null;
-    chordImageHolder: HTMLElement | null;
-    voiceSynth: SpeechSynthesis;
     voiceMode: HTMLInputElement | null;
     videoMode: HTMLInputElement | null;
     videoSection: HTMLDivElement | null;
     errorCount: HTMLElement | null;
     allChordsList: HTMLDivElement | null;
-    svgCharacter: HTMLImageElement | null;
     chordSection: HTMLDivElement | null;
     nextChars: HTMLElement | null;
     private nextCharsDisplay: NextCharsDisplay;
 
     constructor() {
+        const cancelAction: CancelCallback = this.cancelCallback.bind(this);
+        this.nextCharsDisplay = new NextCharsDisplay(
+            cancelAction
+        );
         this.phrase = document.getElementById("phrase") as HTMLInputElement;
-        this.testArea = document.getElementById("testArea") as HTMLTextAreaElement;
+        this.nextCharsDisplay.phrase = this.phrase;
         this.chordified = document.getElementById("chordified") as HTMLElement;
         this.wholePhraseChords = document.getElementById(TerminalCssClasses.WholePhraseChords) as HTMLElement;
-        this.nextChar = null;
         this.nextChars = document.getElementById(TerminalCssClasses.NextChars) as HTMLElement;
-        this.chordImageHolder = document.getElementById("chord-image-holder") as HTMLElement;
-        this.svgCharacter = document.getElementById("svgCharacter") as HTMLImageElement;
-        this.testMode = document.getElementById("testMode") as HTMLInputElement;
-        this.testMode.checked = localStorage.getItem('testMode') == 'true';
-        this.nextCharsDisplay = new NextCharsDisplay(
-            this.nextChars,
-            this.wholePhraseChords,
-            this.chordImageHolder,
-            this.svgCharacter,
-            this.testMode,
-            this.setWpm.bind(this),
-            this.testArea
-        );
+        this.nextCharsDisplay.chordImageHolder = document.getElementById("chord-image-holder") as HTMLElement;
+        this.nextCharsDisplay.svgCharacter = (document.getElementById("svgCharacter") as HTMLImageElement);
+        this.nextCharsDisplay.testMode = (document.getElementById("testMode") as HTMLInputElement);
+        this.nextCharsDisplay.nextChars = this.nextChars;
+        if(this.nextCharsDisplay.testMode?.checked) {
+            this.nextCharsDisplay.testMode.checked = localStorage.getItem('testMode') == 'true';
+        }
         this.charTimer = [];
         this.charTimes = document.getElementById("charTimes") as HTMLElement;
         this.wpm = document.getElementById("wpm") as HTMLElement;
+        
+        
+        this.timerSvg = document.getElementById('timerSvg') as unknown as SVGElement;
         this.timerElement = document.getElementById("timer") as HTMLElement;
         if (!this.timerElement) {
             throw new Error('timer element not found');
         }
-
-        this.timerSvg = document.getElementById('timerSvg') as unknown as SVGElement;
-
-        const cancelAction: CancelCallback = this.cancelCallback.bind(this);
-        const handleInputEvent: InputEventCallback = this.test.bind(this);
-        this.timer = new Timer(this.timerElement, this.updateTimerDisplay.bind(this, this), this.timerSvg, cancelAction, handleInputEvent);
+        const handleInputEvent: InputEventCallback = (event: InputEvent) => {
+            console.log("Handle Input Event not implementd:", event);
+        };
+        this.timer = new Timer(
+            this.updateTimerDisplay.bind(this, this), 
+            cancelAction, 
+            handleInputEvent
+        );
         this.prevCharTime = 0;
-        this.lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/';
         this.pangrams = document.getElementById("pangrams") as HTMLElement;
         this.prevCharTime = 0;
         this.preview = document.getElementById("preview") as HTMLVideoElement;
         this.charTimer = [];
         this.chordSection = document.getElementById("chord-section") as HTMLDivElement;
-        this.testMode?.addEventListener('change', e => {
+        this.nextCharsDisplay.testMode?.addEventListener('change', e => {
             this.saveMode(e);
-            this.chordify();
+            this.nextCharsDisplay.chordify();
         });
         this.voiceMode = document.getElementById("voiceMode") as HTMLInputElement;
         this.voiceMode.checked = localStorage.getItem('voiceMode') == 'true';
@@ -89,7 +77,6 @@ export class HandChord {
             this.saveMode(e);
         });
         this.videoMode = document.getElementById("videoMode") as HTMLInputElement;
-        this.voiceSynth = window.speechSynthesis as SpeechSynthesis;
         // NOTE: Starting video on page load is non-optimal.
         // APP.videoMode.checked = localStorage.getItem('videoMode') == 'true';
         this.videoSection = document.getElementById("video-section") as HTMLDivElement;
@@ -104,20 +91,11 @@ export class HandChord {
         this.allChordsList = document.getElementById("allChordsList") as HTMLDivElement;
         // APP.testModeLabel = document.getElementById("testModeLabel");
         this.errorCount = document.getElementById("errorCount") as HTMLElement;
-        this.nextChar = null;
 
-        this.testArea.addEventListener('input', (e: Event) => {
-            this.test(e as InputEvent);
-        });
-        this.testArea.addEventListener('keyup', (e: Event) => {
-            if (this.voiceMode && this.voiceMode.checked) {
-                sayText(e as KeyboardEvent, this);
-            }
-        });
-        this.phrase.addEventListener('change', this.chordify);
+        this.phrase.addEventListener('change', this.nextCharsDisplay.chordify);
         this.phrase.addEventListener('touchend', (e: Event) => {
             if (this.voiceMode && this.voiceMode.checked) {
-                sayText(e as KeyboardEvent, this);
+                this.nextCharsDisplay.sayText(e as KeyboardEvent);
             }
         });
         this.pangrams.addEventListener('click', (e: MouseEvent) => {
@@ -135,7 +113,7 @@ export class HandChord {
                     this.phrase.value = targetElement.innerText;
                 }
             }
-            this.chordify();
+            this.nextCharsDisplay.chordify();
         });
         document.getElementById('timerCancel')
             ?.addEventListener('click', (e) => {
@@ -144,21 +122,22 @@ export class HandChord {
         document.getElementById('listAllChords')
             ?.addEventListener('click', this.listAllChords);
         document.getElementById('resetChordify')
-            ?.addEventListener('click', this.resetChordify);
+            ?.addEventListener('click', this.nextCharsDisplay.resetChordify);
 
         this.toggleVideo(false);
     }
 
     updateTimerDisplay(handChord: HandChord): void {
+        console.log("Update Timer Display not implemented", handChord);
         if (handChord.timer) {
-            handChord.timer.updateTimer();
+            // handChord.nextCharsDisplay.updateCallback();
         }
     }
     cancelCallback = () => {
-        if (this.testArea) {
-            this.testArea.value = '';
-            this.testArea.focus();
-            this.testArea.style.border = "";
+        if (this.nextCharsDisplay.testArea) {
+            this.nextCharsDisplay.testArea.value = '';
+            this.nextCharsDisplay.testArea.focus();
+            this.nextCharsDisplay.testArea.style.border = "";
         }
         this.charTimer = [];
         this.prevCharTime = 0;
@@ -170,132 +149,7 @@ export class HandChord {
         });
         this.nextCharsDisplay.setNext('');
     }
-    test = (event: InputEvent) => {
-        if (event.data == this.nextChar) {
-            const charTime = createCharTime(
-                event.data as string,
-                Number(((this.timer.centiSecond - this.prevCharTime) / 100).toFixed(2)),
-                this.timer.centiSecond / 100
-            );
-            this.charTimer.push(charTime);
-        }
 
-        const next = this.nextCharsDisplay.setNext(this.testArea?.value ?? '');
-        if (next) {
-            next.classList.remove("error");
-        }
-        this.prevCharTime = this.timer.centiSecond;
-
-        // TODO: de-overlap this and comparePhrase
-        if (this.testArea && this.testArea.value.trim().length == 0) {
-            // stop timer
-            this.testArea.style.border = "";
-            if (this.svgCharacter) this.svgCharacter.hidden = true;
-            this.timer.cancel();
-            return;
-        }
-        if (
-            this.svgCharacter &&
-            this.testArea &&
-            this.testArea.value
-            == this
-                .phrase
-                ?.value
-                .trim()
-                .substring(0, this.testArea?.value.length)
-        ) {
-            this.testArea.style.border = "4px solid #FFF3";
-            this.svgCharacter.hidden = true;
-        }
-        else {
-            // Alert mismatched text with red border.
-            if (this.testArea) this.testArea.style.border = "4px solid red";
-            const chordImageHolderImg = this.chordImageHolder?.querySelector("img");
-            if (chordImageHolderImg) chordImageHolderImg.hidden = false;
-            if (this.svgCharacter) this.svgCharacter.hidden = false;
-            next?.classList.add("error");
-            if (this.errorCount)
-                this.errorCount.innerText = (parseInt(this.errorCount.innerText) + 1).toString(10);
-        }
-        if (this.testArea?.value.trim() == this.phrase?.value.trim()) {
-            // stop timer
-            this.timer.setSvg('stop');
-            let charTimeList = "";
-            this.charTimer.forEach((x: CharTime) => {
-                charTimeList += `<li>${x.char.replace(' ', spaceDisplayChar)}: ${x.duration}</li>`;
-            });
-            if (this.charTimes) this.charTimes.innerHTML = charTimeList;
-            localStorage.setItem(`charTimerSession_${(new Date).toISOString()}`, JSON.stringify(this.charTimer));
-            this.timer.cancel();
-            return;
-        }
-        this.timer.start();
-    }
-
-    private async chordify(): Promise<Array<ChordRow>> {
-        if (this.chordified) this.chordified.innerHTML = '';
-        if (!this.phrase || this.phrase.value.trim().length == 0) {
-            return [];
-        }
-        const phraseEncoded = btoa(this.phrase.value);
-        const response = await fetch(this.lambdaUrl, {
-            method: 'POST',
-            headers: {
-
-            },
-            body: JSON.stringify({
-                phrase: phraseEncoded
-            })
-        });
-        const chordList = await response.json();
-        if (chordList.error) {
-            console.log("chordList.error:", chordList.error);
-            return [];
-        }
-        const chordRows = chordList.json as Array<ChordRow>;
-        // Add each row to the chordified element as a separate div with the first character of the row as the name.
-        if (this.wholePhraseChords) this.wholePhraseChords.innerHTML = '';
-        const isTestMode = this.testMode ? this.testMode.checked : false;
-        chordRows.forEach((row: ChordRow, i: number) => {
-            const rowDiv = document.createElement('div') as HTMLDivElement;
-            const chordCode = row.chord;
-            const foundChords
-                = Array.from(this.allChordsList?.children ?? [])
-                    .filter(x => { return x.id == `chord${chordCode}`; });
-            // Load the clone in Chord order into the wholePhraseChords div.
-            if (foundChords.length > 0) {
-                const inChord = foundChords[0].cloneNode(true) as HTMLDivElement;
-                inChord.setAttribute("name", row.char);
-                inChord.hidden = isTestMode;
-                Array.from(inChord.children)
-                    .filter(x => x.nodeName == "IMG")
-                    .forEach(x => {
-                        x.setAttribute("loading", "eager");
-                        // x.hidden = isTestMode;
-                    });
-                if (this.wholePhraseChords) this.wholePhraseChords.appendChild(inChord);
-            }
-            else {
-                console.log("Missing chord:", chordCode);
-            }
-            document.getElementById(`chord${chordCode}`)?.querySelector(`img`)?.setAttribute("loading", "eager");
-            // document.querySelector(`#${chordCode}`).hidden = false;
-            rowDiv.id = i.toString();
-            rowDiv.setAttribute("name", row.char);
-            const charSpan = document.createElement('span');
-            charSpan.innerHTML = row.char;
-            rowDiv.appendChild(charSpan);
-            rowDiv.appendChild(document.createTextNode(row.strokes));
-            if (this.chordified) this.chordified.appendChild(rowDiv);
-        });
-        this.nextCharsDisplay.setNext('');
-        this.timer.setSvg('start');
-        if (this.testArea) this.testArea.focus();
-        this.timer.cancel();
-        this.phrase.disabled = true;
-        this.nextCharsDisplay.setPhrase(this.phrase.value);
-        return chordRows;
-    }
 
     private saveMode = (modeEvent: Event): boolean => {
         // chordify();
@@ -334,18 +188,6 @@ export class HandChord {
         return !setOn;
     }
 
-    private resetChordify = () => {
-        if (this.phrase) {
-            this.phrase.value = '';
-            this.phrase.disabled = false;
-        }
-        if (this.wholePhraseChords) this.wholePhraseChords.innerHTML = '';
-        if (this.allChordsList) this.allChordsList.hidden = true;
-        if (this.testArea) {
-            this.testArea.value = '';
-            this.testArea.disabled = false;
-        }
-    };
     private listAllChords = () => {
         if (this.allChordsList) this.allChordsList.hidden = false;
         // highlight Vim navigation keys
@@ -361,66 +203,5 @@ export class HandChord {
                 }
             });
     };
-    /**
-     * Calculates the words per minute (WPM) based on the text typed in the test area.
-     *
-     * @return {string} The calculated words per minute as a string with two decimal places.
-     */
-    public setWpm(): string {
-        if (!this.testArea) return "0";
-        if (this.testArea.value.length < 2) {
-            return "0";
-        }
-
-        const words = this.testArea.value.length / 5;
-        return (words / (this.timer.centiSecond / 100 / 60) + 0.000001).toFixed(2);
-    }
 };
 
-/**
- * Say the text in the input element when a key is pressed.
- * @param {KeyboardEvent} e The keyboard event.
- * @param {HandChord} APP The HandChord instance.
- */
-const sayText = (e: KeyboardEvent, APP: HandChord) => {
-    const eventTarget = e.target as HTMLInputElement;
-    // Get the input element value
-    if (!eventTarget || !eventTarget.value) return;
-    let text = eventTarget.value;
-    // Get the key that was pressed
-    const char = e.key;
-    // If no key was pressed, return
-    if (!char) return;
-    // If the speechSynthesis object is not defined, return
-    if (!APP.voiceSynth) {
-        APP.voiceSynth = window.speechSynthesis;
-    }
-    // If speaking, cancel the speech
-    if (APP.voiceSynth.speaking) {
-        APP.voiceSynth.cancel();
-    }
-    // If the key is a-z or 0-9, use that as the text
-    if (char?.match(/^[a-z0-9]$/i)) {
-        text = char;
-    }
-    // If the key is Backspace, say "delete"
-    else if (char == "Backspace") {
-        text = "delete";
-    }
-    // If the key is Enter, say the text
-    else if (char == "Enter") {
-        text = text;
-    }
-    // If the key is not one of the above, get the last word in the text
-    else {
-        const textSplit = text.trim().split(' ');
-        text = textSplit[textSplit.length - 1];
-    }
-    // Create a new speech utterance
-    var utterThis = new SpeechSynthesisUtterance(text);
-    // Set the pitch and rate
-    utterThis.pitch = 1;
-    utterThis.rate = 0.7;
-    // Speak the text
-    APP.voiceSynth.speak(utterThis);
-}
