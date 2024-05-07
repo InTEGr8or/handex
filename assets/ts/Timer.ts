@@ -9,23 +9,29 @@ export class Timer {
     private _timerSvg: SVGElement;
 
     private timerHandle: any = null;
-    private inputEventCallback: InputEventCallback;
 
-    constructor(
-        inputEventCallback: InputEventCallback
-    ) {
-        this._timerElement = document.getElementById(TerminalCssClasses.Timer) as HTMLSpanElement;
-        if(!this._timerElement) {
-            console.log(`Timer element not found #${TerminalCssClasses.Timer}`);
+    constructor() {
+        this._timerElement = this.constructTimerElement();
+        this._timerSvg = this.constructTimerSvgElement();
+    }
+    constructTimerElement(): HTMLSpanElement {
+        let result = document.getElementById(TerminalCssClasses.Timer) as HTMLSpanElement;
+        if (!this._timerElement) {
+            console.log(`Timer element not found at #${TerminalCssClasses.Timer}, being created`);
+            result = createElement("span", TerminalCssClasses.Timer)
         }
-        const timerSvgElement = document.getElementById(TerminalCssClasses.TimerSvg);
-        if (!(timerSvgElement instanceof SVGElement)) {
-            console.log('Element is not an SVGElement', TerminalCssClasses.TimerSvg, timerSvgElement);
+        return result;
+    }
+    constructTimerSvgElement(): SVGElement {
+
+        let timerSvgElement = document.getElementById(TerminalCssClasses.TimerSvg);
+        if (timerSvgElement && (timerSvgElement instanceof SVGElement)) {
+            return timerSvgElement
         }
-        else{
-            this._timerSvg = timerSvgElement;
+        else {
+            console.log('timerSvg missing, being created', TerminalCssClasses.TimerSvg, timerSvgElement);
+            return document.createElementNS("http://www.w3.org/2000/svg", "svg");
         }
-        this.inputEventCallback = inputEventCallback;
     }
     get timerElement(): HTMLElement {
         return this._timerElement;
@@ -71,7 +77,7 @@ export class Timer {
         this._centiSecond = 0;
     }
 
-    setSvg = (status: 'start' | 'stop' | 'pause' ): void => {
+    setSvg = (status: 'start' | 'stop' | 'pause'): void => {
         switch (status) {
             case 'start':
                 this._timerSvg.innerHTML = '<use href="#start" transform="scale(2,2)" ></use>';

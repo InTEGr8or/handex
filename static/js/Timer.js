@@ -1,6 +1,7 @@
 import { TerminalCssClasses } from './terminal/TerminalTypes.js';
+import { createElement } from "./utils/dom.js";
 export class Timer {
-    constructor(inputEventCallback) {
+    constructor() {
         this._intervalId = null;
         this._centiSecond = 0;
         this.timerHandle = null;
@@ -47,18 +48,26 @@ export class Timer {
             this.timerHandle = null;
             this.setSvg('start');
         };
-        this._timerElement = document.getElementById(TerminalCssClasses.Timer);
+        this._timerElement = this.constructTimerElement();
+        this._timerSvg = this.constructTimerSvgElement();
+    }
+    constructTimerElement() {
+        let result = document.getElementById(TerminalCssClasses.Timer);
         if (!this._timerElement) {
-            console.log(`Timer element not found #${TerminalCssClasses.Timer}`);
+            console.log(`Timer element not found at #${TerminalCssClasses.Timer}, being created`);
+            result = createElement("span", TerminalCssClasses.Timer);
         }
-        const timerSvgElement = document.getElementById(TerminalCssClasses.TimerSvg);
-        if (!(timerSvgElement instanceof SVGElement)) {
-            console.log('Element is not an SVGElement', TerminalCssClasses.TimerSvg, timerSvgElement);
+        return result;
+    }
+    constructTimerSvgElement() {
+        let timerSvgElement = document.getElementById(TerminalCssClasses.TimerSvg);
+        if (timerSvgElement && (timerSvgElement instanceof SVGElement)) {
+            return timerSvgElement;
         }
         else {
-            this._timerSvg = timerSvgElement;
+            console.log('timerSvg missing, being created', TerminalCssClasses.TimerSvg, timerSvgElement);
+            return document.createElementNS("http://www.w3.org/2000/svg", "svg");
         }
-        this.inputEventCallback = inputEventCallback;
     }
     get timerElement() {
         return this._timerElement;

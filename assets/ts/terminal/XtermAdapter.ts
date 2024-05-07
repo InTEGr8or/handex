@@ -5,6 +5,7 @@ import { TerminalCssClasses } from './TerminalTypes';
 import { IWebCam, WebCam } from '../utils/WebCam';
 import { NextCharsDisplay } from '../NextCharsDisplay';
 import { createElement } from '../utils/dom';
+import { Timer } from '../Timer';
 import * as phrases from '../phrases.json';
 
 export class XtermAdapter {
@@ -22,6 +23,8 @@ export class XtermAdapter {
   private nextCharsDisplay: NextCharsDisplay;
   private chordImageHolder: HTMLElement | null = null;
   private wholePhraseChords: HTMLElement | null = null;
+  private timer: Timer;
+  private isInPhraseMode: boolean = false;
 
   constructor(private handexTerm: IHandexTerm, private element: HTMLElement) {
     this.terminalElement = element;
@@ -32,10 +35,13 @@ export class XtermAdapter {
     this.chordImageHolder = createElement('div', TerminalCssClasses.ChordImageHolder);
     this.wholePhraseChords = createElement('div', TerminalCssClasses.WholePhraseChords);
     this.wholePhraseChords.hidden = true;
+    this.timer = new Timer();
     // this.chordImageHolder.hidden = true;
     this.nextCharsDisplay = new NextCharsDisplay();
     this.outputElement = this.createOutputElement();
+    this.nextCharsDisplay.nextChars.style.float = 'left';
     this.terminalElement.prepend(this.nextCharsDisplay.nextChars);
+    this.terminalElement.prepend(this.timer.timerSvg)
     this.terminalElement.prepend(this.outputElement);
     this.terminalElement.prepend(this.wholePhraseChords);
     this.terminalElement.append(this.chordImageHolder);
@@ -52,8 +58,8 @@ export class XtermAdapter {
     this.loadFontSize();
   }
 
-  wpmCallback = (wpm: number) => {
-    
+  wpmCallback = () => {
+    console.log("Timer not implemented");
   }
 
   public onDataHandler(data: string): void {
@@ -84,10 +90,12 @@ export class XtermAdapter {
         let result = this.nextCharsDisplay.setPhraseString(phrase);
         this.nextCharsDisplay.nextChars.hidden = false;
         this.nextCharsDisplay.nextChars.innerHTML = phrase;
+        this.isInPhraseMode = true;
       }
       let result = this.handexTerm.handleCommand(command);
       this.outputElement.appendChild(result);
     } else if (data.charCodeAt(0) === 3) { // Ctrl+C
+      this.isInPhraseMode = false;
       this.terminal.reset();
       this.prompt();
     } else if (data.charCodeAt(0) === 127) { // Backspace
@@ -95,9 +103,12 @@ export class XtermAdapter {
       if (this.terminal.buffer.active.cursorX < this.promptLength) return;
       this.terminal.write('\x1b[D \x1b[D');
       let cursorIndex = this.terminal.buffer.active.cursorX;
+    } else if (this.isInPhraseMode) {
+      // this.nextCharsDisplay.test(data);
     } else {
       // For other input, just return it to the terminal.
       let wpm = this.handexTerm.handleCharacter(data);
+
       if (data.charCodeAt(0) === 27) { // escape and navigation characters
         if (data.charCodeAt(1) === 91) {
           if (data.charCodeAt(2) === 68 && (this.terminal.buffer.active.cursorX < this.promptLength)) {

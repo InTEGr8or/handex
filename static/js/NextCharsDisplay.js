@@ -252,7 +252,7 @@ export class NextCharsDisplay {
         this._errorCount = document.getElementById(TerminalCssClasses.errorCount);
         this._voiceMode = createElement('input', TerminalCssClasses.voiceMode);
         this._testArea = document.getElementById(TerminalCssClasses.TestArea);
-        this._timer = new Timer(handleInputEvent);
+        this._timer = new Timer();
         this.attachEventListeners();
     }
     attachEventListeners() {

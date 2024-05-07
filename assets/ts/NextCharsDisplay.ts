@@ -50,9 +50,7 @@ export class NextCharsDisplay {
         this._voiceMode = createElement('input', TerminalCssClasses.voiceMode) as HTMLInputElement;
         this._testArea = (document.getElementById(TerminalCssClasses.TestArea) as HTMLTextAreaElement);
 
-        this._timer = new Timer(
-            handleInputEvent
-        );
+        this._timer = new Timer();
         this.attachEventListeners();
     }
 

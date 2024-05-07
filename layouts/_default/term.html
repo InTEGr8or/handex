@@ -17,6 +17,22 @@
 
 <body>
     <div id="terminal-nav" class="terminal-nav" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" id="terminal-nav-svg" width="15" height="20"
+            style="float: left;">
+            <defs>
+                <polygon id="start" points="1,1 6,5 1,9" fill="#0F0F" z-index="1010" />
+                <rect id="start-stop" y="1" x="6" width="3" height="8" fill="#000F"
+                    z-index="1000" />
+                <rect id="stop" y="1" width="8" height="8" fill="#000F" z-index="1000" />
+                <circle id="dot" cx="3" cy="5" r="2" stroke="none" />
+                <g id="pause">
+                    <rect id="pause-1" x="1" y="1" width="2" height="8" fill="#000F"
+                        z-index="1000" />
+                    <rect id="pause-2" x="5" y="1" width="2" height="8" fill="#000F"
+                        z-index="1000" />
+                </g>
+            </defs>
+        </svg>
         <code>{{ .Title }}</code>
         <div class="col-sx-9" style="width: 80%;">
             <div class="chord-navigation">
@@ -30,7 +46,8 @@
                 </div>
                 <div class="key-container">
                     <img id="move-right" alt="move-right" src="/images/svgs/2C.svg" />
-                    <label for="move-right" style="padding: 5px; color: gray;">Move<br />Right</label>
+                    <label for="move-right"
+                        style="padding: 5px; color: gray;">Move<br />Right</label>
                 </div>
                 <div class="key-container">
                     <img id="tab-key" alt="tab-key" src="/images/svgs/94.svg" />
@@ -58,7 +75,8 @@
                 </div>
                 <div class="key-container">
                     <img id="select-key" alt="select-key" src="/images/svgs/E.svg" />
-                    <label for="select-key" style="padding: 5px; color: gray;">Caps<br />Lock</label>
+                    <label for="select-key"
+                        style="padding: 5px; color: gray;">Caps<br />Lock</label>
                 </div>
             </div>
         </div>
@@ -69,4 +87,5 @@
     <div id="terminal" class="terminal-full-page"></div>
 
 </body>
+
 </html>
