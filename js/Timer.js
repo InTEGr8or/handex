@@ -1,6 +1,6 @@
 import { TerminalCssClasses } from './terminal/TerminalTypes.js';
 export class Timer {
-    constructor(cancelCallback, inputEventCallback) {
+    constructor(inputEventCallback) {
         this._intervalId = null;
         this._centiSecond = 0;
         this.timerHandle = null;
@@ -31,10 +31,17 @@ export class Timer {
             // console.log("timer: ",this._centiSecond, this._timerElement.innerText);
         };
         this.cancel = () => {
-            // Callback to the calling function.
-            this.cancelCallback();
-            // Continue with local features
+            // Cancel the timer and reset values.
             this._timerElement.innerHTML = '0.0';
+            this._centiSecond = 0;
+            clearInterval(this.timerHandle);
+            this.timerHandle = null;
+            this.setSvg('start');
+        };
+        this.success = () => {
+            // Callback to the calling function.
+            console.log("Timer Success");
+            // Continue with local features
             this._centiSecond = 0;
             clearInterval(this.timerHandle);
             this.timerHandle = null;
@@ -42,14 +49,15 @@ export class Timer {
         };
         this._timerElement = document.getElementById(TerminalCssClasses.Timer);
         if (!this._timerElement) {
-            console.log("Timer element not found");
+            console.log(`Timer element not found #${TerminalCssClasses.Timer}`);
         }
         const timerSvgElement = document.getElementById(TerminalCssClasses.TimerSvg);
         if (!(timerSvgElement instanceof SVGElement)) {
-            throw new Error('Element is not an SVGElement');
+            console.log('Element is not an SVGElement', TerminalCssClasses.TimerSvg, timerSvgElement);
         }
-        this._timerSvg = timerSvgElement;
-        this.cancelCallback = cancelCallback;
+        else {
+            this._timerSvg = timerSvgElement;
+        }
         this.inputEventCallback = inputEventCallback;
     }
     get timerElement() {

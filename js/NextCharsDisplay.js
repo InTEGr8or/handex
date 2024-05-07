@@ -14,11 +14,22 @@ import { TerminalCssClasses } from "./terminal/TerminalTypes.js";
 import { createHTMLElementFromHTML } from "./utils/dom.js";
 import { allChords } from "./allChords.js";
 export class NextCharsDisplay {
-    constructor(cancelCallback) {
+    constructor() {
         this.phraseString = '';
         this._nextChar = '';
         this._prevCharTime = 0;
         this._charTimeArray = [];
+        this.cancelTimer = () => {
+            console.log("cancelTimer");
+            this._timer.cancel();
+            this._timer.setSvg('start');
+            this._nextChars.innerText = this._phrase.value;
+            this._testArea.style.border = "2px solid lightgray";
+            this._chordImageHolder.textContent = '';
+            this._testArea.disabled = false;
+            this._testArea.value = '';
+            this._testArea.focus();
+        };
         this.resetChordify = () => {
             if (this._phrase) {
                 this._phrase.value = '';
@@ -120,7 +131,7 @@ export class NextCharsDisplay {
                 const chordImageHolderChild = (_c = this._chordImageHolder) === null || _c === void 0 ? void 0 : _c.firstChild;
                 if (chordImageHolderChild)
                     chordImageHolderChild.hidden = true;
-                this._timer.cancel();
+                this.cancelTimer();
                 return;
             }
             if (this._svgCharacter &&
@@ -143,8 +154,11 @@ export class NextCharsDisplay {
                     this._errorCount.innerText = (parseInt(this._errorCount.innerText) + 1).toString(10);
             }
             if (((_f = this._testArea) === null || _f === void 0 ? void 0 : _f.value.trim()) == ((_g = this._phrase) === null || _g === void 0 ? void 0 : _g.value.trim())) {
-                // stop timer
+                // STOP timer
+                // SHOW completion indication
                 this._timer.setSvg('stop');
+                this._testArea.classList.add('disabled');
+                this._testArea.disabled = true;
                 let charTimeList = "";
                 this._charTimeArray.forEach((x) => {
                     charTimeList += `<li>${x.char.replace(' ', spaceDisplayChar)}: ${x.duration}</li>`;
@@ -153,7 +167,8 @@ export class NextCharsDisplay {
                     this._charTimes.innerHTML = charTimeList;
                 localStorage
                     .setItem(`charTimerSession_${(new Date).toISOString()}`, JSON.stringify(this._charTimeArray));
-                this._timer.cancel();
+                this._timer.success();
+                this._testArea.style.border = "4px solid #0F0A";
                 return;
             }
             this._timer.start();
@@ -223,7 +238,7 @@ export class NextCharsDisplay {
         this._phrase = createElement('div', TerminalCssClasses.Phrase);
         this._lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/';
         this.voiceSynth = window.speechSynthesis;
-        this._nextChars = createElement('pre', TerminalCssClasses.NextChars);
+        this._nextChars = document.getElementById(TerminalCssClasses.NextChars);
         this._nextChars.hidden = true;
         this._wpm = createElement('div', TerminalCssClasses.WPM);
         this._charTimes = createElement('div', TerminalCssClasses.CharTimes);
@@ -236,19 +251,30 @@ export class NextCharsDisplay {
         this._chordified = createElement('div', TerminalCssClasses.chordified);
         this._errorCount = document.getElementById(TerminalCssClasses.errorCount);
         this._voiceMode = createElement('input', TerminalCssClasses.voiceMode);
-        this._testArea = createElement('textarea', TerminalCssClasses.TestArea);
-        this._testArea.addEventListener('input', (e) => {
-            this.test(e);
-        });
-        this._timer = new Timer(cancelCallback, handleInputEvent);
-        this._testArea.addEventListener('keyup', (e) => {
-            if (this._voiceMode && this._voiceMode.checked) {
-                this.sayText(e);
-            }
-        });
+        this._testArea = document.getElementById(TerminalCssClasses.TestArea);
+        this._timer = new Timer(handleInputEvent);
+        this.attachEventListeners();
+    }
+    attachEventListeners() {
+        if (this._testArea) {
+            this._testArea.addEventListener('keyup', (e) => {
+                if (this._voiceMode && this._voiceMode.checked) {
+                    this.sayText(e);
+                }
+            });
+            this._testArea.addEventListener('input', (e) => {
+                this.test(e);
+            });
+        }
     }
     set wpm(wpm) {
         this._wpm = wpm;
+    }
+    get phrase() {
+        return this._phrase;
+    }
+    get nextChars() {
+        return this._nextChars;
     }
     set timerSpan(timerSpan) {
         this._timer.timerElement = timerSpan;
@@ -261,9 +287,6 @@ export class NextCharsDisplay {
     }
     set chordified(chordified) {
         this._chordified = chordified;
-    }
-    set nextChars(nextCharsElement) {
-        this._nextChars = nextCharsElement;
     }
     set wholePhraseChords(wholePhraseChords) {
         this._wholePhraseChords = wholePhraseChords;
@@ -300,7 +323,10 @@ export class NextCharsDisplay {
         this._phrase = phrase;
     }
     setPhraseString(newPhrase) {
-        this._phrase.value = newPhrase;
+        this.phraseString = newPhrase;
+        console.log('newPhrase', newPhrase);
+        this._phrase.innerText = newPhrase;
+        console.log('phrase.innerText', this._phrase.innerText);
         this.setNext(''); // Reset the display with the new phrase from the beginning
         this._nextChars.hidden = false;
     }
@@ -399,7 +425,6 @@ export class NextCharsDisplay {
             this._timer.setSvg('start');
             if (this._testArea)
                 this._testArea.focus();
-            this._timer.cancel();
             this._phrase.disabled = true;
             this.setPhraseString(this._phrase.value);
             return chordRows;

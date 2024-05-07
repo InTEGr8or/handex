@@ -7032,7 +7032,7 @@ WARNING: This link could potentially be dangerous`)) {
 
   // ns-hugo:/home/runner/work/handex/handex/assets/ts/Timer.ts
   var Timer = class {
-    constructor(cancelCallback, inputEventCallback) {
+    constructor(inputEventCallback) {
       this._intervalId = null;
       this._centiSecond = 0;
       this.timerHandle = null;
@@ -7062,8 +7062,14 @@ WARNING: This link could potentially be dangerous`)) {
         this._timerElement.innerText = (this._centiSecond / 100).toFixed(1);
       };
       this.cancel = () => {
-        this.cancelCallback();
         this._timerElement.innerHTML = "0.0";
+        this._centiSecond = 0;
+        clearInterval(this.timerHandle);
+        this.timerHandle = null;
+        this.setSvg("start");
+      };
+      this.success = () => {
+        console.log("Timer Success");
         this._centiSecond = 0;
         clearInterval(this.timerHandle);
         this.timerHandle = null;
@@ -7071,14 +7077,14 @@ WARNING: This link could potentially be dangerous`)) {
       };
       this._timerElement = document.getElementById(TerminalCssClasses.Timer);
       if (!this._timerElement) {
-        console.log("Timer element not found");
+        console.log(`Timer element not found #${TerminalCssClasses.Timer}`);
       }
       const timerSvgElement = document.getElementById(TerminalCssClasses.TimerSvg);
       if (!(timerSvgElement instanceof SVGElement)) {
-        throw new Error("Element is not an SVGElement");
+        console.log("Element is not an SVGElement", TerminalCssClasses.TimerSvg, timerSvgElement);
+      } else {
+        this._timerSvg = timerSvgElement;
       }
-      this._timerSvg = timerSvgElement;
-      this.cancelCallback = cancelCallback;
       this.inputEventCallback = inputEventCallback;
     }
     get timerElement() {
@@ -8182,11 +8188,22 @@ WARNING: This link could potentially be dangerous`)) {
 
   // ns-hugo:/home/runner/work/handex/handex/assets/ts/NextCharsDisplay.ts
   var NextCharsDisplay = class {
-    constructor(cancelCallback) {
+    constructor() {
       this.phraseString = "";
       this._nextChar = "";
       this._prevCharTime = 0;
       this._charTimeArray = [];
+      this.cancelTimer = () => {
+        console.log("cancelTimer");
+        this._timer.cancel();
+        this._timer.setSvg("start");
+        this._nextChars.innerText = this._phrase.value;
+        this._testArea.style.border = "2px solid lightgray";
+        this._chordImageHolder.textContent = "";
+        this._testArea.disabled = false;
+        this._testArea.value = "";
+        this._testArea.focus();
+      };
       this.resetChordify = () => {
         if (this._phrase) {
           this._phrase.value = "";
@@ -8280,7 +8297,7 @@ WARNING: This link could potentially be dangerous`)) {
           const chordImageHolderChild = (_c = this._chordImageHolder) == null ? void 0 : _c.firstChild;
           if (chordImageHolderChild)
             chordImageHolderChild.hidden = true;
-          this._timer.cancel();
+          this.cancelTimer();
           return;
         }
         if (this._svgCharacter && this._testArea && this._testArea.value == this._phrase.value.trim().substring(0, (_d = this._testArea) == null ? void 0 : _d.value.length)) {
@@ -8298,6 +8315,8 @@ WARNING: This link could potentially be dangerous`)) {
         }
         if (((_f = this._testArea) == null ? void 0 : _f.value.trim()) == ((_g = this._phrase) == null ? void 0 : _g.value.trim())) {
           this._timer.setSvg("stop");
+          this._testArea.classList.add("disabled");
+          this._testArea.disabled = true;
           let charTimeList = "";
           this._charTimeArray.forEach((x) => {
             charTimeList += `<li>${x.char.replace(" ", spaceDisplayChar)}: ${x.duration}</li>`;
@@ -8308,7 +8327,8 @@ WARNING: This link could potentially be dangerous`)) {
             `charTimerSession_${(/* @__PURE__ */ new Date()).toISOString()}`,
             JSON.stringify(this._charTimeArray)
           );
-          this._timer.cancel();
+          this._timer.success();
+          this._testArea.style.border = "4px solid #0F0A";
           return;
         }
         this._timer.start();
@@ -8363,7 +8383,7 @@ WARNING: This link could potentially be dangerous`)) {
       this._phrase = createElement("div", TerminalCssClasses.Phrase);
       this._lambdaUrl = "https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/";
       this.voiceSynth = window.speechSynthesis;
-      this._nextChars = createElement("pre", TerminalCssClasses.NextChars);
+      this._nextChars = document.getElementById(TerminalCssClasses.NextChars);
       this._nextChars.hidden = true;
       this._wpm = createElement("div", TerminalCssClasses.WPM);
       this._charTimes = createElement("div", TerminalCssClasses.CharTimes);
@@ -8376,22 +8396,32 @@ WARNING: This link could potentially be dangerous`)) {
       this._chordified = createElement("div", TerminalCssClasses.chordified);
       this._errorCount = document.getElementById(TerminalCssClasses.errorCount);
       this._voiceMode = createElement("input", TerminalCssClasses.voiceMode);
-      this._testArea = createElement("textarea", TerminalCssClasses.TestArea);
-      this._testArea.addEventListener("input", (e) => {
-        this.test(e);
-      });
+      this._testArea = document.getElementById(TerminalCssClasses.TestArea);
       this._timer = new Timer(
-        cancelCallback,
         handleInputEvent
       );
-      this._testArea.addEventListener("keyup", (e) => {
-        if (this._voiceMode && this._voiceMode.checked) {
-          this.sayText(e);
-        }
-      });
+      this.attachEventListeners();
+    }
+    attachEventListeners() {
+      if (this._testArea) {
+        this._testArea.addEventListener("keyup", (e) => {
+          if (this._voiceMode && this._voiceMode.checked) {
+            this.sayText(e);
+          }
+        });
+        this._testArea.addEventListener("input", (e) => {
+          this.test(e);
+        });
+      }
     }
     set wpm(wpm) {
       this._wpm = wpm;
+    }
+    get phrase() {
+      return this._phrase;
+    }
+    get nextChars() {
+      return this._nextChars;
     }
     set timerSpan(timerSpan) {
       this._timer.timerElement = timerSpan;
@@ -8404,9 +8434,6 @@ WARNING: This link could potentially be dangerous`)) {
     }
     set chordified(chordified) {
       this._chordified = chordified;
-    }
-    set nextChars(nextCharsElement) {
-      this._nextChars = nextCharsElement;
     }
     set wholePhraseChords(wholePhraseChords) {
       this._wholePhraseChords = wholePhraseChords;
@@ -8443,7 +8470,10 @@ WARNING: This link could potentially be dangerous`)) {
       this._phrase = phrase;
     }
     setPhraseString(newPhrase) {
-      this._phrase.value = newPhrase;
+      this.phraseString = newPhrase;
+      console.log("newPhrase", newPhrase);
+      this._phrase.innerText = newPhrase;
+      console.log("phrase.innerText", this._phrase.innerText);
       this.setNext("");
       this._nextChars.hidden = false;
     }
@@ -8532,7 +8562,6 @@ WARNING: This link could potentially be dangerous`)) {
         this._timer.setSvg("start");
         if (this._testArea)
           this._testArea.focus();
-        this._timer.cancel();
         this._phrase.disabled = true;
         this.setPhraseString(this._phrase.value);
         return chordRows;
@@ -8612,20 +8641,12 @@ WARNING: This link could potentially be dangerous`)) {
       this.chordImageHolder = createElement("div", TerminalCssClasses.ChordImageHolder);
       this.wholePhraseChords = createElement("div", TerminalCssClasses.WholePhraseChords);
       this.wholePhraseChords.hidden = true;
-      this.nextChars = createElement("pre", TerminalCssClasses.NextChars);
-      this.nextChars.hidden = true;
-      const cancelCallback = () => {
-      };
-      this.nextCharsDisplay = new NextCharsDisplay(
-        () => {
-          console.log("wpmCallback not implemented");
-        }
-      );
+      this.nextCharsDisplay = new NextCharsDisplay();
       this.outputElement = this.createOutputElement();
+      this.terminalElement.prepend(this.nextCharsDisplay.nextChars);
       this.terminalElement.prepend(this.outputElement);
       this.terminalElement.prepend(this.wholePhraseChords);
       this.terminalElement.append(this.chordImageHolder);
-      this.terminalElement.append(this.nextChars);
       this.terminal = new import_xterm.Terminal({
         fontFamily: '"Fira Code", Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
         cursorBlink: true,
@@ -8660,6 +8681,8 @@ WARNING: This link could potentially be dangerous`)) {
         if (command === "phrase") {
           const phrase = this.getRandomPhrase();
           let result2 = this.nextCharsDisplay.setPhraseString(phrase);
+          this.nextCharsDisplay.nextChars.hidden = false;
+          this.nextCharsDisplay.nextChars.innerHTML = phrase;
         }
         let result = this.handexTerm.handleCommand(command);
         this.outputElement.appendChild(result);
