@@ -143,7 +143,7 @@ div.terminal {
     z-index: 10;
 
     .wpm {
-        color: salmon;
+        color: #fa807280;
         padding: 0 5px;
     }
 }

@@ -6883,7 +6883,7 @@ WARNING: This link could potentially be dangerous`)) {
       }
       if (command === "phrase") {
         status = 200;
-        response = "Would you like to play a game?";
+        response = "Type the phrase as fast as you can.";
       }
       if (command.startsWith("video --")) {
         status = 200;
@@ -7032,7 +7032,7 @@ WARNING: This link could potentially be dangerous`)) {
 
   // ns-hugo:/home/runner/work/handex/handex/assets/ts/Timer.ts
   var Timer = class {
-    constructor(inputEventCallback) {
+    constructor() {
       this._intervalId = null;
       this._centiSecond = 0;
       this.timerHandle = null;
@@ -7075,17 +7075,25 @@ WARNING: This link could potentially be dangerous`)) {
         this.timerHandle = null;
         this.setSvg("start");
       };
-      this._timerElement = document.getElementById(TerminalCssClasses.Timer);
-      if (!this._timerElement) {
-        console.log(`Timer element not found #${TerminalCssClasses.Timer}`);
+      this._timerElement = this.constructTimerElement();
+      this._timerSvg = this.constructTimerSvgElement();
+    }
+    constructTimerElement() {
+      let result = document.getElementById(TerminalCssClasses.Timer);
+      if (!result) {
+        console.log(`Timer not found at document.getElementById('${TerminalCssClasses.Timer}')`, document.getElementById(TerminalCssClasses.Timer));
+        result = createElement("span", TerminalCssClasses.Timer);
       }
-      const timerSvgElement = document.getElementById(TerminalCssClasses.TimerSvg);
-      if (!(timerSvgElement instanceof SVGElement)) {
-        console.log("Element is not an SVGElement", TerminalCssClasses.TimerSvg, timerSvgElement);
+      return result;
+    }
+    constructTimerSvgElement() {
+      let timerSvgElement = document.getElementById(TerminalCssClasses.TimerSvg);
+      if (timerSvgElement && timerSvgElement instanceof SVGElement) {
+        return timerSvgElement;
       } else {
-        this._timerSvg = timerSvgElement;
+        console.log("timerSvg missing, being created", TerminalCssClasses.TimerSvg, timerSvgElement);
+        return document.createElementNS("http://www.w3.org/2000/svg", "svg");
       }
-      this.inputEventCallback = inputEventCallback;
     }
     get timerElement() {
       return this._timerElement;
@@ -8198,11 +8206,13 @@ WARNING: This link could potentially be dangerous`)) {
         this._timer.cancel();
         this._timer.setSvg("start");
         this._nextChars.innerText = this._phrase.value;
-        this._testArea.style.border = "2px solid lightgray";
         this._chordImageHolder.textContent = "";
-        this._testArea.disabled = false;
-        this._testArea.value = "";
-        this._testArea.focus();
+        if (this._testArea) {
+          this._testArea.style.border = "2px solid lightgray";
+          this._testArea.disabled = false;
+          this._testArea.value = "";
+          this._testArea.focus();
+        }
       };
       this.resetChordify = () => {
         if (this._phrase) {
@@ -8277,46 +8287,54 @@ WARNING: This link could potentially be dangerous`)) {
         });
         this.setNext("");
       };
-      this.test = (event) => {
-        var _a, _b, _c, _d, _e, _f, _g;
-        if (event.data == this._nextChar) {
+      this.testInput = (inputString) => {
+        var _a, _b;
+        const currentChar = inputString.slice(-1);
+        const expectedChar = this._nextChar;
+        if (currentChar === expectedChar) {
           const charTime = createCharTime(
-            event.data,
+            currentChar,
             Number(((this._timer.centiSecond - this._prevCharTime) / 100).toFixed(2)),
             this._timer.centiSecond / 100
           );
           this._charTimeArray.push(charTime);
         }
-        const next = this.setNext((_b = (_a = this._testArea) == null ? void 0 : _a.value) != null ? _b : "");
+        const next = this.setNext(inputString);
         if (next) {
           next.classList.remove("error");
         }
         this._prevCharTime = this._timer.centiSecond;
-        if (this._testArea && this._testArea.value.trim().length == 0) {
-          this._testArea.style.border = "";
-          const chordImageHolderChild = (_c = this._chordImageHolder) == null ? void 0 : _c.firstChild;
+        if (inputString.length === 0) {
+          if (this._testArea)
+            this._testArea.style.border = "";
+          const chordImageHolderChild = (_a = this._chordImageHolder) == null ? void 0 : _a.firstChild;
           if (chordImageHolderChild)
             chordImageHolderChild.hidden = true;
           this.cancelTimer();
           return;
         }
-        if (this._svgCharacter && this._testArea && this._testArea.value == this._phrase.value.trim().substring(0, (_d = this._testArea) == null ? void 0 : _d.value.length)) {
-          this._testArea.style.border = "4px solid #FFF3";
-          this._svgCharacter.hidden = true;
+        if (this._svgCharacter && inputString == this._phrase.value.trim().substring(0, inputString.length)) {
+          if (this._testArea)
+            this._testArea.style.border = "4px solid #FFF3";
+          if (this._svgCharacter)
+            this._svgCharacter.hidden = true;
         } else {
           if (this._testArea)
             this._testArea.style.border = "4px solid red";
-          const chordImageHolderChild = (_e = this._chordImageHolder) == null ? void 0 : _e.firstChild;
+          const chordImageHolderChild = (_b = this._chordImageHolder) == null ? void 0 : _b.firstChild;
           if (chordImageHolderChild)
             chordImageHolderChild.hidden = false;
           next == null ? void 0 : next.classList.add("error");
           if (this._errorCount)
             this._errorCount.innerText = (parseInt(this._errorCount.innerText) + 1).toString(10);
         }
-        if (((_f = this._testArea) == null ? void 0 : _f.value.trim()) == ((_g = this._phrase) == null ? void 0 : _g.value.trim())) {
+        if (inputString.trim() == this._phrase.value.trim()) {
           this._timer.setSvg("stop");
-          this._testArea.classList.add("disabled");
-          this._testArea.disabled = true;
+          if (this._testArea) {
+            this._testArea.classList.add("disabled");
+            this._testArea.disabled = true;
+            this._testArea.style.border = "4px solid #0F0A";
+          }
           let charTimeList = "";
           this._charTimeArray.forEach((x) => {
             charTimeList += `<li>${x.char.replace(" ", spaceDisplayChar)}: ${x.duration}</li>`;
@@ -8328,7 +8346,6 @@ WARNING: This link could potentially be dangerous`)) {
             JSON.stringify(this._charTimeArray)
           );
           this._timer.success();
-          this._testArea.style.border = "4px solid #0F0A";
           return;
         }
         this._timer.start();
@@ -8379,7 +8396,7 @@ WARNING: This link could potentially be dangerous`)) {
         utterThis.rate = 0.7;
         this.voiceSynth.speak(utterThis);
       };
-      const handleInputEvent = this.test.bind(this);
+      const handleInputEvent = this.testInput.bind(this);
       this._phrase = createElement("div", TerminalCssClasses.Phrase);
       this._lambdaUrl = "https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/";
       this.voiceSynth = window.speechSynthesis;
@@ -8397,9 +8414,7 @@ WARNING: This link could potentially be dangerous`)) {
       this._errorCount = document.getElementById(TerminalCssClasses.errorCount);
       this._voiceMode = createElement("input", TerminalCssClasses.voiceMode);
       this._testArea = document.getElementById(TerminalCssClasses.TestArea);
-      this._timer = new Timer(
-        handleInputEvent
-      );
+      this._timer = new Timer();
       this.attachEventListeners();
     }
     attachEventListeners() {
@@ -8410,7 +8425,7 @@ WARNING: This link could potentially be dangerous`)) {
           }
         });
         this._testArea.addEventListener("input", (e) => {
-          this.test(e);
+          this.testInput(this._testArea.value);
         });
       }
     }
@@ -8455,7 +8470,7 @@ WARNING: This link could potentially be dangerous`)) {
     set testArea(testArea) {
       this._testArea = testArea;
       this._testArea.addEventListener("input", (e) => {
-        this.test(e);
+        this.testInput(this._testArea.value);
       });
     }
     get testArea() {
@@ -8479,6 +8494,7 @@ WARNING: This link could potentially be dangerous`)) {
     }
     updateDisplay(testPhrase) {
       const nextIndex = this.getFirstNonMatchingChar(testPhrase);
+      this.setNext(testPhrase);
       const nextChars = this._phrase.value.substring(nextIndex, nextIndex + 40);
       this._nextChars.innerHTML = this.formatNextChars(nextChars);
     }
@@ -8629,21 +8645,25 @@ WARNING: This link could potentially be dangerous`)) {
       this.promptDelimiter = "$";
       this.promptLength = 0;
       this.isShowVideo = false;
-      this.chordImageHolder = null;
       this.wholePhraseChords = null;
-      this.wpmCallback = (wpm) => {
+      this.isInPhraseMode = false;
+      this.wpmCallback = () => {
+        console.log("Timer not implemented");
       };
       this.terminalElement = element;
       this.terminalElement.classList.add(TerminalCssClasses.Terminal);
       this.videoElement = this.createVideoElement();
       this.webCam = new WebCam(this.videoElement);
       this.terminalElement.prepend(this.videoElement);
-      this.chordImageHolder = createElement("div", TerminalCssClasses.ChordImageHolder);
+      this.chordImageHolder = this.findOrConstructChordImageHolder();
       this.wholePhraseChords = createElement("div", TerminalCssClasses.WholePhraseChords);
       this.wholePhraseChords.hidden = true;
+      this.timer = new Timer();
       this.nextCharsDisplay = new NextCharsDisplay();
       this.outputElement = this.createOutputElement();
+      this.nextCharsDisplay.nextChars.style.float = "left";
       this.terminalElement.prepend(this.nextCharsDisplay.nextChars);
+      this.terminalElement.prepend(this.timer.timerSvg);
       this.terminalElement.prepend(this.outputElement);
       this.terminalElement.prepend(this.wholePhraseChords);
       this.terminalElement.append(this.chordImageHolder);
@@ -8659,7 +8679,24 @@ WARNING: This link could potentially be dangerous`)) {
       this.addTouchListeners();
       this.loadFontSize();
     }
+    findOrConstructChordImageHolder() {
+      let result = document.getElementById(TerminalCssClasses.ChordImageHolder);
+      if (!result) {
+        console.log(`Chord image holder not found at #${TerminalCssClasses.ChordImageHolder}, being created`);
+        result = createElement("div", TerminalCssClasses.ChordImageHolder);
+      }
+      return result;
+    }
     onDataHandler(data) {
+      if (data.charCodeAt(0) === 3) {
+        this.isInPhraseMode = false;
+        this.terminal.reset();
+        this.prompt();
+      } else if (data.charCodeAt(0) === 127) {
+        if (this.terminal.buffer.active.cursorX < this.promptLength)
+          return;
+        this.terminal.write("\x1B[D \x1B[D");
+      }
       if (data.charCodeAt(0) === 13) {
         let command = this.getCurrentCommand();
         this.terminal.reset();
@@ -8683,17 +8720,19 @@ WARNING: This link could potentially be dangerous`)) {
           let result2 = this.nextCharsDisplay.setPhraseString(phrase);
           this.nextCharsDisplay.nextChars.hidden = false;
           this.nextCharsDisplay.nextChars.innerHTML = phrase;
+          this.isInPhraseMode = true;
         }
         let result = this.handexTerm.handleCommand(command);
         this.outputElement.appendChild(result);
-      } else if (data.charCodeAt(0) === 3) {
-        this.terminal.reset();
-        this.prompt();
-      } else if (data.charCodeAt(0) === 127) {
-        if (this.terminal.buffer.active.cursorX < this.promptLength)
+      } else if (this.isInPhraseMode) {
+        this.terminal.write(data);
+        let command = this.getCurrentCommand();
+        console.log("command", command);
+        if (command.length === 0) {
+          this.timer.stop();
           return;
-        this.terminal.write("\x1B[D \x1B[D");
-        let cursorIndex = this.terminal.buffer.active.cursorX;
+        }
+        this.nextCharsDisplay.testInput(command);
       } else {
         let wpm = this.handexTerm.handleCharacter(data);
         if (data.charCodeAt(0) === 27) {
