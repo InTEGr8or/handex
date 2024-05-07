@@ -24,11 +24,13 @@ export class NextCharsDisplay {
             this._timer.cancel();
             this._timer.setSvg('start');
             this._nextChars.innerText = this._phrase.value;
-            this._testArea.style.border = "2px solid lightgray";
             this._chordImageHolder.textContent = '';
-            this._testArea.disabled = false;
-            this._testArea.value = '';
-            this._testArea.focus();
+            if (this._testArea) {
+                this._testArea.style.border = "2px solid lightgray";
+                this._testArea.disabled = false;
+                this._testArea.value = '';
+                this._testArea.focus();
+            }
         };
         this.resetChordify = () => {
             if (this._phrase) {
@@ -113,52 +115,59 @@ export class NextCharsDisplay {
             });
             this.setNext('');
         };
-        this.test = (event) => {
-            var _a, _b, _c, _d, _e, _f, _g;
-            if (event.data == this._nextChar) {
-                const charTime = createCharTime(event.data, Number(((this._timer.centiSecond - this._prevCharTime) / 100).toFixed(2)), this._timer.centiSecond / 100);
+        this.testInput = (inputString) => {
+            var _a, _b;
+            const currentChar = inputString.slice(-1); // Get the last character of the inputString
+            const expectedChar = this._nextChar; // Expected character to be typed next
+            if (currentChar === expectedChar) {
+                const charTime = createCharTime(currentChar, Number(((this._timer.centiSecond - this._prevCharTime) / 100).toFixed(2)), this._timer.centiSecond / 100);
                 this._charTimeArray.push(charTime);
             }
-            const next = this.setNext((_b = (_a = this._testArea) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : '');
+            const next = this.setNext(inputString);
             if (next) {
                 next.classList.remove("error");
             }
             this._prevCharTime = this._timer.centiSecond;
             // TODO: de-overlap this and comparePhrase
-            if (this._testArea && this._testArea.value.trim().length == 0) {
+            if (inputString.length === 0) {
                 // stop timer
-                this._testArea.style.border = "";
-                const chordImageHolderChild = (_c = this._chordImageHolder) === null || _c === void 0 ? void 0 : _c.firstChild;
+                if (this._testArea)
+                    this._testArea.style.border = "";
+                const chordImageHolderChild = (_a = this._chordImageHolder) === null || _a === void 0 ? void 0 : _a.firstChild;
                 if (chordImageHolderChild)
                     chordImageHolderChild.hidden = true;
                 this.cancelTimer();
                 return;
             }
             if (this._svgCharacter &&
-                this._testArea &&
-                this._testArea.value
+                inputString
                     == this._phrase.value.trim()
-                        .substring(0, (_d = this._testArea) === null || _d === void 0 ? void 0 : _d.value.length)) {
-                this._testArea.style.border = "4px solid #FFF3";
-                this._svgCharacter.hidden = true;
+                        .substring(0, inputString.length)) {
+                if (this._testArea)
+                    this._testArea.style.border = "4px solid #FFF3";
+                if (this._svgCharacter)
+                    this._svgCharacter.hidden = true;
             }
             else {
                 // Alert mismatched text with red border.
                 if (this._testArea)
                     this._testArea.style.border = "4px solid red";
-                const chordImageHolderChild = (_e = this._chordImageHolder) === null || _e === void 0 ? void 0 : _e.firstChild;
+                const chordImageHolderChild = (_b = this._chordImageHolder) === null || _b === void 0 ? void 0 : _b.firstChild;
                 if (chordImageHolderChild)
                     chordImageHolderChild.hidden = false;
                 next === null || next === void 0 ? void 0 : next.classList.add("error");
                 if (this._errorCount)
                     this._errorCount.innerText = (parseInt(this._errorCount.innerText) + 1).toString(10);
             }
-            if (((_f = this._testArea) === null || _f === void 0 ? void 0 : _f.value.trim()) == ((_g = this._phrase) === null || _g === void 0 ? void 0 : _g.value.trim())) {
+            if (inputString.trim() == this._phrase.value.trim()) {
                 // STOP timer
                 // SHOW completion indication
                 this._timer.setSvg('stop');
-                this._testArea.classList.add('disabled');
-                this._testArea.disabled = true;
+                if (this._testArea) {
+                    this._testArea.classList.add('disabled');
+                    this._testArea.disabled = true;
+                    this._testArea.style.border = "4px solid #0F0A";
+                }
                 let charTimeList = "";
                 this._charTimeArray.forEach((x) => {
                     charTimeList += `<li>${x.char.replace(' ', spaceDisplayChar)}: ${x.duration}</li>`;
@@ -168,7 +177,6 @@ export class NextCharsDisplay {
                 localStorage
                     .setItem(`charTimerSession_${(new Date).toISOString()}`, JSON.stringify(this._charTimeArray));
                 this._timer.success();
-                this._testArea.style.border = "4px solid #0F0A";
                 return;
             }
             this._timer.start();
@@ -234,7 +242,7 @@ export class NextCharsDisplay {
             // Speak the text
             this.voiceSynth.speak(utterThis);
         };
-        const handleInputEvent = this.test.bind(this);
+        const handleInputEvent = this.testInput.bind(this);
         this._phrase = createElement('div', TerminalCssClasses.Phrase);
         this._lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/';
         this.voiceSynth = window.speechSynthesis;
@@ -263,7 +271,7 @@ export class NextCharsDisplay {
                 }
             });
             this._testArea.addEventListener('input', (e) => {
-                this.test(e);
+                this.testInput(this._testArea.value);
             });
         }
     }
@@ -308,7 +316,7 @@ export class NextCharsDisplay {
     set testArea(testArea) {
         this._testArea = testArea;
         this._testArea.addEventListener('input', (e) => {
-            this.test(e);
+            this.testInput(this._testArea.value);
         });
     }
     get testArea() {
@@ -332,7 +340,7 @@ export class NextCharsDisplay {
     }
     updateDisplay(testPhrase) {
         const nextIndex = this.getFirstNonMatchingChar(testPhrase);
-        // this.setNext(testPhrase);
+        this.setNext(testPhrase);
         const nextChars = this._phrase.value.substring(nextIndex, nextIndex + 40);
         this._nextChars.innerHTML = this.formatNextChars(nextChars);
     }

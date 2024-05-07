@@ -6,6 +6,7 @@ export class Timer {
         this._centiSecond = 0;
         this.timerHandle = null;
         this.start = () => {
+            // Start if not already started.
             if (!this.timerHandle) {
                 this.timerHandle = setInterval(this.run, 10);
                 this.setSvg('pause');
@@ -53,8 +54,8 @@ export class Timer {
     }
     constructTimerElement() {
         let result = document.getElementById(TerminalCssClasses.Timer);
-        if (!this._timerElement) {
-            console.log(`Timer element not found at #${TerminalCssClasses.Timer}, being created`);
+        if (!result) {
+            console.log(`Timer not found at document.getElementById('${TerminalCssClasses.Timer}')`, document.getElementById(TerminalCssClasses.Timer));
             result = createElement("span", TerminalCssClasses.Timer);
         }
         return result;

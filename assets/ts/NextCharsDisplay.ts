@@ -31,7 +31,7 @@ export class NextCharsDisplay {
 
 
     constructor() {
-        const handleInputEvent = this.test.bind(this);
+        const handleInputEvent = this.testInput.bind(this);
         this._phrase = createElement('div', TerminalCssClasses.Phrase);
         this._lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/';
         this.voiceSynth = window.speechSynthesis as SpeechSynthesis;
@@ -55,14 +55,14 @@ export class NextCharsDisplay {
     }
 
     attachEventListeners() {
-        if(this._testArea){
+        if (this._testArea) {
             this._testArea.addEventListener('keyup', (e: Event) => {
                 if (this._voiceMode && this._voiceMode.checked) {
                     this.sayText(e as KeyboardEvent);
                 }
             })
             this._testArea.addEventListener('input', (e: Event) => {
-                this.test(e as InputEvent);
+                this.testInput(this._testArea.value);
             });
         }
     }
@@ -113,7 +113,7 @@ export class NextCharsDisplay {
     set testArea(testArea: HTMLTextAreaElement) {
         this._testArea = testArea;
         this._testArea.addEventListener('input', (e: Event) => {
-            this.test(e as InputEvent);
+            this.testInput(this._testArea.value);
         });
     }
 
@@ -141,7 +141,7 @@ export class NextCharsDisplay {
 
     updateDisplay(testPhrase: string): void {
         const nextIndex = this.getFirstNonMatchingChar(testPhrase);
-        // this.setNext(testPhrase);
+        this.setNext(testPhrase);
         const nextChars = this._phrase.value.substring(nextIndex, nextIndex + 40);
         this._nextChars.innerHTML = this.formatNextChars(nextChars);
     }
@@ -242,11 +242,13 @@ export class NextCharsDisplay {
         this._timer.cancel();
         this._timer.setSvg('start');
         this._nextChars.innerText = this._phrase.value;
-        this._testArea.style.border = "2px solid lightgray";
         this._chordImageHolder.textContent = '';
-        this._testArea.disabled = false;
-        this._testArea.value = '';
-        this._testArea.focus();
+        if (this._testArea) {
+            this._testArea.style.border = "2px solid lightgray";
+            this._testArea.disabled = false;
+            this._testArea.value = '';
+            this._testArea.focus();
+        }
 
     }
     resetChordify = () => {
@@ -329,40 +331,43 @@ export class NextCharsDisplay {
         this.setNext('');
     }
 
-    test = (event: InputEvent) => {
-        if (event.data == this._nextChar) {
+    testInput = (inputString: string) => {
+        const currentChar = inputString.slice(-1); // Get the last character of the inputString
+        const expectedChar = this._nextChar; // Expected character to be typed next
+
+        if (currentChar === expectedChar) {
             const charTime = createCharTime(
-                event.data as string,
+                currentChar,
                 Number(((this._timer.centiSecond - this._prevCharTime) / 100).toFixed(2)),
                 this._timer.centiSecond / 100
             );
             this._charTimeArray.push(charTime);
         }
 
-        const next = this.setNext(this._testArea?.value ?? '');
+        const next = this.setNext(inputString);
         if (next) {
             next.classList.remove("error");
         }
         this._prevCharTime = this._timer.centiSecond;
 
         // TODO: de-overlap this and comparePhrase
-        if (this._testArea && this._testArea.value.trim().length == 0) {
+        if (inputString.length === 0) {
             // stop timer
-            this._testArea.style.border = "";
+            if (this._testArea) this._testArea.style.border = "";
             const chordImageHolderChild = this._chordImageHolder?.firstChild as HTMLImageElement;
             if (chordImageHolderChild) chordImageHolderChild.hidden = true;
             this.cancelTimer();
             return;
         }
+
         if (
             this._svgCharacter &&
-            this._testArea &&
-            this._testArea.value
+            inputString
             == this._phrase.value.trim()
-                .substring(0, this._testArea?.value.length)
+                .substring(0, inputString.length)
         ) {
-            this._testArea.style.border = "4px solid #FFF3";
-            this._svgCharacter.hidden = true;
+            if (this._testArea) this._testArea.style.border = "4px solid #FFF3";
+            if (this._svgCharacter) this._svgCharacter.hidden = true;
         }
         else {
             // Alert mismatched text with red border.
@@ -373,28 +378,33 @@ export class NextCharsDisplay {
             if (this._errorCount)
                 this._errorCount.innerText = (parseInt(this._errorCount.innerText) + 1).toString(10);
         }
-        if (this._testArea?.value.trim() == this._phrase?.value.trim()) {
+
+        if (inputString.trim() == this._phrase.value.trim()) {
             // STOP timer
             // SHOW completion indication
             this._timer.setSvg('stop');
-            this._testArea.classList.add('disabled');
-            this._testArea.disabled = true;
+            if (this._testArea) {
+                this._testArea.classList.add('disabled');
+                this._testArea.disabled = true;
+                this._testArea.style.border = "4px solid #0F0A";
+            }
             let charTimeList = "";
             this._charTimeArray.forEach((x: CharTime) => {
                 charTimeList += `<li>${x.char.replace(' ', spaceDisplayChar)}: ${x.duration}</li>`;
             });
+
             if (this._charTimes) this._charTimes.innerHTML = charTimeList;
             localStorage
                 .setItem(
-                    `charTimerSession_${(new Date).toISOString()}`, 
+                    `charTimerSession_${(new Date).toISOString()}`,
                     JSON.stringify(this._charTimeArray)
                 );
             this._timer.success();
-            this._testArea.style.border = "4px solid #0F0A";
             return;
         }
         this._timer.start();
     }
+
     private getFirstNonMatchingChar = (testPhrase: string): number => {
         if (!this._phrase.value) return 0;
         const sourcePhrase = this._phrase.value.split('');

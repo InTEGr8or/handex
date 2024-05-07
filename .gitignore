@@ -10,3 +10,15 @@ resources/*
 public/
 public
 jj
+
+static/js/NextCharsDisplay.js
+static/js/NextCharsDisplay.js.map
+static/js/Timer.js
+static/js/Timer.js.map
+static/js/terminal/HandexTerm.js
+static/js/terminal/HandexTerm.js.map
+static/js/terminal/XtermAdapter.js
+static/js/terminal/XtermAdapter.js.map
+static/js/NextCharsDisplay.js.map
+static/js/NextCharsDisplay.js
+static/js/Timer.js

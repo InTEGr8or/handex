@@ -44,7 +44,7 @@ export class HandexTerm implements IHandexTerm {
     }
     if(command === 'phrase') {
       status = 200;
-      response = "Would you like to play a game?"
+      response = "Type the phrase as fast as you can."
     }
     if (command.startsWith('video --')) {
       status = 200;

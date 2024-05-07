@@ -21,7 +21,7 @@ export class XtermAdapter {
   private isShowVideo: boolean = false;
 
   private nextCharsDisplay: NextCharsDisplay;
-  private chordImageHolder: HTMLElement | null = null;
+  private chordImageHolder: HTMLElement;
   private wholePhraseChords: HTMLElement | null = null;
   private timer: Timer;
   private isInPhraseMode: boolean = false;
@@ -32,7 +32,7 @@ export class XtermAdapter {
     this.videoElement = this.createVideoElement();
     this.webCam = new WebCam(this.videoElement);
     this.terminalElement.prepend(this.videoElement);
-    this.chordImageHolder = createElement('div', TerminalCssClasses.ChordImageHolder);
+    this.chordImageHolder = this.findOrConstructChordImageHolder();
     this.wholePhraseChords = createElement('div', TerminalCssClasses.WholePhraseChords);
     this.wholePhraseChords.hidden = true;
     this.timer = new Timer();
@@ -58,12 +58,31 @@ export class XtermAdapter {
     this.loadFontSize();
   }
 
+  findOrConstructChordImageHolder(): HTMLDivElement {
+    let result = document.getElementById(TerminalCssClasses.ChordImageHolder) as HTMLDivElement;
+    if (!result) {
+      console.log(`Chord image holder not found at #${TerminalCssClasses.ChordImageHolder}, being created`);
+      result = createElement("div", TerminalCssClasses.ChordImageHolder)
+    }
+    return result;
+  }
+
   wpmCallback = () => {
     console.log("Timer not implemented");
   }
 
   public onDataHandler(data: string): void {
     // Check if the Enter key was pressed
+    if (data.charCodeAt(0) === 3) { // Ctrl+C
+      this.isInPhraseMode = false;
+      this.terminal.reset();
+      this.prompt();
+    } else if (data.charCodeAt(0) === 127) { // Backspace
+      // Remove the last character from the terminal
+      if (this.terminal.buffer.active.cursorX < this.promptLength) return;
+      this.terminal.write('\x1b[D \x1b[D');
+      // let cursorIndex = this.terminal.buffer.active.cursorX;
+    }
     if (data.charCodeAt(0) === 13) { // Enter key
       // Process the command before clearing the terminal
       let command = this.getCurrentCommand();
@@ -91,20 +110,20 @@ export class XtermAdapter {
         this.nextCharsDisplay.nextChars.hidden = false;
         this.nextCharsDisplay.nextChars.innerHTML = phrase;
         this.isInPhraseMode = true;
+
       }
       let result = this.handexTerm.handleCommand(command);
       this.outputElement.appendChild(result);
-    } else if (data.charCodeAt(0) === 3) { // Ctrl+C
-      this.isInPhraseMode = false;
-      this.terminal.reset();
-      this.prompt();
-    } else if (data.charCodeAt(0) === 127) { // Backspace
-      // Remove the last character from the terminal
-      if (this.terminal.buffer.active.cursorX < this.promptLength) return;
-      this.terminal.write('\x1b[D \x1b[D');
-      let cursorIndex = this.terminal.buffer.active.cursorX;
     } else if (this.isInPhraseMode) {
-      // this.nextCharsDisplay.test(data);
+      this.terminal.write(data);
+      let command = this.getCurrentCommand();
+      console.log('command', command);
+      if(command.length === 0){
+        this.timer.stop();
+        return;
+      }
+      this.nextCharsDisplay.testInput(command);
+
     } else {
       // For other input, just return it to the terminal.
       let wpm = this.handexTerm.handleCharacter(data);

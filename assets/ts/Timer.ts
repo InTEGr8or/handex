@@ -16,14 +16,13 @@ export class Timer {
     }
     constructTimerElement(): HTMLSpanElement {
         let result = document.getElementById(TerminalCssClasses.Timer) as HTMLSpanElement;
-        if (!this._timerElement) {
-            console.log(`Timer element not found at #${TerminalCssClasses.Timer}, being created`);
+        if (!result) {
+            console.log(`Timer not found at document.getElementById('${TerminalCssClasses.Timer}')`, document.getElementById(TerminalCssClasses.Timer));
             result = createElement("span", TerminalCssClasses.Timer)
         }
         return result;
     }
     constructTimerSvgElement(): SVGElement {
-
         let timerSvgElement = document.getElementById(TerminalCssClasses.TimerSvg);
         if (timerSvgElement && (timerSvgElement instanceof SVGElement)) {
             return timerSvgElement
@@ -59,6 +58,7 @@ export class Timer {
         }
     }
     public start = () => {
+        // Start if not already started.
         if (!this.timerHandle) {
             this.timerHandle = setInterval(this.run, 10);
             this.setSvg('pause');
