@@ -34,7 +34,7 @@ export class NextCharsDisplay {
             }
         };
         this.setNext = (testPhrase) => {
-            var _a, _b, _c, _d, _e, _f;
+            var _a, _b, _c, _d, _e;
             const nextIndex = this.getFirstNonMatchingChar(testPhrase);
             if (nextIndex < 0) {
                 return null;
@@ -77,7 +77,7 @@ export class NextCharsDisplay {
                         .replace("tab", "↹");
                 }
             }
-            if (this._svgCharacter && !((_f = this._testMode) === null || _f === void 0 ? void 0 : _f.checked)) {
+            if (this._svgCharacter && !this._testMode.checked) {
                 this._svgCharacter.hidden = false;
             }
             this._wpm.innerText = this.getWpm();
@@ -117,28 +117,27 @@ export class NextCharsDisplay {
             if (this._testArea && this._testArea.value.trim().length == 0) {
                 // stop timer
                 this._testArea.style.border = "";
-                if (this.svgCharacter)
-                    this.svgCharacter.hidden = true;
+                const chordImageHolderChild = (_c = this._chordImageHolder) === null || _c === void 0 ? void 0 : _c.firstChild;
+                if (chordImageHolderChild)
+                    chordImageHolderChild.hidden = true;
                 this._timer.cancel();
                 return;
             }
-            if (this.svgCharacter &&
+            if (this._svgCharacter &&
                 this._testArea &&
                 this._testArea.value
-                    == ((_c = this
-                        ._phrase) === null || _c === void 0 ? void 0 : _c.value.trim().substring(0, (_d = this._testArea) === null || _d === void 0 ? void 0 : _d.value.length))) {
+                    == this._phrase.value.trim()
+                        .substring(0, (_d = this._testArea) === null || _d === void 0 ? void 0 : _d.value.length)) {
                 this._testArea.style.border = "4px solid #FFF3";
-                this.svgCharacter.hidden = true;
+                this._svgCharacter.hidden = true;
             }
             else {
                 // Alert mismatched text with red border.
                 if (this._testArea)
                     this._testArea.style.border = "4px solid red";
-                const chordImageHolderImg = (_e = this.chordImageHolder) === null || _e === void 0 ? void 0 : _e.querySelector("img");
-                if (chordImageHolderImg)
-                    chordImageHolderImg.hidden = false;
-                if (this.svgCharacter)
-                    this.svgCharacter.hidden = false;
+                const chordImageHolderChild = (_e = this._chordImageHolder) === null || _e === void 0 ? void 0 : _e.firstChild;
+                if (chordImageHolderChild)
+                    chordImageHolderChild.hidden = false;
                 next === null || next === void 0 ? void 0 : next.classList.add("error");
                 if (this._errorCount)
                     this._errorCount.innerText = (parseInt(this._errorCount.innerText) + 1).toString(10);
@@ -152,7 +151,8 @@ export class NextCharsDisplay {
                 });
                 if (this._charTimes)
                     this._charTimes.innerHTML = charTimeList;
-                localStorage.setItem(`charTimerSession_${(new Date).toISOString()}`, JSON.stringify(this._charTimeArray));
+                localStorage
+                    .setItem(`charTimerSession_${(new Date).toISOString()}`, JSON.stringify(this._charTimeArray));
                 this._timer.cancel();
                 return;
             }
@@ -229,13 +229,12 @@ export class NextCharsDisplay {
         this._charTimes = createElement('div', TerminalCssClasses.CharTimes);
         this._wholePhraseChords = createElement('div', TerminalCssClasses.WholePhraseChords);
         this._allChordsList = createElement('div', TerminalCssClasses.allChordsList);
-        this._chordImageHolder = createElement('div', TerminalCssClasses.ChordImageHolder);
-        this._timerSvg = document.getElementById('timerSvg');
+        this._chordImageHolder = document.querySelector(`#${TerminalCssClasses.ChordImageHolder}`);
         this._svgCharacter = createElement('img', TerminalCssClasses.SvgCharacter);
         this._testMode = createElement('input', TerminalCssClasses.TestMode);
         this.attachTestMode();
         this._chordified = createElement('div', TerminalCssClasses.chordified);
-        this._errorCount = createElement('div', TerminalCssClasses.errorCount);
+        this._errorCount = document.getElementById(TerminalCssClasses.errorCount);
         this._voiceMode = createElement('input', TerminalCssClasses.voiceMode);
         this._testArea = createElement('textarea', TerminalCssClasses.TestArea);
         this._testArea.addEventListener('input', (e) => {
@@ -268,9 +267,6 @@ export class NextCharsDisplay {
     }
     set wholePhraseChords(wholePhraseChords) {
         this._wholePhraseChords = wholePhraseChords;
-    }
-    set chordImageHolder(chordImageHolder) {
-        this._chordImageHolder = chordImageHolder;
     }
     set svgCharacter(svgCharacter) {
         this._svgCharacter = svgCharacter;

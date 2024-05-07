@@ -93,7 +93,6 @@ export class HandChord {
         this.chordified = document.getElementById("chordified");
         this.wholePhraseChords = document.getElementById(TerminalCssClasses.WholePhraseChords);
         this.nextChars = document.getElementById(TerminalCssClasses.NextChars);
-        this.nextCharsDisplay.chordImageHolder = document.getElementById("chord-image-holder");
         this.nextCharsDisplay.svgCharacter = document.getElementById("svgCharacter");
         this.nextCharsDisplay.testMode = document.getElementById("testMode");
         this.nextCharsDisplay.nextChars = this.nextChars;

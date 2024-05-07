@@ -43,13 +43,12 @@ export class NextCharsDisplay {
         this._charTimes = createElement('div', TerminalCssClasses.CharTimes);
         this._wholePhraseChords = createElement('div', TerminalCssClasses.WholePhraseChords);
         this._allChordsList = createElement('div', TerminalCssClasses.allChordsList);
-        this._chordImageHolder = createElement('div', TerminalCssClasses.ChordImageHolder);
-        this._timerSvg = document.getElementById('timerSvg') as unknown as SVGElement;
+        this._chordImageHolder = document.querySelector(`#${TerminalCssClasses.ChordImageHolder}`) as HTMLElement;
         this._svgCharacter = createElement('img', TerminalCssClasses.SvgCharacter);
         this._testMode = createElement('input', TerminalCssClasses.TestMode) as HTMLInputElement;
         this.attachTestMode();
         this._chordified = createElement('div', TerminalCssClasses.chordified);
-        this._errorCount = createElement('div', TerminalCssClasses.errorCount);
+        this._errorCount = document.getElementById(TerminalCssClasses.errorCount) as HTMLSpanElement;
         this._voiceMode = createElement('input', TerminalCssClasses.voiceMode) as HTMLInputElement;
         this._testArea = createElement('textarea', TerminalCssClasses.TestArea) as HTMLTextAreaElement;
         this._testArea.addEventListener('input', (e: Event) => {
@@ -88,9 +87,6 @@ export class NextCharsDisplay {
 
     set wholePhraseChords(wholePhraseChords: HTMLElement) {
         this._wholePhraseChords = wholePhraseChords;
-    }
-    set chordImageHolder(chordImageHolder: HTMLElement) {
-        this._chordImageHolder = chordImageHolder;
     }
 
     set svgCharacter(svgCharacter: HTMLElement) {
@@ -291,7 +287,7 @@ export class NextCharsDisplay {
                     .replace("tab", "↹");
             }
         }
-        if (this._svgCharacter && !this._testMode?.checked) {
+        if (this._svgCharacter && !this._testMode.checked) {
             this._svgCharacter.hidden = false;
         }
         this._wpm.innerText = this.getWpm();
@@ -335,29 +331,26 @@ export class NextCharsDisplay {
         if (this._testArea && this._testArea.value.trim().length == 0) {
             // stop timer
             this._testArea.style.border = "";
-            if (this.svgCharacter) this.svgCharacter.hidden = true;
+            const chordImageHolderChild = this._chordImageHolder?.firstChild as HTMLImageElement;
+            if (chordImageHolderChild) chordImageHolderChild.hidden = true;
             this._timer.cancel();
             return;
         }
         if (
-            this.svgCharacter &&
+            this._svgCharacter &&
             this._testArea &&
             this._testArea.value
-            == this
-                ._phrase
-                ?.value
-                .trim()
+            == this._phrase.value.trim()
                 .substring(0, this._testArea?.value.length)
         ) {
             this._testArea.style.border = "4px solid #FFF3";
-            this.svgCharacter.hidden = true;
+            this._svgCharacter.hidden = true;
         }
         else {
             // Alert mismatched text with red border.
             if (this._testArea) this._testArea.style.border = "4px solid red";
-            const chordImageHolderImg = this.chordImageHolder?.querySelector("img");
-            if (chordImageHolderImg) chordImageHolderImg.hidden = false;
-            if (this.svgCharacter) this.svgCharacter.hidden = false;
+            const chordImageHolderChild = this._chordImageHolder?.firstChild as HTMLImageElement;
+            if (chordImageHolderChild) chordImageHolderChild.hidden = false;
             next?.classList.add("error");
             if (this._errorCount)
                 this._errorCount.innerText = (parseInt(this._errorCount.innerText) + 1).toString(10);
@@ -370,7 +363,11 @@ export class NextCharsDisplay {
                 charTimeList += `<li>${x.char.replace(' ', spaceDisplayChar)}: ${x.duration}</li>`;
             });
             if (this._charTimes) this._charTimes.innerHTML = charTimeList;
-            localStorage.setItem(`charTimerSession_${(new Date).toISOString()}`, JSON.stringify(this._charTimeArray));
+            localStorage
+                .setItem(
+                    `charTimerSession_${(new Date).toISOString()}`, 
+                    JSON.stringify(this._charTimeArray)
+                );
             this._timer.cancel();
             return;
         }
