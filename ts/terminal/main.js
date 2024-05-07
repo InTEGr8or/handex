@@ -8658,12 +8658,11 @@ WARNING: This link could potentially be dangerous`)) {
       this.chordImageHolder = this.findOrConstructChordImageHolder();
       this.wholePhraseChords = createElement("div", TerminalCssClasses.WholePhraseChords);
       this.wholePhraseChords.hidden = true;
-      this.timer = new Timer();
       this.nextCharsDisplay = new NextCharsDisplay();
       this.outputElement = this.createOutputElement();
       this.nextCharsDisplay.nextChars.style.float = "left";
       this.terminalElement.prepend(this.nextCharsDisplay.nextChars);
-      this.terminalElement.prepend(this.timer.timerSvg);
+      this.terminalElement.prepend(this.nextCharsDisplay.timer.timerSvg);
       this.terminalElement.prepend(this.outputElement);
       this.terminalElement.prepend(this.wholePhraseChords);
       this.terminalElement.append(this.chordImageHolder);
@@ -8698,6 +8697,7 @@ WARNING: This link could potentially be dangerous`)) {
         this.terminal.write("\x1B[D \x1B[D");
       }
       if (data.charCodeAt(0) === 13) {
+        this.nextCharsDisplay.timer.cancel();
         let command = this.getCurrentCommand();
         this.terminal.reset();
         this.nextCharsDisplay.reset();
@@ -8729,10 +8729,11 @@ WARNING: This link could potentially be dangerous`)) {
         let command = this.getCurrentCommand();
         console.log("command", command);
         if (command.length === 0) {
-          this.timer.stop();
+          this.nextCharsDisplay.timer.stop();
           return;
         }
         this.nextCharsDisplay.testInput(command);
+        console.log("nextChars", this.nextCharsDisplay.nextChars.innerHTML);
       } else {
         let wpm = this.handexTerm.handleCharacter(data);
         if (data.charCodeAt(0) === 27) {
