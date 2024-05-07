@@ -8202,7 +8202,7 @@ WARNING: This link could potentially be dangerous`)) {
         }
       };
       this.setNext = (testPhrase) => {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e;
         const nextIndex = this.getFirstNonMatchingChar(testPhrase);
         if (nextIndex < 0) {
           return null;
@@ -8236,7 +8236,7 @@ WARNING: This link could potentially be dangerous`)) {
             this._svgCharacter.innerHTML = nameAttribute.replace("Space", spaceDisplayChar).replace("tab", "\u21B9");
           }
         }
-        if (this._svgCharacter && !((_f = this._testMode) == null ? void 0 : _f.checked)) {
+        if (this._svgCharacter && !this._testMode.checked) {
           this._svgCharacter.hidden = false;
         }
         this._wpm.innerText = this.getWpm();
@@ -8277,22 +8277,21 @@ WARNING: This link could potentially be dangerous`)) {
         this._prevCharTime = this._timer.centiSecond;
         if (this._testArea && this._testArea.value.trim().length == 0) {
           this._testArea.style.border = "";
-          if (this.svgCharacter)
-            this.svgCharacter.hidden = true;
+          const chordImageHolderChild = (_c = this._chordImageHolder) == null ? void 0 : _c.firstChild;
+          if (chordImageHolderChild)
+            chordImageHolderChild.hidden = true;
           this._timer.cancel();
           return;
         }
-        if (this.svgCharacter && this._testArea && this._testArea.value == ((_d = this._phrase) == null ? void 0 : _d.value.trim().substring(0, (_c = this._testArea) == null ? void 0 : _c.value.length))) {
+        if (this._svgCharacter && this._testArea && this._testArea.value == this._phrase.value.trim().substring(0, (_d = this._testArea) == null ? void 0 : _d.value.length)) {
           this._testArea.style.border = "4px solid #FFF3";
-          this.svgCharacter.hidden = true;
+          this._svgCharacter.hidden = true;
         } else {
           if (this._testArea)
             this._testArea.style.border = "4px solid red";
-          const chordImageHolderImg = (_e = this.chordImageHolder) == null ? void 0 : _e.querySelector("img");
-          if (chordImageHolderImg)
-            chordImageHolderImg.hidden = false;
-          if (this.svgCharacter)
-            this.svgCharacter.hidden = false;
+          const chordImageHolderChild = (_e = this._chordImageHolder) == null ? void 0 : _e.firstChild;
+          if (chordImageHolderChild)
+            chordImageHolderChild.hidden = false;
           next == null ? void 0 : next.classList.add("error");
           if (this._errorCount)
             this._errorCount.innerText = (parseInt(this._errorCount.innerText) + 1).toString(10);
@@ -8305,7 +8304,10 @@ WARNING: This link could potentially be dangerous`)) {
           });
           if (this._charTimes)
             this._charTimes.innerHTML = charTimeList;
-          localStorage.setItem(`charTimerSession_${(/* @__PURE__ */ new Date()).toISOString()}`, JSON.stringify(this._charTimeArray));
+          localStorage.setItem(
+            `charTimerSession_${(/* @__PURE__ */ new Date()).toISOString()}`,
+            JSON.stringify(this._charTimeArray)
+          );
           this._timer.cancel();
           return;
         }
@@ -8367,13 +8369,12 @@ WARNING: This link could potentially be dangerous`)) {
       this._charTimes = createElement("div", TerminalCssClasses.CharTimes);
       this._wholePhraseChords = createElement("div", TerminalCssClasses.WholePhraseChords);
       this._allChordsList = createElement("div", TerminalCssClasses.allChordsList);
-      this._chordImageHolder = createElement("div", TerminalCssClasses.ChordImageHolder);
-      this._timerSvg = document.getElementById("timerSvg");
+      this._chordImageHolder = document.querySelector(`#${TerminalCssClasses.ChordImageHolder}`);
       this._svgCharacter = createElement("img", TerminalCssClasses.SvgCharacter);
       this._testMode = createElement("input", TerminalCssClasses.TestMode);
       this.attachTestMode();
       this._chordified = createElement("div", TerminalCssClasses.chordified);
-      this._errorCount = createElement("div", TerminalCssClasses.errorCount);
+      this._errorCount = document.getElementById(TerminalCssClasses.errorCount);
       this._voiceMode = createElement("input", TerminalCssClasses.voiceMode);
       this._testArea = createElement("textarea", TerminalCssClasses.TestArea);
       this._testArea.addEventListener("input", (e) => {
@@ -8409,9 +8410,6 @@ WARNING: This link could potentially be dangerous`)) {
     }
     set wholePhraseChords(wholePhraseChords) {
       this._wholePhraseChords = wholePhraseChords;
-    }
-    set chordImageHolder(chordImageHolder) {
-      this._chordImageHolder = chordImageHolder;
     }
     set svgCharacter(svgCharacter) {
       this._svgCharacter = svgCharacter;
