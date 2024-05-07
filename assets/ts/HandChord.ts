@@ -1,5 +1,4 @@
 import { NextCharsDisplay } from "./NextCharsDisplay.js";
-import { Timer } from "./Timer.js";
 import { TerminalCssClasses } from "./terminal/TerminalTypes.js";
 import { CharTime, spaceDisplayChar, CancelCallback, InputEventCallback, createCharTime } from "./types/Types.js";
 

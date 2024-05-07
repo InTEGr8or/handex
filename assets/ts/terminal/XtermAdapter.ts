@@ -23,7 +23,6 @@ export class XtermAdapter {
   private nextCharsDisplay: NextCharsDisplay;
   private chordImageHolder: HTMLElement;
   private wholePhraseChords: HTMLElement | null = null;
-  private timer: Timer;
   private isInPhraseMode: boolean = false;
 
   constructor(private handexTerm: IHandexTerm, private element: HTMLElement) {
@@ -35,13 +34,12 @@ export class XtermAdapter {
     this.chordImageHolder = this.findOrConstructChordImageHolder();
     this.wholePhraseChords = createElement('div', TerminalCssClasses.WholePhraseChords);
     this.wholePhraseChords.hidden = true;
-    this.timer = new Timer();
     // this.chordImageHolder.hidden = true;
     this.nextCharsDisplay = new NextCharsDisplay();
     this.outputElement = this.createOutputElement();
     this.nextCharsDisplay.nextChars.style.float = 'left';
     this.terminalElement.prepend(this.nextCharsDisplay.nextChars);
-    this.terminalElement.prepend(this.timer.timerSvg)
+    this.terminalElement.prepend(this.nextCharsDisplay.timer.timerSvg)
     this.terminalElement.prepend(this.outputElement);
     this.terminalElement.prepend(this.wholePhraseChords);
     this.terminalElement.append(this.chordImageHolder);
@@ -84,6 +82,7 @@ export class XtermAdapter {
       // let cursorIndex = this.terminal.buffer.active.cursorX;
     }
     if (data.charCodeAt(0) === 13) { // Enter key
+      this.nextCharsDisplay.timer.cancel();
       // Process the command before clearing the terminal
       let command = this.getCurrentCommand();
       // Clear the terminal after processing the command
@@ -119,11 +118,11 @@ export class XtermAdapter {
       let command = this.getCurrentCommand();
       console.log('command', command);
       if(command.length === 0){
-        this.timer.stop();
+        this.nextCharsDisplay.timer.stop();
         return;
       }
       this.nextCharsDisplay.testInput(command);
-
+      console.log('nextChars', this.nextCharsDisplay.nextChars.innerHTML);
     } else {
       // For other input, just return it to the terminal.
       let wpm = this.handexTerm.handleCharacter(data);
