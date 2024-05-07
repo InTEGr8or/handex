@@ -9,23 +9,22 @@ export class Timer {
     private _timerSvg: SVGElement;
 
     private timerHandle: any = null;
-    private cancelCallback: CancelCallback;
     private inputEventCallback: InputEventCallback;
 
     constructor(
-        cancelCallback: CancelCallback, 
         inputEventCallback: InputEventCallback
     ) {
         this._timerElement = document.getElementById(TerminalCssClasses.Timer) as HTMLSpanElement;
         if(!this._timerElement) {
-            console.log("Timer element not found");
+            console.log(`Timer element not found #${TerminalCssClasses.Timer}`);
         }
         const timerSvgElement = document.getElementById(TerminalCssClasses.TimerSvg);
         if (!(timerSvgElement instanceof SVGElement)) {
-            throw new Error('Element is not an SVGElement');
+            console.log('Element is not an SVGElement', TerminalCssClasses.TimerSvg, timerSvgElement);
         }
-        this._timerSvg = timerSvgElement;
-        this.cancelCallback = cancelCallback;
+        else{
+            this._timerSvg = timerSvgElement;
+        }
         this.inputEventCallback = inputEventCallback;
     }
     get timerElement(): HTMLElement {
@@ -95,11 +94,17 @@ export class Timer {
     };
 
     cancel = (): void => {
-        // Callback to the calling function.
-        this.cancelCallback();
-        
-        // Continue with local features
+        // Cancel the timer and reset values.
         this._timerElement.innerHTML = '0.0';
+        this._centiSecond = 0;
+        clearInterval(this.timerHandle);
+        this.timerHandle = null;
+        this.setSvg('start');
+    }
+    success = (): void => {
+        // Callback to the calling function.
+        console.log("Timer Success");
+        // Continue with local features
         this._centiSecond = 0;
         clearInterval(this.timerHandle);
         this.timerHandle = null;

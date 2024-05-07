@@ -3,31 +3,6 @@ import { TerminalCssClasses } from "./terminal/TerminalTypes.js";
 export class HandChord {
     constructor() {
         var _a, _b, _c, _d, _e, _f;
-        // updateTimerDisplay(handChord: HandChord): void {
-        //     console.log("Update Timer Display not implemented", handChord);
-        //     if (handChord.nextCharsDisplay.timer) {
-        //         // handChord.nextCharsDisplay.updateCallback();
-        //     }
-        // }
-        this.cancelCallback = () => {
-            var _a, _b;
-            if (this.nextCharsDisplay.testArea) {
-                this.nextCharsDisplay.testArea.value = '';
-                this.nextCharsDisplay.testArea.focus();
-                this.nextCharsDisplay.testArea.style.border = "";
-            }
-            this.charTimer = [];
-            this.prevCharTime = 0;
-            if (this.wpm)
-                this.wpm.innerText = '0';
-            if (this.charTimes)
-                this.charTimes.innerHTML = '';
-            // clear error class from all chords
-            Array.from((_b = (_a = this.wholePhraseChords) === null || _a === void 0 ? void 0 : _a.children) !== null && _b !== void 0 ? _b : []).forEach(function (chord) {
-                chord.classList.remove("error");
-            });
-            this.nextCharsDisplay.setNext('');
-        };
         this.saveMode = (modeEvent) => {
             // chordify();
             // Hide the chordified sub-divs.
@@ -86,17 +61,13 @@ export class HandChord {
                 }
             });
         };
-        const cancelAction = this.cancelCallback.bind(this);
-        this.nextCharsDisplay = new NextCharsDisplay(cancelAction);
+        this.nextCharsDisplay = new NextCharsDisplay();
         this.phrase = document.getElementById("phrase");
         this.nextCharsDisplay.phrase = this.phrase;
         this.chordified = document.getElementById("chordified");
         this.wholePhraseChords = document.getElementById(TerminalCssClasses.WholePhraseChords);
-        this.nextChars = document.getElementById(TerminalCssClasses.NextChars);
         this.nextCharsDisplay.svgCharacter = document.getElementById("svgCharacter");
         this.nextCharsDisplay.testMode = document.getElementById("testMode");
-        this.nextCharsDisplay.nextChars = this.nextChars;
-        this.nextCharsDisplay.testArea = document.getElementById(TerminalCssClasses.TestArea);
         this.charTimer = [];
         this.charTimes = document.getElementById("charTimes");
         this.wpm = document.getElementById("wpm");
@@ -159,7 +130,7 @@ export class HandChord {
             this.nextCharsDisplay.chordify();
         });
         (_d = document.getElementById('timerCancel')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', (e) => {
-            this.nextCharsDisplay.timer.cancel();
+            this.nextCharsDisplay.cancelTimer();
         });
         (_e = document.getElementById('listAllChords')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', this.listAllChords);
         (_f = document.getElementById('resetChordify')) === null || _f === void 0 ? void 0 : _f.addEventListener('click', this.nextCharsDisplay.resetChordify);

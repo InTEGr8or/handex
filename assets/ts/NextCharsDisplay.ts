@@ -30,14 +30,12 @@ export class NextCharsDisplay {
     private _wpm: HTMLSpanElement;
 
 
-    constructor(
-        cancelCallback: () => void
-    ) {
+    constructor() {
         const handleInputEvent = this.test.bind(this);
         this._phrase = createElement('div', TerminalCssClasses.Phrase);
         this._lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/';
         this.voiceSynth = window.speechSynthesis as SpeechSynthesis;
-        this._nextChars = createElement('pre', TerminalCssClasses.NextChars);
+        this._nextChars = document.getElementById(TerminalCssClasses.NextChars) as HTMLElement;
         this._nextChars.hidden = true;
         this._wpm = createElement('div', TerminalCssClasses.WPM) as HTMLSpanElement;
         this._charTimes = createElement('div', TerminalCssClasses.CharTimes);
@@ -50,22 +48,34 @@ export class NextCharsDisplay {
         this._chordified = createElement('div', TerminalCssClasses.chordified);
         this._errorCount = document.getElementById(TerminalCssClasses.errorCount) as HTMLSpanElement;
         this._voiceMode = createElement('input', TerminalCssClasses.voiceMode) as HTMLInputElement;
-        this._testArea = createElement('textarea', TerminalCssClasses.TestArea) as HTMLTextAreaElement;
-        this._testArea.addEventListener('input', (e: Event) => {
-            this.test(e as InputEvent);
-        });
+        this._testArea = (document.getElementById(TerminalCssClasses.TestArea) as HTMLTextAreaElement);
+
         this._timer = new Timer(
-            cancelCallback,
             handleInputEvent
         );
-        this._testArea.addEventListener('keyup', (e: Event) => {
-            if (this._voiceMode && this._voiceMode.checked) {
-                this.sayText(e as KeyboardEvent);
-            }
-        });
+        this.attachEventListeners();
+    }
+
+    attachEventListeners() {
+        if(this._testArea){
+            this._testArea.addEventListener('keyup', (e: Event) => {
+                if (this._voiceMode && this._voiceMode.checked) {
+                    this.sayText(e as KeyboardEvent);
+                }
+            })
+            this._testArea.addEventListener('input', (e: Event) => {
+                this.test(e as InputEvent);
+            });
+        }
     }
     set wpm(wpm: HTMLSpanElement) {
         this._wpm = wpm;
+    }
+    get phrase(): HTMLInputElement {
+        return this._phrase;
+    }
+    public get nextChars(): HTMLElement {
+        return this._nextChars;
     }
     set timerSpan(timerSpan: HTMLSpanElement) {
         this._timer.timerElement = timerSpan;
@@ -79,10 +89,6 @@ export class NextCharsDisplay {
     }
     set chordified(chordified: HTMLElement) {
         this._chordified = chordified;
-    }
-
-    set nextChars(nextCharsElement: HTMLElement) {
-        this._nextChars = nextCharsElement;
     }
 
     set wholePhraseChords(wholePhraseChords: HTMLElement) {
@@ -127,7 +133,10 @@ export class NextCharsDisplay {
         this._phrase = phrase;
     }
     setPhraseString(newPhrase: string): void {
-        this._phrase.value = newPhrase;
+        this.phraseString = newPhrase;
+        console.log('newPhrase', newPhrase);
+        this._phrase.innerText = newPhrase;
+        console.log('phrase.innerText', this._phrase.innerText);
         this.setNext(''); // Reset the display with the new phrase from the beginning
         this._nextChars.hidden = false;
     }
@@ -226,10 +235,21 @@ export class NextCharsDisplay {
         this.setNext('');
         this._timer.setSvg('start');
         if (this._testArea) this._testArea.focus();
-        this._timer.cancel();
         this._phrase.disabled = true;
         this.setPhraseString(this._phrase.value);
         return chordRows;
+    }
+    cancelTimer = () => {
+        console.log("cancelTimer");
+        this._timer.cancel();
+        this._timer.setSvg('start');
+        this._nextChars.innerText = this._phrase.value;
+        this._testArea.style.border = "2px solid lightgray";
+        this._chordImageHolder.textContent = '';
+        this._testArea.disabled = false;
+        this._testArea.value = '';
+        this._testArea.focus();
+
     }
     resetChordify = () => {
         if (this._phrase) {
@@ -333,7 +353,7 @@ export class NextCharsDisplay {
             this._testArea.style.border = "";
             const chordImageHolderChild = this._chordImageHolder?.firstChild as HTMLImageElement;
             if (chordImageHolderChild) chordImageHolderChild.hidden = true;
-            this._timer.cancel();
+            this.cancelTimer();
             return;
         }
         if (
@@ -356,8 +376,11 @@ export class NextCharsDisplay {
                 this._errorCount.innerText = (parseInt(this._errorCount.innerText) + 1).toString(10);
         }
         if (this._testArea?.value.trim() == this._phrase?.value.trim()) {
-            // stop timer
+            // STOP timer
+            // SHOW completion indication
             this._timer.setSvg('stop');
+            this._testArea.classList.add('disabled');
+            this._testArea.disabled = true;
             let charTimeList = "";
             this._charTimeArray.forEach((x: CharTime) => {
                 charTimeList += `<li>${x.char.replace(' ', spaceDisplayChar)}: ${x.duration}</li>`;
@@ -368,7 +391,8 @@ export class NextCharsDisplay {
                     `charTimerSession_${(new Date).toISOString()}`, 
                     JSON.stringify(this._charTimeArray)
                 );
-            this._timer.cancel();
+            this._timer.success();
+            this._testArea.style.border = "4px solid #0F0A";
             return;
         }
         this._timer.start();

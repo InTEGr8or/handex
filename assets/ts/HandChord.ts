@@ -20,23 +20,16 @@ export class HandChord {
     errorCount: HTMLElement | null;
     allChordsList: HTMLDivElement | null;
     chordSection: HTMLDivElement | null;
-    nextChars: HTMLElement | null;
     private nextCharsDisplay: NextCharsDisplay;
 
     constructor() {
-        const cancelAction: CancelCallback = this.cancelCallback.bind(this);
-        this.nextCharsDisplay = new NextCharsDisplay(
-            cancelAction
-        );
+        this.nextCharsDisplay = new NextCharsDisplay();
         this.phrase = document.getElementById("phrase") as HTMLInputElement;
         this.nextCharsDisplay.phrase = this.phrase;
         this.chordified = document.getElementById("chordified") as HTMLElement;
         this.wholePhraseChords = document.getElementById(TerminalCssClasses.WholePhraseChords) as HTMLElement;
-        this.nextChars = document.getElementById(TerminalCssClasses.NextChars) as HTMLElement;
         this.nextCharsDisplay.svgCharacter = (document.getElementById("svgCharacter") as HTMLImageElement);
         this.nextCharsDisplay.testMode = (document.getElementById("testMode") as HTMLInputElement);
-        this.nextCharsDisplay.nextChars = this.nextChars;
-        this.nextCharsDisplay.testArea = (document.getElementById(TerminalCssClasses.TestArea) as HTMLTextAreaElement);
         this.charTimer = [];
         this.charTimes = document.getElementById("charTimes") as HTMLElement;
         this.wpm = document.getElementById("wpm") as HTMLElement;
@@ -102,7 +95,7 @@ export class HandChord {
         });
         document.getElementById('timerCancel')
             ?.addEventListener('click', (e) => {
-                this.nextCharsDisplay.timer.cancel();
+                this.nextCharsDisplay.cancelTimer();
             });
         document.getElementById('listAllChords')
             ?.addEventListener('click', this.listAllChords);
@@ -111,30 +104,6 @@ export class HandChord {
 
         this.toggleVideo(false);
     }
-
-    // updateTimerDisplay(handChord: HandChord): void {
-    //     console.log("Update Timer Display not implemented", handChord);
-    //     if (handChord.nextCharsDisplay.timer) {
-    //         // handChord.nextCharsDisplay.updateCallback();
-    //     }
-    // }
-    cancelCallback = () => {
-        if (this.nextCharsDisplay.testArea) {
-            this.nextCharsDisplay.testArea.value = '';
-            this.nextCharsDisplay.testArea.focus();
-            this.nextCharsDisplay.testArea.style.border = "";
-        }
-        this.charTimer = [];
-        this.prevCharTime = 0;
-        if (this.wpm) this.wpm.innerText = '0';
-        if (this.charTimes) this.charTimes.innerHTML = '';
-        // clear error class from all chords
-        Array.from(this.wholePhraseChords?.children ?? []).forEach(function (chord) {
-            chord.classList.remove("error");
-        });
-        this.nextCharsDisplay.setNext('');
-    }
-
 
     private saveMode = (modeEvent: Event): boolean => {
         // chordify();

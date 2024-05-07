@@ -27,17 +27,12 @@ export class XtermAdapter {
         this.wholePhraseChords = createElement('div', TerminalCssClasses.WholePhraseChords);
         this.wholePhraseChords.hidden = true;
         // this.chordImageHolder.hidden = true;
-        this.nextChars = createElement('pre', TerminalCssClasses.NextChars);
-        this.nextChars.hidden = true;
-        const cancelCallback = () => { };
-        this.nextCharsDisplay = new NextCharsDisplay(() => {
-            console.log("wpmCallback not implemented");
-        });
+        this.nextCharsDisplay = new NextCharsDisplay();
         this.outputElement = this.createOutputElement();
+        this.terminalElement.prepend(this.nextCharsDisplay.nextChars);
         this.terminalElement.prepend(this.outputElement);
         this.terminalElement.prepend(this.wholePhraseChords);
         this.terminalElement.append(this.chordImageHolder);
-        this.terminalElement.append(this.nextChars);
         this.terminal = new Terminal({
             fontFamily: '"Fira Code", Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
             cursorBlink: true,
@@ -76,6 +71,8 @@ export class XtermAdapter {
             if (command === 'phrase') {
                 const phrase = this.getRandomPhrase();
                 let result = this.nextCharsDisplay.setPhraseString(phrase);
+                this.nextCharsDisplay.nextChars.hidden = false;
+                this.nextCharsDisplay.nextChars.innerHTML = phrase;
             }
             let result = this.handexTerm.handleCommand(command);
             this.outputElement.appendChild(result);
