@@ -32,12 +32,15 @@ export class XtermAdapter {
     this.webCam = new WebCam(this.videoElement);
     this.terminalElement.prepend(this.videoElement);
     this.chordImageHolder = this.findOrConstructChordImageHolder();
+    this.wholePhraseChords = document.getElementById(TerminalCssClasses.WholePhraseChords) as HTMLElement;
     this.wholePhraseChords = createElement('div', TerminalCssClasses.WholePhraseChords);
     this.wholePhraseChords.hidden = true;
     // this.chordImageHolder.hidden = true;
     this.nextCharsDisplay = new NextCharsDisplay();
     this.outputElement = this.createOutputElement();
     this.nextCharsDisplay.nextChars.style.float = 'left';
+    this.nextCharsDisplay.phrase.hidden = true;
+    this.nextCharsDisplay.isTestMode = true;
     this.terminalElement.prepend(this.nextCharsDisplay.nextChars);
     this.terminalElement.prepend(this.nextCharsDisplay.timer.timerSvg)
     this.terminalElement.prepend(this.outputElement);
@@ -105,7 +108,7 @@ export class XtermAdapter {
       if (command === 'phrase') {
 
         const phrase = this.getRandomPhrase();
-        let result = this.nextCharsDisplay.setPhraseString(phrase);
+        let result = this.nextCharsDisplay.phrase.value = phrase;
         this.nextCharsDisplay.nextChars.hidden = false;
         this.nextCharsDisplay.nextChars.innerHTML = phrase;
         this.isInPhraseMode = true;
@@ -116,27 +119,34 @@ export class XtermAdapter {
     } else if (this.isInPhraseMode) {
       this.terminal.write(data);
       let command = this.getCurrentCommand();
-      console.log('command', command);
       if(command.length === 0){
         this.nextCharsDisplay.timer.stop();
         return;
       }
       this.nextCharsDisplay.testInput(command);
-      console.log('nextChars', this.nextCharsDisplay.nextChars.innerHTML);
     } else {
       // For other input, just return it to the terminal.
       let wpm = this.handexTerm.handleCharacter(data);
 
       if (data.charCodeAt(0) === 27) { // escape and navigation characters
+        // console.log(
+        //   "BufferXY:", this.terminal.buffer.active.cursorX, this.terminal.buffer.active.cursorY,
+        //   "lines", this.terminal.buffer.active.viewportY, "chars:", data.split('').map(x => x.charCodeAt(0)));
         if (data.charCodeAt(1) === 91) {
-          if (data.charCodeAt(2) === 68 && (this.terminal.buffer.active.cursorX < this.promptLength)) {
+          if(data.charCodeAt(2) === 65 && this.terminal.buffer.active.cursorY < 2) {
+            return;
+          }
+          if (
+            data.charCodeAt(2) === 68 
+            && (
+              this.terminal.buffer.active.cursorX < this.promptLength 
+              && this.terminal.buffer.active.cursorY === 0)
+            ) {
             return;
           }
         }
       }
       this.terminal.write(data);
-      const currentCommand = this.getCurrentCommand();
-      this.nextCharsDisplay.setNext(currentCommand);
     }
   }
   getRandomPhrase(): string {

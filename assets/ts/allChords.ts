@@ -1,8 +1,5 @@
-interface Chord {
-    key: string;
-    chordCode: string;
-    index: number;
-}
+import { Chord } from "./types/Types.js";
+
 export const allChords: Chord[] = [
   {
     "key": "a",

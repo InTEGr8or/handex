@@ -18,3 +18,9 @@ export interface ChordRow {
     chord: number;
     strokes: string;
 }
+
+export interface Chord {
+    key: string;
+    chordCode: string;
+    index: number;
+}

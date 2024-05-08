@@ -96,7 +96,6 @@ export class Timer {
     private run = () => {
         this._centiSecond++;
         this._timerElement.innerText = (this._centiSecond / 100).toFixed(1);
-        // console.log("timer: ",this._centiSecond, this._timerElement.innerText);
     };
 
     cancel = (): void => {

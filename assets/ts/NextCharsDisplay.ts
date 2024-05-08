@@ -1,4 +1,4 @@
-import { spaceDisplayChar, ChordRow, createCharTime, CharTime } from "./types/Types.js";
+import { Chord, spaceDisplayChar, ChordRow, createCharTime, CharTime } from "./types/Types.js";
 import { Timer } from "./Timer.js";
 import { createElement } from "./utils/dom.js";
 import { TerminalCssClasses } from "./terminal/TerminalTypes.js";
@@ -9,7 +9,6 @@ import { allChords } from "./allChords.js";
 export class NextCharsDisplay {
     private _nextChars: HTMLElement;
     private _phrase: HTMLInputElement;
-    private phraseString: string = '';
 
     private _wholePhraseChords: HTMLElement;
     private _chordImageHolder: HTMLElement;
@@ -28,6 +27,7 @@ export class NextCharsDisplay {
     private _charTimeArray: CharTime[] = [];
     private _charTimes: HTMLElement;
     private _wpm: HTMLSpanElement;
+    public isTestMode: boolean;
 
 
     constructor() {
@@ -49,9 +49,18 @@ export class NextCharsDisplay {
         this._errorCount = document.getElementById(TerminalCssClasses.errorCount) as HTMLSpanElement;
         this._voiceMode = createElement('input', TerminalCssClasses.voiceMode) as HTMLInputElement;
         this._testArea = (document.getElementById(TerminalCssClasses.TestArea) as HTMLTextAreaElement);
-
+        this.isTestMode = localStorage.getItem('testMode') == 'true';
         this._timer = new Timer();
         this.attachEventListeners();
+    }
+
+    findOrConstructPhrase(): HTMLInputElement {
+        let result = document.getElementById(TerminalCssClasses.Phrase) as HTMLInputElement;
+        if (!result) {
+            console.log(`Phrase not found at document.getElementById('${TerminalCssClasses.Phrase}')`, document.getElementById(TerminalCssClasses.Phrase));
+            result = createElement('input', TerminalCssClasses.Phrase)
+        }
+        return result;
     }
 
     attachEventListeners() {
@@ -85,27 +94,17 @@ export class NextCharsDisplay {
     get chordified(): HTMLElement {
         return this._chordified;
     }
-    set chordified(chordified: HTMLElement) {
-        this._chordified = chordified;
-    }
-
-    set wholePhraseChords(wholePhraseChords: HTMLElement) {
-        this._wholePhraseChords = wholePhraseChords;
-    }
-
-    set svgCharacter(svgCharacter: HTMLElement) {
-        this._svgCharacter = svgCharacter;
-    }
 
     set testMode(testMode: HTMLInputElement) {
         this._testMode = testMode;
         this._testMode.checked = localStorage.getItem('testMode') == 'true';
+        this.isTestMode = this._testMode.checked;
         this.attachTestMode();
     }
 
     private attachTestMode() {
         this._testMode.addEventListener('change', e => {
-            localStorage.setItem('testMode', this._testMode.checked.toString());
+            localStorage.setItem('testMode', this.isTestMode.valueOf().toString());
             this.getWpm();
         })
     }
@@ -131,10 +130,7 @@ export class NextCharsDisplay {
         this._phrase = phrase;
     }
     setPhraseString(newPhrase: string): void {
-        this.phraseString = newPhrase;
-        console.log('newPhrase', newPhrase);
         this._phrase.innerText = newPhrase;
-        console.log('phrase.innerText', this._phrase.innerText);
         this.setNext(''); // Reset the display with the new phrase from the beginning
         this._nextChars.hidden = false;
     }
@@ -144,6 +140,11 @@ export class NextCharsDisplay {
         this.setNext(testPhrase);
         const nextChars = this._phrase.value.substring(nextIndex, nextIndex + 40);
         this._nextChars.innerHTML = this.formatNextChars(nextChars);
+    }
+    getNextCharacters(testPhrase: string, fullPhrase: string): string {
+        const nextIndex = this.getFirstNonMatchingChar(testPhrase);
+        const nextChars = fullPhrase.substring(nextIndex, nextIndex + 40);
+        return nextChars;
     }
 
     /**
@@ -169,7 +170,41 @@ export class NextCharsDisplay {
         return result;
     }
 
+    createChordHTML(foundChord: Chord): HTMLElement {
+        return createHTMLElementFromHTML(
+            `<div class="col-sm-2 row generated" id="chord2">
+                <span id="char${foundChord.index}">${foundChord.key}</span>
+                <img loading="lazy" alt="2" src="/images/svgs/${foundChord.chordCode}.svg" width="100" class="hand">
+            </div>`
+        )
+    }
+
+    findChordHTML(chordChar: string): HTMLElement | null {
+        let inChord: HTMLElement | null = null;
+        const foundChords
+            = Array.from(allChords)
+                .filter(x => { return x.key == chordChar; });
+        // Load the clone in Chord order into the wholePhraseChords div.
+        if (foundChords.length > 0) {
+            // const inChord = foundChords[0].cloneNode(true) as HTMLDivElement;
+            const foundChord = foundChords[0];
+            inChord = this.createChordHTML(foundChord);
+            inChord.setAttribute("name", foundChord.key);
+            inChord.hidden = this.isTestMode;
+            // Array.from(inChord.children)
+            //     .filter(x => x.nodeName == "IMG")
+            //     .forEach(x => {
+            //         x.setAttribute("loading", "eager");
+            //         // x.hidden = isTestMode;
+            //     });
+        }
+        else {
+            console.log("Missing chord:", chordChar);
+        }
+        return inChord;
+    }
     public async chordify(): Promise<Array<ChordRow>> {
+        console.log("chordify()");
         if (this._chordified) this._chordified.innerHTML = '';
         if (!this._phrase || !this._phrase.value || this._phrase.value.trim().length == 0) {
             return [];
@@ -192,35 +227,14 @@ export class NextCharsDisplay {
         const chordRows = chordList.json as Array<ChordRow>;
         // Add each row to the chordified element as a separate div with the first character of the row as the name.
         if (this._wholePhraseChords) this._wholePhraseChords.innerHTML = '';
-        const isTestMode = this._testMode ? this._testMode.checked : false;
         chordRows.forEach((row: ChordRow, i: number) => {
             const rowDiv = document.createElement('div') as HTMLDivElement;
-            const chordCode = row.chord;
-            const foundChords
-                = Array.from(allChords)
-                    .filter(x => { return x.chordCode == chordCode.toString(); });
-            // Load the clone in Chord order into the wholePhraseChords div.
-            if (foundChords.length > 0) {
-                // const inChord = foundChords[0].cloneNode(true) as HTMLDivElement;
-                const foundChord = foundChords[0];
-                const inChord = createHTMLElementFromHTML(`<div class="col-sm-2 row generated" id="chord2">
-		<span id="char${foundChord.index}">d</span>
-		<img loading="lazy" alt="2" src="/images/svgs/${foundChord.chordCode}.svg" width="100" class="hand">
-	</div>`)
-                inChord.setAttribute("name", row.char);
-                inChord.hidden = isTestMode;
-                Array.from(inChord.children)
-                    .filter(x => x.nodeName == "IMG")
-                    .forEach(x => {
-                        x.setAttribute("loading", "eager");
-                        // x.hidden = isTestMode;
-                    });
-                if (this._wholePhraseChords) this._wholePhraseChords.appendChild(inChord);
-            }
-            else {
-                console.log("Missing chord:", chordCode);
-            }
+            const chordCode = row.chord.toString(16);
+            console.log("chordCode:", chordCode);
+            let inChord = this.findChordHTML(row.char);
+            if (this._wholePhraseChords && inChord) this._wholePhraseChords.appendChild(inChord);
             document.getElementById(`chord${chordCode}`)?.querySelector(`img`)?.setAttribute("loading", "eager");
+            console.log('row', row, 'wholePhraseChords.childNodes.length', this._wholePhraseChords.childNodes.length);
             // document.querySelector(`#${chordCode}`).hidden = false;
             rowDiv.id = i.toString();
             rowDiv.setAttribute("name", row.char);
@@ -263,7 +277,8 @@ export class NextCharsDisplay {
             this._testArea.disabled = false;
         }
     };
-    public setNext = (testPhrase: string): HTMLElement | null => {
+    private setNext = (testPhrase: string): HTMLElement | null => {
+        console.log("setNext testPhrase", testPhrase);
         const nextIndex = this.getFirstNonMatchingChar(testPhrase);
         if (nextIndex < 0) {
             return null;
@@ -274,7 +289,11 @@ export class NextCharsDisplay {
             .forEach((chord, i) => {
                 chord.classList.remove("next");
             });
-        if (this._wholePhraseChords && nextIndex > this._wholePhraseChords.children.length - 1) return null;
+
+        if (nextIndex > this._phrase.value.length - 1) {
+            console.log("nextIndex > this._phrase.value.length - 1", nextIndex, this._wholePhraseChords.children.length);
+            return null;
+        }
 
         let nextCharacter = `<span class="nextCharacter">${this._phrase.value.substring(nextIndex, nextIndex + 1).replace(' ', '&nbsp;')}</span>`;
 
@@ -283,22 +302,34 @@ export class NextCharsDisplay {
         this._nextChars.innerHTML = this.formatNextChars(nextChars);
 
         const next = this._wholePhraseChords?.children[nextIndex] as HTMLElement;
-        if (next) {
-            if (this._nextChar) this._nextChar = next.getAttribute("name")?.replace("Space", " ") ?? "";
-            next.classList.add("next");
-            // If we're in test mode and the last character typed doesn't match the next, expose the svg.
-            Array.from(next.childNodes)
-                .filter((x): x is HTMLImageElement => x.nodeName == "IMG")
-                .forEach((x: HTMLImageElement) => {
-                    x.width = 140;
-                    let charSvgClone = x.cloneNode(true) as HTMLImageElement;
-                    charSvgClone.hidden = this._testMode?.checked ?? false;
-                    if (this._chordImageHolder) {
-                        this._chordImageHolder.replaceChildren(charSvgClone);
-                    }
+        console.log("setNext next", next, "wholePhraseChords", this._wholePhraseChords);
+        let inChord = this.findChordHTML(nextChars[0]);
 
-                });
+        console.log("setNext inChord", inChord);
+        if (inChord) {
+            inChord.classList.add("next");
+            this._chordImageHolder.replaceChildren(inChord);
         }
+
+
+        // if (next) {
+        //     if (this._nextChar) this._nextChar = next.getAttribute("name")?.replace("Space", " ") ?? "";
+        //     next.classList.add("next");
+        //     // If we're in test mode and the last character typed doesn't match the next, expose the svg.
+        //     Array.from(next.childNodes)
+        //         .filter((x): x is HTMLImageElement => x.nodeName == "IMG")
+        //         .forEach((x: HTMLImageElement) => {
+        //             x.width = 140;
+        //             let charSvgClone = x.cloneNode(true) as HTMLImageElement;
+        //             charSvgClone.hidden = this.isTestMode;
+        //             console.log("charSvgClone", charSvgClone);
+        //             if (this._chordImageHolder) {
+        //                 this._chordImageHolder.replaceChildren(charSvgClone);
+        //             }
+
+        //         });
+        // }
+
         if (this._svgCharacter && next) {
             const nameAttribute = next.getAttribute("name");
             if (nameAttribute) {
@@ -307,7 +338,7 @@ export class NextCharsDisplay {
                     .replace("tab", "↹");
             }
         }
-        if (this._svgCharacter && !this._testMode.checked) {
+        if (this._svgCharacter && !this.isTestMode) {
             this._svgCharacter.hidden = false;
         }
         this._wpm.innerText = this.getWpm();
@@ -325,9 +356,13 @@ export class NextCharsDisplay {
         if (this.wpm) this.wpm.innerText = '0';
         if (this._charTimes) this._charTimes.innerHTML = '';
         // clear error class from all chords
-        Array.from(this.wholePhraseChords?.children ?? []).forEach(function (chord) {
-            chord.classList.remove("error");
-        });
+        Array
+            .from(this._wholePhraseChords.children)
+            .forEach(
+                (chord: HTMLElement) => {
+                    chord.classList.remove("error");
+                }
+            );
         this.setNext('');
     }
 
@@ -360,27 +395,36 @@ export class NextCharsDisplay {
             return;
         }
 
-        if (
-            this._svgCharacter &&
-            inputString
-            == this._phrase.value.trim()
-                .substring(0, inputString.length)
+        if (inputString
+            == this._phrase.value
+                .trim().substring(0, inputString.length)
         ) {
             if (this._testArea) this._testArea.style.border = "4px solid #FFF3";
             if (this._svgCharacter) this._svgCharacter.hidden = true;
+            this._nextChars.textContent = this.getNextCharacters(inputString, this._phrase.value);
         }
         else {
+            // MISMATCHED
             // Alert mismatched text with red border.
             if (this._testArea) this._testArea.style.border = "4px solid red";
-            const chordImageHolderChild = this._chordImageHolder?.firstChild as HTMLImageElement;
-            if (chordImageHolderChild) chordImageHolderChild.hidden = false;
+            if (this._svgCharacter) {
+                // this._svgCharacter
+                this._svgCharacter.hidden = false;
+                // this._chordImageHolder.appendChild(this._svgCharacter);
+                this._chordImageHolder.hidden = false;
+            }
+            let firstChild = this._chordImageHolder.children[0] as HTMLElement;
+            if(firstChild) firstChild.hidden = false;
+            // const chordImageHolderChild = this._chordImageHolder?.firstChild as HTMLImageElement;
+            // if (chordImageHolderChild) chordImageHolderChild.hidden = false;
+            console.log("chordImageHolder", this._chordImageHolder);
             next?.classList.add("error");
             if (this._errorCount)
                 this._errorCount.innerText = (parseInt(this._errorCount.innerText) + 1).toString(10);
         }
 
         if (inputString.trim() == this._phrase.value.trim()) {
-            // STOP timer
+            // SUCCESS 
             // SHOW completion indication
             this._timer.setSvg('stop');
             if (this._testArea) {
