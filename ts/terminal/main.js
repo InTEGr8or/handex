@@ -8197,7 +8197,6 @@ WARNING: This link could potentially be dangerous`)) {
   // ns-hugo:/home/runner/work/handex/handex/assets/ts/NextCharsDisplay.ts
   var NextCharsDisplay = class {
     constructor() {
-      this.phraseString = "";
       this._nextChar = "";
       this._prevCharTime = 0;
       this._charTimeArray = [];
@@ -8229,7 +8228,8 @@ WARNING: This link could potentially be dangerous`)) {
         }
       };
       this.setNext = (testPhrase) => {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c;
+        console.log("setNext testPhrase", testPhrase);
         const nextIndex = this.getFirstNonMatchingChar(testPhrase);
         if (nextIndex < 0) {
           return null;
@@ -8237,25 +8237,20 @@ WARNING: This link could potentially be dangerous`)) {
         Array.from((_b = (_a = this._wholePhraseChords) == null ? void 0 : _a.children) != null ? _b : []).forEach((chord, i) => {
           chord.classList.remove("next");
         });
-        if (this._wholePhraseChords && nextIndex > this._wholePhraseChords.children.length - 1)
+        if (nextIndex > this._phrase.value.length - 1) {
+          console.log("nextIndex > this._phrase.value.length - 1", nextIndex, this._wholePhraseChords.children.length);
           return null;
+        }
         let nextCharacter = `<span class="nextCharacter">${this._phrase.value.substring(nextIndex, nextIndex + 1).replace(" ", "&nbsp;")}</span>`;
         const nextChars = this._phrase.value.substring(nextIndex, nextIndex + 40);
         this._nextChars.innerHTML = this.formatNextChars(nextChars);
         const next = (_c = this._wholePhraseChords) == null ? void 0 : _c.children[nextIndex];
-        if (next) {
-          if (this._nextChar)
-            this._nextChar = (_e = (_d = next.getAttribute("name")) == null ? void 0 : _d.replace("Space", " ")) != null ? _e : "";
-          next.classList.add("next");
-          Array.from(next.childNodes).filter((x) => x.nodeName == "IMG").forEach((x) => {
-            var _a2, _b2;
-            x.width = 140;
-            let charSvgClone = x.cloneNode(true);
-            charSvgClone.hidden = (_b2 = (_a2 = this._testMode) == null ? void 0 : _a2.checked) != null ? _b2 : false;
-            if (this._chordImageHolder) {
-              this._chordImageHolder.replaceChildren(charSvgClone);
-            }
-          });
+        console.log("setNext next", next, "wholePhraseChords", this._wholePhraseChords);
+        let inChord = this.findChordHTML(nextChars[0]);
+        console.log("setNext inChord", inChord);
+        if (inChord) {
+          inChord.classList.add("next");
+          this._chordImageHolder.replaceChildren(inChord);
         }
         if (this._svgCharacter && next) {
           const nameAttribute = next.getAttribute("name");
@@ -8263,14 +8258,13 @@ WARNING: This link could potentially be dangerous`)) {
             this._svgCharacter.innerHTML = nameAttribute.replace("Space", spaceDisplayChar).replace("tab", "\u21B9");
           }
         }
-        if (this._svgCharacter && !this._testMode.checked) {
+        if (this._svgCharacter && !this.isTestMode) {
           this._svgCharacter.hidden = false;
         }
         this._wpm.innerText = this.getWpm();
         return next;
       };
       this.cancel = () => {
-        var _a, _b;
         if (this._testArea) {
           this._testArea.value = "";
           this._testArea.focus();
@@ -8282,13 +8276,15 @@ WARNING: This link could potentially be dangerous`)) {
           this.wpm.innerText = "0";
         if (this._charTimes)
           this._charTimes.innerHTML = "";
-        Array.from((_b = (_a = this.wholePhraseChords) == null ? void 0 : _a.children) != null ? _b : []).forEach(function(chord) {
-          chord.classList.remove("error");
-        });
+        Array.from(this._wholePhraseChords.children).forEach(
+          (chord) => {
+            chord.classList.remove("error");
+          }
+        );
         this.setNext("");
       };
       this.testInput = (inputString) => {
-        var _a, _b;
+        var _a;
         const currentChar = inputString.slice(-1);
         const expectedChar = this._nextChar;
         if (currentChar === expectedChar) {
@@ -8313,17 +8309,23 @@ WARNING: This link could potentially be dangerous`)) {
           this.cancelTimer();
           return;
         }
-        if (this._svgCharacter && inputString == this._phrase.value.trim().substring(0, inputString.length)) {
+        if (inputString == this._phrase.value.trim().substring(0, inputString.length)) {
           if (this._testArea)
             this._testArea.style.border = "4px solid #FFF3";
           if (this._svgCharacter)
             this._svgCharacter.hidden = true;
+          this._nextChars.textContent = this.getNextCharacters(inputString, this._phrase.value);
         } else {
           if (this._testArea)
             this._testArea.style.border = "4px solid red";
-          const chordImageHolderChild = (_b = this._chordImageHolder) == null ? void 0 : _b.firstChild;
-          if (chordImageHolderChild)
-            chordImageHolderChild.hidden = false;
+          if (this._svgCharacter) {
+            this._svgCharacter.hidden = false;
+            this._chordImageHolder.hidden = false;
+          }
+          let firstChild = this._chordImageHolder.children[0];
+          if (firstChild)
+            firstChild.hidden = false;
+          console.log("chordImageHolder", this._chordImageHolder);
           next == null ? void 0 : next.classList.add("error");
           if (this._errorCount)
             this._errorCount.innerText = (parseInt(this._errorCount.innerText) + 1).toString(10);
@@ -8414,8 +8416,17 @@ WARNING: This link could potentially be dangerous`)) {
       this._errorCount = document.getElementById(TerminalCssClasses.errorCount);
       this._voiceMode = createElement("input", TerminalCssClasses.voiceMode);
       this._testArea = document.getElementById(TerminalCssClasses.TestArea);
+      this.isTestMode = localStorage.getItem("testMode") == "true";
       this._timer = new Timer();
       this.attachEventListeners();
+    }
+    findOrConstructPhrase() {
+      let result = document.getElementById(TerminalCssClasses.Phrase);
+      if (!result) {
+        console.log(`Phrase not found at document.getElementById('${TerminalCssClasses.Phrase}')`, document.getElementById(TerminalCssClasses.Phrase));
+        result = createElement("input", TerminalCssClasses.Phrase);
+      }
+      return result;
     }
     attachEventListeners() {
       if (this._testArea) {
@@ -8447,23 +8458,15 @@ WARNING: This link could potentially be dangerous`)) {
     get chordified() {
       return this._chordified;
     }
-    set chordified(chordified) {
-      this._chordified = chordified;
-    }
-    set wholePhraseChords(wholePhraseChords) {
-      this._wholePhraseChords = wholePhraseChords;
-    }
-    set svgCharacter(svgCharacter) {
-      this._svgCharacter = svgCharacter;
-    }
     set testMode(testMode) {
       this._testMode = testMode;
       this._testMode.checked = localStorage.getItem("testMode") == "true";
+      this.isTestMode = this._testMode.checked;
       this.attachTestMode();
     }
     attachTestMode() {
       this._testMode.addEventListener("change", (e) => {
-        localStorage.setItem("testMode", this._testMode.checked.toString());
+        localStorage.setItem("testMode", this.isTestMode.valueOf().toString());
         this.getWpm();
       });
     }
@@ -8485,10 +8488,7 @@ WARNING: This link could potentially be dangerous`)) {
       this._phrase = phrase;
     }
     setPhraseString(newPhrase) {
-      this.phraseString = newPhrase;
-      console.log("newPhrase", newPhrase);
       this._phrase.innerText = newPhrase;
-      console.log("phrase.innerText", this._phrase.innerText);
       this.setNext("");
       this._nextChars.hidden = false;
     }
@@ -8497,6 +8497,11 @@ WARNING: This link could potentially be dangerous`)) {
       this.setNext(testPhrase);
       const nextChars = this._phrase.value.substring(nextIndex, nextIndex + 40);
       this._nextChars.innerHTML = this.formatNextChars(nextChars);
+    }
+    getNextCharacters(testPhrase, fullPhrase) {
+      const nextIndex = this.getFirstNonMatchingChar(testPhrase);
+      const nextChars = fullPhrase.substring(nextIndex, nextIndex + 40);
+      return nextChars;
     }
     /**
      * Calculates the words per minute (WPM) based on the text typed in the test area.
@@ -8517,8 +8522,32 @@ WARNING: This link could potentially be dangerous`)) {
       let result = chars;
       return result;
     }
+    createChordHTML(foundChord) {
+      return createHTMLElementFromHTML(
+        `<div class="col-sm-2 row generated" id="chord2">
+                <span id="char${foundChord.index}">${foundChord.key}</span>
+                <img loading="lazy" alt="2" src="/images/svgs/${foundChord.chordCode}.svg" width="100" class="hand">
+            </div>`
+      );
+    }
+    findChordHTML(chordChar) {
+      let inChord = null;
+      const foundChords = Array.from(allChords).filter((x) => {
+        return x.key == chordChar;
+      });
+      if (foundChords.length > 0) {
+        const foundChord = foundChords[0];
+        inChord = this.createChordHTML(foundChord);
+        inChord.setAttribute("name", foundChord.key);
+        inChord.hidden = this.isTestMode;
+      } else {
+        console.log("Missing chord:", chordChar);
+      }
+      return inChord;
+    }
     chordify() {
       return __async(this, null, function* () {
+        console.log("chordify()");
         if (this._chordified)
           this._chordified.innerHTML = "";
         if (!this._phrase || !this._phrase.value || this._phrase.value.trim().length == 0) {
@@ -8540,31 +8569,16 @@ WARNING: This link could potentially be dangerous`)) {
         const chordRows = chordList.json;
         if (this._wholePhraseChords)
           this._wholePhraseChords.innerHTML = "";
-        const isTestMode = this._testMode ? this._testMode.checked : false;
         chordRows.forEach((row, i) => {
           var _a, _b;
           const rowDiv = document.createElement("div");
-          const chordCode = row.chord;
-          const foundChords = Array.from(allChords).filter((x) => {
-            return x.chordCode == chordCode.toString();
-          });
-          if (foundChords.length > 0) {
-            const foundChord = foundChords[0];
-            const inChord = createHTMLElementFromHTML(`<div class="col-sm-2 row generated" id="chord2">
-		<span id="char${foundChord.index}">d</span>
-		<img loading="lazy" alt="2" src="/images/svgs/${foundChord.chordCode}.svg" width="100" class="hand">
-	</div>`);
-            inChord.setAttribute("name", row.char);
-            inChord.hidden = isTestMode;
-            Array.from(inChord.children).filter((x) => x.nodeName == "IMG").forEach((x) => {
-              x.setAttribute("loading", "eager");
-            });
-            if (this._wholePhraseChords)
-              this._wholePhraseChords.appendChild(inChord);
-          } else {
-            console.log("Missing chord:", chordCode);
-          }
+          const chordCode = row.chord.toString(16);
+          console.log("chordCode:", chordCode);
+          let inChord = this.findChordHTML(row.char);
+          if (this._wholePhraseChords && inChord)
+            this._wholePhraseChords.appendChild(inChord);
           (_b = (_a = document.getElementById(`chord${chordCode}`)) == null ? void 0 : _a.querySelector(`img`)) == null ? void 0 : _b.setAttribute("loading", "eager");
+          console.log("row", row, "wholePhraseChords.childNodes.length", this._wholePhraseChords.childNodes.length);
           rowDiv.id = i.toString();
           rowDiv.setAttribute("name", row.char);
           const charSpan = document.createElement("span");
@@ -8656,11 +8670,14 @@ WARNING: This link could potentially be dangerous`)) {
       this.webCam = new WebCam(this.videoElement);
       this.terminalElement.prepend(this.videoElement);
       this.chordImageHolder = this.findOrConstructChordImageHolder();
+      this.wholePhraseChords = document.getElementById(TerminalCssClasses.WholePhraseChords);
       this.wholePhraseChords = createElement("div", TerminalCssClasses.WholePhraseChords);
       this.wholePhraseChords.hidden = true;
       this.nextCharsDisplay = new NextCharsDisplay();
       this.outputElement = this.createOutputElement();
       this.nextCharsDisplay.nextChars.style.float = "left";
+      this.nextCharsDisplay.phrase.hidden = true;
+      this.nextCharsDisplay.isTestMode = true;
       this.terminalElement.prepend(this.nextCharsDisplay.nextChars);
       this.terminalElement.prepend(this.nextCharsDisplay.timer.timerSvg);
       this.terminalElement.prepend(this.outputElement);
@@ -8717,7 +8734,7 @@ WARNING: This link could potentially be dangerous`)) {
         }
         if (command === "phrase") {
           const phrase = this.getRandomPhrase();
-          let result2 = this.nextCharsDisplay.setPhraseString(phrase);
+          let result2 = this.nextCharsDisplay.phrase.value = phrase;
           this.nextCharsDisplay.nextChars.hidden = false;
           this.nextCharsDisplay.nextChars.innerHTML = phrase;
           this.isInPhraseMode = true;
@@ -8727,25 +8744,24 @@ WARNING: This link could potentially be dangerous`)) {
       } else if (this.isInPhraseMode) {
         this.terminal.write(data);
         let command = this.getCurrentCommand();
-        console.log("command", command);
         if (command.length === 0) {
           this.nextCharsDisplay.timer.stop();
           return;
         }
         this.nextCharsDisplay.testInput(command);
-        console.log("nextChars", this.nextCharsDisplay.nextChars.innerHTML);
       } else {
         let wpm = this.handexTerm.handleCharacter(data);
         if (data.charCodeAt(0) === 27) {
           if (data.charCodeAt(1) === 91) {
-            if (data.charCodeAt(2) === 68 && this.terminal.buffer.active.cursorX < this.promptLength) {
+            if (data.charCodeAt(2) === 65 && this.terminal.buffer.active.cursorY < 2) {
+              return;
+            }
+            if (data.charCodeAt(2) === 68 && (this.terminal.buffer.active.cursorX < this.promptLength && this.terminal.buffer.active.cursorY === 0)) {
               return;
             }
           }
         }
         this.terminal.write(data);
-        const currentCommand = this.getCurrentCommand();
-        this.nextCharsDisplay.setNext(currentCommand);
       }
     }
     getRandomPhrase() {
