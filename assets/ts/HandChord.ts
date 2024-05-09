@@ -27,7 +27,6 @@ export class HandChord {
         this.nextCharsDisplay.phrase = this.phrase;
         this.chordified = document.getElementById("chordified") as HTMLElement;
         this.wholePhraseChords = document.getElementById(TerminalCssClasses.WholePhraseChords) as HTMLElement;
-        this.nextCharsDisplay.svgCharacter = (document.getElementById("svgCharacter") as HTMLImageElement);
         this.nextCharsDisplay.testMode = (document.getElementById("testMode") as HTMLInputElement);
         this.charTimer = [];
         this.charTimes = document.getElementById("charTimes") as HTMLElement;
