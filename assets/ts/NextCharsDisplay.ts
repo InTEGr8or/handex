@@ -311,25 +311,6 @@ export class NextCharsDisplay {
             this._chordImageHolder.replaceChildren(inChord);
         }
 
-
-        // if (next) {
-        //     if (this._nextChar) this._nextChar = next.getAttribute("name")?.replace("Space", " ") ?? "";
-        //     next.classList.add("next");
-        //     // If we're in test mode and the last character typed doesn't match the next, expose the svg.
-        //     Array.from(next.childNodes)
-        //         .filter((x): x is HTMLImageElement => x.nodeName == "IMG")
-        //         .forEach((x: HTMLImageElement) => {
-        //             x.width = 140;
-        //             let charSvgClone = x.cloneNode(true) as HTMLImageElement;
-        //             charSvgClone.hidden = this.isTestMode;
-        //             console.log("charSvgClone", charSvgClone);
-        //             if (this._chordImageHolder) {
-        //                 this._chordImageHolder.replaceChildren(charSvgClone);
-        //             }
-
-        //         });
-        // }
-
         if (this._svgCharacter && next) {
             const nameAttribute = next.getAttribute("name");
             if (nameAttribute) {
