@@ -5,7 +5,6 @@ import { TerminalCssClasses } from './TerminalTypes';
 import { IWebCam, WebCam } from '../utils/WebCam';
 import { NextCharsDisplay } from '../NextCharsDisplay';
 import { createElement } from '../utils/dom';
-import { Timer } from '../Timer';
 import * as phrases from '../phrases.json';
 
 export class XtermAdapter {
@@ -42,7 +41,7 @@ export class XtermAdapter {
     this.nextCharsDisplay.phrase.hidden = true;
     this.nextCharsDisplay.isTestMode = true;
     this.terminalElement.prepend(this.nextCharsDisplay.nextChars);
-    this.terminalElement.prepend(this.nextCharsDisplay.timer.timerSvg)
+    // this.terminalElement.prepend(this.nextCharsDisplay.timer.timerSvg)
     this.terminalElement.prepend(this.outputElement);
     this.terminalElement.prepend(this.wholePhraseChords);
     this.terminalElement.append(this.chordImageHolder);
@@ -85,7 +84,7 @@ export class XtermAdapter {
       // let cursorIndex = this.terminal.buffer.active.cursorX;
     }
     if (data.charCodeAt(0) === 13) { // Enter key
-      this.nextCharsDisplay.timer.cancel();
+      this.nextCharsDisplay.cancelTimer();
       // Process the command before clearing the terminal
       let command = this.getCurrentCommand();
       // Clear the terminal after processing the command
@@ -120,7 +119,7 @@ export class XtermAdapter {
       this.terminal.write(data);
       let command = this.getCurrentCommand();
       if(command.length === 0){
-        this.nextCharsDisplay.timer.stop();
+        this.nextCharsDisplay.stopTimer();
         return;
       }
       this.nextCharsDisplay.testInput(command);

@@ -1,10 +1,15 @@
 import { Chord, spaceDisplayChar, ChordRow, createCharTime, CharTime } from "./types/Types.js";
-import { Timer } from "./Timer.js";
 import { createElement } from "./utils/dom.js";
 import { TerminalCssClasses } from "./terminal/TerminalTypes.js";
 import { createHTMLElementFromHTML } from "./utils/dom.js";
-import * as phrases from './phrases.json';
+import { WPMCalculator } from "./terminal/WPMCalculator.js";
+
+import React, { createRef } from 'react';
+import { createRoot, Root } from 'react-dom/client'; // Import createRoot
+import Timer from './Timer.js'; // Import the React component
 import { allChords } from "./allChords.js";
+import { TimerContext } from './TimerContext'; // use the correct relative path
+
 
 export class NextCharsDisplay {
     private _nextChars: HTMLElement;
@@ -16,7 +21,10 @@ export class NextCharsDisplay {
     private _testMode: HTMLInputElement;
     private _testArea: HTMLTextAreaElement;
     private _nextChar: string = '';
-    private _timer: Timer;
+    // private _timer: Timer;
+    private _timerRoot: HTMLElement | null = null;
+    private _timerRef: React.RefObject<any>;
+    private timerComponentRoot: Root | null = null;
     private _chordified: HTMLElement;
     private _allChordsList: HTMLElement;
     private _errorCount: HTMLElement;
@@ -27,8 +35,8 @@ export class NextCharsDisplay {
     private _charTimeArray: CharTime[] = [];
     private _charTimes: HTMLElement;
     private _wpm: HTMLSpanElement;
+    private _centiSecond: number = 0;
     public isTestMode: boolean;
-
 
     constructor() {
         const handleInputEvent = this.testInput.bind(this);
@@ -50,9 +58,28 @@ export class NextCharsDisplay {
         this._voiceMode = createElement('input', TerminalCssClasses.voiceMode) as HTMLInputElement;
         this._testArea = (document.getElementById(TerminalCssClasses.TestArea) as HTMLTextAreaElement);
         this.isTestMode = localStorage.getItem('testMode') == 'true';
-        this._timer = new Timer();
+        this._timerRef = createRef();
+        this.mountTimer();
+        // this._timer = new Timer();
         this.attachEventListeners();
+
     }
+    mountTimer() {
+        this._timerRoot = document.getElementById('timer-root');
+        console.log('timerRoot', this._timerRoot);
+        if (this._timerRoot) {
+            this.timerComponentRoot = createRoot(this._timerRoot); // Create a root
+            this.timerComponentRoot.render(<Timer ref={this._timerRef} />); // Render the Timer component with the ref
+        }
+    }
+
+    stopTimer() {
+        if (this._timerRef.current){
+            this._timerRef.current.stop();
+        }
+    }
+
+
 
     findOrConstructPhrase(): HTMLInputElement {
         let result = document.getElementById(TerminalCssClasses.Phrase) as HTMLInputElement;
@@ -83,12 +110,6 @@ export class NextCharsDisplay {
     }
     public get nextChars(): HTMLElement {
         return this._nextChars;
-    }
-    set timerSpan(timerSpan: HTMLSpanElement) {
-        this._timer.timerElement = timerSpan;
-    }
-    get timer(): Timer {
-        return this._timer;
     }
 
     get chordified(): HTMLElement {
@@ -147,6 +168,11 @@ export class NextCharsDisplay {
         return nextChars;
     }
 
+    getCurrentCentiSecond = () => {
+        const timerContext = TimerContext._currentValue;
+        return timerContext.getCentiSecond();
+    }
+
     /**
      * Calculates the words per minute (WPM) based on the text typed in the test area.
      *
@@ -159,7 +185,7 @@ export class NextCharsDisplay {
         }
 
         const words = this._testArea.value.length / 5;
-        const result = (words / (this._timer.centiSecond / 100 / 60) + 0.000001).toFixed(2);
+        const result = (words / (this._centiSecond / 100 / 60) + 0.000001).toFixed(2);
         return result;
     }
 
@@ -191,12 +217,6 @@ export class NextCharsDisplay {
             inChord = this.createChordHTML(foundChord);
             inChord.setAttribute("name", foundChord.key);
             inChord.hidden = this.isTestMode;
-            // Array.from(inChord.children)
-            //     .filter(x => x.nodeName == "IMG")
-            //     .forEach(x => {
-            //         x.setAttribute("loading", "eager");
-            //         // x.hidden = isTestMode;
-            //     });
         }
         else {
             console.log("Missing chord:", chordChar);
@@ -204,7 +224,6 @@ export class NextCharsDisplay {
         return inChord;
     }
     public async chordify(): Promise<Array<ChordRow>> {
-        console.log("chordify()");
         if (this._chordified) this._chordified.innerHTML = '';
         if (!this._phrase || !this._phrase.value || this._phrase.value.trim().length == 0) {
             return [];
@@ -230,11 +249,9 @@ export class NextCharsDisplay {
         chordRows.forEach((row: ChordRow, i: number) => {
             const rowDiv = document.createElement('div') as HTMLDivElement;
             const chordCode = row.chord.toString(16);
-            console.log("chordCode:", chordCode);
             let inChord = this.findChordHTML(row.char);
             if (this._wholePhraseChords && inChord) this._wholePhraseChords.appendChild(inChord);
             document.getElementById(`chord${chordCode}`)?.querySelector(`img`)?.setAttribute("loading", "eager");
-            console.log('row', row, 'wholePhraseChords.childNodes.length', this._wholePhraseChords.childNodes.length);
             // document.querySelector(`#${chordCode}`).hidden = false;
             rowDiv.id = i.toString();
             rowDiv.setAttribute("name", row.char);
@@ -245,7 +262,7 @@ export class NextCharsDisplay {
             if (this._chordified) this._chordified.appendChild(rowDiv);
         });
         this.setNext('');
-        this._timer.setSvg('start');
+        // this._timer.setSvg('start');
         if (this._testArea) this._testArea.focus();
         this._phrase.disabled = true;
         this.setPhraseString(this._phrase.value);
@@ -253,8 +270,9 @@ export class NextCharsDisplay {
     }
     cancelTimer = () => {
         console.log("cancelTimer");
-        this._timer.cancel();
-        this._timer.setSvg('start');
+        if(this._timerRef.current) {
+            this._timerRef.current.stop();
+        }
         this._nextChars.innerText = this._phrase.value;
         this._chordImageHolder.textContent = '';
         if (this._testArea) {
@@ -278,7 +296,6 @@ export class NextCharsDisplay {
         }
     };
     private setNext = (testPhrase: string): HTMLElement | null => {
-        console.log("setNext testPhrase", testPhrase);
         const nextIndex = this.getFirstNonMatchingChar(testPhrase);
         if (nextIndex < 0) {
             return null;
@@ -291,7 +308,6 @@ export class NextCharsDisplay {
             });
 
         if (nextIndex > this._phrase.value.length - 1) {
-            console.log("nextIndex > this._phrase.value.length - 1", nextIndex, this._wholePhraseChords.children.length);
             return null;
         }
 
@@ -302,10 +318,8 @@ export class NextCharsDisplay {
         this._nextChars.innerHTML = this.formatNextChars(nextChars);
 
         const next = this._wholePhraseChords?.children[nextIndex] as HTMLElement;
-        console.log("setNext next", next, "wholePhraseChords", this._wholePhraseChords);
         let inChord = this.findChordHTML(nextChars[0]);
 
-        console.log("setNext inChord", inChord);
         if (inChord) {
             inChord.classList.add("next");
             this._chordImageHolder.replaceChildren(inChord);
@@ -351,11 +365,12 @@ export class NextCharsDisplay {
         const currentChar = inputString.slice(-1); // Get the last character of the inputString
         const expectedChar = this._nextChar; // Expected character to be typed next
 
+        // Use WPM calculator here.
         if (currentChar === expectedChar) {
             const charTime = createCharTime(
                 currentChar,
-                Number(((this._timer.centiSecond - this._prevCharTime) / 100).toFixed(2)),
-                this._timer.centiSecond / 100
+                Number(((this._centiSecond - this._prevCharTime) / 100).toFixed(2)),
+                this._centiSecond / 100
             );
             this._charTimeArray.push(charTime);
         }
@@ -364,7 +379,7 @@ export class NextCharsDisplay {
         if (next) {
             next.classList.remove("error");
         }
-        this._prevCharTime = this._timer.centiSecond;
+        this._prevCharTime = this._centiSecond;
 
         // TODO: de-overlap this and comparePhrase
         if (inputString.length === 0) {
@@ -395,10 +410,9 @@ export class NextCharsDisplay {
                 this._chordImageHolder.hidden = false;
             }
             let firstChild = this._chordImageHolder.children[0] as HTMLElement;
-            if(firstChild) firstChild.hidden = false;
+            if (firstChild) firstChild.hidden = false;
             // const chordImageHolderChild = this._chordImageHolder?.firstChild as HTMLImageElement;
             // if (chordImageHolderChild) chordImageHolderChild.hidden = false;
-            console.log("chordImageHolder", this._chordImageHolder);
             next?.classList.add("error");
             if (this._errorCount)
                 this._errorCount.innerText = (parseInt(this._errorCount.innerText) + 1).toString(10);
@@ -407,7 +421,7 @@ export class NextCharsDisplay {
         if (inputString.trim() == this._phrase.value.trim()) {
             // SUCCESS 
             // SHOW completion indication
-            this._timer.setSvg('stop');
+            // this._timer.setSvg('stop');
             if (this._testArea) {
                 this._testArea.classList.add('disabled');
                 this._testArea.disabled = true;
@@ -424,10 +438,10 @@ export class NextCharsDisplay {
                     `charTimerSession_${(new Date).toISOString()}`,
                     JSON.stringify(this._charTimeArray)
                 );
-            this._timer.success();
+            // this._timer.success();
             return;
         }
-        this._timer.start();
+        // this._timer.start();
     }
 
     private getFirstNonMatchingChar = (testPhrase: string): number => {

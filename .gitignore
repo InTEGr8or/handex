@@ -10,6 +10,7 @@ resources/*
 public/
 public
 jj
+resources/_gen
 
 static/js/NextCharsDisplay.js
 static/js/NextCharsDisplay.js.map

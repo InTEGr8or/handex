@@ -2,7 +2,7 @@ import { TerminalCssClasses } from './terminal/TerminalTypes.js';
 import { CharTime, createCharTime, spaceDisplayChar, CancelCallback, InputEventCallback } from './types/Types.js';
 import { createElement } from "./utils/dom.js";
 
-export class Timer {
+class Timer {
     private _intervalId: number | null = null;
     private _centiSecond: number = 0;
     private _timerElement: HTMLSpanElement;
@@ -49,14 +49,6 @@ export class Timer {
         return this._centiSecond;
     }
 
-    // TODO: pick one of these two methods
-    public start_generated(interval: number): void {
-        if (this._intervalId === null) {
-            this._intervalId = window.setInterval(() => {
-                this._centiSecond++;
-            }, interval);
-        }
-    }
     public start = () => {
         // Start if not already started.
         if (!this.timerHandle) {
