@@ -1,7 +1,5 @@
-import { HandChord } from "./HandChord.js";
+import { HandChord } from "./HandChord";
 
 document.addEventListener("DOMContentLoaded", () => {
     const handChord = new HandChord();
 });
-
-export default null

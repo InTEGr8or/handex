@@ -8,9 +8,16 @@
     <link rel="stylesheet" href="/css/xterm.css" />
     <link rel="stylesheet" href="/css/handexercizer.css">
     <link rel="stylesheet" href="/css/terminal.css">
-    {{ $typescript := resources.Get "ts/terminal/main.ts" }}
-    {{ $transpiledJs := $typescript | js.Build (dict "target" "es2015") }}
-    <script src="{{ $transpiledJs.RelPermalink }}"></script>
+    {{- $options := dict "target" "es2020" }}
+    {{ if .Site.IsServer }}
+        {{/* Development settings */}}
+        {{- $options = merge $options (dict "sourcemap" "inline") }}
+    {{ else }}
+        {{/* Production settings */}}
+        {{- $options = merge $options (dict "minify" true) }}
+    {{ end }}
+    {{- $typescript := resources.Get "ts/terminal/main.ts" | js.Build $options }}
+    <script src="{{ $typescript.RelPermalink }}"></script>
     <style>
     </style>
 </head>

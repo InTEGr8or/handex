@@ -2,8 +2,10 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
-<script src="/js/chord-phrase.js" type="module">
-</script>
+    {{- $options := dict "target" "es2015" }}
+    {{- $options = merge $options (dict "sourcemap" "inline") }}
+    {{- $typescript := resources.Get "ts/chord-phrase.ts" | js.Build $options }}
+    <script src="{{ $typescript.RelPermalink }}"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/web-cam.css">
 <style>
