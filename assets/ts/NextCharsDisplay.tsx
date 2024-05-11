@@ -74,12 +74,16 @@ export class NextCharsDisplay {
     }
 
     stopTimer() {
-        if (this._timerRef.current){
+        if (this._timerRef.current) {
             this._timerRef.current.stop();
         }
     }
-
-
+    startTImer() {
+        if (this._timerRef.current) {
+            console.log("NextCharsDisplay.startTimer");
+            this._timerRef.current.start();
+        }
+    }
 
     findOrConstructPhrase(): HTMLInputElement {
         let result = document.getElementById(TerminalCssClasses.Phrase) as HTMLInputElement;
@@ -270,7 +274,7 @@ export class NextCharsDisplay {
     }
     cancelTimer = () => {
         console.log("cancelTimer");
-        if(this._timerRef.current) {
+        if (this._timerRef.current) {
             this._timerRef.current.stop();
         }
         this._nextChars.innerText = this._phrase.value;
@@ -364,7 +368,7 @@ export class NextCharsDisplay {
     testInput = (inputString: string) => {
         const currentChar = inputString.slice(-1); // Get the last character of the inputString
         const expectedChar = this._nextChar; // Expected character to be typed next
-
+        this.startTImer();
         // Use WPM calculator here.
         if (currentChar === expectedChar) {
             const charTime = createCharTime(

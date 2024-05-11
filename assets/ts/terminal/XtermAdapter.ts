@@ -145,6 +145,7 @@ export class XtermAdapter {
           }
         }
       }
+    
       this.terminal.write(data);
     }
   }
