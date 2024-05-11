@@ -84,6 +84,11 @@ export class NextCharsDisplay {
             this._timerRef.current.start();
         }
     }
+    resetTimer() {
+        if (this._timerRef.current) {
+            this._timerRef.current.reset();
+        }
+    }
 
     findOrConstructPhrase(): HTMLInputElement {
         let result = document.getElementById(TerminalCssClasses.Phrase) as HTMLInputElement;

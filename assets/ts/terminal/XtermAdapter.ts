@@ -119,7 +119,7 @@ export class XtermAdapter {
       this.terminal.write(data);
       let command = this.getCurrentCommand();
       if(command.length === 0){
-        this.nextCharsDisplay.stopTimer();
+        this.nextCharsDisplay.resetTimer();
         return;
       }
       this.nextCharsDisplay.testInput(command);
