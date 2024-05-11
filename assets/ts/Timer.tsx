@@ -16,6 +16,8 @@ const Timer = forwardRef((props: any, ref: any) => {
     } else if (!isActive && centiSecond !== 0) {
       clearInterval(intervalId!);
     }
+    
+    console.log('centiSecond updated to:', centiSecond); // This should log the updated value
 
     return () => {
       if (intervalId) clearInterval(intervalId);
@@ -32,10 +34,13 @@ const Timer = forwardRef((props: any, ref: any) => {
     setSvgStatus('start');
   };
 
-  const reset = () => {
+  const reset = (): number => {
     setIsActive(false);
+    const finalCentiSecond = centiSecond;
     setCentiSecond(0);
     setSvgStatus('start');
+    console.log('Timer reset from:', finalCentiSecond); // This will still log the old value due to the asynchronous nature of setState
+    return finalCentiSecond;
   };
 
   const success = () => {
@@ -66,13 +71,13 @@ const Timer = forwardRef((props: any, ref: any) => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <span id="timer">{(centiSecond / 100).toFixed(1)}</span>
       <svg width="15" height="20" style={{ float: 'left' }}>
         {renderSvg()}
       </svg>
       {/* Add buttons or interactions to control the timer */}
-    </div>
+    </React.Fragment>
   );
 });
 

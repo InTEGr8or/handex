@@ -10,6 +10,7 @@ export const TerminalCssClasses = {
     LogPrefix: 'log-prefix',
     LogTime: 'log-time',
     NextChars: 'nextChars',
+    NextCharsRate: 'nextCharsRate',
     WholePhraseChords: 'wholePhraseChords',
     ChordImageHolder: 'chord-image-holder',
     TestArea: 'testArea',

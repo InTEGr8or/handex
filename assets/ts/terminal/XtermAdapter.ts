@@ -35,12 +35,12 @@ export class XtermAdapter {
     this.wholePhraseChords = createElement('div', TerminalCssClasses.WholePhraseChords);
     this.wholePhraseChords.hidden = true;
     // this.chordImageHolder.hidden = true;
-    this.nextCharsDisplay = new NextCharsDisplay();
     this.outputElement = this.createOutputElement();
+    this.nextCharsDisplay = new NextCharsDisplay();
     this.nextCharsDisplay.nextChars.style.float = 'left';
     this.nextCharsDisplay.phrase.hidden = true;
     this.nextCharsDisplay.isTestMode = true;
-    this.terminalElement.prepend(this.nextCharsDisplay.nextChars);
+    this.terminalElement.prepend(this.nextCharsDisplay.nextCharsRate);
     // this.terminalElement.prepend(this.nextCharsDisplay.timer.timerSvg)
     this.terminalElement.prepend(this.outputElement);
     this.terminalElement.prepend(this.wholePhraseChords);
@@ -89,7 +89,7 @@ export class XtermAdapter {
       let command = this.getCurrentCommand();
       // Clear the terminal after processing the command
       this.terminal.reset();
-      this.nextCharsDisplay.reset();
+      this.nextCharsDisplay.resetTimer();
       // Write the new prompt after clearing
       this.prompt();
       if (command === '') return;

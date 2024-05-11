@@ -13,6 +13,7 @@ import { TimerContext } from './TimerContext'; // use the correct relative path
 
 export class NextCharsDisplay {
     private _nextChars: HTMLElement;
+    private _nextCharsRate: HTMLDivElement;
     private _phrase: HTMLInputElement;
 
     private _wholePhraseChords: HTMLElement;
@@ -45,6 +46,7 @@ export class NextCharsDisplay {
         this.voiceSynth = window.speechSynthesis as SpeechSynthesis;
         this._nextChars = document.getElementById(TerminalCssClasses.NextChars) as HTMLElement;
         this._nextChars.hidden = true;
+        this._nextCharsRate = document.getElementById(TerminalCssClasses.NextCharsRate) as HTMLDivElement;
         this._wpm = createElement('div', TerminalCssClasses.WPM) as HTMLSpanElement;
         this._charTimes = createElement('div', TerminalCssClasses.CharTimes);
         this._wholePhraseChords = createElement('div', TerminalCssClasses.WholePhraseChords);
@@ -119,6 +121,9 @@ export class NextCharsDisplay {
     }
     public get nextChars(): HTMLElement {
         return this._nextChars;
+    }
+    public get nextCharsRate(): HTMLElement {
+        return this._nextCharsRate;
     }
 
     get chordified(): HTMLElement {
@@ -278,9 +283,9 @@ export class NextCharsDisplay {
         return chordRows;
     }
     cancelTimer = () => {
-        console.log("cancelTimer");
+        console.log("NextCardsDisplay.cancelTimer");
         if (this._timerRef.current) {
-            this._timerRef.current.stop();
+            this._timerRef.current.reset();
         }
         this._nextChars.innerText = this._phrase.value;
         this._chordImageHolder.textContent = '';
