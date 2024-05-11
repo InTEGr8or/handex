@@ -5,6 +5,8 @@ declare global {
       'use': React.SVGProps<SVGUseElement>;
       span: React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
       svg: React.SVGProps<SVGSVGElement>;
+      img: React.ImgHTMLAttributes<HTMLImageElement>;
+      div: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
     }
   }
 }

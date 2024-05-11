@@ -16,8 +16,6 @@ const Timer = forwardRef((props: any, ref: any) => {
     } else if (!isActive && centiSecond !== 0) {
       clearInterval(intervalId!);
     }
-    
-    console.log('centiSecond updated to:', centiSecond); // This should log the updated value
 
     return () => {
       if (intervalId) clearInterval(intervalId);

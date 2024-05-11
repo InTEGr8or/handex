@@ -9,9 +9,18 @@ import { createRoot, Root } from 'react-dom/client'; // Import createRoot
 import Timer from './Timer.js'; // Import the React component
 import { allChords } from "./allChords.js";
 import { TimerContext } from './TimerContext'; // use the correct relative path
+import ErrorDisplay from "./ErrorDisplay";
 
 
-export class NextCharsDisplay {
+interface NextCharsDisplayProps {
+
+}
+
+interface NextCharsDisplayState {
+
+}
+
+export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, NextCharsDisplayState> {
     private _nextChars: HTMLElement;
     private _nextCharsRate: HTMLDivElement;
     private _phrase: HTMLInputElement;
@@ -39,7 +48,21 @@ export class NextCharsDisplay {
     private _centiSecond: number = 0;
     public isTestMode: boolean;
 
-    constructor() {
+    _errorDisplayRef = React.createRef<ErrorDisplay>();
+
+    handleError = () => {
+        // Call showError on the ErrorDisplay ref
+        this._errorDisplayRef.current.showError();
+    };
+
+    handleSuccess = () => {
+        // Call hideError on the ErrorDisplay ref
+        this._errorDisplayRef.current.hideError();
+    };
+
+
+    constructor(props: NextCharsDisplayProps) {
+        super(props);
         const handleInputEvent = this.testInput.bind(this);
         this._phrase = createElement('div', TerminalCssClasses.Phrase);
         this._lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/';
@@ -64,7 +87,6 @@ export class NextCharsDisplay {
         this.mountTimer();
         // this._timer = new Timer();
         this.attachEventListeners();
-
     }
     mountTimer() {
         this._timerRoot = document.getElementById('timer-root');
@@ -180,11 +202,6 @@ export class NextCharsDisplay {
         const nextIndex = this.getFirstNonMatchingChar(testPhrase);
         const nextChars = fullPhrase.substring(nextIndex, nextIndex + 40);
         return nextChars;
-    }
-
-    getCurrentCentiSecond = () => {
-        const timerContext = TimerContext._currentValue;
-        return timerContext.getCentiSecond();
     }
 
     /**
@@ -365,10 +382,10 @@ export class NextCharsDisplay {
         if (this.wpm) this.wpm.innerText = '0';
         if (this._charTimes) this._charTimes.innerHTML = '';
         // clear error class from all chords
-        Array
-            .from(this._wholePhraseChords.children)
+        Array.from(this._wholePhraseChords.children)
             .forEach(
-                (chord: HTMLElement) => {
+                (value: Element) => {
+                    const chord = value as HTMLElement;
                     chord.classList.remove("error");
                 }
             );
@@ -515,4 +532,16 @@ export class NextCharsDisplay {
         // Speak the text
         this.voiceSynth.speak(utterThis);
     }
+
+    render() {
+        return (
+            <ErrorDisplay 
+                ref={this._errorDisplayRef} 
+                svgCharacter={this._svgCharacter}
+                chordImageHolder={this._chordImageHolder}
+                />
+        );
+    }
 }
+
+export default NextCharsDisplay;
