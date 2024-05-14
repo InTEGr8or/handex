@@ -26,7 +26,7 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
 
     private _nextChars: HTMLElement;
     private _nextCharsRate: HTMLDivElement;
-    private _phrase: HTMLInputElement;
+    private _phrase = new Phrase('');
 
     private _wholePhraseChords: HTMLElement;
     private _chordImageHolder: HTMLElement;
@@ -67,7 +67,7 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
         super(props);
         this._errorDisplayRef = createRef();
         const handleInputEvent = this.testInput.bind(this);
-        this._phrase = createElement('div', TerminalCssClasses.Phrase);
+        // this._phrase = createElement('div', TerminalCssClasses.Phrase);
         this._lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/';
         this.voiceSynth = window.speechSynthesis as SpeechSynthesis;
         this._nextChars = document.getElementById(TerminalCssClasses.NextChars) as HTMLElement;
@@ -202,7 +202,7 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
     set wpm(wpm: HTMLSpanElement) {
         this._wpm = wpm;
     }
-    get phrase(): HTMLInputElement {
+    get phrase(): Phrase {
         return this._phrase;
     }
     public get nextChars(): HTMLElement {
@@ -242,13 +242,13 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
     }
 
     reset(): void {
-        this._phrase.value = '';
+        this._phrase = new Phrase('');
         this.setNext('');
         this._nextChars.hidden = true;
     }
 
     set phrase(phrase: HTMLInputElement) {
-        this._phrase = phrase;
+        this._phrase = new Phrase(phrase.value);
     }
 
     updateDisplay(testPhrase: string): void {
@@ -294,14 +294,18 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
         this.setNext('');
         // this._timer.setSvg('start');
         if (this._testArea) this._testArea.focus();
-        this._phrase.disabled = true;
+        // TODO: disable phrase elemeent
+        // this._phrase.disabled = true;
+
         return chordRows;
     }
 
     resetChordify = () => {
         if (this._phrase) {
-            this._phrase.value = '';
-            this._phrase.disabled = false;
+            // TODO: blank out the phrase input element.
+            // this._phrase.value = '';
+            // TODO: enable phrase elemeent
+            // this._phrase.disabled = false;
         }
         if (this._wholePhraseChords) this._wholePhraseChords.innerHTML = '';
         if (this._allChordsList) this._allChordsList.hidden = true;
@@ -333,7 +337,8 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
         this._nextChars.innerHTML = this.formatNextChars(nextChars);
 
         const next = this._wholePhraseChords?.children[nextIndex] as HTMLElement;
-        let inChord = this.findChordHTML(nextChars[0]);
+        
+        let inChord = Phrase.findChordHTML(nextChars[0]);
 
         if (inChord) {
             inChord.classList.add("next");

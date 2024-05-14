@@ -16,7 +16,8 @@ interface XtermAdapterState {
 }
 
 interface XtermAdapterProps {
-  terminalElement: HTMLElement;
+  terminalElement: HTMLElement | null;
+  terminalElementRef: React.RefObject<HTMLElement> | null;
 }
 
 export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapterState> {
@@ -70,16 +71,28 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
     });
   }
 
+  initializeTerminal() {
+    const { terminalElementRef } = this.props;
+    if (terminalElementRef?.current) {
+      this.terminal.open(terminalElementRef.current);
+      console.log('XtermAdapter.initializeTerminal() terminal opened', terminalElementRef.current);
+      // Other terminal initialization code...
+    }
+  }
+
+  componentDidUpdate(prevProps: Readonly<XtermAdapterProps>, prevState: Readonly<XtermAdapterState>, snapshot?: any): void {
+    console.log('XtermAdapter.componentDidUpdate()', prevProps.terminalElementRef?.current, this.props.terminalElementRef?.current);
+    if (prevProps.terminalElementRef?.current !== this.props.terminalElementRef?.current) {
+      this.initializeTerminal();
+    }
+  }
+
   componentDidMount() {
-    const { terminalElementRef, terminalElement } = this.props;
+    const { terminalElement, terminalElementRef } = this.props;
     console.log('document.getElementById(TerminalCssClasses.Terminal)', document.getElementById(TerminalCssClasses.Terminal));
     console.log('terminalElement', terminalElement);
-    console.log('terminalElementRef', terminalElementRef);
-    if (this.terminalElement) {
-      // const terminalElement = terminalElementRef.current;
-      // this.terminalElement = terminalElement;
-      this.terminal.open(this.terminalElement);
-      console.log('terminal opened', this.terminalElement);
+    if (terminalElementRef?.current) {
+      this.initializeTerminal();
     } else {
       console.error('terminalElementRef.current is NULL');
     }

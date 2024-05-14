@@ -39,7 +39,7 @@ export class Phrase {
         })
     }
 
-    createChordHTML(foundChord: Chord): HTMLElement {
+    public static createChordHTML(foundChord: Chord): HTMLElement {
         return createHTMLElementFromHTML(
             `<div class="col-sm-2 row generated" id="chord2">
                 <span id="char${foundChord.index}">${foundChord.key}</span>
@@ -48,7 +48,7 @@ export class Phrase {
         )
     }
 
-    findChordHTML(chordChar: string): HTMLElement | null {
+    public static findChordHTML(chordChar: string): HTMLElement | null {
         let inChord: HTMLElement | null = null;
         const foundChords
             = Array.from(allChords)

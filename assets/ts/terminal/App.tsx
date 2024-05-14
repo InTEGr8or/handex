@@ -7,15 +7,10 @@ import { TerminalCssClasses } from './TerminalTypes';
 
 // App.tsx
 class App extends React.Component {
-  terminalElement: HTMLDivElement | null = null;
-
-  terminalElementRef = (element: HTMLDivElement) => {
-    this.terminalElement = element;
-    // Now that the terminalElement is set, you can pass it down to XtermAdapter
-    this.forceUpdate(); // This will cause App to re-render
-  };
+  terminalElementRef = React.createRef<HTMLDivElement>();
 
   render() {
+    console.log('App.tsx terminalElementRef', this.terminalElementRef);
     return (
       <div>
         <div
@@ -23,9 +18,11 @@ class App extends React.Component {
           id={TerminalCssClasses.Terminal}
           className={TerminalCssClasses.Terminal}
         />
-        {this.terminalElement && <XtermAdapter 
-          terminalElement={this.terminalElement} 
-          />}
+        <XtermAdapter
+          terminalElement={this.terminalElementRef.current}
+          terminalElementRef={this.terminalElementRef}
+
+        />
       </div>
     );
   }
