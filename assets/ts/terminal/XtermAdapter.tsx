@@ -17,7 +17,7 @@ interface XtermAdapterState {
 
 interface XtermAdapterProps {
   terminalElement: HTMLElement | null;
-  terminalElementRef: React.RefObject<HTMLElement> | null;
+  terminalElementRef: React.RefObject<HTMLElement>;
 }
 
 export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapterState> {
@@ -28,6 +28,7 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
   private nextCharsRate: HTMLDivElement;
   private terminal: Terminal;
   private terminalElement: HTMLElement | null = null;
+  private terminalElementRef: React.RefObject<HTMLElement>;
   private lastTouchDistance: number | null = null;
   private currentFontSize: number = 17;
   private outputElement: HTMLElement;
@@ -44,7 +45,8 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
 
   constructor(props: XtermAdapterProps, state: XtermAdapterState) {
     super(props);
-
+    const { terminalElement, terminalElementRef } = props;
+    this.terminalElementRef = terminalElementRef;
     this.state = {
       commandLine: '',
       isInPhraseMode: false,
@@ -74,6 +76,7 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
   initializeTerminal() {
     const { terminalElementRef } = this.props;
     if (terminalElementRef?.current) {
+      this.terminalElementRef = terminalElementRef;
       this.terminal.open(terminalElementRef.current);
       console.log('XtermAdapter.initializeTerminal() terminal opened', terminalElementRef.current);
       // Other terminal initialization code...
@@ -348,16 +351,21 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
     // Use state and refs in your render method
     return (
       <>
-        <video
-          id="terminal-video"
-          hidden={!this.isShowVideo}
-        ></video>
         <NextCharsDisplay
           ref={this.nextCharsDisplayRef}
           onTimerStatusChange={this.handleTimerStatusChange}
           onNewPhraseSet={this.handleNewPhraseSet}
           commandLine={this.state.commandLine}
         />
+        <div
+          ref={this.terminalElementRef as React.RefObject<HTMLDivElement>}
+          id={TerminalCssClasses.Terminal}
+          className={TerminalCssClasses.Terminal}
+        />
+        <video
+          id="terminal-video"
+          hidden={!this.isShowVideo}
+        ></video>
       </>
     );
   }

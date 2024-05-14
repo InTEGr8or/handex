@@ -13,11 +13,6 @@ class App extends React.Component {
     console.log('App.tsx terminalElementRef', this.terminalElementRef);
     return (
       <div>
-        <div
-          ref={this.terminalElementRef}
-          id={TerminalCssClasses.Terminal}
-          className={TerminalCssClasses.Terminal}
-        />
         <XtermAdapter
           terminalElement={this.terminalElementRef.current}
           terminalElementRef={this.terminalElementRef}
