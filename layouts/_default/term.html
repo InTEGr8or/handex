@@ -16,7 +16,7 @@
     {{/* Production settings */}}
     {{- $options = merge $options (dict "minify" true) }}
     {{ end }}
-    {{- $typescript := resources.Get "ts/terminal/main.ts" | js.Build $options }}
+    {{- $typescript := resources.Get "ts/terminal/main.tsx" | js.Build $options }}
     <script src="{{ $typescript.RelPermalink }}"></script>
     <style>
     </style>
@@ -88,15 +88,7 @@
             </div>
         </div>
     </div>
-    <div id="wholePhraseChords" hidden>
-    </div>
-    <div id="nextCharsRate">
-        <div class="chord-image-holder" id="chord-image-holder"></div>
-        <span id="timer-root"></span> <!-- This will be replaced by the Timer component -->
-        <pre id="nextChars" class="nextChars">
-        </pre>
-    </div>
-    <div id="terminal" class="terminal-full-page"></div>
+    <div id="root"></div>
 
 </body>
 

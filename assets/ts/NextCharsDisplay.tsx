@@ -4,23 +4,26 @@ import { TerminalCssClasses } from "./terminal/TerminalTypes.js";
 import { createHTMLElementFromHTML } from "./utils/dom.js";
 import { WPMCalculator } from "./terminal/WPMCalculator.js";
 
-import React, { createRef } from 'react';
+import React, { createRef, useState } from 'react';
 import { createRoot, Root } from 'react-dom/client'; // Import createRoot
 import Timer from './Timer.js'; // Import the React component
 import { allChords } from "./allChords.js";
-import { TimerContext } from './TimerContext'; // use the correct relative path
 import ErrorDisplay from "./ErrorDisplay";
-
+import * as phrases from './phrases.json';
+import { Phrase } from "./Phrase.js";
 
 interface NextCharsDisplayProps {
-
+    onNewPhraseSet: (phrase: string) => void
+    commandLine: string;
+    onTimerStatusChange: (isActive: boolean) => void;
 }
-
 interface NextCharsDisplayState {
 
 }
 
 export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, NextCharsDisplayState> {
+
+
     private _nextChars: HTMLElement;
     private _nextCharsRate: HTMLDivElement;
     private _phrase: HTMLInputElement;
@@ -34,7 +37,7 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
     // private _timer: Timer;
     private _timerRoot: HTMLElement | null = null;
     private _timerRef: React.RefObject<any>;
-    private timerComponentRoot: Root | null = null;
+    private timerComponentRoot: Root | null = null
     private _chordified: HTMLElement;
     private _allChordsList: HTMLElement;
     private _errorCount: HTMLElement;
@@ -48,27 +51,26 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
     private _centiSecond: number = 0;
     public isTestMode: boolean;
 
-    _errorDisplayRef = React.createRef<ErrorDisplay>();
+    state = {
+        mismatchedChar: '',
+        mismatchedCharCode: '',
+        mismatchedIsVisible: false,
+        nextChars: 'Next Chars',
+        nextCharsIsVisible: false,
+        phrase: '',
+        isActive: false,
+    }
 
-    handleError = () => {
-        // Call showError on the ErrorDisplay ref
-        this._errorDisplayRef.current.showError();
-    };
-
-    handleSuccess = () => {
-        // Call hideError on the ErrorDisplay ref
-        this._errorDisplayRef.current.hideError();
-    };
-
+    private _errorDisplayRef: React.RefObject<any>;
 
     constructor(props: NextCharsDisplayProps) {
         super(props);
+        this._errorDisplayRef = createRef();
         const handleInputEvent = this.testInput.bind(this);
         this._phrase = createElement('div', TerminalCssClasses.Phrase);
         this._lambdaUrl = 'https://l7c5uk7cutnfql5j4iunvx4fuq0yjfbs.lambda-url.us-east-1.on.aws/';
         this.voiceSynth = window.speechSynthesis as SpeechSynthesis;
         this._nextChars = document.getElementById(TerminalCssClasses.NextChars) as HTMLElement;
-        this._nextChars.hidden = true;
         this._nextCharsRate = document.getElementById(TerminalCssClasses.NextCharsRate) as HTMLDivElement;
         this._wpm = createElement('div', TerminalCssClasses.WPM) as HTMLSpanElement;
         this._charTimes = createElement('div', TerminalCssClasses.CharTimes);
@@ -84,15 +86,63 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
         this._testArea = (document.getElementById(TerminalCssClasses.TestArea) as HTMLTextAreaElement);
         this.isTestMode = localStorage.getItem('testMode') == 'true';
         this._timerRef = createRef();
-        this.mountTimer();
         // this._timer = new Timer();
         this.attachEventListeners();
     }
+
+    componentDidMount() {
+        console.log('NextCharsDisplay mounted');
+        this.mountTimer();
+    }
+
+
+    setNewPhrase = () => {
+        const newPhrase = this.getRandomPhrase();
+        this.setState({ phrase: newPhrase });
+        this.props.onNewPhraseSet(newPhrase);
+    }
+
+    getRandomPhrase(): string {
+        const keys = Object.keys(phrases);
+        if (keys.length === 0) return '';
+        const randomKey = keys[Math.floor(Math.random() * keys.length)] as keyof typeof phrases;
+        const result = phrases[randomKey];
+        return result;
+    }
+
+    showError = (char: string, charCode: string) => {
+        this.setState({
+            mismatchedCharacter: char,
+            mismatchedCharacterCode: charCode,
+            mismatchedIsVisible: true
+        })
+        // Call showError on the ErrorDisplay ref
+        if (this._errorDisplayRef.current) this._errorDisplayRef.current.showError();
+    };
+
+    hideError = () => {
+        this.setState({
+            mismatchedCharacter: '',
+            mismatchedCharacterCode: '',
+            mismatchedIsVisible: false
+        })
+        // Call hideError on the ErrorDisplay ref
+        if (this._errorDisplayRef.current) this._errorDisplayRef.current.hideError();
+    };
+
+    handleSuccess = () => {
+        // Call hideError on the ErrorDisplay ref
+        this._errorDisplayRef.current.hideError();
+    };
+
     mountTimer() {
         this._timerRoot = document.getElementById('timer-root');
         console.log('timerRoot', this._timerRoot);
         if (this._timerRoot) {
-            this.timerComponentRoot = createRoot(this._timerRoot); // Create a root
+            if (!this.timerComponentRoot) {
+                console.log('creating timerComponentRoot');
+                this.timerComponentRoot = createRoot(this._timerRoot); // Create a root
+            }
             this.timerComponentRoot.render(<Timer ref={this._timerRef} />); // Render the Timer component with the ref
         }
     }
@@ -111,6 +161,20 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
     resetTimer() {
         if (this._timerRef.current) {
             this._timerRef.current.reset();
+        }
+    }
+
+    cancelTimer = () => {
+        console.log("NextCardsDisplay.cancelTimer");
+        if (this._timerRef.current) {
+            this._timerRef.current.reset();
+        }
+        if (this._nextChars) this._nextChars.innerText = this._phrase.value;
+        if (this._testArea) {
+            this._testArea.style.border = "2px solid lightgray";
+            this._testArea.disabled = false;
+            this._testArea.value = '';
+            this._testArea.focus();
         }
     }
 
@@ -186,11 +250,6 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
     set phrase(phrase: HTMLInputElement) {
         this._phrase = phrase;
     }
-    setPhraseString(newPhrase: string): void {
-        this._phrase.innerText = newPhrase;
-        this.setNext(''); // Reset the display with the new phrase from the beginning
-        this._nextChars.hidden = false;
-    }
 
     updateDisplay(testPhrase: string): void {
         const nextIndex = this.getFirstNonMatchingChar(testPhrase);
@@ -227,93 +286,18 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
         return result;
     }
 
-    createChordHTML(foundChord: Chord): HTMLElement {
-        return createHTMLElementFromHTML(
-            `<div class="col-sm-2 row generated" id="chord2">
-                <span id="char${foundChord.index}">${foundChord.key}</span>
-                <img loading="lazy" alt="2" src="/images/svgs/${foundChord.chordCode}.svg" width="100" class="hand">
-            </div>`
-        )
-    }
-
-    findChordHTML(chordChar: string): HTMLElement | null {
-        let inChord: HTMLElement | null = null;
-        const foundChords
-            = Array.from(allChords)
-                .filter(x => { return x.key == chordChar; });
-        // Load the clone in Chord order into the wholePhraseChords div.
-        if (foundChords.length > 0) {
-            // const inChord = foundChords[0].cloneNode(true) as HTMLDivElement;
-            const foundChord = foundChords[0];
-            inChord = this.createChordHTML(foundChord);
-            inChord.setAttribute("name", foundChord.key);
-            inChord.hidden = this.isTestMode;
-        }
-        else {
-            console.log("Missing chord:", chordChar);
-        }
-        return inChord;
-    }
     public async chordify(): Promise<Array<ChordRow>> {
-        if (this._chordified) this._chordified.innerHTML = '';
-        if (!this._phrase || !this._phrase.value || this._phrase.value.trim().length == 0) {
-            return [];
-        }
-        const phraseEncoded = btoa(this._phrase.value);
-        const response = await fetch(this._lambdaUrl, {
-            method: 'POST',
-            headers: {
-
-            },
-            body: JSON.stringify({
-                phrase: phraseEncoded
-            })
-        });
-        const chordList = await response.json();
-        if (chordList.error) {
-            console.log("chordList.error:", chordList.error);
-            return [];
-        }
-        const chordRows = chordList.json as Array<ChordRow>;
-        // Add each row to the chordified element as a separate div with the first character of the row as the name.
-        if (this._wholePhraseChords) this._wholePhraseChords.innerHTML = '';
-        chordRows.forEach((row: ChordRow, i: number) => {
-            const rowDiv = document.createElement('div') as HTMLDivElement;
-            const chordCode = row.chord.toString(16);
-            let inChord = this.findChordHTML(row.char);
-            if (this._wholePhraseChords && inChord) this._wholePhraseChords.appendChild(inChord);
-            document.getElementById(`chord${chordCode}`)?.querySelector(`img`)?.setAttribute("loading", "eager");
-            // document.querySelector(`#${chordCode}`).hidden = false;
-            rowDiv.id = i.toString();
-            rowDiv.setAttribute("name", row.char);
-            const charSpan = document.createElement('span');
-            charSpan.innerHTML = row.char;
-            rowDiv.appendChild(charSpan);
-            rowDiv.appendChild(document.createTextNode(row.strokes));
-            if (this._chordified) this._chordified.appendChild(rowDiv);
-        });
+        const phrase = new Phrase(this._phrase.value);
+        console.log('phrase', phrase);
+        const chordRows: Array<ChordRow> = phrase.chords.map((chord: Chord) => { return { char: chord.key, chord: parseInt(chord.chordCode, 16), strokes: '' }; });
+        this._wholePhraseChords.innerHTML = phrase.chordsHTML.join('');
         this.setNext('');
         // this._timer.setSvg('start');
         if (this._testArea) this._testArea.focus();
         this._phrase.disabled = true;
-        this.setPhraseString(this._phrase.value);
         return chordRows;
     }
-    cancelTimer = () => {
-        console.log("NextCardsDisplay.cancelTimer");
-        if (this._timerRef.current) {
-            this._timerRef.current.reset();
-        }
-        this._nextChars.innerText = this._phrase.value;
-        this._chordImageHolder.textContent = '';
-        if (this._testArea) {
-            this._testArea.style.border = "2px solid lightgray";
-            this._testArea.disabled = false;
-            this._testArea.value = '';
-            this._testArea.focus();
-        }
 
-    }
     resetChordify = () => {
         if (this._phrase) {
             this._phrase.value = '';
@@ -353,7 +337,7 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
 
         if (inChord) {
             inChord.classList.add("next");
-            this._chordImageHolder.replaceChildren(inChord);
+            if (this._chordImageHolder) this._chordImageHolder.replaceChildren(inChord);
         }
 
         if (this._svgCharacter && next) {
@@ -393,6 +377,7 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
     }
 
     testInput = (inputString: string) => {
+        console.log("testInput", inputString);
         const currentChar = inputString.slice(-1); // Get the last character of the inputString
         const expectedChar = this._nextChar; // Expected character to be typed next
         this.startTImer();
@@ -427,26 +412,26 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
                 .trim().substring(0, inputString.length)
         ) {
             if (this._testArea) this._testArea.style.border = "4px solid #FFF3";
-            if (this._svgCharacter) this._svgCharacter.hidden = true;
+            this.hideError();
             this._nextChars.textContent = this.getNextCharacters(inputString, this._phrase.value);
         }
         else {
-            // MISMATCHED
+            // #MISMATCHED
             // Alert mismatched text with red border.
             if (this._testArea) this._testArea.style.border = "4px solid red";
-            if (this._svgCharacter) {
-                // this._svgCharacter
-                this._svgCharacter.hidden = false;
-                // this._chordImageHolder.appendChild(this._svgCharacter);
-                this._chordImageHolder.hidden = false;
+            next?.classList.add("error");
+            console.log('NextCharsDisplay.testInput mismatch', this._errorDisplayRef);
+            if (this._errorDisplayRef.current) {
+                const mismatchedChar = this._phrase.value[this.getFirstNonMatchingChar(this._phrase.value)];
+                const mismatchedCharCode: string = allChords.find((x: Chord) => x.key == mismatchedChar)?.chordCode ?? '';
+                console.log('Showing error');
+                this.showError(mismatchedChar, mismatchedCharCode);
+            } else {
+                console.log('NextCharsDisplay.testInput #MISMATCHED errorDisplayRef.current is null');
             }
-            let firstChild = this._chordImageHolder.children[0] as HTMLElement;
-            if (firstChild) firstChild.hidden = false;
+
             // const chordImageHolderChild = this._chordImageHolder?.firstChild as HTMLImageElement;
             // if (chordImageHolderChild) chordImageHolderChild.hidden = false;
-            next?.classList.add("error");
-            if (this._errorCount)
-                this._errorCount.innerText = (parseInt(this._errorCount.innerText) + 1).toString(10);
         }
 
         if (inputString.trim() == this._phrase.value.trim()) {
@@ -490,6 +475,7 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
         };
         return result;
     };
+
     sayText = (e: KeyboardEvent) => {
         const eventTarget = e.target as HTMLInputElement;
         // Get the input element value
@@ -534,12 +520,25 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
     }
 
     render() {
+        console.log('Next Chars: ', this._nextChars);
         return (
-            <ErrorDisplay 
-                ref={this._errorDisplayRef} 
-                svgCharacter={this._svgCharacter}
-                chordImageHolder={this._chordImageHolder}
+            <div>
+                {/* ...other components */}
+                <ErrorDisplay
+                    isVisible={this.state.mismatchedIsVisible}
+                    ref={this._errorDisplayRef}
+                    svgCharacter={this._svgCharacter}
+                    chordImageHolder={this._chordImageHolder}
+                    mismatchedChar={this.state.mismatchedChar}
+                    mismatchedCharCode={this.state.mismatchedCharCode}
                 />
+                <Timer
+                    ref={this._timerRef}
+                />
+                <pre id={TerminalCssClasses.NextChars}>
+                    {this._phrase.value}
+                </pre>
+            </div>
         );
     }
 }

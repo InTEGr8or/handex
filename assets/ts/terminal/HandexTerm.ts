@@ -1,7 +1,7 @@
 // HandexTerm.ts
 import { LogKeys, TimeHTML } from './TerminalTypes';
 import { IWPMCalculator, WPMCalculator } from './WPMCalculator';
-import { IPersistence } from './Persistence';
+import { IPersistence, LocalStoragePersistence } from './Persistence';
 import { createElement } from '../utils/dom';
 import { createHTMLElementFromHTML } from '../utils/dom';
 
@@ -25,8 +25,8 @@ export class HandexTerm implements IHandexTerm {
   private testMode: HTMLInputElement | null = null;
   private setWpmCallback: () => void = () => {};
 
-  constructor(private persistence: IPersistence,) {
-    this._persistence = persistence;
+  constructor() {
+    this._persistence = new LocalStoragePersistence();
     this.wholePhraseChords = createElement('div', 'whole-phrase-chords')
   }
 

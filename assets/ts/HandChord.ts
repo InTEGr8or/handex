@@ -22,7 +22,7 @@ export class HandChord {
     private nextCharsDisplay: NextCharsDisplay;
 
     constructor() {
-        this.nextCharsDisplay = new NextCharsDisplay();
+        this.nextCharsDisplay = new NextCharsDisplay({});
         this.phrase = document.getElementById("phrase") as HTMLInputElement;
         this.nextCharsDisplay.phrase = this.phrase;
         this.chordified = document.getElementById("chordified") as HTMLElement;

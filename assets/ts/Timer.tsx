@@ -10,10 +10,12 @@ const Timer = forwardRef((props: any, ref: any) => {
     let intervalId: NodeJS.Timeout | null = null;
 
     if (isActive) {
+      setSvgStatus('pause');
       intervalId = setInterval(() => {
         setCentiSecond((prevCentiSecond: number) => prevCentiSecond + 1);
       }, 10);
     } else if (!isActive && centiSecond !== 0) {
+      setSvgStatus('start');
       clearInterval(intervalId!);
     }
 
@@ -24,19 +26,16 @@ const Timer = forwardRef((props: any, ref: any) => {
 
   const start = () => {
     setIsActive(true);
-    setSvgStatus('pause');
   };
 
   const stop = () => {
     setIsActive(false);
-    setSvgStatus('start');
   };
 
   const reset = (): number => {
     setIsActive(false);
     const finalCentiSecond = centiSecond;
     setCentiSecond(0);
-    setSvgStatus('start');
     console.log('Timer reset from:', finalCentiSecond); // This will still log the old value due to the asynchronous nature of setState
     return finalCentiSecond;
   };
@@ -45,7 +44,6 @@ const Timer = forwardRef((props: any, ref: any) => {
     console.log("Timer Success");
     setCentiSecond(0);
     setIsActive(false);
-    setSvgStatus('start');
   };
 
   useImperativeHandle(ref, () => ({

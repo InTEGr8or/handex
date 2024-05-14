@@ -9,9 +9,9 @@
   "scripts": {
     "test": "jest",
     "build": "tsc && hugo",
-    "start": "concurrently --kill-others-on-fail \"npm run tsc-watch\" \"npm run hugo-serve -gc\"",
-    "tsc-watch": "tsc --watch",
-    "hugo-serve": "hugo serve"
+    "start": "concurrently --kill-others-on-fail \"npm run tsc-watch\" \"npm run hugo-serve \"",
+    "tsc-watch": "tsc --watch --outDir ./assets/js/",
+    "hugo-serve": "hugo serve --disableFastRender --gc"
   },
   "keywords": [],
   "author": "",

@@ -3,11 +3,15 @@ import React, { useState, useImperativeHandle, forwardRef } from 'react';
 interface ErrorDisplayProps {
   svgCharacter: HTMLElement;
   chordImageHolder: HTMLElement;
+  mismatchedChar: string;
+  mismatchedCharCode: string;
+  isVisible: boolean;
 }
 
 const ErrorDisplay = forwardRef((props: ErrorDisplayProps, ref) => {
   const [errorCount, setErrorCount] = useState(0);
-  const { svgCharacter, chordImageHolder } = props;
+  const { svgCharacter, chordImageHolder, mismatchedChar, mismatchedCharCode } = props;
+
 
   const showError = () => {
     svgCharacter.hidden = false;
@@ -18,8 +22,8 @@ const ErrorDisplay = forwardRef((props: ErrorDisplayProps, ref) => {
   };
 
   const hideError = () => {
-    svgCharacter.hidden = true;
-    chordImageHolder.hidden = true;
+    svgCharacter.hidden = false;
+    chordImageHolder.hidden = false;
   };
 
   // Use useImperativeHandle to expose functions to the parent component
@@ -29,14 +33,14 @@ const ErrorDisplay = forwardRef((props: ErrorDisplayProps, ref) => {
   }));
 
   return (
-    <React.Fragment>
+    <div style={{ display: props.isVisible ? 'block' : 'none'}} >
       <div>Error Count: {errorCount}</div>
-      <div className="chord-image-holder" id="chord-image-holder">
+      <div className="chord-image-holder" id="chord-image-holder" data-source="ErrorDisplay.tsx">
         <div className="col-sm-2 row generated next" id="chord2" >
-        <span id="char15">P</span>
-        <img loading="lazy" alt="2" src="/images/svgs/594.svg" width="100" className="hand"></img>
-      </div></div>
-    </React.Fragment>
+          <span id="char15">{mismatchedChar}</span>
+          <img loading="lazy" alt="2" src={`/images/svgs/${mismatchedCharCode}.svg`} width="100" className="hand"></img>
+        </div></div>
+    </div>
   );
 });
 
