@@ -9,7 +9,7 @@
   "scripts": {
     "test": "jest",
     "build": "tsc && hugo",
-    "start": "concurrently --kill-others-on-fail \"npm run tsc-watch\" \"npm run hugo-serve \"",
+    "start": "concurrently \"npm run tsc-watch\" \"npm run hugo-serve \"",
     "tsc-watch": "tsc --watch --outDir ./assets/js/",
     "hugo-serve": "hugo serve --disableFastRender --gc"
   },
