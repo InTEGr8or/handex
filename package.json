@@ -10,7 +10,7 @@
     "test": "jest",
     "build": "tsc && hugo",
     "start": "concurrently \"npm run tsc-watch\" \"npm run hugo-serve \"",
-    "tsc-watch": "tsc --watch --outDir ./assets/js/",
+    "tsc-watch": "tsc --watch --outDir ./static/js/",
     "hugo-serve": "hugo serve --disableFastRender --gc"
   },
   "keywords": [],
