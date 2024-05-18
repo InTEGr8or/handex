@@ -28,7 +28,7 @@ export class Phrase {
     setChords(): void {
         const phraseArray = this._value.split('');
         phraseArray.forEach((char) => {
-            const foundChordHTML = this.findChordHTML(char);
+            const foundChordHTML = Phrase.findChordHTML(char);
             if (foundChordHTML) {
                 this._chordsHTML.push(foundChordHTML);
             }

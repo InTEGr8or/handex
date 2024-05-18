@@ -22,7 +22,13 @@ export class HandChord {
     private nextCharsDisplay: NextCharsDisplay;
 
     constructor() {
-        this.nextCharsDisplay = new NextCharsDisplay({});
+        this.nextCharsDisplay = new NextCharsDisplay({
+            wholePhraseChords: document.getElementById(TerminalCssClasses.WholePhraseChords) as HTMLElement,
+            chordImageHolder: document.getElementById(TerminalCssClasses.ChordImageHolder) as HTMLElement,
+            svgCharacter: document.getElementById(TerminalCssClasses.SvgCharacter) as HTMLElement,
+            testMode: document.getElementById(TerminalCssClasses.TestMode) as HTMLInputElement,
+            setWpmCallback: () => { },
+        });
         this.phrase = document.getElementById("phrase") as HTMLInputElement;
         this.nextCharsDisplay.phrase = this.phrase;
         this.chordified = document.getElementById("chordified") as HTMLElement;

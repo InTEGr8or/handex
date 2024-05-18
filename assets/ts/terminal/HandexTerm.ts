@@ -7,16 +7,16 @@ import { createHTMLElementFromHTML } from '../utils/dom';
 
 export interface IHandexTerm {
   // Define the interface for your HandexTerm logic
-  handleCommand(input: string): HTMLElement;
+  handleCommand(input: string): string;
   clearCommandHistory(): void;
   handleCharacter(character: string): number;
-  getCommandHistory(): HTMLElement[];
+  getCommandHistory(): string[];
 }
 
 export class HandexTerm implements IHandexTerm {
   // Implement the interface methods
   private _persistence: IPersistence;
-  private _commandHistory: HTMLElement[] = [];
+  private _commandHistory: string[] = [];
   private wpmCalculator: IWPMCalculator = new WPMCalculator();
   private static readonly commandHistoryLimit = 100;
   private wholePhraseChords: HTMLElement | null = null;
@@ -30,13 +30,14 @@ export class HandexTerm implements IHandexTerm {
     this.wholePhraseChords = createElement('div', 'whole-phrase-chords')
   }
 
-  public handleCommand(command: string): HTMLElement {
+  public handleCommand(command: string): string {
+    console.log('handleCommand', command);
     let status = 404;
     let response = "Command not found.";
     if (command === 'clear') {
       status = 200;
       this.clearCommandHistory();
-      return new HTMLElement();
+      return '';
     }
     if (command === 'play') {
       status = 200;
@@ -71,8 +72,9 @@ export class HandexTerm implements IHandexTerm {
     let wpm = this.saveCommandResponseHistory(commandResponseElement, timeCode.join('')); // Save updated history to localStorage
     commandText = commandText.replace(/{{wpm}}/g, ('_____' + wpm.toFixed(0)).slice(-4));
     if (!this._commandHistory) { this._commandHistory = []; }
-    this._commandHistory.push(commandResponseElement);
-    return commandResponseElement;
+    const commandResponse = commandResponseElement.outerHTML;
+    this._commandHistory.push(commandResponse);
+    return commandResponse;
   }
 
   parseCommand(input: string): void {
@@ -95,9 +97,9 @@ export class HandexTerm implements IHandexTerm {
     }
   }
 
-  getCommandHistory(): HTMLElement[] {
+  getCommandHistory(): string[] {
     let keys: string[] = [];
-    let commandHistory: HTMLElement[] = [];
+    let commandHistory: string[] = [];
     for (let i = 0; i < localStorage.length; i++) {
       if (!localStorage.key(i)?.startsWith(LogKeys.Command)) continue;
 
@@ -109,7 +111,7 @@ export class HandexTerm implements IHandexTerm {
     for (let key of keys) {
       const historyJSON = localStorage.getItem(key);
       if (historyJSON) {
-        commandHistory.push(JSON.parse(historyJSON));
+        commandHistory.push(historyJSON);
       }
     }
     return commandHistory;
@@ -120,7 +122,7 @@ export class HandexTerm implements IHandexTerm {
     let wpmSum = this.wpmCalculator.saveKeystrokes(commandTime);
     this.wpmCalculator.clearKeystrokes();
     commandResponseElement.innerHTML = commandResponseElement.innerHTML.replace(/{{wpm}}/g, ('_____' + wpmSum.toFixed(0)).slice(-4));
-    this._persistence.setItem(`${LogKeys.Command}_${commandTime}`, JSON.stringify(commandResponseElement.innerHTML));
+    this._persistence.setItem(`${LogKeys.Command}_${commandTime}`, commandResponseElement.outerHTML);
     return wpmSum;
   }
 

@@ -108,7 +108,7 @@
   "include": [
     "assets/ts/**/*.ts",
     "assets/ts/NextCharsDisplay.tsx"
-, "assets/ts/terminal/XtermAdapter.tsx", "assets/ts/terminal/main.tsx"  ],
+, "assets/ts/terminal/XtermAdapter.tsx", "assets/ts/terminal/main.tsx", "assets/ts/react-app/index.tsx"  ],
   "exclude": [
     "node_modules",
   ]

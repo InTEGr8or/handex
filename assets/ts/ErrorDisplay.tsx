@@ -10,20 +10,24 @@ interface ErrorDisplayProps {
 
 const ErrorDisplay = forwardRef((props: ErrorDisplayProps, ref) => {
   const [errorCount, setErrorCount] = useState(0);
-  const { svgCharacter, chordImageHolder, mismatchedChar, mismatchedCharCode } = props;
+  const { svgCharacter, chordImageHolder, mismatchedChar, mismatchedCharCode, isVisible } = props;
 
 
-  const showError = () => {
-    svgCharacter.hidden = false;
-    chordImageHolder.hidden = false;
-    const firstChild = chordImageHolder.children[0] as HTMLElement;
-    firstChild.hidden = false;
+  const showError = (charCode: string) => {
+    // svgCharacter.hidden = !isVisible;
+
+    // chordImageHolder.hidden = false;
+    // const firstChild = chordImageHolder.children[0] as HTMLElement;
+    // firstChild.hidden = false;
+    // mismatchedCharCode = charCode;
     setErrorCount(prevCount => prevCount + 1);
+    console.log("showError", isVisible, mismatchedChar, mismatchedCharCode, errorCount);
   };
 
   const hideError = () => {
-    svgCharacter.hidden = false;
-    chordImageHolder.hidden = false;
+    // svgCharacter.hidden = false;
+    // chordImageHolder.hidden = false;
+    console.log("hideError", isVisible, mismatchedChar, mismatchedCharCode, errorCount);
   };
 
   // Use useImperativeHandle to expose functions to the parent component

@@ -13,12 +13,19 @@ import * as phrases from './phrases.json';
 import { Phrase } from "./Phrase.js";
 
 interface NextCharsDisplayProps {
-    onNewPhraseSet: (phrase: string) => void
     commandLine: string;
     onTimerStatusChange: (isActive: boolean) => void;
+    isInPhraseMode: boolean;
+
 }
 interface NextCharsDisplayState {
-
+    isActive: boolean;
+    mismatchedChar: string;
+    mismatchedCharCode: string;
+    mismatchedIsVisible: boolean;
+    nextChars: string;
+    nextCharsIsVisible: boolean;
+    phrase: Phrase;
 }
 
 export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, NextCharsDisplayState> {
@@ -57,8 +64,8 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
         mismatchedIsVisible: false,
         nextChars: 'Next Chars',
         nextCharsIsVisible: false,
-        phrase: '',
         isActive: false,
+        phrase: new Phrase(''),
     }
 
     private _errorDisplayRef: React.RefObject<any>;
@@ -91,15 +98,35 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
     }
 
     componentDidMount() {
-        console.log('NextCharsDisplay mounted');
         this.mountTimer();
+        if(this.props.isInPhraseMode) {
+            this.setNewPhrase();
+        }
     }
 
+    componentDidUpdate(prevProps: NextCharsDisplayProps) {
+        // Check if the commandLine prop has changed
+        if (this.props.commandLine !== prevProps.commandLine) {
+            // Handle the new commandLine prop, for example by setting state
+            console.log('compenetDidUpdate', this.props.commandLine);
+            this.setState({ phrase: new Phrase(this.props.commandLine) });
+
+            // Or perform any other actions necessary to respond to the change
+            this.handleCommandLineChange(this.props.commandLine);
+        }
+    }
+
+    handleCommandLineChange(newCommandLine: string) {
+        // TODO: Logic to handle the change in commandLine
+        console.log('handleCommandLineChange', newCommandLine);
+        this.testInput(newCommandLine);
+    }
 
     setNewPhrase = () => {
         const newPhrase = this.getRandomPhrase();
-        this.setState({ phrase: newPhrase });
-        this.props.onNewPhraseSet(newPhrase);
+        console.log('setNewPhrase', newPhrase);
+        this.setState({ phrase: new Phrase(newPhrase) });
+        this.updateDisplay(newPhrase);
     }
 
     getRandomPhrase(): string {
@@ -112,8 +139,8 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
 
     showError = (char: string, charCode: string) => {
         this.setState({
-            mismatchedCharacter: char,
-            mismatchedCharacterCode: charCode,
+            mismatchedChar: char,
+            mismatchedCharCode: charCode,
             mismatchedIsVisible: true
         })
         // Call showError on the ErrorDisplay ref
@@ -122,8 +149,8 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
 
     hideError = () => {
         this.setState({
-            mismatchedCharacter: '',
-            mismatchedCharacterCode: '',
+            mismatchedChar: '',
+            mismatchedCharCode: '',
             mismatchedIsVisible: false
         })
         // Call hideError on the ErrorDisplay ref
@@ -137,10 +164,8 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
 
     mountTimer() {
         this._timerRoot = document.getElementById('timer-root');
-        console.log('timerRoot', this._timerRoot);
         if (this._timerRoot) {
             if (!this.timerComponentRoot) {
-                console.log('creating timerComponentRoot');
                 this.timerComponentRoot = createRoot(this._timerRoot); // Create a root
             }
             this.timerComponentRoot.render(<Timer ref={this._timerRef} />); // Render the Timer component with the ref
@@ -154,7 +179,6 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
     }
     startTImer() {
         if (this._timerRef.current) {
-            console.log("NextCharsDisplay.startTimer");
             this._timerRef.current.start();
         }
     }
@@ -165,7 +189,6 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
     }
 
     cancelTimer = () => {
-        console.log("NextCardsDisplay.cancelTimer");
         if (this._timerRef.current) {
             this._timerRef.current.reset();
         }
@@ -252,12 +275,14 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
     }
 
     updateDisplay(testPhrase: string): void {
+        console.log('updateDisplay', testPhrase);
         const nextIndex = this.getFirstNonMatchingChar(testPhrase);
         this.setNext(testPhrase);
         const nextChars = this._phrase.value.substring(nextIndex, nextIndex + 40);
-        this._nextChars.innerHTML = this.formatNextChars(nextChars);
     }
+
     getNextCharacters(testPhrase: string, fullPhrase: string): string {
+        console.log('getNextCharacters', testPhrase, fullPhrase);
         const nextIndex = this.getFirstNonMatchingChar(testPhrase);
         const nextChars = fullPhrase.substring(nextIndex, nextIndex + 40);
         return nextChars;
@@ -332,12 +357,12 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
 
         let nextCharacter = `<span class="nextCharacter">${this._phrase.value.substring(nextIndex, nextIndex + 1).replace(' ', '&nbsp;')}</span>`;
 
-        // this.updateDisplay(testPhrase);
+        this.updateDisplay(testPhrase);
         const nextChars = this._phrase.value.substring(nextIndex, nextIndex + 40);
         this._nextChars.innerHTML = this.formatNextChars(nextChars);
 
         const next = this._wholePhraseChords?.children[nextIndex] as HTMLElement;
-        
+
         let inChord = Phrase.findChordHTML(nextChars[0]);
 
         if (inChord) {
@@ -430,7 +455,8 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
                 const mismatchedChar = this._phrase.value[this.getFirstNonMatchingChar(this._phrase.value)];
                 const mismatchedCharCode: string = allChords.find((x: Chord) => x.key == mismatchedChar)?.chordCode ?? '';
                 console.log('Showing error');
-                this.showError(mismatchedChar, mismatchedCharCode);
+                this.setState({ mismatchedChar, mismatchedCharCode });
+                // this.showError(mismatchedChar, mismatchedCharCode);
             } else {
                 console.log('NextCharsDisplay.testInput #MISMATCHED errorDisplayRef.current is null');
             }
@@ -525,9 +551,9 @@ export class NextCharsDisplay extends React.Component<NextCharsDisplayProps, Nex
     }
 
     render() {
-        console.log('Next Chars: ', this._nextChars);
+        console.log('IsInPhraseMode: ', this.props.isInPhraseMode);
         return (
-            <div>
+            <div hidden={!this.props.isInPhraseMode}>
                 {/* ...other components */}
                 <ErrorDisplay
                     isVisible={this.state.mismatchedIsVisible}

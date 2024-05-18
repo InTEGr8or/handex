@@ -9,8 +9,11 @@ import { TerminalCssClasses } from './TerminalTypes';
 class App extends React.Component {
   terminalElementRef = React.createRef<HTMLDivElement>();
 
+  constructor(props: any) {
+    super(props);
+  }
+
   render() {
-    console.log('App.tsx terminalElementRef', this.terminalElementRef);
     return (
       <div>
         <XtermAdapter
