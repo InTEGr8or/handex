@@ -35,10 +35,11 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
   private lastTouchDistance: number | null = null;
   private currentFontSize: number = 17;
   // private outputElement: HTMLElement;
-  private videoElement: HTMLVideoElement;
+  // private videoElement: HTMLVideoElement;
+  private videoElementRef: React.RefObject<HTMLVideoElement> = React.createRef();
   private promptDelimiter: string = '$';
   private promptLength: number = 0;
-  private webCam: IWebCam;
+  private webCam: IWebCam | null = null;
   private isShowVideo: boolean = false;
 
   private nextCharsDisplayRoot: Root | null = null;
@@ -57,8 +58,7 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
       isActive: false,
       outputElements: this.getCommandHistory()
     }
-    this.videoElement = this.createVideoElement();
-    this.webCam = new WebCam(this.videoElement);
+    // this.videoElement = this.createVideoElement();
     // this.terminalElement.prepend(this.videoElement);
     this.wholePhraseChords = document.getElementById(TerminalCssClasses.WholePhraseChords) as HTMLElement;
     this.nextCharsRate = document.getElementById(TerminalCssClasses.NextCharsRate) as HTMLDivElement;
@@ -102,10 +102,13 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
       // console.log('Cursor moved', this.terminal.buffer.active.cursorX, this.terminal.buffer.active.cursorY);
     })
     // this.loadCommandHistory();
-    // this.setViewPortOpacity();
+    this.setViewPortOpacity();
     this.loadFontSize();
     this.terminal.focus();
     this.prompt();
+    if(this.videoElementRef.current) {
+        this.webCam = new WebCam(this.videoElementRef.current);
+    }
   }
 
   wpmCallback = () => {
@@ -135,7 +138,6 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
   }
 
   isCursorOnPrompt(): boolean {
-
     const isFirstLine = this.terminal.buffer.active.cursorY === 0;
     const isLeftOfPromptChar = this.terminal.buffer.active.cursorX < this.promptLength;
     return isFirstLine && isLeftOfPromptChar;
@@ -230,7 +232,7 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
 
   private setViewPortOpacity(): void {
     const viewPort = document.getElementsByClassName('xterm-viewport')[0] as HTMLDivElement;
-    viewPort.style.opacity = "0.5";
+    viewPort.style.opacity = "0.0";
   }
 
   private loadFontSize(): void {
@@ -249,7 +251,7 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
 
   public toggleVideo(): boolean {
     this.isShowVideo = !this.isShowVideo;
-    this.webCam.toggleVideo(this.isShowVideo);
+    this.webCam?.toggleVideo(this.isShowVideo);
     return this.isShowVideo;
   }
 
@@ -271,14 +273,6 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
     const promptEndIndex = command.indexOf(this.promptDelimiter) + 1;
     return command.substring(promptEndIndex).trimStart();
     // return command;
-  }
-
-  private createVideoElement(isVisible: boolean = false): HTMLVideoElement {
-    const video = document.createElement('video');
-    video.id = 'terminal-video';
-    video.hidden = !isVisible;
-    // Additional styles and attributes can be set here
-    return video;
   }
 
   prompt(user: string = 'guest', host: string = 'handex.io') {
@@ -342,8 +336,9 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
     this.setState({ isActive });
   }
 
-  onPhraseSuccess() {
-    console.log('XtermAdapter onPhraseSuccess');
+  handlePhraseSuccess(phrase: string, wpm: number) {
+    console.log('XtermAdapter onPhraseSuccess', phrase, wpm);
+    this.setState(prevState => ({ outputElements: [...prevState.outputElements, phrase] }));
     this.prompt();
   }
 
@@ -374,6 +369,7 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
           onTouchEnd={this.handleTouchEnd}
         />
         <video
+          ref={this.videoElementRef as React.RefObject<HTMLVideoElement>}
           id="terminal-video"
           hidden={!this.isShowVideo}
         ></video>
