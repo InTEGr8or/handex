@@ -138,11 +138,10 @@ div.terminal {
 }
 
 
-#terminal .terminal-output {
+#terminal-output {
     /* Output area styles */
-    color: #FFF;
 
-    z-index: 10;
+    z-index: 1000;
 
 }
 
