@@ -36,12 +36,6 @@ url = "pricing/"
 [[main]]
 weight = 1
 parent = "Pages"
-name = "Handexercizer"
-url = "handexercizer/"
-
-[[main]]
-weight = 1
-parent = "Pages"
 name = "Term"
 url = "term"
 

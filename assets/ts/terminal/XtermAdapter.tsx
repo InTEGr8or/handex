@@ -76,6 +76,7 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
       this.terminalElementRef = terminalElementRef;
       this.terminalElement = terminalElementRef.current
       this.terminal.open(terminalElementRef.current);
+      this.terminal.loadAddon(new FitAddon());
       this.terminal.write('\x1b[4h');
       // Other terminal initialization code...
     }
@@ -96,6 +97,10 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
       console.error('terminalElementRef.current is NULL');
     }
     this.terminal.onData(this.onDataHandler.bind(this));
+    // this.terminal.onKey(this.onKeyHandler.bind(this));
+    this.terminal.onCursorMove(() => {
+      // console.log('Cursor moved', this.terminal.buffer.active.cursorX, this.terminal.buffer.active.cursorY);
+    })
     // this.loadCommandHistory();
     // this.setViewPortOpacity();
     this.loadFontSize();
@@ -107,22 +112,57 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
     console.log("Timer not implemented");
   }
 
-  public onDataHandler(data: string): void {
-    // Check if the Enter key was pressed
-    this.terminal.write('\x1b[4h');
-    if(data.charCodeAt(0) === 127) {
-      this.terminal.write('\x1b[P\x1b[P');
-      return;
+  setCursorMode(terminal: Terminal) {
+    terminal.options.cursorBlink = true;
+    terminal.options.cursorStyle = 'block';
+    terminal.write('\x1b[4h');
+  }
+
+  handleBackSpaceAndNavigation(data: string): boolean {
+    let result = false;
+    if (data.charCodeAt(0) === 127) {
+      console.log('Backspace pressed', this.terminal.buffer.active.cursorX, this.terminal.buffer.active.cursorY);
+      if (this.isCursorOnPrompt()) return true;
+      this.terminal.write('\x1b[D\x1b[P');
+      result = true;
+    }
+    return result;
+  }
+
+  setNewPhrase(phrase: string) {
+    // Write phrase to output.
+    this.setState(prevState => ({ outputElements: [...prevState.outputElements, phrase] }));
+  }
+
+  isCursorOnPrompt(): boolean {
+
+    const isFirstLine = this.terminal.buffer.active.cursorY === 0;
+    const isLeftOfPromptChar = this.terminal.buffer.active.cursorX < this.promptLength;
+    return isFirstLine && isLeftOfPromptChar;
+  }
+
+  onDataHandler(data: string): void {
+    // Set the cursor mode on the terminal
+    this.setCursorMode(this.terminal);
+    // Handle Backspace and Navigation keys
+    if (this.handleBackSpaceAndNavigation(data)) return;
+    if (data.charCodeAt(0) === 27) { // escape and navigation characters
+      // TODO: Abstract out the prompt area no-nav-to.
+      if (data.charCodeAt(1) === 91) {
+        if (data.charCodeAt(2) === 65 && this.isCursorOnPrompt()) {
+          return;
+        }
+        if (
+          data.charCodeAt(2) === 68
+          && this.isCursorOnPrompt()) {
+          return;
+        }
+      }
     }
     if (data.charCodeAt(0) === 3) { // Ctrl+C
-      this.setState({ isInPhraseMode: false });
+      this.setState({ isInPhraseMode: false, commandLine: '' });
       this.terminal.reset();
       this.prompt();
-    } else if (data.charCodeAt(0) === 127) { // Backspace
-      // Remove the last character from the terminal
-      if (this.terminal.buffer.active.cursorX < this.promptLength) return;
-      this.terminal.write('\x1b[D \x1b[D');
-      // let cursorIndex = this.terminal.buffer.active.cursorX;
     }
     if (data.charCodeAt(0) === 13) { // Enter key
       // Process the command before clearing the terminal
@@ -137,7 +177,7 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
       if (command === '') return;
       if (command === 'clear') {
         this.handexTerm.clearCommandHistory();
-        this.setState({ outputElements: [] });
+        this.setState({ outputElements: [], isInPhraseMode: false, commandLine: '' });
         return;
       }
       if (command === 'video') {
@@ -148,45 +188,30 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
 
         return;
       }
-      if (command === 'phrase') {
+      if (command === 'phrase' || command.startsWith('phrase ')) {
 
         console.log("phrase");
         this.setState({ isInPhraseMode: true });
       }
+      // TODO: A bunch of phrase command stuff should be omoved from NextCharsDisplay to here, such as phrase generation.
       let result = this.handexTerm.handleCommand(command);
       this.setState(prevState => ({ outputElements: [...prevState.outputElements, result] }));
     } else if (this.state.isInPhraseMode) {
       // # PHRASE MODE
+      let command = this.getCurrentCommand() + data;
       this.terminal.write(data);
-      let command = this.getCurrentCommand();
+
       if (command.length === 0) {
         if (this.nextCharsDisplayRef.current)
           this.nextCharsDisplayRef.current.resetTimer();
         return;
       }
+      console.log("setting command", command);
       this.setState({ commandLine: command });
     } else {
       // For other input, just return it to the terminal.
       let wpm = this.handexTerm.handleCharacter(data);
 
-      if (data.charCodeAt(0) === 27) { // escape and navigation characters
-        // console.log(
-        //   "BufferXY:", this.terminal.buffer.active.cursorX, this.terminal.buffer.active.cursorY,
-        //   "lines", this.terminal.buffer.active.viewportY, "chars:", data.split('').map(x => x.charCodeAt(0)));
-        if (data.charCodeAt(1) === 91) {
-          if (data.charCodeAt(2) === 65 && this.terminal.buffer.active.cursorY < 2) {
-            return;
-          }
-          if (
-            data.charCodeAt(2) === 68
-            && (
-              this.terminal.buffer.active.cursorX < this.promptLength
-              && this.terminal.buffer.active.cursorY === 0)
-          ) {
-            return;
-          }
-        }
-      }
       this.terminal.write(data);
     }
   }
@@ -231,7 +256,8 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
         command += line.translateToString(true);
       }
     }
-    return command.substring(command.indexOf(this.promptDelimiter) + 1).trim();
+    const promptEndIndex = command.indexOf(this.promptDelimiter) + 1;
+    return command.substring(promptEndIndex).trimStart();
     // return command;
   }
 
@@ -284,7 +310,7 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
 
 
   private handleTouchEnd: TouchEventHandler<HTMLDivElement> = (event: React.TouchEvent<HTMLDivElement>) => {
-    
+
     localStorage.setItem('terminalFontSize', `${this.currentFontSize}`);
     console.log('terminalFontSize', this.currentFontSize);
     this.lastTouchDistance = null;
@@ -304,6 +330,11 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
     this.setState({ isActive });
   }
 
+  onPhraseSuccess() {
+    console.log('XtermAdapter onPhraseSuccess');
+    this.prompt();
+  }
+
   render() {
     // Use state and refs in your render method
     return (
@@ -319,6 +350,8 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
           onTimerStatusChange={this.handleTimerStatusChange}
           commandLine={this.state.commandLine}
           isInPhraseMode={this.state.isInPhraseMode}
+          onNewPhrase={this.setNewPhrase}
+          onPhraseSuccess={this.handlePhraseSuccess}
         />
         <div
           ref={this.terminalElementRef as React.RefObject<HTMLDivElement>}

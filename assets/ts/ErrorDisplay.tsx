@@ -21,13 +21,13 @@ const ErrorDisplay = forwardRef((props: ErrorDisplayProps, ref) => {
     // firstChild.hidden = false;
     // mismatchedCharCode = charCode;
     setErrorCount(prevCount => prevCount + 1);
-    console.log("showError", isVisible, mismatchedChar, mismatchedCharCode, errorCount);
+    console.log("ErrorDisplay isVisible", isVisible, mismatchedChar, mismatchedCharCode, errorCount);
   };
 
   const hideError = () => {
     // svgCharacter.hidden = false;
     // chordImageHolder.hidden = false;
-    console.log("hideError", isVisible, mismatchedChar, mismatchedCharCode, errorCount);
+    console.log("ErrorDisplay isVisible", isVisible, mismatchedChar, mismatchedCharCode, errorCount);
   };
 
   // Use useImperativeHandle to expose functions to the parent component
