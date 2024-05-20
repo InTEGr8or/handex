@@ -142,6 +142,8 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
   }
 
   onDataHandler(data: string): void {
+    const charCodes = data.split('').map(char => char.charCodeAt(0)).join(',');
+    console.log('onDataHandler', data, charCodes, this.terminal.buffer.active.cursorX, this.terminal.buffer.active.cursorY);
     // Set the cursor mode on the terminal
     this.setCursorMode(this.terminal);
     // Handle Backspace and Navigation keys
@@ -149,6 +151,16 @@ export class XtermAdapter extends React.Component<XtermAdapterProps, XtermAdapte
     if (data.charCodeAt(0) === 27) { // escape and navigation characters
       // TODO: Abstract out the prompt area no-nav-to.
       if (data.charCodeAt(1) === 91) {
+        if(data.length > 2) {
+          if(data.charCodeAt(2) === 72) { // HOME
+            console.log('Home pressed');
+            // TODO: Handle Home key
+            // while(this.terminal.buffer.active.cursorX > this.promptLength) {
+            //   this.terminal.write('\x1b[D');
+            // }
+            return;
+          }
+        }
         if (data.charCodeAt(2) === 65 && this.isCursorOnPrompt()) {
           return;
         }

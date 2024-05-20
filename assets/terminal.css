@@ -83,8 +83,11 @@ pre#nextChars {
     padding: 0;
     margin: 0;
     min-height: 1.5em;
-    font-size: var(--terminal-font-size) +2px;
+    color: lightgreen;
+    font-weight: bold;
+    font-size: calc(var(--terminal-font-size) + 5px);
     line-height: 1.5em;
+    float: left;
 }
 
 video#terminal-video {
@@ -138,10 +141,11 @@ div.terminal {
 }
 
 
-#terminal-output {
+#terminal .terminal-output {
     /* Output area styles */
+    color: #FFF;
 
-    z-index: 1000;
+    z-index: 10;
 
 }
 
@@ -151,7 +155,7 @@ div.terminal {
 }
 
 /* Responsive font size and padding */
-@media (max-width: 600px) {
+@media (max-width: 500px) {
 
     /* Example breakpoint for mobile devices */
     :root {

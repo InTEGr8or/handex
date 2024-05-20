@@ -17,7 +17,7 @@ interface NextCharsDisplayProps {
     onTimerStatusChange: (isActive: boolean) => void;
     isInPhraseMode: boolean;
     onNewPhrase: (phrase: string) => void;
-    onPhraseSuccess: () => void;
+    onPhraseSuccess: (phrase: string, wpm: number) => void;
 }
 interface NextCharsDisplayState {
     isActive: boolean;
