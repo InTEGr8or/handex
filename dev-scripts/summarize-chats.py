@@ -2,9 +2,23 @@ import os
 from openai import OpenAI  # or another library if you're using a different API
 import re
 from datetime import datetime, timedelta
+import argparse
+
+# Create the parser
+parser = argparse.ArgumentParser(description='Python script to summarise Codeium chats and add a dated title to them')
+
+# Add the named parameter (option)
+parser.add_argument('-p', '--path', help='The path to use', required=True)
+
+# Parse the arguments
+args = parser.parse_args()
+
+# Access the argument value
+path = args.path
+print(f'The provided path is: {path}')
 
 # Define the directory containing the chat files
-directory = "docs/chats/"
+directory = path
 client = OpenAI(
     # This is the default and can be omitted
     api_key=os.environ.get("OPENAI_API_KEY"),
@@ -62,7 +76,7 @@ for filename in os.listdir(directory):
                 {"role": "system", "content": "You are a helpful assistant."},
                 {
                     "role": "user",
-                    "content": "Create a title with no puctuation or preface of no more than 10 words for this chat:",
+                    "content": "Create a tl;dr title describing the contents of the chat with no puctuation of ten words or less for this chat:",
                 },
                 {"role": "assistant", "content": summary},  # Your chat content here
             ],
