@@ -1,79 +1,19 @@
 export const allChords = [
-    {
-        "key": "a",
-        "chordCode": "4",
-        "index": 0
-    },
-    {
-        "key": "A",
-        "chordCode": "54",
-        "index": 0
-    },
-    {
-        "key": "b",
-        "chordCode": "17",
-        "index": 1
-    },
-    {
-        "key": "B",
-        "chordCode": "517",
-        "index": 1
-    },
-    {
-        "key": "c",
-        "chordCode": "37",
-        "index": 2
-    },
-    {
-        "key": "C",
-        "chordCode": "537",
-        "index": 2
-    },
-    {
-        "key": "d",
-        "chordCode": "2",
-        "index": 3
-    },
-    {
-        "key": "D",
-        "chordCode": "52",
-        "index": 3
-    },
-    {
-        "key": "e",
-        "chordCode": "32",
-        "index": 4
-    },
-    {
-        "key": "E",
-        "chordCode": "532",
-        "index": 4
-    },
-    {
-        "key": "f",
-        "chordCode": "1",
-        "index": 5
-    },
-    {
-        "key": "F",
-        "chordCode": "51",
-        "index": 5
-    },
-    {
-        "key": "g",
-        "chordCode": "21",
-        "index": 6
-    },
-    {
-        "key": "G",
-        "chordCode": "521",
-        "index": 6
-    },
-    {
-        "key": "h",
-        "chordCode": "76",
-        "index": 7
-    },
+    { "key": "a", "chordCode": "4", "index": 0 },
+    { "key": "A", "chordCode": "54", "index": 0 },
+    { "key": "b", "chordCode": "17", "index": 1 },
+    { "key": "B", "chordCode": "517", "index": 1 },
+    { "key": "c", "chordCode": "37", "index": 2 },
+    { "key": "C", "chordCode": "537", "index": 2 },
+    { "key": "d", "chordCode": "2", "index": 3 },
+    { "key": "D", "chordCode": "52", "index": 3 },
+    { "key": "e", "chordCode": "32", "index": 4 },
+    { "key": "E", "chordCode": "532", "index": 4 },
+    { "key": "f", "chordCode": "1", "index": 5 },
+    { "key": "F", "chordCode": "51", "index": 5 },
+    { "key": "g", "chordCode": "21", "index": 6 },
+    { "key": "G", "chordCode": "521", "index": 6 },
+    { "key": "h", "chordCode": "76", "index": 7 },
     {
         "key": "H",
         "chordCode": "576",
