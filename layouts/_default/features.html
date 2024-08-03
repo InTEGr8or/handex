@@ -22,7 +22,8 @@
               <p class="mb-0">{{ .description | markdownify }}</p>
             </div>
             {{$img:= resources.Get (.image) }}
-            <img loading="lazy" id="proud-coder" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" alt="features image" width="130" data-aos="cool">
+            <img loading="lazy" id="proud-coder" decoding="async" class="img-fluid"
+              src="{{$img.RelPermalink}}" alt="features image" width="130" data-aos="cool">
           </div>
         </div>
         {{ end }}
@@ -43,7 +44,7 @@
             <h2 class="mb-4">{{ .heading | markdownify }}</h2>
             <p class="mb-4">{{ .description | markdownify }}</p>
           </div>
-  
+
           <ul class="check-list">
             {{ range .features_list }}
             <li>{{.}}</li>
@@ -52,7 +53,8 @@
         </div>
         <div class="col-lg-4 d-none d-lg-block" data-aos="fade-up">
           {{$img:= resources.Get (.image) }}
-          <img loading="lazy" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" alt="features image" >
+          <img loading="lazy" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}"
+            alt="features image">
         </div>
       </div>
     </div>
@@ -60,30 +62,6 @@
   {{ end }}
   {{ end }}
   {{ end }}
-
-  {{ with site.GetPage "brands-logos" }}
-  <section>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-12">
-          <div class="section-title text-center">
-            <p class="caption">{{ .Title }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="brand-carousel" data-aos="cool">
-        {{ range .Params.partners }}
-        <div class="d-flex align-items-center justify-content-center">
-          {{$img:= resources.Get (.image) }}
-          {{$img:= $img.Resize "100x webp"}}
-          <img loading="lazy" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" width="{{$img.Width}}" height="{{$img.Height}}" alt="partner-image">
-        </div>
-        {{ end }}
-      </div>
-    </div>
-  </section>
-  {{ end }}
-
 
   {{ with site.GetPage "/" }}
   {{ if .Params.about_features.enable }}
@@ -107,7 +85,8 @@
               <div class="rounded-sm border bg-white-blur p-4 text-center h-100" data-aos="cool">
                 {{$img:= resources.Get (.image) }}
                 {{$img:= $img.Resize "50x webp"}}
-                <img loading="lazy" decoding="async" class="mb-3" src="{{$img.RelPermalink}}" alt="icon" width="{{$img.Width}}" height="{{$img.Height}}">
+                <img loading="lazy" decoding="async" class="mb-3" src="{{$img.RelPermalink}}"
+                  alt="icon" width="{{$img.Width}}" height="{{$img.Height}}">
                 <h3 class="h5 mb-0">{{.title}}</h3>
               </div>
             </div>
@@ -130,14 +109,21 @@
             <p class="caption">{{.Title}}</p>
             <h2 class="title">{{.Params.heading}}</h2>
           </div>
-          
+
           <div class="accordion faq" id="accordionFAQ">
             {{ range $i, $e := .Params.faq }}
             <div class="accordion-item bg-white-blur rounded-sm border">
               <h2 class="accordion-header" id="heading-{{ .title | urlize }}">
-                <button class="accordion-button {{if ne $i 0 }}collapsed{{end}} h5 font-secondary border-0" style="font-weight:600" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ .title | urlize }}" aria-expanded="{{if eq $i 0 }}true{{else}}false{{end}}" aria-controls="collapse-{{ .title | urlize }}">{{ .title | markdownify }}</button>
+                <button
+                  class="accordion-button {{if ne $i 0 }}collapsed{{end}} h5 font-secondary border-0"
+                  style="font-weight:600" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapse-{{ .title | urlize }}"
+                  aria-expanded="{{if eq $i 0 }}true{{else}}false{{end}}"
+                  aria-controls="collapse-{{ .title | urlize }}">{{ .title | markdownify }}</button>
               </h2>
-              <div id="collapse-{{ .title | urlize }}" class="accordion-collapse collapse border-0 {{if eq $i 0 }}show{{end}}" aria-labelledby="heading-{{ .title | urlize }}" data-bs-parent="#accordionFAQ">
+              <div id="collapse-{{ .title | urlize }}"
+                class="accordion-collapse collapse border-0 {{if eq $i 0 }}show{{end}}"
+                aria-labelledby="heading-{{ .title | urlize }}" data-bs-parent="#accordionFAQ">
                 <div class="accordion-body">
                   {{ .content | markdownify }}
                 </div>
@@ -148,7 +134,8 @@
         </div>
         <div class="col-lg-6 mt-5 mt-lg-0 text-center" data-aos="fade-up">
           {{$img:= resources.Get (.Params.image) }}
-          <img loading="lazy" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" alt="faq-image" >
+          <img loading="lazy" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}"
+            alt="faq-image">
         </div>
       </div>
     </div>
@@ -176,14 +163,16 @@
             <div class="position-relative" style="margin-top:-40px">
               {{$img:= resources.Get (.image) }}
               {{$img:= $img.Resize "80x webp"}}
-              <img loading="lazy" decoding="async" class="rounded-circle border-sm mx-auto" src="{{$img.RelPermalink}}" alt="testimonial-image" data-aos="cool" width="{{$img.Width}}" height="{{$img.Height}}">
+              <img loading="lazy" decoding="async" class="rounded-circle border-sm mx-auto"
+                src="{{$img.RelPermalink}}" alt="testimonial-image" data-aos="cool"
+                width="{{$img.Width}}" height="{{$img.Height}}">
               <h3 class="h5 mt-3 mb-2">{{.name}}</h3>
               <p class="mb-0">{{.designation}}</p>
             </div>
           </div>
         </div>
         {{ end }}
-  
+
         <div class="col-12 mt-5">
           <div class="text-center">
             <a href="{{ `testimonials/` | relLangURL }}" class="btn btn-primary">All Feedbacks</a>

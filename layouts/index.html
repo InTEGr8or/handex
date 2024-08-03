@@ -94,29 +94,6 @@
   {{ end }}
   {{ end }}
 
-  {{ with site.GetPage "brands-logos" }}
-  <section>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-12">
-          <div class="section-title text-center">
-            <p class="caption">{{ .Title }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="brand-carousel" data-aos="cool">
-        {{ range .Params.partners }}
-        <div class="d-flex align-items-center justify-content-center">
-          {{$img:= resources.Get (.image) }}
-          {{$img:= $img.Resize "100x webp"}}
-          <img loading="lazy" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" width="{{$img.Width}}" height="{{$img.Height}}" alt="partner-image">
-        </div>
-        {{ end }}
-      </div>
-    </div>
-  </section>
-  {{ end }}
-
   {{ if .Params.about_features.enable }}
   {{ with .Params.about_features }}
   <section>
