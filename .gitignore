@@ -24,3 +24,4 @@ static/js/NextCharsDisplay.js.map
 static/js/NextCharsDisplay.js
 static/js/Timer.js
 *.code-workspace
+*.gz
