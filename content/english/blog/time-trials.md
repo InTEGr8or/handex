@@ -6,6 +6,7 @@ description: "Typing time performance and viability"
 images:
 #   - "images/time-trials/Screenshot_20230502_155247_Edge_header.webp"
 #   - "images/undraw/undraw_developer_activity_re_39tg.svg"
+    - "images/time-trials/Time_Trials_Featured.jpg"
 ---
 
 The Handex is a novel keyboard so it requires new learning.

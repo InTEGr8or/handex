@@ -50,33 +50,17 @@ expire_days = 2
 content = "This site uses cookies. By continuing to use this website, you agree to their use."
 button = "I Accept"
 
-############################# social site ########################
-# [[social]]
-# title = "facebook"
-# icon = "fab fa-facebook" # fontawesome icon : https://fontawesome.com/icons/
-# link = "#"
+[taxonomies]
+author = "authors"
 
-# [[social]]
-# title = "twitter"
-# icon = "fab fa-twitter" # fontawesome icon : https://fontawesome.com/icons/
-# link = "#"
+############################# params.social ################################
+[params]
+  [[params.social]]
+  title = "linkedin"
+  icon = "fab fa-linkedin" # fontawesome icon pack : https://fontawesome.com/icons/
+  link = "https://www.linkedin.com/company/handex-io"
 
-# [[social]]
-# title = "instagram"
-# icon = "fab fa-instagram" # fontawesome icon pack : https://fontawesome.com/icons/
-# link = "#"
-
-# [[social]]
-# title = "github"
-# icon = "fab fa-github" # fontawesome icon pack : https://fontawesome.com/icons/
-# link = "#"
-
-[[social]]
-title = "linkedin"
-icon = "fab fa-linkedin" # fontawesome icon pack : https://fontawesome.com/icons/
-link = "https://www.linkedin.com/company/handex-io"
-
-[[social]]
-title = "youtube"
-icon = "fab fa-youtube" # fontawesome icon pack : https://fontawesome.com/icons/
-link = "https://www.youtube.com/@Handexkeydex"
+  [[params.social]]
+  title = "youtube"
+  icon = "fab fa-youtube" # fontawesome icon pack : https://fontawesome.com/icons/
+  link = "https://www.youtube.com/@Handexkeydex"

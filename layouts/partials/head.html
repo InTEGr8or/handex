@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>{{.Title | default site.Title}}</title>
+<title>{{ .Title | default site.Title }}</title>
 
 <!-- base url -->
 {{ if or (eq site.BaseURL "/") (eq site.BaseURL "http://localhost:1313/") (eq site.BaseURL "http://examplesite.org/") (eq site.BaseURL "https://examplesite.org/") (eq site.BaseURL "http://examplesite.com/") (eq site.BaseURL "https://examplesite.com/")}}{{else}}
@@ -12,7 +12,7 @@
 <!-- multilingual SEO optimizations -->
 {{ if .IsTranslated }}
 {{ range .AllTranslations }}
-<link rel="alternate" hreflang="{{.Lang}}" href="{{ .RelPermalink | absLangURL }}">
+<link rel="alternate" hreflang="{{ .Lang }}" href="{{ .RelPermalink | absLangURL }}">
 {{ end }}
 <link rel="alternate" hreflang="x-default" href="{{ .RelPermalink | absLangURL }}">
 {{ end }}
@@ -25,26 +25,25 @@
 
 <!-- favicon -->
 <meta name="favicon" content="the-handexagon.png" >
-{{ $favicon:= site.Params.favicon }}
+{{ $favicon := site.Params.favicon }}
 <meta name="favicon-site-param" content="{{ $favicon }}" >
 {{ if fileExists (add `assets/` $favicon) }}
-{{ $favicon:= resources.Get $favicon }}
-{{ $favicon_16:= $favicon.Resize "16x png"}}
-{{ $favicon_32:= $favicon.Resize "32x png"}}
-{{ $favicon_180:= $favicon.Resize "180x png"}}
-<link rel="shortcut icon" href="{{$favicon_32.RelPermalink}}" type="image/x-icon">
-<link rel="icon" href="{{$favicon_32.RelPermalink}}" type="image/x-icon">
-<link rel="icon" type="image/png" sizes="16x16" href="{{$favicon_16.RelPermalink}}">
-<link rel="icon" type="image/png" sizes="32x32" href="{{$favicon_32.RelPermalink}}">
-<link rel="apple-touch-icon" sizes="180x180" href="{{$favicon_180.RelPermalink}}">
+{{ $favicon := resources.Get $favicon }}
+{{ $favicon_16 := $favicon.Resize "16x png" }}
+{{ $favicon_32 := $favicon.Resize "32x png" }}
+{{ $favicon_180 := $favicon.Resize "180x png" }}
+<link rel="shortcut icon" href="{{ $favicon_32.RelPermalink }}" type="image/x-icon">
+<link rel="icon" href="{{ $favicon_32.RelPermalink }}" type="image/x-icon">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ $favicon_16.RelPermalink }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ $favicon_32.RelPermalink }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ $favicon_180.RelPermalink }}">
 {{ end }}
-<link rel="manifest" href="{{`manifest.webmanifest` | relURL }}">
-<meta name="msapplication-TileColor" content="{{site.Params.variables.primary_color | default `#da532c`}}">
-<meta name="theme-color" content="{{site.Params.variables.body_color | default `#ffffff` }}">
+<link rel="manifest" href="{{ `manifest.webmanifest` | relURL }}">
+<meta name="msapplication-TileColor" content="{{ site.Params.variables.primary_color | default `#da532c` }}">
+<meta name="theme-color" content="{{ site.Params.variables.body_color | default `#ffffff` }}">
 <!-- <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script> -->
 <script src="/js/user-auth.mjs" type="module"></script>
-
 
 <meta property="og:type" content="article">
 <meta property="og:title" content="{{ with .Title }}{{ . }}{{ else }}{{ site.Title }}{{ end }}"/>
@@ -71,13 +70,19 @@
   <meta property="og:image:type" content="image/{{ if eq $image_ext `svg` }}svg+xml{{ else }}{{ replaceRE `^jpg$` `jpeg` $image_ext }}{{ end }}">
 {{ end -}}
 
-
 <meta name="twitter:title" content="{{ with .Title }}{{ . }}{{ else }}{{ site.Title }}{{ end }}"/>
 <meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ if .IsPage }}{{ .Summary }}{{ else }}{{ with site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}"/>
-{{ with site.Social.twitter -}}<meta name="twitter:site" content="@{{ . }}"/>{{ end -}}
-{{ range site.Authors }}
-  {{ with .twitter -}}<meta name="twitter:creator" content="@{{ . }}"/>{{ end -}}
-{{ end -}}
+
+{{ with site.Params.social.twitter -}}<meta name="twitter:site" content="@{{ . }}"/>{{ end -}}
+
+{{ with .Params.authors }}
+  {{ range . }}
+    {{ $author := . }}
+    {{ with (index site.Taxonomies.authors $author).Params.twitter -}}
+      <meta name="twitter:creator" content="@{{ . }}"/>
+    {{ end -}}
+  {{ end }}
+{{ end }}
 
 {{ template "_internal/opengraph.html" . }}
 {{ template "_internal/twitter_cards.html" . }}
