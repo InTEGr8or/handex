@@ -26,7 +26,7 @@ about_features:
   enable: true
   title: "It Doesn't Need To Be This Way"
   heading: "Find out how Handex Can Improve Your Work Everyday."
-  description: "Handex helps you regain control over your workflow and environment. You even have the choice to perform changes to files while in motion, and because it's molded to be lightly gripped in your there is little strain or fatigue after long use-times."
+  description: "Handex helps you regain control over your workflow and environment. You even have the choice to perform changes to files while in motion with no surface required, and because it's molded to be lightly gripped in your hand there is little strain or fatigue after long use-times."
   image: "images/undraw/undraw_absorbed_in_re_ymd6.svg"
   features_items:
     - title: "Chat silently"
