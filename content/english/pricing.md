@@ -1,6 +1,6 @@
 ---
 title: "Plans & Pricing"
-heading: "Interested in supporting Handex development?"
+heading: "Be First to Leave Your Desk in the Dust"
 layout: "pricing"
 draft: false
 

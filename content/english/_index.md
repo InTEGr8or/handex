@@ -1,41 +1,40 @@
 ---
 ############################ Banner ##################################
 banner:
-  title: "Type&nbsp;Anywhere with this One-handed Keyboard"
-  subtitle: "Stop sitting down to type.<br/>Stop looking down to send messages."
-  hero_body_copy: "Built to the shape of your finger actions, this device will eliminate your need to reposition your fingers while typeing."
-  call_to_action: Sign up for our email newsletter.
+  title: "Get Freedom Back.<br> Leave Your Cubicle Behind."
+  subtitle: "Meet the companion that helps you choose the best work environment, unblock mental flow, and re-imagine the meaning of work/life balance."
+  hero_body_copy: "With Handex, you can type discreetly and comfortably from anywhere."
+  call_to_action: "Want to see use-cases? Sign up for our email newsletter!"
   character_image: "images/ROBO_HAND3_500w.png"
   form_action: "#"
-  primer: "An ergonomic one-handed keyboard designed to fit the natural actions of your hand:"
+  primer: "Introducing the 1st ergonomic keyboard designed to fit the natural actions of your hand:"
 
-############################ About Info ##################################
+############################ About Info (VILLAIN SECTION) ##################################
 about_info:
   enable: true
-  title: "About Handex"
-  heading: "Handex liberates you from the key-board-shackle problem"
-  description: "People love the fine control of character-keyed input and commands, but the key-board is a shackle."
-
-  image: "images/undraw/undraw_multitasking_re_ffpb.svg"
+  title: "Long Hours, Complex Problems, and Eye Strain from Unnatural Lights..."
+  heading: "Does Your Control Room Control You?"
+  description: "The transistor revolution led us from massive control rooms with machines that needed punch cards for operation to smartphones vastly more powerful that fit in our pockets. But we're still hitched to keyboards in order to do deeply productive work. We're relying on tech that's over 150 years old."
+  image: "images/ai-gen/desk_bind.png"
   features_list:
-  - "Instantly available."
-  - "The most ergonomic of all devices."
-  - "Execute commands without looking down."
+    - "It requires a desk surface to type."
+    - "Possible repetitive strain injuries."
+    - "Typically, you'll move less than veal."
 
 ############################ About Features ##################################
 about_features:
   enable: true
-  title: "Handex and You"
-  heading: "Find out how Handex can improve your every day."
-  description: "Handex is so ergonomic that it might be the most comfortable thing you've ever held. Find out why that is good."
+  title: "It Doesn't Need To Be This Way"
+  heading: "Find out how Handex Can Improve Your Work Everyday."
+  description: "Handex helps you regain control over your workflow and environment. You even have the choice to perform changes to files while in motion, and because it's molded to be lightly gripped in your there is little strain or fatigue after long use-times."
   image: "images/undraw/undraw_absorbed_in_re_ymd6.svg"
   features_items:
-  - title: "Chat silently"
-    image: "images/features/01.webp"
-  - title: "Digital Assistant"
-    image: "images/features/02.webp"
-  - title: "No distractions"
-    image: "images/features/03.webp"
-  - title: "AI Friendly"
-    image: "images/features/04.webp"
+    - title: "Chat silently"
+      image: "images/features/01.webp"
+    - title: "Digital Assistant"
+      image: "images/features/02.webp"
+    - title: "Instant Actions via Command Line Interface(CLI)"
+      image: "images/features/03.webp"
+    - title: "AI Friendly"
+      image: "images/features/04.webp"
 ---
