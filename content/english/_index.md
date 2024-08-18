@@ -26,7 +26,7 @@ about_guide:
   enable: true
   title: "It Doesn't Need To Be This Way"
   heading: "Handex Improves Your Every Day Work."
-  description: "Handex helps you regain control over your workflow and environment. You can update files on-the-go with no surface required, and because it's modeled to be lightly gripped in your hand there is little strain or fatigue after long use-times."
+  description: "Handex helps you regain control over your workflow and environment. You can update files on-the-go with no surface required, and because it's modeled to be lightly gripped in your hand there isn't strain or fatigue after long use-times."
   image: "images/ai-gen/crosswalk.png"
   features_items:
     - title: "No finger repositioning"
