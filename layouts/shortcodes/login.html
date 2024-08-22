@@ -1,8 +1,25 @@
-<h1>Log in</h1>
-<form id="loginForm" action="" method="post" autocomplete="webauthn">
-    <input id="email" type="email" name="email" placeholder="email address">
-    <br>
-    <input id="password" type="password" name="password" placeholder="password">
-    <br>
-    <input type="submit" class="btn btn-primary" value="Log in">
-</form>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="text-center mb-4">Log in</h1>
+                    <form id="loginForm" action="" method="post" autocomplete="webauthn">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input id="email" type="email" name="email" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input id="password" type="password" name="password" class="form-control" placeholder="Enter your password" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-danger">Log in</button>
+                        </div>
+                    </form>
+                    <p class="text-center text-muted mt-3">Log in to preserve session data</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
