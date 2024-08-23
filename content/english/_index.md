@@ -49,8 +49,8 @@ about_plan:
 ############################ About Visions of Success (What Does Success Look Like?) ##################################
 about_success:
   enable: true
-  title: "Join Us in Redefining the Meaning of Remote Work"
+  title: "Redefine Remote Work In Ways That Suit You Best"
   heading: "Start Working Like Your Life Depends On It."
-  description: "Gone are the days where you have to be stuck at a desk for hours on end. When you know how to use a Handex, you have leverage to maximize your productivity and reduce stress along the way. <br><br> We're giving new meaning to the concept of being a working nomad and how Internet-of-Things(IoT) devices can be manipulated physically in the world around us. Join us in finding that new frontier."
+  description: "Gone are the days where you have to be stuck at a desk for hours on end. When you know how to use a Handex, you have leverage to maximize your productivity and reduce stress along the way. <br><br> Imagine being able to do work that's creative, analytical, or even just simple tasks without being tethered to one particular place. You can enjoy nature under the shade of a large tree, or lounge on your couch with friends and loved ones watching TV with the ultimate remote control. <br><br> With Handex, the world is your workstation. Use it as you see fit."
   image: "images/Handex_Beach_Square.png"
 ---

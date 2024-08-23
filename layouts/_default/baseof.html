@@ -21,10 +21,15 @@
 	<div class="main-content">
 		{{ partial "header.html" . }}
 
-		{{if and (not .IsHome) (ne .Section "blog") (ne .File.Path "login.md") }}
-		{{ partial "page-header.html" . }}
-		{{end}}
-	  
+		{{ if and (not .IsHome) (ne .Section "blog") }}
+		{{ with .File }}
+		  {{ if ne .BaseFileName "login" }}
+			{{ partial "page-header.html" $ }}
+		  {{ end }}
+		{{ end }}
+		{{ end }}
+			
+				  
 		{{ block "main" . }}{{ end }}
 	</div>
 		
