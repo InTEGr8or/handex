@@ -210,8 +210,10 @@
           </div>
         </div>
         <div class="col-lg-6 mt-5 mt-lg-0 text-center" data-aos="fade-up">
-          {{$img:= resources.Get (.Params.image) }}
-          <img loading="lazy" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" alt="faq-image" >
+          {{$img := resources.Get (.Params.image) }}
+          <a href="https://www.youtube.com/@HandexKeydex?sub_confirmation=1" target="_blank" rel="noopener noreferrer">
+            <img loading="lazy" decoding="async" class="img-fluid rounded-image rounded" src="{{$img.RelPermalink}}" alt="faq-image">
+          </a>
         </div>
       </div>
     </div>

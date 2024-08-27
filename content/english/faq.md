@@ -5,7 +5,7 @@ draft: false
 _build:
   render: never
 
-image: "images/undraw/undraw_inbox_cleanup_re_jcbh.svg"
+image: "images/ai-gen/FollowHandexChannel.png"
 
 faq:
 - title: "What should I expect during the pre-order process?"
