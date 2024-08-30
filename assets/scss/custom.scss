@@ -92,9 +92,15 @@ pre.bold {
    padding: 20px 0;
  }
 
- .bad-list {
-   list-style: none; /* Remove default bullet points from the entire list */
+.bad-list {
+   list-style: none; /* Remove default bullet points */
    padding-left: 0; /* Remove any default left padding */
+   margin-left: 0; /* Ensure there's no margin affecting alignment */
+}
+
+.bad-list li {
+   position: relative; /* Allows for absolute positioning of the icon */
+   padding-left: 25px; /* Space for the icon */
 }
 
 .bad-list li::before {
@@ -102,11 +108,11 @@ pre.bold {
    font-family: 'Font Awesome 5 Free';
    font-weight: 900; /* Ensures the icon displays correctly */
    color: red;
-   margin-right: 10px; /* Adjust spacing between the icon and the text */
-   display: inline-block; /* Ensures the icon appears before the text */
+   position: absolute;
+   left: 0; /* Align the icon to the left edge of the list item */
+   top: 0; /* Align with the top of the text */
+   margin-right: 10px; /* Spacing between the icon and the text */
+   display: inline-block; /* Keep the icon inline with the text */
+   width: 20px; /* Fixed width for alignment */
 }
 
-
-
-
- 

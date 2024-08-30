@@ -18,7 +18,7 @@ about_villain:
   image: "images/ai-gen/desk_binds.png"
   features_list:
     - "Users risk repetitive strain injuries."
-    - "They always require a desk surface to type."
+    - "Keyboards require a desk surface to type."
     - "Without a hamster wheel you'll move less than veal."
 
 ############################ About Guide (Introduce the Solution) ##################################
