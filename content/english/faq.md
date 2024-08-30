@@ -8,12 +8,14 @@ _build:
 image: "images/ai-gen/FollowHandexChannel.png"
 
 faq:
-- title: "What should I expect during the pre-order process?"
-  content: "When you pre-order Handex, you’ll receive regular updates on the production timeline and be among the first to know when the first-generation model is ready for shipment."
-- title: "What if I need to change my shipping address after placing a pre-order?"
-  content: "Customers who purchase a pre-order will be emailed a login and temporary password where they can manage their order details anytime prior to shipment."
-- title: "Who qualifies for a promotional version of Handex?"
-  content: "Influencers with a niche in tech, ergonomics, or remote work please email us at info@handex.io"
 - title: "When will the first generation model be ready for purchase?"
   content: "Handex is expected to launch in 2025. Official date to be announced."
+- title: "What should I expect during the pre-order process?"
+  content: "When you purchase a pre-order, you will receive login credentials and regular email updates about production prior to launch."
+- title: "What if I need to change my shipping address after placing a pre-order?"
+  content: "Customers can manage shipment details anytime prior via their handex.io profile."
+- title: "Who qualifies for a promotional version of Handex?"
+  content: "Content creators with a niche in tech, ergonomics, or remote work please email us at info@handex.io"
+- title: "Where can I contact you with other questions about Handex?"
+  content: "We value your feedback and are happy to answer any questions. Email us at info@handex.io."
 ---
