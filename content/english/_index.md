@@ -17,9 +17,9 @@ about_villain:
   description: "The transistor revolution led us from massive control rooms with machines that needed punch cards for operation to smartphones vastly more powerful that fit in our pockets. So why are we still wired to keyboards in order to do deeply productive work? Our weakest link in computing is tech that's over 150 years old."
   image: "images/ai-gen/desk_binds.png"
   features_list:
-    - "Keyboards risk repetitive strain injuries."
-    - "Because keyboards require a desk surface to type."
-    - "and without a hamster wheel you'll move less than veal."
+    - "Users risk repetitive strain injuries."
+    - "They always require a desk surface to type."
+    - "Without a hamster wheel you'll move less than veal."
 
 ############################ About Guide (Introduce the Solution) ##################################
 about_guide:
@@ -43,7 +43,7 @@ about_plan:
   enable: true
   title: "Getting a Linguistic Grip"
   heading: "Game Time Helps You Gain Fluency in No Time."
-  description: "We've gamified our tutorials into a fun and easy way to begin drilling towards fluency using Handex.<br><br> Starting with single key strokes assigned to each finger's abillity to pinch, flex, or pull, users will first learn the traditional home-row keys and basic syntax like space bar, back space, period, and enter.<br><br> As we introduce numbers you'll begin to chain 2 keys together to get familiar with how chords are built. It's similar to the feel of playing a guitar, but you'll never have to move your fingers around to find the right tone.<br><br> Everything mentioned up to this point is learned on your first day. Eventually you'll be familiar with a full keyboard set of keys, typing a standard 30-50 Words Per Minute, and you'll have the knowledge to navigate using a Handex as your primary input device."
+  description: "We've gamified our tutorials into a fun and easy way to begin drilling towards fluency using Handex.<br><br> Starting with single key strokes assigned to each finger's abillity to pinch, flex, or pull, users will first learn the traditional home-row keys and basic syntax like space bar, back space, period, and enter.<br><br> As we introduce numbers you'll begin to chain 2 keys together to get familiar with how chords are built. It's similar to the feel of playing a guitar, but you'll never have to move your fingers around to set the right tone.<br><br> Everything mentioned up to this point is learned on your first day. Eventually you'll be familiar with a full keyboard set of keys, typing a standard 30-50 Words Per Minute, and you'll have the knowledge to navigate using a Handex as your primary input device."
   image: "images/handex_training.png"
 
 ############################ About Visions of Success (What Does Success Look Like?) ##################################
