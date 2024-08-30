@@ -92,13 +92,24 @@ pre.bold {
    padding: 20px 0;
  }
 
- .check-list li::before {
+ .bad-list {
+   list-style: none; /* Remove default bullet points from the entire list */
+   padding-left: 0; /* Remove any default left padding */
+}
+
+.bad-list li::before {
    content: '\f057'; /* Unicode for the Font Awesome "times-circle" icon */
    font-family: 'Font Awesome 5 Free';
    font-weight: 900; /* Ensures the icon displays correctly */
    color: red;
-   margin-right: 10px; /* Adjusts spacing between the icon and the text */
+   margin-right: 10px; /* Adjust spacing between the icon and the text */
+   display: inline-block; /* Ensures the icon appears before the text */
 }
+
+.bad-list li {
+   margin-left: 20px; /* Optional: Add left margin to align text if needed */
+}
+
 
 
  
