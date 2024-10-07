@@ -1,0 +1,1062 @@
+[
+  {
+    "index": 0,
+    "chordCode": "4",
+    "key": "a"
+  },
+  {
+    "index": 0,
+    "chordCode": "54",
+    "key": "A"
+  },
+  {
+    "index": 1,
+    "chordCode": "17",
+    "key": "b"
+  },
+  {
+    "index": 1,
+    "chordCode": "517",
+    "key": "B"
+  },
+  {
+    "index": 2,
+    "chordCode": "37",
+    "key": "c"
+  },
+  {
+    "index": 2,
+    "chordCode": "537",
+    "key": "C"
+  },
+  {
+    "index": 3,
+    "chordCode": "2",
+    "key": "d"
+  },
+  {
+    "index": 3,
+    "chordCode": "52",
+    "key": "D"
+  },
+  {
+    "index": 4,
+    "chordCode": "32",
+    "key": "e"
+  },
+  {
+    "index": 4,
+    "chordCode": "532",
+    "key": "E"
+  },
+  {
+    "index": 5,
+    "chordCode": "1",
+    "key": "f"
+  },
+  {
+    "index": 5,
+    "chordCode": "51",
+    "key": "F"
+  },
+  {
+    "index": 6,
+    "chordCode": "21",
+    "key": "g"
+  },
+  {
+    "index": 6,
+    "chordCode": "521",
+    "key": "G"
+  },
+  {
+    "index": 7,
+    "chordCode": "76",
+    "key": "h"
+  },
+  {
+    "index": 7,
+    "chordCode": "576",
+    "key": "H"
+  },
+  {
+    "index": 8,
+    "chordCode": "72",
+    "key": "i"
+  },
+  {
+    "index": 8,
+    "chordCode": "572",
+    "key": "I"
+  },
+  {
+    "index": 9,
+    "chordCode": "6",
+    "key": "j"
+  },
+  {
+    "index": 9,
+    "chordCode": "56",
+    "key": "J"
+  },
+  {
+    "index": 10,
+    "chordCode": "7",
+    "key": "k"
+  },
+  {
+    "index": 10,
+    "chordCode": "57",
+    "key": "K"
+  },
+  {
+    "index": 11,
+    "chordCode": "8",
+    "key": "l"
+  },
+  {
+    "index": 11,
+    "chordCode": "58",
+    "key": "L"
+  },
+  {
+    "index": 12,
+    "chordCode": "27",
+    "key": "m"
+  },
+  {
+    "index": 12,
+    "chordCode": "527",
+    "key": "M"
+  },
+  {
+    "index": 13,
+    "chordCode": "16",
+    "key": "n"
+  },
+  {
+    "index": 13,
+    "chordCode": "516",
+    "key": "N"
+  },
+  {
+    "index": 14,
+    "chordCode": "83",
+    "key": "o"
+  },
+  {
+    "index": 14,
+    "chordCode": "583",
+    "key": "O"
+  },
+  {
+    "index": 15,
+    "chordCode": "94",
+    "key": "p"
+  },
+  {
+    "index": 15,
+    "chordCode": "594",
+    "key": "P"
+  },
+  {
+    "index": 16,
+    "chordCode": "43",
+    "key": "q"
+  },
+  {
+    "index": 16,
+    "chordCode": "543",
+    "key": "Q"
+  },
+  {
+    "index": 17,
+    "chordCode": "23",
+    "key": "r"
+  },
+  {
+    "index": 17,
+    "chordCode": "523",
+    "key": "R"
+  },
+  {
+    "index": 18,
+    "chordCode": "3",
+    "key": "s"
+  },
+  {
+    "index": 18,
+    "chordCode": "53",
+    "key": "S"
+  },
+  {
+    "index": 19,
+    "chordCode": "12",
+    "key": "t"
+  },
+  {
+    "index": 19,
+    "chordCode": "512",
+    "key": "T"
+  },
+  {
+    "index": 20,
+    "chordCode": "61",
+    "key": "u"
+  },
+  {
+    "index": 20,
+    "chordCode": "561",
+    "key": "U"
+  },
+  {
+    "index": 21,
+    "chordCode": "28",
+    "key": "v"
+  },
+  {
+    "index": 21,
+    "chordCode": "528",
+    "key": "V"
+  },
+  {
+    "index": 22,
+    "chordCode": "34",
+    "key": "w"
+  },
+  {
+    "index": 22,
+    "chordCode": "534",
+    "key": "W"
+  },
+  {
+    "index": 23,
+    "chordCode": "39",
+    "key": "x"
+  },
+  {
+    "index": 23,
+    "chordCode": "539",
+    "key": "X"
+  },
+  {
+    "index": 24,
+    "chordCode": "26",
+    "key": "y"
+  },
+  {
+    "index": 24,
+    "chordCode": "526",
+    "key": "Y"
+  },
+  {
+    "index": 25,
+    "chordCode": "48",
+    "key": "z"
+  },
+  {
+    "index": 25,
+    "chordCode": "548",
+    "key": "Z"
+  },
+  {
+    "index": 26,
+    "chordCode": "10",
+    "key": "1"
+  },
+  {
+    "index": 26,
+    "chordCode": "510",
+    "key": "!"
+  },
+  {
+    "index": 27,
+    "chordCode": "20",
+    "key": "2"
+  },
+  {
+    "index": 27,
+    "chordCode": "520",
+    "key": "@"
+  },
+  {
+    "index": 28,
+    "chordCode": "30",
+    "key": "3"
+  },
+  {
+    "index": 28,
+    "chordCode": "530",
+    "key": "#"
+  },
+  {
+    "index": 29,
+    "chordCode": "40",
+    "key": "4"
+  },
+  {
+    "index": 29,
+    "chordCode": "540",
+    "key": "$"
+  },
+  {
+    "index": 30,
+    "chordCode": "C0",
+    "key": "5"
+  },
+  {
+    "index": 30,
+    "chordCode": "5C0",
+    "key": "%"
+  },
+  {
+    "index": 31,
+    "chordCode": "60",
+    "key": "6"
+  },
+  {
+    "index": 31,
+    "chordCode": "560",
+    "key": "^"
+  },
+  {
+    "index": 32,
+    "chordCode": "70",
+    "key": "7"
+  },
+  {
+    "index": 32,
+    "chordCode": "570",
+    "key": "&"
+  },
+  {
+    "index": 33,
+    "chordCode": "80",
+    "key": "8"
+  },
+  {
+    "index": 33,
+    "chordCode": "580",
+    "key": "*"
+  },
+  {
+    "index": 34,
+    "chordCode": "90",
+    "key": "9"
+  },
+  {
+    "index": 34,
+    "chordCode": "590",
+    "key": "("
+  },
+  {
+    "index": 35,
+    "chordCode": "C",
+    "key": "0"
+  },
+  {
+    "index": 35,
+    "chordCode": "5C",
+    "key": ")"
+  },
+  {
+    "index": 36,
+    "chordCode": "0",
+    "key": "Return (ENTER)"
+  },
+  {
+    "index": 37,
+    "chordCode": "491",
+    "key": "ESCAPE"
+  },
+  {
+    "index": 38,
+    "chordCode": "B",
+    "key": "DELETE (Backspace)"
+  },
+  {
+    "index": 39,
+    "chordCode": "14",
+    "key": "\\t"
+  },
+  {
+    "index": 40,
+    "chordCode": "5",
+    "key": "&#x2581;"
+  },
+  {
+    "index": 41,
+    "chordCode": "B0",
+    "key": "-"
+  },
+  {
+    "index": 41,
+    "chordCode": "5B0",
+    "key": "(underscore)"
+  },
+  {
+    "index": 42,
+    "chordCode": "E0",
+    "key": "="
+  },
+  {
+    "index": 42,
+    "chordCode": "5E0",
+    "key": "+"
+  },
+  {
+    "index": 43,
+    "chordCode": "45",
+    "key": "["
+  },
+  {
+    "index": 43,
+    "chordCode": "545",
+    "key": "{"
+  },
+  {
+    "index": 44,
+    "chordCode": "495",
+    "key": "]"
+  },
+  {
+    "index": 44,
+    "chordCode": "5495",
+    "key": "}"
+  },
+  {
+    "index": 45,
+    "chordCode": "15",
+    "key": "\\"
+  },
+  {
+    "index": 45,
+    "chordCode": "515",
+    "key": "|"
+  },
+  {
+    "index": 46,
+    "chordCode": "9",
+    "key": ";"
+  },
+  {
+    "index": 46,
+    "chordCode": "59",
+    "key": ":"
+  },
+  {
+    "index": 47,
+    "chordCode": "89",
+    "key": "'"
+  },
+  {
+    "index": 47,
+    "chordCode": "589",
+    "key": "\""
+  },
+  {
+    "index": 48,
+    "chordCode": "101",
+    "key": "`"
+  },
+  {
+    "index": 48,
+    "chordCode": "5101",
+    "key": "~"
+  },
+  {
+    "index": 49,
+    "chordCode": "38",
+    "key": ","
+  },
+  {
+    "index": 49,
+    "chordCode": "538",
+    "key": "<"
+  },
+  {
+    "index": 50,
+    "chordCode": "49",
+    "key": "."
+  },
+  {
+    "index": 50,
+    "chordCode": "549",
+    "key": ">"
+  },
+  {
+    "index": 51,
+    "chordCode": "96",
+    "key": "/"
+  },
+  {
+    "index": 51,
+    "chordCode": "596",
+    "key": "?"
+  },
+  {
+    "index": 52,
+    "chordCode": "E",
+    "key": "Caps Lock"
+  },
+  {
+    "index": 53,
+    "chordCode": "131",
+    "key": "F1"
+  },
+  {
+    "index": 54,
+    "chordCode": "1D",
+    "key": "F2"
+  },
+  {
+    "index": 55,
+    "chordCode": "370",
+    "key": "F3"
+  },
+  {
+    "index": 56,
+    "chordCode": "B0B",
+    "key": "F4"
+  },
+  {
+    "index": 57,
+    "chordCode": "1C",
+    "key": "F5"
+  },
+  {
+    "index": 58,
+    "chordCode": "B06",
+    "key": "F6"
+  },
+  {
+    "index": 59,
+    "chordCode": "B12",
+    "key": "F7"
+  },
+  {
+    "index": 60,
+    "chordCode": "B7",
+    "key": "F8"
+  },
+  {
+    "index": 61,
+    "chordCode": "B2",
+    "key": "F9"
+  },
+  {
+    "index": 62,
+    "chordCode": "BC",
+    "key": "F10"
+  },
+  {
+    "index": 63,
+    "chordCode": "B8B",
+    "key": "F11"
+  },
+  {
+    "index": 64,
+    "chordCode": "B3B",
+    "key": "F12"
+  },
+  {
+    "index": 65,
+    "chordCode": "BD",
+    "key": "PrintScreen"
+  },
+  {
+    "index": 66,
+    "chordCode": "7E7",
+    "key": "Scroll Lock"
+  },
+  {
+    "index": 67,
+    "chordCode": "206",
+    "key": "Pause"
+  },
+  {
+    "index": 68,
+    "chordCode": "200",
+    "key": "Insert"
+  },
+  {
+    "index": 69,
+    "chordCode": "B1",
+    "key": "Home"
+  },
+  {
+    "index": 70,
+    "chordCode": "B8",
+    "key": "PageUp"
+  },
+  {
+    "index": 71,
+    "chordCode": "7B",
+    "key": "Delete Forward"
+  },
+  {
+    "index": 72,
+    "chordCode": "C2",
+    "key": "End"
+  },
+  {
+    "index": 73,
+    "chordCode": "8B",
+    "key": "PageDown"
+  },
+  {
+    "index": 74,
+    "chordCode": "2C",
+    "key": "RightArrow"
+  },
+  {
+    "index": 75,
+    "chordCode": "1B",
+    "key": "LeftArrow"
+  },
+  {
+    "index": 76,
+    "chordCode": "71",
+    "key": "DownArrow"
+  },
+  {
+    "index": 77,
+    "chordCode": "73",
+    "key": "UpArrow"
+  },
+  {
+    "index": 78,
+    "chordCode": "202",
+    "key": "Keypad Num Lock"
+  },
+  {
+    "index": 78,
+    "chordCode": "5202",
+    "key": "Clear"
+  },
+  {
+    "index": 79,
+    "chordCode": "2A2",
+    "key": "Keypad /"
+  },
+  {
+    "index": 80,
+    "chordCode": "717",
+    "key": "Keypad *"
+  },
+  {
+    "index": 81,
+    "chordCode": "212",
+    "key": "Keypad -"
+  },
+  {
+    "index": 82,
+    "chordCode": "2B",
+    "key": "Keypad +"
+  },
+  {
+    "index": 83,
+    "chordCode": "27E",
+    "key": "Keypad ENTER"
+  },
+  {
+    "index": 84,
+    "chordCode": "2C4",
+    "key": "Keypad 1"
+  },
+  {
+    "index": 84,
+    "chordCode": "52C4",
+    "key": "End"
+  },
+  {
+    "index": 85,
+    "chordCode": "282",
+    "key": "Keypad 2"
+  },
+  {
+    "index": 85,
+    "chordCode": "5282",
+    "key": "Down Arrow"
+  },
+  {
+    "index": 86,
+    "chordCode": "23278",
+    "key": "Keypad 3"
+  },
+  {
+    "index": 86,
+    "chordCode": "523278",
+    "key": "PageDn"
+  },
+  {
+    "index": 87,
+    "chordCode": "2D",
+    "key": "Keypad 4"
+  },
+  {
+    "index": 87,
+    "chordCode": "52D",
+    "key": "Left Arrow"
+  },
+  {
+    "index": 88,
+    "chordCode": "CE",
+    "key": "Keypad 5"
+  },
+  {
+    "index": 89,
+    "chordCode": "C0C",
+    "key": "Keypad 6"
+  },
+  {
+    "index": 89,
+    "chordCode": "5C0C",
+    "key": "Right Arrow"
+  },
+  {
+    "index": 90,
+    "chordCode": "CA",
+    "key": "Keypad 7"
+  },
+  {
+    "index": 90,
+    "chordCode": "5CA",
+    "key": "Home"
+  },
+  {
+    "index": 91,
+    "chordCode": "C6",
+    "key": "Keypad 8"
+  },
+  {
+    "index": 91,
+    "chordCode": "5C6",
+    "key": "Up Arrow"
+  },
+  {
+    "index": 92,
+    "chordCode": "C1",
+    "key": "Keypad 9"
+  },
+  {
+    "index": 92,
+    "chordCode": "5C1",
+    "key": "PageUp"
+  },
+  {
+    "index": 93,
+    "chordCode": "CB",
+    "key": "Keypad 0"
+  },
+  {
+    "index": 93,
+    "chordCode": "5CB",
+    "key": "Insert"
+  },
+  {
+    "index": 94,
+    "chordCode": "C7E",
+    "key": "Keypad ."
+  },
+  {
+    "index": 94,
+    "chordCode": "5C7E",
+    "key": "Delete"
+  },
+  {
+    "index": 95,
+    "chordCode": "C2E",
+    "key": "Non-US \\"
+  },
+  {
+    "index": 95,
+    "chordCode": "5C2E",
+    "key": "|"
+  },
+  {
+    "index": 96,
+    "chordCode": "C8",
+    "key": "Application"
+  },
+  {
+    "index": 97,
+    "chordCode": "321",
+    "key": "Power"
+  },
+  {
+    "index": 98,
+    "chordCode": "CD",
+    "key": "Keypad ="
+  },
+  {
+    "index": 99,
+    "chordCode": "8E",
+    "key": "F13"
+  },
+  {
+    "index": 100,
+    "chordCode": "850",
+    "key": "F14"
+  },
+  {
+    "index": 101,
+    "chordCode": "8A",
+    "key": "F15"
+  },
+  {
+    "index": 102,
+    "chordCode": "6C6",
+    "key": "F16"
+  },
+  {
+    "index": 103,
+    "chordCode": "801",
+    "key": "F17"
+  },
+  {
+    "index": 104,
+    "chordCode": "8B8",
+    "key": "F18"
+  },
+  {
+    "index": 105,
+    "chordCode": "878",
+    "key": "F19"
+  },
+  {
+    "index": 106,
+    "chordCode": "82",
+    "key": "F20"
+  },
+  {
+    "index": 107,
+    "chordCode": "8C",
+    "key": "F21"
+  },
+  {
+    "index": 108,
+    "chordCode": "8383",
+    "key": "F22"
+  },
+  {
+    "index": 109,
+    "chordCode": "8D",
+    "key": "F23"
+  },
+  {
+    "index": 110,
+    "chordCode": "3E",
+    "key": "F24"
+  },
+  {
+    "index": 111,
+    "chordCode": "1A1",
+    "key": "Execute"
+  },
+  {
+    "index": 112,
+    "chordCode": "7E",
+    "key": "Help"
+  },
+  {
+    "index": 113,
+    "chordCode": "36",
+    "key": "Menu"
+  },
+  {
+    "index": 114,
+    "chordCode": "313",
+    "key": "Select"
+  },
+  {
+    "index": 115,
+    "chordCode": "123",
+    "key": "Stop"
+  },
+  {
+    "index": 116,
+    "chordCode": "7A7",
+    "key": "Again"
+  },
+  {
+    "index": 117,
+    "chordCode": "232",
+    "key": "Undo"
+  },
+  {
+    "index": 118,
+    "chordCode": "3C",
+    "key": "Cut"
+  },
+  {
+    "index": 119,
+    "chordCode": "383",
+    "key": "Copy"
+  },
+  {
+    "index": 120,
+    "chordCode": "838",
+    "key": "Paste"
+  },
+  {
+    "index": 121,
+    "chordCode": "DE",
+    "key": "Find"
+  },
+  {
+    "index": 122,
+    "chordCode": "D0D",
+    "key": "Mute"
+  },
+  {
+    "index": 123,
+    "chordCode": "DA",
+    "key": "Volume Up"
+  },
+  {
+    "index": 124,
+    "chordCode": "D6",
+    "key": "Volume Down"
+  },
+  {
+    "index": 125,
+    "chordCode": "D1",
+    "key": "Locking Caps Lock"
+  },
+  {
+    "index": 126,
+    "chordCode": "DB",
+    "key": "Locking Num Lock"
+  },
+  {
+    "index": 127,
+    "chordCode": "D7",
+    "key": "Locking Scroll Lock"
+  },
+  {
+    "index": 128,
+    "chordCode": "D2",
+    "key": "Keypad Comma"
+  },
+  {
+    "index": 129,
+    "chordCode": "DC",
+    "key": "Keypad Equal Sign"
+  },
+  {
+    "index": 130,
+    "chordCode": "D82",
+    "key": "International1"
+  },
+  {
+    "index": 131,
+    "chordCode": "D3D",
+    "key": "International2"
+  },
+  {
+    "index": 132,
+    "chordCode": "700",
+    "key": "International3"
+  },
+  {
+    "index": 133,
+    "chordCode": "7E0",
+    "key": "International4"
+  },
+  {
+    "index": 134,
+    "chordCode": "7EA",
+    "key": "International5"
+  },
+  {
+    "index": 135,
+    "chordCode": "7E6",
+    "key": "International6"
+  },
+  {
+    "index": 136,
+    "chordCode": "6E1",
+    "key": "International7"
+  },
+  {
+    "index": 137,
+    "chordCode": "7EB",
+    "key": "International8"
+  },
+  {
+    "index": 138,
+    "chordCode": "7E73",
+    "key": "International9"
+  },
+  {
+    "index": 139,
+    "chordCode": "7E2",
+    "key": "LANG1"
+  },
+  {
+    "index": 140,
+    "chordCode": "7EC",
+    "key": "LANG2"
+  },
+  {
+    "index": 141,
+    "chordCode": "7E8",
+    "key": "LANG3"
+  },
+  {
+    "index": 142,
+    "chordCode": "7E3",
+    "key": "LANG4"
+  },
+  {
+    "index": 143,
+    "chordCode": "7ED",
+    "key": "LANG5"
+  },
+  {
+    "index": 144,
+    "chordCode": "70C",
+    "key": "LANG6"
+  },
+  {
+    "index": 145,
+    "chordCode": "09999",
+    "key": "LeftControl"
+  },
+  {
+    "index": 146,
+    "chordCode": "59999",
+    "key": "LeftShift"
+  },
+  {
+    "index": 147,
+    "chordCode": "A",
+    "key": "LeftAlt"
+  },
+  {
+    "index": 148,
+    "chordCode": "2121",
+    "key": "Left GUI"
+  },
+  {
+    "index": 149,
+    "chordCode": "7A0",
+    "key": "RightControl"
+  },
+  {
+    "index": 150,
+    "chordCode": "7EA7",
+    "key": "RightShift"
+  },
+  {
+    "index": 151,
+    "chordCode": "7A6",
+    "key": "RightAlt"
+  },
+  {
+    "index": 152,
+    "chordCode": "1212",
+    "key": "Right GUI"
+  }
+]

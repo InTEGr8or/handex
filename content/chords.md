@@ -1,6 +1,6 @@
 ---
 title: Chords
-date: 2024-01-03T21:59:18.360Z
+date: 2024-10-07T22:04:02.057Z
 ---
 Report,Chord,Strokes
 a and A,4,ppf
@@ -33,7 +33,7 @@ z and Z,48,"ppf, rmf"
 2 and @,20,"mpf, tpf"
 3 and #,30,"rpf, tpf"
 4 and $,40,"ppf, tpf"
-5 and %,050,"tpf, tmf, tpf"
+5 and %,C0,"mme, tpf"
 6 and ^,60,"imf, tpf"
 7 and &,70,"mmf, tpf"
 8 and *,80,"rmf, tpf"
@@ -45,7 +45,7 @@ DELETE (Backspace),B,ime
 Tab,14,"ipf, ppf"
 Spacebar,5,tmf
 - and (underscore),B0,"ime, tpf"
-= and +,C0,"mme, tpf"
+= and +,E0,"pme, tpf"
 [ and {,45,"ppf, tmf"
 ] and },495,"ppf, pmf, tmf"
 \ and &#124;,15,"ipf, tmf"
