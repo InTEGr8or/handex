@@ -5,15 +5,17 @@ draft: false
 _build:
   render: never
 
-image: "images/undraw/undraw_inbox_cleanup_re_jcbh.svg"
+image: "images/ai-gen/FollowHandexChannel.png"
 
 faq:
-- title: "How fast will I be able to type?"
-  content: "You only have to learn one Handex, and you can type without ever looking, so Handex users can expect to be able to develop fast typing faster than they did with a keyboard."
-- title: "How long will it take to learn?"
-  content: "We've developed fun learning tools that you can use at any moment of the day, and wherever you are, so learning Handex will be faster than learning a keyboard."
-- title: "Is Handex a full keyboard?"
-  content: "Handex uses the full Bluettooth HID keyboard usage table of 250 keys, and there are special key-combinations coming."
-- title: "Is Handex fun to use?"
-  content: "Handex will probably be the most ergonomic device you'll ever hold, and you can use it with all the latest mobile tech, so it's a blast to use."
+- title: "When will the first generation model be ready for purchase?"
+  content: "Handex is expected to launch in 2025. Official date to be announced."
+- title: "What should I expect during the pre-order process?"
+  content: "When you purchase a pre-order, you will receive login credentials and regular email updates about production prior to launch."
+- title: "What if I need to change my shipping address after placing a pre-order?"
+  content: "Customers can manage shipment details anytime prior via their handex.io profile."
+- title: "Who qualifies for a promotional version of Handex?"
+  content: "Content creators with a niche in tech, ergonomics, or remote work please email us at info@handex.io"
+- title: "Where can I contact you with other questions about Handex?"
+  content: "We value your feedback and are happy to answer any questions. Email us at info@handex.io."
 ---

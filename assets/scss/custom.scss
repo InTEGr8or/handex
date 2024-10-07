@@ -59,11 +59,11 @@ pre.bold {
          font-size: 1rem;
       }
       @include desktop {
-         font-size: 1rem;
+         font-size: 2rem;
       }
       @include tablet {
-         margin-top: 1.8em;
-         font-size: 0.9rem;
+         margin-top: 2.3em;
+         font-size: 2rem;
       }
       @include mobile {
          margin-top: 2.3em;
@@ -86,3 +86,33 @@ pre.bold {
       color: #000;
    }
 }
+
+.hero-height {
+   height: auto !important;
+   padding: 20px 0;
+ }
+
+.bad-list {
+   list-style: none; /* Remove default bullet points */
+   padding-left: 0; /* Remove any default left padding */
+   margin-left: 0; /* Ensure there's no margin affecting alignment */
+}
+
+.bad-list li {
+   position: relative; /* Allows for absolute positioning of the icon */
+   padding-left: 25px; /* Space for the icon */
+}
+
+.bad-list li::before {
+   content: '\f057'; /* Unicode for the Font Awesome "times-circle" icon */
+   font-family: 'Font Awesome 5 Free';
+   font-weight: 900; /* Ensures the icon displays correctly */
+   color: red;
+   position: absolute;
+   left: 0; /* Align the icon to the left edge of the list item */
+   top: 0; /* Align with the top of the text */
+   margin-right: 10px; /* Spacing between the icon and the text */
+   display: inline-block; /* Keep the icon inline with the text */
+   width: 20px; /* Fixed width for alignment */
+}
+

@@ -13,19 +13,24 @@
           <span>{{.PublishDate.Format "02 January 2006"}}</span>
         </div>
         
-        {{with .Params.images}}
+        {{ with .Params.images }}
         <div class="mb-5 text-center" data-aos="fade">
           <div class="post-slider rounded-lg overflow-hidden">
-            {{ range .}}
-            {{$img:= resources.Get . }}
-            <img loading="lazy" src="{{$img.RelPermalink}}" alt="post-thumb" >
+            {{ range . }}
+              {{ $img := resources.Get . }}
+              {{ if $img }}
+                <img loading="lazy" src="{{ $img.RelPermalink }}" alt="post-thumb">
+              {{ else }}
+                <!-- Optional: Add fallback content here, e.g., a placeholder image -->
+                <img loading="lazy" src="../../images/handex_4x3.png" alt="placeholder-thumb">
+              {{ end }}
             {{ end }}
           </div>
         </div>
-        {{end}}
+        {{ end }}
       
         <div class="content" data-aos="fade">
-          {{.Content}}
+          {{ .Content }}
         </div>
       </div>
     </div>

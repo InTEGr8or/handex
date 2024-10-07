@@ -2,19 +2,19 @@
 
 <main class="section-bordered-even">
   {{ with .Params.banner }}
-  <section class="py-4 my-4">
+  <section class="py-7 my-7 ">
     <div class="container">
-      <div id="primer" class="centered">{{ .primer | markdownify }}</div>
-      <div id="hero">
-        <div class="row justify-content-around align-items-center">
-          <div class="col-xxl-7 col-lg-12 col-md-8 text-center text-lg-start mb-5 mb-lg-0">
-            <div class="pe-lg-5">
+      <div id="primer" class="text-center mb-4">{{ .primer | markdownify }}</div>
+      <div id="hero" class="hero-height">
+        <div class="row justify-content-center align-items-center text-center">
+          <div class="col-12 col-lg-8 mb-4 mb-lg-0">
+            <div class="px-lg-5">
               <h1 class="banner-title text-capitalize mb-3">{{ .Title | markdownify }}</h1>
-              <p>{{ .subtitle | markdownify }}</p>
-              <div class="body-copy">{{ .hero_body_copy | markdownify }}</div>
-              <h4>{{ .call_to_action | markdownify }}</h4>
+              <p class="lead">{{ .subtitle | markdownify }}</p>
+              <div class="body-copy lead mb-4">{{ .hero_body_copy | markdownify }}</div>
+              <h4 class="lead">{{ .call_to_action | markdownify }}</h4>
               <form id="signup" action="{{.form_action}}" class="banner-form mt-4">
-                <div class="input-group border p-2 rounded-sm">
+                <div class="input-group border p-2 rounded-sm mx-auto" style="max-width: 500px;">
                   <input name="email" type="text" class="form-control shadow-none rounded-sm bg-transparent border-0 text-dark" placeholder="{{ i18n `email_address` }}" aria-label="Email Address" aria-describedby="email-address">
                   <button type="submit" class="input-group-text btn btn-primary rounded" id="email-address-b">{{ i18n `get_started` }}</button>
                 </div>
@@ -26,11 +26,126 @@
     </div>
   </section>
   <!-- /banner-section -->
+
   {{ end }}
+
+  {{ if .Params.about_villain.enable }}
+  {{ with .Params.about_villain }}
+  <section class="pt-5 mt-lg-5 pb-5" data-aos="fade">
+    <div class="container">
+      <div class="row justify-content-center align-items-center mb-4">
+        <!-- Image Section on Top for Mobile, Right for Desktop -->
+        <div class="col-lg-5 text-center order-1 order-lg-2 pb-4" data-aos="fade-up">
+          {{$img:= resources.Get (.image) }}
+          <img loading="lazy" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" alt="features image" data-aos="cool">
+        </div>
+        <!-- Text Section -->
+        <div class="col-lg-5 order-2 order-lg-1">
+          <div class="section-title">
+            <p class="caption">{{ .Title }}</p>
+            <h2 class="mb-4">{{ .heading | markdownify }}</h2>
+            <p class="mb-4">{{ .description | markdownify }}</p>
+          </div>
+    
+          <ul class="bad-list">
+            {{ range .features_list }}
+            <li>{{.}}</li>
+            {{ end }}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  {{ end }}
+  {{ end }}
+      
+  
+  {{ if .Params.about_guide.enable }}
+  {{ with .Params.about_guide }}
+  <section class="pt-0 pb-5" data-aos="fade">
+    <div class="container">
+      <div class="row justify-content-center align-items-center mb-4">
+        <div class="col-lg-5 text-center pb-4" data-aos="fade-up">
+          {{$img:= resources.Get (.image) }}
+          <img loading="lazy" decoding="async" src="{{$img.RelPermalink}}" alt="features-image">
+        </div>
+        <div class="col-lg-5">
+          <div class="section-title">
+            <p class="caption">{{ .Title }}</p>
+            <h2 class="mb-4">{{ .heading | markdownify }}</h2>
+            <p class="mb-4">{{ .description | markdownify }}</p>
+          </div>
+          <div class="row g-4">
+            {{ range .features_items }}
+            <div class="col-sm-6">
+              <div class="rounded-sm border bg-white-blur p-4 text-center h-100" data-aos="cool">
+                {{$img:= resources.Get (.image) }}
+                {{$img:= $img.Resize "50x webp"}}
+                <img loading="lazy" decoding="async" class="mb-3" src="{{$img.RelPermalink}}" alt="icon" width="{{$img.Width}}" height="{{$img.Height}}">
+                <h3 class="h5 mb-0">{{.title}}</h3>
+              </div>
+            </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {{ end }}
+  {{ end }}
+  
+  
+  {{ if .Params.about_plan.enable }}
+  {{ with .Params.about_plan }}
+  <section class="pt-0 mt-lg-0 pb-5" data-aos="fade">
+    <div class="container">
+      <div class="row justify-content-center align-items-center mb-4">
+        <!-- Image Section First for Mobile, but Reordered for Desktop -->
+        <div class="col-lg-5 text-center order-1 order-lg-2 pb-4" data-aos="fade-up">
+          {{$img:= resources.Get (.image) }}
+          <img loading="lazy" decoding="async" src="{{$img.RelPermalink}}" alt="features-image">
+        </div>
+        <!-- Text Section Second for Mobile, but Reordered for Desktop -->
+        <div class="col-lg-5 order-2 order-lg-1">
+          <div class="section-title">
+            <p class="caption">{{ .Title }}</p>
+            <h2 class="mb-4">{{ .heading | markdownify }}</h2>
+            <p class="mb-4">{{ .description | markdownify }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{ end }} 
+  {{ end }}      
+
+  {{ if .Params.about_success.enable }}
+{{ with .Params.about_success }}
+<section class="pt-0 mt-lg-0 pb-5" data-aos="fade">
+  <div class="container">
+    <div class="row justify-content-center align-items-center mb-4">
+      <!-- Image Section First for Mobile and Desktop -->
+      <div class="col-lg-5 text-center order-1 order-lg-1 pb-4" data-aos="fade-up">
+        {{$img:= resources.Get (.image) }}
+        <img loading="lazy" decoding="async" src="{{$img.RelPermalink}}" alt="features-image">
+      </div>
+      <!-- Text Section Second for Mobile, Same Order for Desktop -->
+      <div class="col-lg-5 order-2 order-lg-2">
+        <div class="section-title">
+          <p class="caption">{{ .Title }}</p>
+          <h2 class="mb-4">{{ .heading | markdownify }}</h2>
+          <p class="mb-4">{{ .description | markdownify }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }} 
+{{ end }}
+
 
   {{ with site.GetPage "features" }}
   <!-- features-section -->
-  <section  data-aos="fade">
+  <!-- <section  data-aos="fade">
     <div class="container">
       <div class="row align-items-center mb-5">
         <div class="col-lg-8">
@@ -62,112 +177,16 @@
         {{ end }}
       </div>
     </div>
-  </section>
+  </section> -->
   <!-- /features-section -->
-  {{ end }}
-
-  {{ if .Params.about_info.enable }}
-  {{ with .Params.about_info }}
-  <section>
-    <div class="container">
-      <div class="row justify-content-center align-items-center">
-        <div class="col-lg-6">
-          <div class="section-title">
-            <p class="caption">{{ .Title }}</p>
-            <h2 class="mb-4">{{ .heading | markdownify }}</h2>
-            <p class="mb-4">{{ .description | markdownify }}</p>
-          </div>
-  
-          <ul class="check-list">
-            {{ range .features_list }}
-            <li>{{.}}</li>
-            {{ end }}
-          </ul>
-        </div>
-        <div class="col-lg-4 d-none d-lg-block" data-aos="fade-up">
-          {{$img:= resources.Get (.image) }}
-          <img loading="lazy" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" alt="features image" data-aos="cool">
-        </div>
-      </div>
-    </div>
-  </section>
-  {{ end }}
-  {{ end }}
-
-  {{ if .Params.about_features.enable }}
-  {{ with .Params.about_features }}
-  <section>
-    <div class="container">
-      <div class="row justify-content-center align-items-center mb-4">
-        <div class="col-lg-5 text-center" data-aos="fade-up">
-          {{$img:= resources.Get (.image) }}
-          <img loading="lazy" decoding="async" src="{{$img.RelPermalink}}" alt="features-image">
-        </div>
-        <div class="col-lg-5">
-          <div class="section-title">
-            <p class="caption">{{ .Title }}</p>
-            <h2 class="mb-4">{{ .heading | markdownify }}</h2>
-            <p class="mb-4">{{ .description | markdownify }}</p>
-          </div>
-          <div class="row g-4">
-            {{ range .features_items }}
-            <div class="col-sm-6">
-              <div class="rounded-sm border bg-white-blur p-4 text-center h-100" data-aos="cool">
-                {{$img:= resources.Get (.image) }}
-                {{$img:= $img.Resize "50x webp"}}
-                <img loading="lazy" decoding="async" class="mb-3" src="{{$img.RelPermalink}}" alt="icon" width="{{$img.Width}}" height="{{$img.Height}}">
-                <h3 class="h5 mb-0">{{.title}}</h3>
-              </div>
-            </div>
-            {{ end }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  {{ end }}
   {{ end }}
 
   {{ partial "pricing.html" . }}
 
-  {{ with site.GetPage "blog" }}
-  <section class="section" data-aos="fade">
-    <div class="container">
-      <div class="row justify-content-center mb-5">
-        <div class="col-lg-6">
-          <div class="section-title text-center">
-            <p class="caption">{{.Title}}</p>
-            <h2 class="title">{{.Params.heading | markdownify}}</h2>
-          </div>
-        </div>
-      </div>
-      <div class="row justify-content-center gy-5">
-        <!-- start range -->
-        {{ $homepage_post := .Params.homepage_post }}
-        {{ range first $homepage_post .Data.Pages }}
-
-        <div class="col-lg-4 col-md-6">
-          {{ .Render "article" }}
-        </div>
-
-        {{ end }}
-        <!-- end of range -->
-  
-        {{ with .Params.button }}
-        <div class="col-12 mt-5">
-          <div class="text-center">
-            <a href="{{ .link | relLangURL }}" class="btn btn-primary" aria-label="see all blog posts">{{.label}}</a>
-          </div>
-        </div>
-        {{end}}
-      </div>
-    </div>
-  </section>
-  {{ end }}
 
   {{ with site.GetPage "faq" }}
   <section>
-    <div class="container">
+    <div class="container mt-5">
       <div class="row align-items-center">
         <div class="col-lg-6">
           <div class="section-title">
@@ -191,8 +210,10 @@
           </div>
         </div>
         <div class="col-lg-6 mt-5 mt-lg-0 text-center" data-aos="fade-up">
-          {{$img:= resources.Get (.Params.image) }}
-          <img loading="lazy" decoding="async" class="img-fluid" src="{{$img.RelPermalink}}" alt="faq-image" >
+          {{$img := resources.Get (.Params.image) }}
+          <a href="https://www.youtube.com/@HandexKeydex?sub_confirmation=1" target="_blank" rel="noopener noreferrer">
+            <img loading="lazy" decoding="async" class="img-fluid rounded-image rounded" src="{{$img.RelPermalink}}" alt="faq-image">
+          </a>
         </div>
       </div>
     </div>
@@ -233,6 +254,41 @@
             <a href="{{ `testimonials/` | relLangURL }}" class="btn btn-primary">All Feedbacks</a>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+  {{ end }}
+
+  {{ with site.GetPage "blog" }}
+  <section class="section pb-2" data-aos="fade">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-6">
+          <div class="section-title text-center">
+            <p class="caption">{{.Title}}</p>
+            <h2 class="title">{{.Params.heading | markdownify}}</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center gy-5">
+        <!-- start range -->
+        {{ $homepage_post := .Params.homepage_post }}
+        {{ range first $homepage_post .Data.Pages }}
+
+        <div class="col-lg-4 col-md-6">
+          {{ .Render "article" }}
+        </div>
+
+        {{ end }}
+        <!-- end of range -->
+  
+        {{ with .Params.button }}
+        <div class="col-12 mt-5">
+          <div class="text-center">
+            <a href="{{ .link | relLangURL }}" class="btn btn-primary" aria-label="see all blog posts">{{.label}}</a>
+          </div>
+        </div>
+        {{end}}
       </div>
     </div>
   </section>
