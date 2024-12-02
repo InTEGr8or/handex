@@ -27,11 +27,11 @@ parent = "Pages"
 name = "Blog"
 url = "blog/"
 
-[[main]]
-weight = 1
-parent = "Pages"
-name = "Pricing"
-url = "pricing/"
+# [[main]]
+# weight = 1
+# parent = "Pages"
+# name = "Pricing"
+# url = "pricing/"
 
 # [[main]]
 # weight = 2
